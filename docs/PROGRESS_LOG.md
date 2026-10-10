@@ -811,3 +811,22 @@ prove a later one. Emulator tests are optional reference checks.
   agree. All3,315,048 focused native checks pass, and a freshly rebuilt DLL
   still agrees across512 original-instruction cases and95,104 instructions.
   Fake wrapping descriptor/backing pointers are refused without access.
+
+## 2026-10-10 — Complete constructor and model-update orchestration
+
+- Reconstructed the complete `00668070` constructor, retaining five inputs,
+  virtual reset, all19 real direct targets, collision retries, exact float
+  constants, masked vector lanes and actual VU C60/Q/ACC operations. Shared
+  class branches merge in C; the source remains nonmatching3212/4104 bytes.
+- Root independently compiled, linked and validated the build receipt,
+  branch closure, unique original return and direct-target set. Original26
+  direct call sites/nine VU sites become20/six compiled sites through common
+  branches. This proves structure and bindings, not complete execution.
+- Reconstructed `0058A648` with actual scratchpad/model callees and dirty-bit
+  update. Root's default-recipe linked comparison is exact over88 bytes,
+  including4 padding bytes. It remains a draft pending canonical identity;
+  neither accepted source coverage nor a native completed transform is added.
+- The remaining constructor work is split among complete inventory grants,
+  actor synchronization and actual model transforms. Pure CPU dependencies
+  reuse one tested integer oracle; root owns integration and independent review.
+  No compiled MIPS instruction fallback or successful captured callee is used.

@@ -508,6 +508,22 @@ bytes agree across4,096 original-instruction cases. This selects animation
 data and updates fields; transforms, playback and the actor constructor remain
 outstanding. All three PS2 sources remain drafts outside accepted coverage.
 
+The whole player constructor `00668070` is reconstructed as PS2 source, including
+all five inputs, pool scan/reclassification, real collision calls, VU orientation
+and normalization, virtual reset, inventory calls and final field writes. Root
+independently compiled and linked its complete4,104-byte original span. Its
+19 distinct direct targets and branch boundaries are verified; this is structural
+validation, not execution. Even the supplied-actor path still needs VU C60,
+collision `0053DC70`, actor synchronization `0066E580`, transform `005617A8`
+and complete inventory producers. These dependencies determine the next work.
+
+The full model-update orchestrator `0058A648` compiles to an exact private
+L01 linked comparison over88 bytes, including padding. Its two genuine callees
+prepare scratchpad transforms and launch fromSPR DMA; the wrapper does not wait
+for completion. It has no native body that clears the dirty bit while bypassing
+those effects. Its canonical accepted overlay identity remains unresolved, so
+this diagnostic adds no accepted matching coverage.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
