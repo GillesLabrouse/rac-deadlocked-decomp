@@ -26,7 +26,11 @@ enum DreadzoneActorVelocityResult {
  * supplied by these interfaces.
  *
  * Numerical domain: signed zero or abs>=2^-20, consumed scalar/component
- * magnitudes<=16; selected headings/pitch<=pi, caller angle<=100000. Speed
+ * magnitudes<=16. Selected heading/pitch/caller angles instead have nonzero
+ * floor2^-40 and magnitude<=pi; a positive angle sentinel retains its original
+ * scalar domain up to100000. Movement components consumed by normalization,
+ * planar projection and accumulation use floor2^-40, magnitude<=16.
+ * Height/offset scalars and height-offset sourceZ retain floor2^-20. Speed
  * steps and planar requested length are0..16. All arithmetic intermediates
  * and results must be finite normal/zero. Native C60 and VU arithmetic use
  * ordered host binary32 approximations; physical PS2 rounding, ACC precision,

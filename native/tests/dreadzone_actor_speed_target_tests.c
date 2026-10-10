@@ -123,8 +123,14 @@ static void boundaries(void) {
     check(memcmp(before,record,sizeof(record))==0,"unsupported rate leaves entire actor image untouched");
     reset();fput(ctx.record,0x17A0,-0.000000059604644775390625f);
     memcpy(before,record,sizeof(record));
-    check(dreadzone_actor_state_turn_0067D100(&ctx)==-4,"existing turn domain refuses a tiny normal direction result");
-    check(memcmp(before,record,sizeof(record))==0,"tiny-angle refusal never clamps or publishes a fabricated zero");
+    check(dreadzone_actor_state_turn_0067D100(&ctx)==1,"actual tiny direction completes the turn controller");
+    check(get(0xB8)==-0.000000059604644775390625f && get(0x17A4)==0.f && get(0x17A8)==0.f,
+        "original snap preserves the tiny target instead of replacing it with zero");
+    memcpy(before+1+0xB8,ctx.record+0xB8,4);
+    check(memcmp(before,record,sizeof(record))==0,"small-angle snap preserves unrelated state");
+    reset();fput(ctx.record,0x17A0,-0.0000000000001f);memcpy(before,record,sizeof(record));
+    check(dreadzone_actor_state_turn_0067D100(&ctx)==-4,"angle below the proved floor refuses");
+    check(memcmp(before,record,sizeof(record))==0,"below-floor refusal remains atomic");
 }
 int main(void) {
     target_cases();turn_cases();bridge_sequence();boundaries();

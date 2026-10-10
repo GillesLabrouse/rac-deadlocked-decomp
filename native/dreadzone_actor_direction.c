@@ -38,6 +38,9 @@ static int normal(f32 f) {
 static int bounded(f32 f,f32 maximum) {
     return normal(f) && fabsf(f)<=maximum && (f==0.f || fabsf(f)>=0.00000095367431640625f);
 }
+static int angle_bounded(f32 f,f32 maximum) {
+    return normal(f) && fabsf(f)<=maximum && (f==0.f || fabsf(f)>=0.0000000000009094947017729282379150390625f);
+}
 int dreadzone_direction_valid_float(f32 f,f32 maximum) {return bounded(f,maximum);}
 f32 dreadzone_direction_min(f32 a,f32 b) {
     return a<b || (a==b && signbit(a))?a:b;
@@ -101,8 +104,8 @@ static int run(const DreadzoneActorInputContext *ctx,int turning,s32 mode,f32 a,
     if(!flag) {status=DREADZONE_DIRECTION_NEEDS_MEMORY;goto discard;}
     if(dreadzone_actor_input_word(flag) || tx.record[0x2659]) {status=DREADZONE_DIRECTION_UNSUPPORTED_MODE;goto discard;}
     if(turning) {
-        if(!bounded(dreadzone_direction_float(tx.record+0xB8),3.1415927410125732421875f) ||
-           !bounded(dreadzone_direction_float(tx.record+0x17A0),3.1415927410125732421875f) ||
+        if(!angle_bounded(dreadzone_direction_float(tx.record+0xB8),3.1415927410125732421875f) ||
+           !angle_bounded(dreadzone_direction_float(tx.record+0x17A0),3.1415927410125732421875f) ||
            !bounded(dreadzone_direction_float(tx.record+0x17A4),6.283185482025146484375f)) {
             status=DREADZONE_DIRECTION_UNSUPPORTED_FLOAT;goto discard;
         }
@@ -113,7 +116,7 @@ static int run(const DreadzoneActorInputContext *ctx,int turning,s32 mode,f32 a,
     } else {
         f32 x=dreadzone_direction_float(tx.record+0x120),y=dreadzone_direction_float(tx.record+0x124);
         if(!bounded(x,1.f) || !bounded(y,1.f) ||
-           !bounded(dreadzone_direction_float(tx.record+(x==0.f && y==0.f?0xB8:0x2CE8)),3.1415927410125732421875f)) {
+           !angle_bounded(dreadzone_direction_float(tx.record+(x==0.f && y==0.f?0xB8:0x2CE8)),3.1415927410125732421875f)) {
             status=DREADZONE_DIRECTION_UNSUPPORTED_FLOAT;goto discard;
         }
         status=func_L01_0067C5F8(&tx,tx.record,mode,a);

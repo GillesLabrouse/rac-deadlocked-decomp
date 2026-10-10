@@ -1700,3 +1700,30 @@ prove a later one. Emulator tests are optional reference checks.
   format's 10ms timestamp units. The prior sampled GIF remains available.
 - All 64 registered native tests pass in 3.93 seconds; all 171 Python tests pass
   in 2.359 seconds. The playable objective remains active; nothing is pushed.
+
+## 2026-10-11 — Preserve genuine small-angle movement inputs
+
+- Selected turn/facing/pitch inputs and movement components in normalization,
+  planar projection and accumulation now have separate normal-input floors of
+  2^-40. Scalar, rate, axis and height-offset contracts remain unchanged. The
+  original ordered C60 polynomial flushes separately rounded subnormal results
+  to their signed zero in an explicitly approximate host model.
+- Root rebuilt the production DLL, freshly compiled and strictly linked twenty
+  complete SN drafts, and guarded source, oracle, library, object and original
+  input hashes before/after all replays. All drafts remain NONMATCHING; matching
+  acceptance is not increased.
+- Actual original/SN/native execution agrees on 9,216 rotation/input-sequence
+  cases and 5,120 velocity cases. The C60 sensitivity audit completes all 2,300
+  small inputs with identical final words under separate rounding and flushing.
+  Camera agrees on 576 complete cases and 1,030 direct C60 cases; orientation
+  agrees bitwise with actual B58/C40/B10 on 2,105 cases and 160,039 pairs.
+- Component validation covers 4,096 cases/1,366 aliases, including 512 real
+  velocity-to-accumulation sequences: 480 complete; 32 below-floor products
+  refuse atomically. Small addends differ by at most one observed ULP; one
+  cancellation residue differs by 1.1641532e-10 and is reported explicitly.
+  Signed-zero checks cover 21,052 words, including 8,898 negative zeros.
+- All 65 native tests pass in 3.97 seconds; the new integration fixture adds 82
+  checks. The native clock animation remains testable through the launcher.
+  Active walking still needs the genuine wall probe, position/ground update and
+  actor-frame composition. Capsule, walk parameters and animation-wrapper work
+  continue in parallel. Nothing is pushed.

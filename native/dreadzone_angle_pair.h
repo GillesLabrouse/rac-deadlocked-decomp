@@ -10,8 +10,11 @@ enum {
 
 /* Actual C60 reflection and ninth-degree polynomial, with each multiply/add
  * rounded separately to host IEEE binary32. x is angle; y is angle+pi/2.
- * Only finite normal/zero inputs in [-pi,pi] and finite normal/zero
- * intermediates are supported. No output changes on refusal.
+ * Finite normal/zero inputs in [-pi,pi], nonzero magnitude at least2^-40,
+ * are supported. Subnormal intermediate results flush to their signed zero
+ * after each separately rounded operation; outputs must be normal/zero.
+ * Actual polynomial order is retained, without shortcuts or angle clamps.
+ * No output changes on refusal.
  * APPROXIMATE explicitly excludes physical VU rounding, flags and timing.
  * This does not execute the resident microprogram or modify VU registers.
  */

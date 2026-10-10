@@ -13,7 +13,9 @@ enum {
  * Input is actor.F0.xyz, not quaternion/model geometry. Output is four
  * consecutive quads corresponding to vf20,21,22,23; the last is VF0.
  * Only exact zero angles skip their genuine rotation, as B58's FMAND does.
- * Finite normal/zero angles in[-pi,pi] and finite normal/zero intermediates
+ * Finite normal/zero angles in[-pi,pi] with nonzero magnitude>=2^-40,
+ * the angle-pair component's explicit signed-subnormal-result flushing,
+ * and finite normal/zero basis composition intermediates
  * are supported. Refusal leaves the entire output unchanged. Input/output
  * may overlap, since input is snapshotted before computation/publication.
  * APPROXIMATE means ordered host IEEE binary32, not physical VU flags,

@@ -862,7 +862,8 @@ input-bridge/target/turn sequences: 4,009,074 instructions and maximum absolute
 float difference 4.7683716e-7 within the declared approximate domain. There are
 6,261 native completions and 11 atomic refusals. Eight sequence refusals expose
 the inherited small-angle read limit; those outputs are preserved rather than
-replaced with zero. Broadening this real dependency remains separate work.
+replaced with zero. That milestone's small-angle limitation is addressed by
+the bounded extension described below.
 
 The velocity API also exposes the already recovered vertical projection and
 complete accumulated-motion helper 006834C8. It reduces actor1A0's planar
@@ -953,6 +954,35 @@ pass. The main launcher
 now uses this attachment; 60 ticks/second schedules presentation and is not a
 claim about PS2 update frequency. No event wrapper, live pose decoding, secondary
 blend or player frame is added. All 64 registered native tests pass in 3.93 seconds.
+
+The selected turn/facing/pitch inputs now accept signed zero or normal values
+with nonzero magnitude at least 2^-40, retaining their original pi bounds.
+The C60 polynomial keeps every original operation and explicitly flushes each
+separately rounded subnormal intermediate to signed zero. This is an approximate
+host arithmetic contract, not a physical VU claim. Scalars, rates, axes and
+height-offset inputs retain their previous bounds. Only movement components
+consumed by normalization, planar projection and accumulation receive the
+separate 2^-40 floor. Smaller values still refuse atomically.
+
+Root's guarded production-library replay uses twenty freshly compiled and
+strictly linked complete SN drafts, all still NONMATCHING. Rotation and real
+input/target/turn sequences agree on 9,216 cases and 3,161,510 EE instructions;
+velocity agrees on 5,120 cases and 499,712 EE instructions. The C60 sensitivity
+audit executes 2,300 inputs under both separate rounding and signed-subnormal
+flushing, with identical final output words. Camera agrees on 576 complete
+cases plus 1,030 direct C60 cases. Actual resident B58/C40/B10 execution agrees
+bitwise on 2,105 orientation cases, including mixed small angles, through
+160,039 instruction pairs. No callee results are captured.
+
+The component replay covers 4,096 cases and 1,366 ordered aliases. Of 512 real
+velocity-to-accumulation sequences, 480 complete and 32 refuse atomically because
+a genuine angle/speed product falls below the retained component floor. Small
+projected/normalized/reduced addends differ by at most one observed ULP. One
+cancellation residue differs by 1.1641532e-10: each final sum is bitwise the
+ordered sum of its own addends, but no ULP bound on that residue is claimed.
+All 65 registered native tests pass in 3.97 seconds, including 82 new integration
+checks. These changes do not add position updates, wall response or controls
+to the animated preview.
 
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every

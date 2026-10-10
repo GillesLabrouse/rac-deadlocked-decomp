@@ -17,15 +17,24 @@ static float constant(u32 bits) {
 static int valid(float value) {
     return isfinite(value) && (value==0.0f || fabsf(value)>=FLT_MIN);
 }
+/* Keep every separately rounded operation, then flush a subnormal result to
+ * its signed zero within the explicitly approximate bounded model. */
+static float flush_result(float value) {
+    u32 bits;memcpy(&bits,&value,4);
+    if((bits&0x7FFFFFFFU)!=0 && (bits&0x7FFFFFFFU)<0x00800000U) {
+        bits&=0x80000000U;memcpy(&value,&bits,4);
+    }
+    return value;
+}
 static int add(float a,float b,float *out) {
     volatile float result=a+b;
-    *out=result;
-    return valid(result);
+    *out=flush_result(result);
+    return valid(*out);
 }
 static int multiply(float a,float b,float *out) {
     volatile float result=a*b;
-    *out=result;
-    return valid(result);
+    *out=flush_result(result);
+    return valid(*out);
 }
 
 #define ADD(a,b,out) do { if(!add((a),(b),&(out))) return 0; } while(0)
@@ -60,11 +69,12 @@ int dreadzone_angle_pair(float angle,float output_xy[2]) {
     float result[2],shifted,pi=constant(0x40490FDBU);
     if(output_xy==NULL || (uintptr_t)output_xy>UINTPTR_MAX-sizeof(result))
         return DREADZONE_ANGLE_INVALID;
-    if(!valid(angle) || angle < -pi || angle > pi)
+    if(!valid(angle) || (angle!=0.0f && fabsf(angle)<0.0000000000009094947017729282379150390625f) || angle < -pi || angle > pi)
         return DREADZONE_ANGLE_UNSUPPORTED;
     if(!add(angle,constant(0x3FC90FDBU),&shifted) ||
         !polynomial(angle,&result[0]) || !polynomial(shifted,&result[1]))
         return DREADZONE_ANGLE_UNSUPPORTED;
+    if(!valid(result[0]) || !valid(result[1])) return DREADZONE_ANGLE_UNSUPPORTED;
     memcpy(output_xy,result,sizeof(result));
     return DREADZONE_ANGLE_APPROXIMATE;
 }

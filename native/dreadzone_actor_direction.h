@@ -21,8 +21,9 @@ enum DreadzoneActorDirectionResult {
  * Direction computes actor1790/1780/17A0 from actor120/124, the genuine body
  * matrix and actor2CF0 matrix; it never adds position or invents a camera.
  * Rotation uses those actual state fields and recovered scalar callees.
- * Numeric domain: signed zero or |value|>=2^-20; axes<=1, scale0..16,
- * read facing/target/base angles<=pi, prior angular speed<=2pi. Actual matrix
+ * Numeric domain: signed zero or |value|>=2^-20; axes<=1, scale0..16.
+ * Selected facing/target/base angles use nonzero floor2^-40, magnitude<=pi.
+ * Prior angular speed retains floor2^-20, magnitude<=2pi. Actual matrix
  * coefficients are bounded by16. Turn modes are-1..2 and caller force,
  * damping and maximum0..1; selected boost globals and actor25C4 have |x|<=16.
  * The classification3 magnitude read has |x|<=1. All bounds concern the

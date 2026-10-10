@@ -45,8 +45,8 @@ int main(void) {
     CHECK(dreadzone_angle_pair(NAN,pair)==DREADZONE_ANGLE_UNSUPPORTED);
     CHECK(dreadzone_angle_pair(INFINITY,pair)==DREADZONE_ANGLE_UNSUPPORTED);
     CHECK(dreadzone_angle_pair(FLT_MIN/2,pair)==DREADZONE_ANGLE_UNSUPPORTED);
-    CHECK(dreadzone_angle_pair(1.0e-8f,pair)==DREADZONE_ANGLE_UNSUPPORTED);
-    CHECK(bits(pair[0])==0 && bits(pair[1])==0x3F800000);
+    CHECK(dreadzone_angle_pair(1.0e-8f,pair)==DREADZONE_ANGLE_APPROXIMATE);
+    CHECK(bits(pair[0])==bits(1.0e-8f) && bits(pair[1])==0x3F800000);
     CHECK(dreadzone_angle_pair(0,NULL)==DREADZONE_ANGLE_INVALID);
     CHECK(dreadzone_angle_pair(0,(float *)(uintptr_t)(UINTPTR_MAX-3))==DREADZONE_ANGLE_INVALID);
     setup();memcpy(before,arena,sizeof(arena));
@@ -76,7 +76,7 @@ int main(void) {
     setup();request.angle12=NAN;refusal(DREADZONE_CAMERA_UNSUPPORTED);
     setup();request.angle13=4;refusal(DREADZONE_CAMERA_UNSUPPORTED);
     setup();request.angle13=FLT_MIN/2;refusal(DREADZONE_CAMERA_UNSUPPORTED);
-    setup();request.angle12=1.0e-8f;refusal(DREADZONE_CAMERA_UNSUPPORTED);
+    setup();request.angle12=1.0e-8f;CHECK(dreadzone_camera_init(&request)==DREADZONE_CAMERA_APPROXIMATE);
     setup();request.output++;refusal(DREADZONE_CAMERA_INVALID);
     setup();request.position++;refusal(DREADZONE_CAMERA_INVALID);
     setup();request.view_count=0;refusal(DREADZONE_CAMERA_INVALID);

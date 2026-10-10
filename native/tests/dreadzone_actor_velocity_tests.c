@@ -184,7 +184,7 @@ int main(void) {
         case 10:put(c.record,0x1784,NAN);break;
         case 11:put(c.record,0xB8,4.f);break;
         case 12:put(c.record,0x2D4,4.f);break;
-        case 13:put(c.record,0x2D4,0.0000001f);break;
+        case 13:put(c.record,0x2D4,0.0000000000001f);break;
         case 14:put(c.record,0x1784,17.f);break;
         case 15:c.views=(DreadzoneActorInputMemory *)(UINTPTR_MAX-1U);break;
         case 16:c.views=(DreadzoneActorInputMemory *)c.record;break;
@@ -213,7 +213,7 @@ int main(void) {
         case 4:requested=NAN;break;
         case 5:requested=-1.f;break;
         case 6:put(extra+1,0,NAN);break;
-        case 7:put(extra+1,4,0.0000001f);break;
+        case 7:put(extra+1,4,0.0000000000001f);break;
         }
         memcpy(baseline,record,sizeof(record));memcpy(saved,extra,sizeof(extra));
         check(dreadzone_actor_planar_projection_0068AC58(&c,output,input,requested)<0);

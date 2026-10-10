@@ -42,7 +42,10 @@ int main(void) {
     angles[0]=0;angles[2]=4;
     CHECK(dreadzone_actor_basis(angles,out)==DREADZONE_BASIS_UNSUPPORTED);
     CHECK(memcmp(before,out,sizeof(out))==0);
-    angles[2]=1.0e-8f;
+    angles[0]=0;angles[1]=0;angles[2]=1.0e-8f;
+    CHECK(dreadzone_actor_basis(angles,out)==DREADZONE_BASIS_APPROXIMATE);
+    CHECK(bits(out[1])==bits(angles[2]) && bits(out[4])==bits(-angles[2]));
+    memcpy(before,out,sizeof(out));angles[2]=1.0e-13f;
     CHECK(dreadzone_actor_basis(angles,out)==DREADZONE_BASIS_UNSUPPORTED);
     CHECK(memcmp(before,out,sizeof(out))==0);
     CHECK(dreadzone_actor_basis(NULL,out)==DREADZONE_BASIS_INVALID);

@@ -45,6 +45,9 @@ static int normal(f32 f) {
 static int bounded(f32 f,f32 maximum) {
     return normal(f) && fabsf(f)<=maximum && (f==0.f || fabsf(f)>=0.00000095367431640625f);
 }
+static int angle_bounded(f32 f,f32 maximum) {
+    return normal(f) && fabsf(f)<=maximum && (f==0.f || fabsf(f)>=0.0000000000009094947017729282379150390625f);
+}
 f32 dreadzone_velocity_min(f32 a,f32 b) {return a<b || (a==b && signbit(a))?a:b;}
 f32 dreadzone_velocity_max(f32 a,f32 b) {return a>b || (a==b && !signbit(a))?a:b;}
 static f32 squared(const VelocityVector *v,u32 dimensions) {
@@ -79,8 +82,13 @@ int dreadzone_velocity_scale(VelocityVector *v,f32 requested,u32 dimensions,int 
     }
     return 1;
 }
+/* Selected movement components have a separately proved input floor.
+ * Scalar rates, axes, matrices and height offsets keep their existing domain. */
+static int movement_bounded(f32 f,f32 maximum) {
+    return normal(f) && fabsf(f)<=maximum && (f==0.f || fabsf(f)>=0.0000000000009094947017729282379150390625f);
+}
 static int vector_valid(const u8 *p,u32 dimensions) {
-    u32 i;for(i=0;i<dimensions;++i) if(!bounded(dreadzone_velocity_float(p+i*4),16.f)) return 0;
+    u32 i;for(i=0;i<dimensions;++i) if(!movement_bounded(dreadzone_velocity_float(p+i*4),16.f)) return 0;
     return 1;
 }
 int dreadzone_velocity_0068ABA8(const u8 *record,u8 *output,const u8 *input,f32 height) {
@@ -93,7 +101,8 @@ static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u3
     if(!valid(ctx)) return DREADZONE_VELOCITY_INVALID;
     if(operation==0 && (!bounded(a,16.f) || !bounded(b,16.f) || a<0.f || b<0.f))
         return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
-    if(operation==1 && !bounded(a,100000.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
+    if(operation==1 && !(a<=3.1415927410125732421875f?angle_bounded(a,3.1415927410125732421875f):bounded(a,100000.f)))
+        return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     if(operation==3 && (!bounded(a,16.f) || a<0.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     if((operation==4 || operation==5 || operation==6) && !bounded(a,16.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     for(i=0;i<=ctx->view_count;++i) {
@@ -119,8 +128,8 @@ static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u3
         if(!normal(dreadzone_velocity_float(tx.record+0x1784))) status=DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     } else if(operation==1) {
         f32 heading=a<=3.1415927410125732421875f?a:dreadzone_velocity_float(tx.record+0xB8);
-        if(!bounded(heading,3.1415927410125732421875f) ||
-           !bounded(dreadzone_velocity_float(tx.record+0x2D4),3.1415927410125732421875f) ||
+        if(!angle_bounded(heading,3.1415927410125732421875f) ||
+           !angle_bounded(dreadzone_velocity_float(tx.record+0x2D4),3.1415927410125732421875f) ||
            !bounded(dreadzone_velocity_float(tx.record+0x1784),16.f)) {
             status=DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;goto discard;
         }
