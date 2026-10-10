@@ -5,6 +5,23 @@ Windows x64. Upstream Deadlocked and rac1 are matching PS2 decompilations. Their
 matching builds validate recovered source against the game; they do not produce
 a PC executable. Keep that validation while developing the host runtime.
 
+## Try the current local prototype
+
+Once the Release viewer and local Dreadzone package are prepared, double-click
+`run-native.cmd` in the repository root. The launcher resolves paths relative to
+itself and starts inside the station. No emulator or BIOS is needed.
+
+Use W/A/S/D to move, Q/E to move down/up, arrow keys to look, Shift to move
+faster, and Escape to exit. These are letter keys, including on an AZERTY keyboard.
+The camera has no collision. This is an interactive native scenery viewer;
+Ratchet, gameplay, missions, audio, and the original startup loop are absent.
+
+The launcher also forwards command-line options for repeatable captures:
+
+```powershell
+.\run-native.cmd --capture build/native-assets/dreadzone-launcher.png
+```
+
 ## Verified first step
 
 `native/CMakeLists.txt` builds a native static library from thirteen recovered game

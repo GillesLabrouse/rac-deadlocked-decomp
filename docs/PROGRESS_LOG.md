@@ -256,3 +256,15 @@ prove a later one. Emulator tests are optional reference checks.
   bytes and still equals retail; ELF SHA-1 remains
   `5619a8de0247e093ab672fca30dbf59bc16fe333`. All five native CTest checks pass.
   Source and documentation remain local; nothing has been pushed.
+
+## 2026-10-10 — Local native prototype launcher
+
+- Added `run-native.cmd` for double-click testing of the existing Windows Release
+  scenery viewer and the locally prepared Dreadzone package. It resolves paths
+  relative to the launcher and opens the verified room camera position.
+- Verified the launcher with a hardware Direct3D 11 capture and inspected the
+  resulting 1280-by-720 image. It renders both terrain chunks and 1,856 static
+  object placements without an emulator or BIOS. Generated assets remain local.
+- This is a runnable native development prototype, not a playable game. The
+  recovered startup/update chain, Ratchet, missions, collision and audio remain
+  unimplemented. Documented the controls and capture command in `NATIVE_PORT.md`.
