@@ -1,4 +1,52 @@
-# Native editor-mesh inspection
+# Native model inspection
+
+## Original packet and computed vertex diagnostic
+
+`run-model-topology.cmd` opens the latest native primary-model diagnostic.
+Preparation executes the recovered local vertex/blend and raw GS FIFO topology
+stages instead of importing an editor GLB. The viewer displays the resulting
+static package. With the locally prepared Armor0 class and 107 pose/binding
+matrices, preparation computes 3,478 output vertices and 2,714 triangles from
+37 original packets. Head/leg bangles remain unselected; the
+model has no animation, actor update, collision or gameplay.
+
+Build using `tools/check-native.ps1`, then regenerate from the current local
+validation inputs:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_topology.py `
+  build/drafts/startup-agent-original-armor-container.bin `
+  --joint-matrices build/drafts/startup-agent-armor0-bound-matrices.bin `
+  --texture private/overlays/globals/armor/armors/0/0.png `
+  -o build/native-assets/armor-0-native-topology.dlscene
+run-model-topology.cmd
+```
+
+The class must be unrelocated. Joint matrices and PNGs are explicit local
+inputs; this bridge does not create a constructor or supply an animation.
+`--identity-joints` is an explicitly labelled comparison fixture only.
+Positions use genuine byte/256 blends, persistent matrices/guest IDs,
+delayed vertex associations and duplicates. Signed ST divides by 4096. Raw
+FIFO winding and ADC suppression are retained without editor strip parity
+normalization. The bridge presents raw axes as (y,z,x), scaled by class24/1024,
+with flat double-sided shading. Actor scale/basis, live camera/view, clipping,
+lighting, texture upload and DMA are outside this diagnostic.
+
+The current computed-vertex bytes and all triangle/ID/ST/texture records
+agree with independent original instruction replay. The actual VU1 replay
+uses an explicit non-clipping view and valid caller GIF headers; it does not
+establish live GS initialization or an original game frame. The software
+capture contains 89,853 non-background pixels and has been visually inspected:
+textured torso and arms, with head and legs absent. Generated assets and
+captures remain local and ignored.
+
+For a repeatable capture:
+
+```powershell
+run-model-topology.cmd --software --capture build/native-assets/armor-0-native-topology.png
+```
+
+## Editor-mesh bridge
 
 `tools/prepare_native_moby.py` imports one explicitly selected mesh from a local
 Wrench GLB export into the existing native scene package. The renderer executes

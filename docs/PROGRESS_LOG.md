@@ -1155,3 +1155,81 @@ prove a later one. Emulator tests are optional reference checks.
   only; no callback is invoked.
 - Root's integrated UI fixture passes3,932 checks. All forty-three native
   CTest checks pass together in3.17 seconds under MSVC Release /W4 /WX.
+
+## 2026-10-10 — Complete actor-state dependency sources
+
+- Recovered the complete PS2 routines 00667050, 0067DBE8, 00596390 and
+  0067DDD0. Root independently rebuilt and strictly linked all four full
+  spans. The eight-byte backlink is privately exact; vector construction,
+  clipping and the main state body remain nonmatching (416/488, 148/224,
+  3380/3256 compiled/original bytes). Accepted coverage is unchanged.
+- The main state source retains all 25 direct calls to 16 genuine targets,
+  branch domains, five CVT.W.S sites, quad-by-value ABI and VU/Q operations.
+  Callback-dependent collision/actor/global reloads and the original
+  uninitialized side-probe backing are explicit. No collision result or
+  native successful main-state return is invented.
+- Root's fresh SN vector helper agrees across 512 complete directional=0
+  returns with original instructions: 25,088 EE words and 6,815,744 bytes,
+  including output/record/same-output aliases and raw W. This limited
+  host-f32 VU-macro evidence does not validate the directional Q path,
+  full collision, native actor motion or constructor execution.
+
+## 2026-10-10 — Genuine bounded virtual equipment selection
+
+- Connected the actual flag1 category-zero 00688578 setter to its real
+  virtual +4C getter and the recovered equipment UI queue/state chain.
+  Getters 006A9630/00690EA0 return byte2FEA/-1; root independently rebuilt
+  both using default SN flags and strictly matched their eight-byte spans.
+- The supported domain requires mapped actor0/1, nonzero byte266D, index0/1
+  and fresh UI state24/28. Category/handler/mapping errors discard copied
+  RAM images before publication. Original post-store flag/vtable reads and
+  writable aliases are preserved. Actual LW alignment is checked; stable
+  exclusive RAM access is a caller requirement. Transaction storage is
+  bounded to 16 MiB. Read-only item1 preflight validates storage without
+  gameplay dispatch; it is not a synthetic game call.
+- Root's fresh native DLL agrees across 4,096 whole-RAM cases: 1,033,597
+  original instructions, 393 distinct instructions, 256 valid writable
+  virtual-entry aliases, 1,024 item2 zero-queue cases and 1,035 rotations.
+  Another 512 getter cases execute 1,024 original words. All 7,504 native
+  assertions pass. Complete actor construction, secondary/reentrant UI,
+  UI rendering, audio and a playable frame remain outside this composition.
+- Reset/constructor alone do not establish the final getter index:
+  original outer initializer 006A8420 restores byte2FEA after construction.
+
+## 2026-10-10 — Original native model topology and visible diagnostic
+
+- Added bounded original VIF/ST/index/texture decoding, joined directly to
+  genuine computed vertex output ordinals. Signed ST and guest IDs are
+  retained; ADC advances raw GS FIFO while suppressing drawing. Area-cull
+  headers outside the actual FE domain and unsupported layouts refuse
+  atomically. This is a double-sided topology diagnostic, not a renderer
+  with original clipping, lighting or initialized live GS state.
+- Root's fresh integrated DLL agrees with independently replayed original
+  VU1 publication: all 37 primary Armor0 packets, 3,478 computed vertices,
+  2,714 chronological FIFO triangles, 77,291 instructions and 118 XGKICKs.
+  Both explicit identity comparison and the actual 107 pose/binding matrix
+  inputs agree for every triangle, signed ST, output index, guest ID and
+  texture. Real zero-valued IDs are retained, not guessed from editor data.
+- Review independently resolved two separate pointers: packed secret indices
+  advance by 16 bytes; texture payloads/index metadata advance by 64 bytes.
+  A further original-instruction replay exposed and fixed the missing FIFO
+  reset on inserted texture PRE/PRIM. Two/three-group fixtures agree across
+  307/345 instructions and 5/3 ordered triangles with final texture state.
+  All 211 native topology assertions pass.
+- Audited simultaneous upper/[I] timing in older transform, binding and
+  vertex microprogram stages. No previously tested stage has an immediate
+  consuming upper paired with an I update. Root's vertex oracle now uses
+  old I explicitly; all 60 cases/120,318 vertices/562,785 pairs still agree.
+  Camera C60 already snapshots old I. VU1 micro0398 specifically requires
+  old3071 before publishing254 to retain the real packed ADC bit.
+- Added a buildable diagnostic DLL, reproducible local preparation bridge
+  and run-model-topology.cmd. The scene uses actual native vertex/topology
+  calculations without a GLB. Presentation remaps (y,z,x), applies class
+  scale/1024 and uses flat double-sided shading; it does not claim actor
+  basis/world/view or original texture upload. The new WARP capture was
+  visually inspected: textured torso and arms, head and legs absent,
+  89,853 non-background pixels. Assets, microbytes and images stay ignored.
+- All forty-five native CTest checks pass together in 3.17 seconds under
+  MSVC Release /W4 /WX. All 146 Python tests pass in 2.35 seconds. Local
+  progress adds no retail assets, accepted matching coverage or playable
+  game frame; nothing is pushed.

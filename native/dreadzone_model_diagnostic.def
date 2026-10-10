@@ -1,0 +1,3 @@
+EXPORTS
+    dreadzone_vertex_blend_prepare
+    dreadzone_topology_prepare

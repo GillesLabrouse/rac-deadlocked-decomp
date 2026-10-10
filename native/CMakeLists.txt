@@ -222,6 +222,23 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_spatial_grid PRIVATE /W4 /WX)
 endif()
 
+add_library(deadlocked_native_dreadzone_topology STATIC dreadzone_topology.c)
+target_include_directories(deadlocked_native_dreadzone_topology PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_topology PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_topology PRIVATE /W4 /WX)
+endif()
+if(WIN32)
+    # Host diagnostic API only; neither retail machine code nor a game frame.
+    add_library(deadlocked_native_model_diagnostic SHARED
+        dreadzone_vertex_blend.c dreadzone_topology.c dreadzone_model_diagnostic.def)
+    target_include_directories(deadlocked_native_model_diagnostic PRIVATE include ${CMAKE_CURRENT_SOURCE_DIR})
+    target_compile_features(deadlocked_native_model_diagnostic PRIVATE c_std_11)
+    if(MSVC)
+        target_compile_options(deadlocked_native_model_diagnostic PRIVATE /W4 /WX /fp:precise)
+    endif()
+endif()
+
 add_library(deadlocked_native_dreadzone_bind_pose STATIC dreadzone_bind_pose.c)
 target_include_directories(deadlocked_native_dreadzone_bind_pose PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_bind_pose PUBLIC c_std_11)
@@ -258,6 +275,18 @@ target_link_libraries(deadlocked_native_dreadzone_equipment_ui PUBLIC
     deadlocked_native_dreadzone_inventory_setup deadlocked_native_dreadzone_input)
 if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_equipment_ui PRIVATE /W4 /WX)
+endif()
+
+add_library(deadlocked_native_dreadzone_equipment_selection STATIC
+    dreadzone_equipment_selection.c
+    ../nonmatching/L01_006A9630.c ../nonmatching/L01_00690EA0.c)
+target_compile_definitions(deadlocked_native_dreadzone_equipment_selection PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_equipment_selection PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_equipment_selection PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_equipment_selection PUBLIC
+    deadlocked_native_dreadzone_equipment_ui deadlocked_native_dreadzone_equipment)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_equipment_selection PRIVATE /W4 /WX)
 endif()
 
 add_library(deadlocked_native_game_random STATIC ../nonmatching/00163408.c ../nonmatching/L01_0058FF38.c)
@@ -495,6 +524,20 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_dreadzone_equipment_ui_tests PRIVATE /W4 /WX)
     endif()
     add_test(NAME native_dreadzone_equipment_ui COMMAND deadlocked_native_dreadzone_equipment_ui_tests)
+
+    add_executable(deadlocked_native_dreadzone_equipment_selection_tests tests/dreadzone_equipment_selection_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_equipment_selection_tests PRIVATE deadlocked_native_dreadzone_equipment_selection)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_equipment_selection_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_dreadzone_equipment_selection COMMAND deadlocked_native_dreadzone_equipment_selection_tests)
+
+    add_executable(deadlocked_native_dreadzone_topology_tests tests/dreadzone_topology_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_topology_tests PRIVATE deadlocked_native_dreadzone_topology)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_topology_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_dreadzone_topology COMMAND deadlocked_native_dreadzone_topology_tests)
     add_executable(deadlocked_native_game_random_tests tests/game_random_tests.c)
     target_link_libraries(deadlocked_native_game_random_tests PRIVATE deadlocked_native_game_random)
     if(MSVC)

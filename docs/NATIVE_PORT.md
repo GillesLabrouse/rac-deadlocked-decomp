@@ -570,7 +570,7 @@ every selected-path mapping and rejects unresolved UI dispatch before writes.
 Maintenance supports the real initialized flag266D=1 when2318 does not match
 an active marker. A signed category-2 setter genuinely clears266D through its
 preceding word store; that CPU path is retained. Ordinary flag1 setter dispatch
-still requires the unrecovered virtual/UI chain. All mapped memory agrees
+uses the separate bounded selection composition described below. All mapped memory agrees
 across4,096 original-instruction cases with ten actual CPU callees. This does
 not complete fresh-player construction, UI rendering or a native game frame.
 
@@ -632,8 +632,37 @@ refuse before writes. Root's fresh DLL agrees across4,096 original-instruction
 cases with13 actual CPU callees, including1,024 real item2 zero-queue cases
 and1,035 queue rotations. The paired-copy helper's unused lookahead word is
 also checked before mutation. This is CPU queue/state behavior; the separate
-flag1 setter still needs its genuine virtual getter binding. No UI rendering,
+flag1 setter now has its genuine virtual getter binding below. No UI rendering,
 audio, completed actor or playable game frame is added.
+
+`dreadzone_equipment_selection_00688578` now connects the genuine flag1 setter
+to its virtual +4C getter and the complete bounded equipment UI chain. Actual
+getters006A9630/00690EA0 return byte2FEA/-1; both privately match their eight
+original bytes. Constructor reset clears2FEA; outer initializer006A8420 restores
+the player index after the constructor returns. This composition does not run
+either whole initializer. Category-zero, supported fresh UI state and mapped
+actor0/1 are required; other domains refuse atomically. Root's fresh DLL agrees
+across4,096 complete RAM cases and512 standalone getter cases, including256
+writable virtual-entry aliases and1,024 actual item2 zero-queue selections.
+All7,504 native checks pass. Mapped RAM is copied, actual ordered setter/getter/UI
+effects execute, then writable images are published. Stable exclusive caller
+access is required. No UI rendering or playable actor frame is added.
+
+Complete actor-state PS2 drafts0067DDD0,0067DBE8,00596390 and00667050 now
+retain the real VU/Q, ground/surface and side-probe dependencies. The main
+3256-byte function preserves25 direct calls to16 genuine targets and all five
+CVT.W.S instructions. Only the8-byte backlink is privately exact; the other
+three are nonmatching. Root's fresh objects agree across512 whole non-directional
+vector-helper returns with original instructions, including ordered aliases
+and raw W. No native main-state adapter, directional Q validation or successful
+collision substitute is introduced. Collision packet production and the
+remaining callbacks are required before this can participate in a native frame.
+
+The [original model diagnostic](NATIVE_MODELS.md) now joins genuine native local
+vertex calculations to original VIF/ST/ID topology. Its107 explicit pose/binding
+matrices produce3,478 vertices and2,714 raw FIFO triangles from37 primary packets.
+The renderer shows the textured torso and arms; active head/leg selection,
+animation, actor/world/view, clipping and lighting remain outside the diagnostic.
 
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
