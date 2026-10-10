@@ -39,6 +39,11 @@ renderer fixtures; use `run-native.cmd` for the interactive scene viewer.
 See [native model inspection](NATIVE_MODELS.md) for preparation, verified captures
 and the missing parts/animation. It is separate from initialized actor rendering.
 
+`run-controller-probe.cmd` runs the Windows XInput diagnostic through the
+recovered controller poll, callback and decoder. It preserves button history
+between samples. See [native controller testing](NATIVE_INPUT.md) for commands,
+packet conversion and the attached-hardware validation still required.
+
 ## Verified first step
 
 `native/CMakeLists.txt` builds a native static library from eighteen recovered game
@@ -127,9 +132,10 @@ resident decision `00510EB0` also compiles natively and agrees with L01's real
 `deadlocked_native_dreadzone_input` builds the actual L01 decoder `005BDA40`
 and recovered angle helpers `0055D708` and `0055D910`. Its isolated test executes
 4,309 checks for buttons, edge masks, every axis byte, dead zones, pressure,
-sample delays, ring wraps, mode/flip ordering, history and repeat. It performs
-the real caller's four previous-mask operations before each controlled packet;
-polling, transport and configuration remain unimplemented.
+sample delays, ring wraps, mode/flip ordering, history and repeat. This isolated
+decoder fixture performs the real caller's four previous-mask operations before
+each controlled packet. The additional poll and platform targets described below
+exercise configuration and transport separately.
 
 The angle polynomial uses independently recovered coefficients and quadrant
 pairs. A double-precision atan2 oracle measures a maximum circular error of
@@ -394,9 +400,18 @@ tools/check-native.ps1` builds and runs the recovered algorithm fixtures.
 It currently includes model-pool allocation/release/compaction, class publication
 and bounded relocation, and configured controller polling through the real
 callback, decoder and button repetition. Platform driver calls remain captures
-in those input fixtures. The model transformations and nonempty geometry path
-are still outstanding. These libraries are not yet connected to the viewer's
+in those input fixtures; the Windows diagnostic uses real XInput calls with
+feedback disabled. Class relocation now invokes recovered geometry packing
+through its ordered write journal. It prepares real packet words while preserving
+the upper halves of their quads. GPU submission and model transformations remain
+outstanding. These libraries are not yet connected to the viewer's
 runtime, so running their tests does not launch the game.
+
+The actor field setter `0068E3B0` is also a separate library. Its mode-zero
+mutations execute exactly within mapped host storage. Other modes return
+`APPROXIMATE_VU`: bounded host float normalization and signed-zero handling are
+tested, but VU precision, flags and scheduling are not reproduced. This setter
+does not construct or update a playable actor.
 
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every

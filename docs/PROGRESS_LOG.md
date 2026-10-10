@@ -19,13 +19,15 @@ prove a later one. Emulator tests are optional reference checks.
 - 229 game functions pass exact linking: 151 resident and 78 overlay functions.
 - Resident reconstruction replaces 10,448 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Ninety-eight Python regression tests and all twenty-four native CTest checks pass.
+- Ninety-eight Python regression tests and all twenty-seven native CTest checks pass.
 - Eighteen matching functions compile and execute in Windows x64 test targets.
   Separate targets execute queue/request drafts with captured unrecovered
   transition effects and actual Dreadzone memory, payload and packet algorithms.
   The latter execute their recovered callback, bit writer and button repetition.
-  Model allocation/compaction and class publication/relocation also execute
-  native C. Controller transport and nonempty geometry remain outstanding.
+  Model allocation/compaction, class publication/relocation and nonempty geometry
+  packet packing also execute native C. A Windows XInput diagnostic executes the
+  recovered input path; attached-controller hardware remains unverified. Actor
+  field mutation is tested, with nonzero VU normalization explicitly approximate.
   Guest links retain their 32-bit width. No native game update
   loop, game boot, or campaign play has been verified.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
@@ -555,3 +557,55 @@ prove a later one. Emulator tests are optional reference checks.
 - All twenty-four native checks pass together. Matching coverage, linked bytes,
   reconstruction and Python tools are unchanged from the preceding checkpoint.
   The native scenery viewer still does not run the game boot/update chain.
+
+## 2026-10-10 — Geometry integration and Windows input diagnostic
+
+- Saved geometry checkpoint `f47f914`: three genuine packing routines now run
+  through class relocation's ordered write journal. Preparation reads preceding
+  relocation writes and validates every destination before mutation. Only the
+  lower 64 bits of each output quad are changed; GPU submission is outstanding.
+- Independent packing comparison covers 512 fixtures, 262,300 original
+  instructions and 15,241,216 bytes. The combined publication/relocation/geometry
+  comparison executes the real callees rather than capturing them: 515 fixtures,
+  227,348 instructions, and no differences. Cases include shared packets, aliased
+  packet headers, reloaded publication counters and retained geometry counts.
+- Cross-review found and fixed three real reload defects: the auxiliary count,
+  definition's list pointer and auxiliary's second-field pointer. Native regression
+  fixtures preserve all three mapped aliases. Both native and PS2 branches retain
+  the relevant memory read order. Seven missing/invalid-input cases refuse the
+  whole host transaction atomically.
+- PS2 geometry drafts remain nonmatching and are excluded from coverage. The
+  table packer's actual complete span is `00576650..005767B8`, including its two
+  internal branch blocks; the diagnostic uses that observed span without changing
+  accepted metadata. Class relocation compiles to 928 versus 824 retail bytes.
+  Default split-address flags avoid GNU as's unsupported symbolic quad store.
+- Real asset validation also relocated class9207's 813,184-byte `core.bin` with
+  the genuine overlay remap and no invented GS values. Its 883 changed bytes and
+  the whole class image agree after 3,822 original instructions. This class has
+  no geometry packets. Nonempty class10024 and armor0 still require missing
+  runtime graphics inputs and are rejected without mutation.
+- Saved Windows input checkpoint `6013235`. The backend uses actual XInput
+  state/capability calls and an explicit
+  adapter for the recovered packet layout. Its 223 fixture checks cover axis
+  boundaries, configuration, press/hold/release and error paths. The executable
+  keeps per-device history across samples. Feedback is disabled. The launcher
+  ran twice through all four indices, which all returned disconnected error1167;
+  no attached-controller behavior is claimed.
+- Recovered `0068E3B0` also runs as a separate native library. Mode0 is an exact
+  scalar mutation path; nonzero modes return `APPROXIMATE_VU` within a bounded
+  finite domain. Full byte/guard fixtures and a double normalization oracle pass.
+  A 60-case instruction diagnostic validates branches/stores but models VU floats,
+  so it is not evidence of VU precision or scheduling identity. The PS2 draft is
+  nonmatching at 496 versus 552 bytes.
+- All twenty-seven native CTest checks pass together under MSVC Release. Python
+  tools and accepted matching sources are unchanged from the prior checkpoint;
+  matching coverage, exact links and reconstructed bytes remain unchanged.
+- Parallel work now has explicit file ownership and frozen review boundaries.
+  Composed integer-memory paths receive a separate instruction differential;
+  discovered aliases become tracked native regression fixtures. Focused native
+  builds remain incremental, with a complete integrated run after each new lot.
+  A reusable source-only differential runner is being prepared to replace private
+  script-prefix transformations. Retail data stays ignored and work stays local.
+- Next dependencies are the real graphics-table producers, actor-state snapshot
+  and the remaining VU/DMA transformation path. No native game boot, actor update
+  or playable campaign frame is verified.
