@@ -563,6 +563,17 @@ under host IEEE arithmetic, including all107 Armor0 joints. Its result remains
 do not establish a visually correct rest pose. Original vertex weights, joint
 association and the subsequent rendering consumer remain necessary.
 
+The complete CPU equipment maintenance `00690B60`, slot deletion `006C0A58`,
+marker clear `00690C88`, reset `005E9258` and bounded setter `00688578` now
+execute with their genuine predicates and inventory helpers. Preflight verifies
+every selected-path mapping and rejects unresolved UI dispatch before writes.
+Maintenance supports the real initialized flag266D=1 when2318 does not match
+an active marker. A signed category-2 setter genuinely clears266D through its
+preceding word store; that CPU path is retained. Ordinary flag1 setter dispatch
+still requires the unrecovered virtual/UI chain. All mapped memory agrees
+across4,096 original-instruction cases with ten actual CPU callees. This does
+not complete fresh-player construction, UI rendering or a native game frame.
+
 Complete actor synchronization sources `0066A678`, `0066A6F8`, `0066E580`
 and `0058DF58` retain the original oscillator, collision-volume, spatial and
 model calls. Root independently rebuilt and strictly linked their complete

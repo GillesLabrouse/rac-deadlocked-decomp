@@ -971,3 +971,25 @@ prove a later one. Emulator tests are optional reference checks.
   rendered character is claimed. The next geometry work follows actual vertex
   weights and their rendering consumer rather than applying matrices to an
   editor GLB with inferred joints. No playable native game boot is added.
+
+## 2026-10-10 — Native CPU equipment maintenance
+
+- Integrated seven complete recovered routines for equipment maintenance,
+  selection predicates, slot deletion, marker/reset state and the bounded
+  setter. They reuse the genuine inventory library, with no captured UI call.
+  Public preflight rejects missing mappings, UI paths and unsafe field aliases
+  before writes; context/backing/descriptor ranges are disjoint and checked.
+- Preserved the ordered signed-category-2 store that clears266D before the
+  retail flag read. Real flag1 maintenance with2318=0 is supported; ordinary
+  fresh-player flag1 setter UI dispatch remains an unresolved dependency.
+- Root independently built a fresh DLL and repeated4,096 full-image cases:
+  2,007,381 actual instructions,270 distinct instructions,512 flag1 maintenance
+  cases,370 flag0 maintenance setters,127 real store-clears-flag cases and281
+  rejected selections agree. All ten executed CPU callees are genuine.
+- Native fixtures compare entire buffers with memcmp plus targeted boundary,
+  alias and status assertions:16,906 checks pass, avoiding inflated byte-call
+  counts. All thirty-nine native CTest checks pass together in3.15 seconds
+  under MSVC Release /W4 /WX. This adds CPU behavior, not a playable frame.
+- Root independently compiled and strictly linked all seven PS2 drafts:
+  only006BE040 is privately exact16/16; the other six remain nonmatching.
+  No accepted source coverage changed and no files were pushed.

@@ -203,6 +203,19 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_bind_pose PRIVATE /W4 /WX /fp:precise)
 endif()
 
+add_library(deadlocked_native_dreadzone_equipment STATIC
+    ../nonmatching/L01_00690B60.c ../nonmatching/L01_00688578.c
+    ../nonmatching/L01_006C0A58.c ../nonmatching/L01_00690C88.c
+    ../nonmatching/L01_005E9258.c ../nonmatching/L01_006BDDC0.c
+    ../nonmatching/L01_006BE040.c)
+target_compile_definitions(deadlocked_native_dreadzone_equipment PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_equipment PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_equipment PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_equipment PUBLIC deadlocked_native_dreadzone_inventory_setup)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_equipment PRIVATE /W4 /WX)
+endif()
+
 add_library(deadlocked_native_game_random STATIC ../nonmatching/00163408.c ../nonmatching/L01_0058FF38.c)
 target_compile_definitions(deadlocked_native_game_random PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_game_random PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
@@ -408,6 +421,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_dreadzone_bind_pose_tests PRIVATE /W4 /WX /fp:precise)
     endif()
     add_test(NAME native_dreadzone_bind_pose COMMAND deadlocked_native_dreadzone_bind_pose_tests)
+    add_executable(deadlocked_native_dreadzone_equipment_tests tests/dreadzone_equipment_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_equipment_tests PRIVATE deadlocked_native_dreadzone_equipment)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_equipment_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_dreadzone_equipment COMMAND deadlocked_native_dreadzone_equipment_tests)
     add_executable(deadlocked_native_game_random_tests tests/game_random_tests.c)
     target_link_libraries(deadlocked_native_game_random_tests PRIVATE deadlocked_native_game_random)
     if(MSVC)
