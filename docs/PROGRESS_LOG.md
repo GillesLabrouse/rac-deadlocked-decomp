@@ -1321,3 +1321,31 @@ prove a later one. Emulator tests are optional reference checks.
   SHA25665e358a40e07c9bd8e7f07d4c8c0f1ce6ebf8578a4db61f96c25ab240aaf871b.
   This restores reliable collision/animation data extraction; it does not
   establish native terrain contacts or a running game frame. Nothing is pushed.
+
+## 2026-10-10 — Real terrain tree and triangle contact
+
+- Root independently rereads the original compressed asset stream directly
+  from ISO, decodes with the corrected shared tool and validates every8,249
+  nonempty Dreadzone tree cell against original0053DBD0 and the fresh native
+  DLL:313,462 instructions, unchanged table backing/guards. The677,568-byte
+  tree contains37,227 primary triangle records and23,660 quad continuation
+  entries. This full tree lookup check is not a whole contact probe.
+- Added the complete single-triangle iteration0053E1E8..0053E384: common
+  clip/surface/orientation filters, plane crossing and Q, three edge tests,
+  strictly nearer fraction and actual XYZ contact data. Success also retains
+  original s5/source_guest and s6/surface+1000. Output is atomic, including
+  misses/refusals; request/output overlap is supported through snapshot.
+- Root's independent /W4 /WX /fp:strict DLL agrees with raw-word original
+  macro-VU/Q and integer/delay-slot replay:3,327 fixtures,3,072 real cases
+  from611 authentic triangles,2,552 contacts,767 misses,8 numeric refusals,
+  128 partial aliases,329,995 original instructions and183,744 output bytes.
+  Root additionally verifies the quantized relative endpoints remain in
+  their actual source cell. That domain establishes the real fractions0/1
+  clip producer; it does not establish general multi-cell clipping.
+- All39 focused assertions and all50 native CTest checks pass; the complete
+  suite takes3.49 seconds. Arithmetic remains explicitly APPROXIMATE_CONTACT,
+  with no physical VU saturation/flags/Q timing claim. Zero-denominator
+  grazing cases refuse and must be recovered for full-probe composition.
+  Grid traversal, packed face/quad iteration, cache, dynamic actors, final
+  units, DMA and a player frame remain outside this adapter. No accepted
+  matching coverage changes, retail bytes or remote push are introduced.

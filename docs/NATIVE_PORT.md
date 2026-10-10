@@ -682,6 +682,29 @@ Root's fresh DLL agrees across1,027 fixtures,19,059 original EE instructions,
 8,413,184 table bytes,106 nonzero leaves and27 overflow refusals.25 native
 assertions pass. A returned leaf is collision data, not an established contact
 with the ground; triangle contact and the movement caller still need recovery.
+Root also rereads the compressed assets directly from ISO and checks every
+one of the8,249 actual nonempty terrain cells against original0053DBD0:
+313,462 integer instructions, unchanged backing and guards. This verifies
+the entire actual tree's selected leaf values, not all collision geometry.
+
+`dreadzone_collision_triangle` now executes one complete original triangle
+iteration0053E1E8..0053E384: clip/surface/orientation filters, plane crossing,
+Q division, all three edge tests, strictly nearer fraction and full XYZ
+publication plus the real source guest address and surface+1000 hit metadata.
+Root's fresh /fp:strict DLL agrees in3,327 fixtures, including3,072 cases
+from611 authentic terrain triangles, plus128 partial request/output aliases:
+329,995 original instructions,2,552 contacts,767 misses,8 numerical refusals
+and183,744 published bytes. All39 native assertions pass. Original arithmetic
+and delay slots are decoded without captured calls, under explicit ordered
+host IEEE approximation; physical VU/Q flags, saturation and timing are absent.
+
+The real fixture segments stay within their source cells after global f32
+quantization, so actual traversal fractions0/1 produce the verified clip bounds.
+Multi-cell bounds require the full traversal producer. Zero denominators,
+subnormal/nonfinite inputs and unsupported arithmetic refuse atomically;
+grazing triangles must still be handled before composing a useful full probe.
+The outer grid traversal, packed face/quad iteration, final unit conversion,
+dynamic actors, contact cache, DMA and complete player motion remain unexecuted.
 
 `dreadzone_actor_input_bridge` connects actual006A7D48/0067BD58 to the recovered
 predicate, signed timer, input-mask remapper, xyz magnitude and angle polynomial.
