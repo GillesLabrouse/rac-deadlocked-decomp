@@ -15,16 +15,16 @@ prove a later one. Emulator tests are optional reference checks.
 
 ## Current verified checkpoint
 
-- 274 matching functions, 0.532% of counted code, including open-source libraries.
-- 223 game functions pass exact linking: 146 resident and 77 overlay functions.
-- Resident reconstruction replaces 10,280 bytes with exact compiled C. The whole
+- 278 matching functions, 0.535% of counted code, including open-source libraries.
+- 227 game functions pass exact linking: 149 resident and 78 overlay functions.
+- Resident reconstruction replaces 10,352 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Thirty-four Python regression tests and all six native CTest checks pass.
-- Fourteen matching functions compile and execute in Windows x64 test targets.
-  A separate target also executes the experimental nonmatching request handler
-  together with the actual queue. Fixtures capture unrecovered command handlers
-  and map byte filling to CRT memset. No native
-  game update loop, game boot, or campaign play has been verified.
+- Seventy-eight Python regression tests and all ten native CTest checks pass.
+- Seventeen matching functions compile and execute in Windows x64 test targets.
+  Separate targets execute queue/request drafts with captured unrecovered
+  transition effects and actual Dreadzone memory algorithms without callback
+  substitutes. Guest links retain their 32-bit width. No native game update
+  loop, game boot, or campaign play has been verified.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
   render natively, using 86 shared object models and 440 textures. Hardware and
   WARP captures completed; the room capture was inspected. The scene backend does
@@ -359,3 +359,42 @@ prove a later one. Emulator tests are optional reference checks.
   bytes and equals retail. ELF SHA-1 remains
   `5619a8de0247e093ab672fca30dbf59bc16fe333`. The scenery viewer remains the current
   interactive native artifact; no game launch has been achieved. Nothing pushed.
+
+## 2026-10-10 — Actual Dreadzone memory algorithms and draft review workflow
+
+- Recovered L01 `00628020`, `006A9640`, `006A9AE0` and `006AF588` from actual
+  campaign bindings. Host fixtures execute their real word-fill and reset
+  algorithms without captured subsystem calls. They verify 64 scratch records,
+  256 pool records, all 255 generated links, untouched fields, and every byte of
+  twenty `340`-byte records plus seven counters. The pool fixture performs 6,830
+  checks. Record reset fixtures exercise nonzero and zero initial storage.
+- Corrected the free-list interpretation: links are at field `58`, not the
+  first word. The last link is preserved, so null termination relies on the
+  entry's earlier bulk clear. Tests preserve an arbitrary nonzero final link
+  and traverse the complete chain when that field starts at zero. Guest
+  addresses remain u32 even on Windows x64.
+- L01 `00628020` is exactly 64 bytes after actual-address linking; helper
+  `006A9AE0` matches 88 bytes including four trailing zeros. Their independently
+  bound L01 sources remain draft-context diagnostics. Added accepted canonical
+  L00 `0066E0B8` after checking its own scratch base `0032B0E0`, rather than
+  borrowing L01's `0034D320`. The canonical copy passes both accepted audits.
+- `006A9640` remains 136 versus 128 bytes. `006AF588` has the correct 232-byte
+  extent but differs in scheduling and registers. Neither is counted as
+  matching. Native algorithms use explicit guest layouts and bounded known
+  storage; these tests do not establish actor creation or a game boot.
+- Added `tools/check_overlay_draft.py`: it derives actual local function
+  boundaries from the extracted overlay, checks provenance, resolves every
+  relocation and rejects foreign-overlay symbols. Draft reports remain under
+  `build/drafts/linked`, outside accepted linking and coverage. Six new Python
+  tests exercise ownership and boundary failures. Real L01 checks report both
+  exact routines and remaining nonmatches correctly.
+- Incremental build compiled the one new accepted source and reused all 221
+  prior objects. Full audit: 278 exact, zero failures. Full link: 227 exact,
+  zero mismatches or object failures. All 78 Python tests and ten native CTest
+  checks pass. Reconstructed resident section stream equals retail, still 149
+  functions / 10,352 C bytes and ELF SHA-1
+  `5619a8de0247e093ab672fca30dbf59bc16fe333`.
+- Parallel recovery continues on actual input decoding and math helpers,
+  object producers and the pre-loop bulk clear. Those unfinished changes are
+  excluded from this checkpoint. The native scenery viewer remains the
+  interactive artifact; no playable campaign has been achieved. Nothing pushed.

@@ -62,6 +62,21 @@ if(BUILD_TESTING)
     target_compile_definitions(deadlocked_native_consumer_tests PRIVATE DEADLOCKED_NATIVE=1)
     target_link_libraries(deadlocked_native_consumer_tests PRIVATE deadlocked_native_core)
     add_test(NAME native_consumer_draft COMMAND deadlocked_native_consumer_tests)
+    # Execute actual L01 memory algorithms in isolated guest-layout storage.
+    add_executable(deadlocked_native_dreadzone_memory_tests
+        tests/dreadzone_memory_tests.c ../nonmatching/L01_00628020.c
+        ../nonmatching/L01_006A9640.c)
+    target_compile_definitions(deadlocked_native_dreadzone_memory_tests PRIVATE DEADLOCKED_NATIVE=1)
+    target_include_directories(deadlocked_native_dreadzone_memory_tests PRIVATE include ${CMAKE_CURRENT_SOURCE_DIR})
+    target_compile_features(deadlocked_native_dreadzone_memory_tests PRIVATE c_std_11)
+    add_test(NAME native_dreadzone_memory COMMAND deadlocked_native_dreadzone_memory_tests)
+    add_executable(deadlocked_native_dreadzone_record_reset_tests
+        tests/dreadzone_record_reset_tests.c ../nonmatching/L01_006AF588.c
+        ../nonmatching/L01_006A9640.c)
+    target_compile_definitions(deadlocked_native_dreadzone_record_reset_tests PRIVATE DEADLOCKED_NATIVE=1)
+    target_include_directories(deadlocked_native_dreadzone_record_reset_tests PRIVATE include)
+    target_compile_features(deadlocked_native_dreadzone_record_reset_tests PRIVATE c_std_11)
+    add_test(NAME native_dreadzone_record_reset COMMAND deadlocked_native_dreadzone_record_reset_tests)
     add_executable(deadlocked_native_scene_tests tests/scene_tests.cpp)
     target_link_libraries(deadlocked_native_scene_tests PRIVATE deadlocked_native_scene)
     add_test(NAME native_scene_validation COMMAND deadlocked_native_scene_tests)

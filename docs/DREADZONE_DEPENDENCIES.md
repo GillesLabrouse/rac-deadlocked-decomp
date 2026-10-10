@@ -96,11 +96,19 @@ Inspection of these immediate dependencies establishes more specific work:
 - `00666A28` stores its first argument at `00223E04`, its second at `00223E00`,
   then calls `00666F08`. Both arguments are explicitly zero at this call site.
 - `006AF588` calls `0055D2A8(0037B320, 0, 0x4100)`, which directly fills words,
-  then initializes fields of the cleared records. This is observed memory
-  initialization, not an inferred allocation call.
+  then initializes twenty records of stride `340`. Nonzero overrides are word
+  `0 = FFFFFFFF`, shorts `2DC` and `2E4 = -1`, and floats `2E8` and `2EC = 40`.
+  It also clears `00220844` and seven words at `0037F428`. The complete reset is
+  now recovered in `nonmatching/L01_006AF588.c` and executes in an isolated native
+  test with a byte oracle for all records. Default compilation has the correct
+  232-byte extent but still differs in instruction scheduling and registers.
 - `006A9640` calls `006A9AE0` on 256 records of stride `5C` at `00375720`,
-  links the records through their first word, and stores the first record as a
-  list head.
+  links records 0 through 254 through their 32-bit field at offset `58`, and
+  stores the first record as the guest-address list head at `00220828`.
+  Record 255's field `58` remains untouched: a null-terminated list therefore
+  depends on that field already being zero. The entry's preceding bulk clear
+  covers this pool. `006A9AE0` uses `0055D2A8` to fill each record's 64-byte
+  range at offset `C` with `CDCDCDCD`, rather than filling bytes through memset.
 - `006B41D0` calls `00666B40(6, value_at_00223E04, -2)`, stores the returned
   pointer at `00220890`, and clears the returned object's byte at offset `2C`.
   Its initializer dependencies must therefore produce a valid object pointer.

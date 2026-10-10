@@ -50,6 +50,28 @@ python -m unittest discover -s tools -p 'test_*.py'
 Omit `--overlays` for a resident-only link audit. The full contribution audit
 still needs extracted overlays for existing overlay C.
 
+### Check an explicitly addressed overlay draft
+
+Compile a draft into `build/drafts`, keeping it outside accepted objects. Pass
+any compiler flags declared in its first-line `cflags` comment explicitly when
+invoking `cc.sh` directly. For example, the following L01 initializer uses the
+default compiler flags:
+
+```sh
+bash tools/cc.sh nonmatching/L01_00628020.c build/drafts/L01-00628020.o
+venv/Scripts/python.exe tools/check_overlay_draft.py L01 build/drafts/L01-00628020.o
+```
+
+The checker derives actual function extents from the locally extracted overlay
+and resolves every relocation through the original linker. It verifies source
+provenance and rejects foreign-overlay symbols and unknown entry boundaries.
+Reports are written under `build/drafts/linked`, never `build/linked/report.json`
+or matching coverage. A nonmatch exits with status one and records the differing
+byte offsets; an exact draft still needs canonical source naming and the full
+accepted build checks before being added to `src/`. Use explicit local symbols
+after independently checking their calls and data, rather than treating an
+overlay grouping identity as proof of equivalent bindings.
+
 On Linux/macOS, use the container wrapper for the build scripts and
 `python tools/link_objects.py --overlays`; use `venv/bin/python` for the other
 Python commands. Those platforms retain Wine. The Windows workflow was

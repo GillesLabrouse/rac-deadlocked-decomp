@@ -49,6 +49,28 @@ validation milestone, separate from the renderer described below. The recovered
 game update loop has not been ported; no game launch or playable scene has been
 achieved.
 
+## Recovered Dreadzone memory initialization
+
+Two isolated Windows targets now execute actual L01 pre-loop memory algorithms:
+`native_dreadzone_memory` and `native_dreadzone_record_reset`. They reset 64
+sixteen-byte scratch records, initialize 256 records of stride `5C`, regenerate
+255 free-list links, and reset twenty records of stride `340` plus seven counters.
+The tests execute recovered C and the real word-fill algorithm; they require no
+captured subsystem calls. Guest addresses remain 32-bit integers on Windows x64.
+
+The pool reset preserves the final record's link. Its null termination depends
+on the earlier entry bulk clear, rather than an invented terminating store.
+Tests traverse all 256 records and check untouched fields, an arbitrary final
+link, full word patterns and every byte in the twenty-record reset. The latter
+sets two float fields to 40 and two short fields and one word to invalid values
+after filling the entire `4100`-byte region with zero.
+
+These routines are currently exercised in separate host fixtures. They are not
+linked into the viewer or sufficient to initialize actors. L01 `00628020` and
+helper `006A9AE0` pass actual-address byte comparison; `006A9640` and `006AF588`
+remain nonmatching drafts, kept outside accepted coverage. The independent
+canonical L00 scratch initializer has its own checked L00 data binding.
+
 ## Native terrain loading and rendering
 
 The Windows target `deadlocked_native_scene_viewer` loads a host scene package
