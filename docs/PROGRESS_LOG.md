@@ -19,11 +19,12 @@ prove a later one. Emulator tests are optional reference checks.
 - 227 game functions pass exact linking: 149 resident and 78 overlay functions.
 - Resident reconstruction replaces 10,352 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Seventy-eight Python regression tests and all ten native CTest checks pass.
+- Eighty-six Python regression tests and all sixteen native CTest checks pass.
 - Seventeen matching functions compile and execute in Windows x64 test targets.
   Separate targets execute queue/request drafts with captured unrecovered
-  transition effects and actual Dreadzone memory algorithms without callback
-  substitutes. Guest links retain their 32-bit width. No native game update
+  transition effects and actual Dreadzone memory, payload and packet algorithms.
+  The latter execute their recovered callback and bit writer. Guest links retain
+  their 32-bit width. No native game update
   loop, game boot, or campaign play has been verified.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
   render natively, using 86 shared object models and 440 textures. Hardware and
@@ -398,3 +399,48 @@ prove a later one. Emulator tests are optional reference checks.
   object producers and the pre-loop bulk clear. Those unfinished changes are
   excluded from this checkpoint. The native scenery viewer remains the
   interactive artifact; no playable campaign has been achieved. Nothing pushed.
+
+## 2026-10-10 — Packet execution, payload allocation and native validation workflow
+
+- Recovered L01 packet decoder `005BDA40`, angle helpers `0055D708` / `0055D910`,
+  selective/history/delay resets, and callback `006B5CB8` with its actual bit
+  writer `006B59C8`. Native fixtures execute 4,309 decoder/math, 195 reset and
+  4,250 callback/encoding checks. Four-frame sequences exercise the real
+  callback-before-decoder order. The complete input pool's zero-initialized
+  core.bss storage is established separately from selective reset behavior.
+- Independently recovered polynomial/quadrant constants give maximum circular
+  error `3.34129247e-7` radians on the tested finite `33 x 33` grid. Host scalar
+  arithmetic does not establish original VU rounding or exceptional behavior.
+  Driver/configuration, polling integration and actor input remain unfinished.
+- Native bulk clear executes its actual 1,565,248-byte range and quad-fill
+  footprint. Its 3,132,632 checks verify every affected byte and both guards.
+  Actual state initializer, table helper and selector execute 8,389,683
+  byte/field checks, including both 207-record fixed tables, conditionals,
+  signed counts, guest wrap, selection and rejected mappings.
+- Payload allocation/release execute real packed-descriptor algorithms with
+  guest32 links, 64-byte capacity rounding and word-rounded clearing. The native
+  fixture covers exhaustion, fragmentation, first-fit reuse, unlinking, empty
+  reset and guards. A private instruction interpreter compared 7,200 operations,
+  preserving every descriptor and state word. Its scope is these two routines;
+  actor class/model initialization remains required.
+- Saved actual object-orchestrator, loader and record-initializer drafts with
+  independently bound L01 calls and guest layouts. They are not linked into the
+  native game runtime. The loader's emitted switch table remains unsupported by
+  the strict draft linker; its private comparison is separately documented.
+- Extended the draft checker with explicit complete spans, declared pointer-only
+  entries and failed-report replacement. Callback entry `006B5CB8` is absent from
+  the splitter but independently established by its pointer producer and actual
+  800-byte range. Its unmasked comparison remains nonmatching (624 bytes); the
+  304-byte bit writer produces 164 bytes. All new recovery remains outside
+  accepted coverage. Tool checkpoint: `a841dae`.
+- Consolidated real algorithms into reusable native libraries. Added
+  `tools/check-native.ps1` to discover the installed CMake, configure/build
+  Release and run all fixtures, with optional CTest filtering and failure
+  propagation. This command completed successfully: all sixteen tests pass.
+  All 86 Python tests pass and the 278-function accepted report is current.
+  Accepted game code is unchanged: 227 exact linked functions, 149 resident
+  functions / 10,352 C bytes, and the same retail-equal reconstruction.
+- No game boot, player movement, actor rendering or campaign play is added by
+  this checkpoint. The interactive artifact remains the scenery viewer. Work
+  continues on actual class setup and remaining pre-loop/input dependencies.
+  Everything remains local; nothing pushed.

@@ -45,7 +45,7 @@ Important ordered calls before the first loop iteration include:
 | L01 target | Explicit arguments | Evidence and remaining dependency |
 | --- | --- | --- |
 | `006C1D68` | None | Installs L01 function addresses in the callback block at `00212148`. A native port needs host function pointers, not copied guest integers. |
-| `00529280` | None | Clears the range `00222900..003A0B40`; the aligned path calls `0055D2D0`, otherwise it clears bytes. This range must belong to an explicit host data allocation. |
+| `00529280` | None | Clears the range `00222900..003A0B40`; the aligned path calls `0055D2D0`, otherwise it clears bytes. Recovered C now executes with an explicitly bound host arena; all 1,565,248 bytes and guards are tested. It remains nonmatching. |
 | `00574730` | None | Calls core `0011EF60`; subsystem behavior has not been recovered here. |
 | `0055DFE8` | None | Initializes state through three calls to `0055DCF8` and one to `0055E0A0`. |
 | `00665D58` | None | Campaign initialization audited below; eight callees remain necessary. |
@@ -134,6 +134,23 @@ instruction scheduling considerably; the default flags are closer to retail.
 The three remaining register differences were not hidden by broad masking,
 hard-coded register constraints or inline assembly.
 
+Further inspection of the core calls narrows the campaign branch. Core
+`0015A170` clears byte `1681` even when block word `0` already exceeds its state
+gate. If that word is below seven, the level-one path skips the level-zero reset
+calls; it initializes ten repeated fields and, with field `258 == 1`, assigns
+word `0 = 7`, clears word `8` and returns zero. Core `0015AA58` then initializes
+its two ten-word ranges and flags when word `0 < 10`. With `258 == 1`, it assigns
+word `0 = 10`, clears word `10` and calls `0015B498`. This is the core block's
+own state, separate from the overlay frame state at `0021DDB4`.
+
+`0015B498` copies word `10` to `002120F4`, assigns fields `254` and byte `250`,
+calls `0015F4A0`, copies field `218` to `220`, and invokes the optional callback
+at `0021DB94`. `0015F4A0` immediately returns one when pointer `0021DFE8` is
+already nonzero; its large creation/network path is skipped in that case.
+The entry's selected state pointer and callback binding must be verified when
+porting these calls. These are inspected branch facts, not implemented native
+core initialization or permission to substitute their unresolved effects.
+
 ## First frame and platform boundaries
 
 Each entry-loop iteration saves the current state, reads and clears timer MMIO
@@ -197,9 +214,11 @@ callee `00529310` obtains record one through that accessor, reads its pointer at
 dependencies; they do not yet establish a fully initialized Ratchet object,
 animation, collision or player update.
 
-Controller polling, button-edge processing and mappings into these records have
-not been identified by this audit. Their absence is an explicit recovery task,
-not permission to supply replacement free-camera controls as gameplay. Likewise,
+The polling path, packet decoder, edge processing and actor-side input bindings
+are now identified in `DREADZONE_INPUT_PATH.md`. Actual packet, reset and callback
+algorithms execute in native fixtures. The driver/configuration state machine and
+actor integration remain unfinished; the free-camera controls do not implement
+gameplay. Likewise,
 the verified transfer and presentation boundaries need host implementations
 that consume the recovered game's output. The existing terrain/Tie renderer
 provides assets and a rendering experiment, not those game interfaces.

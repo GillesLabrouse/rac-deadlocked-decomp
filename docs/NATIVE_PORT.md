@@ -22,6 +22,19 @@ The launcher also forwards command-line options for repeatable captures:
 .\run-native.cmd --capture build/native-assets/dreadzone-launcher.png
 ```
 
+To rebuild and run all native regression fixtures with the installed Visual
+Studio 2022 C++ Build Tools, run from the repository root:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/check-native.ps1
+```
+
+The script finds CMake on PATH or through Visual Studio's installer, configures
+Windows x64 Release, builds incrementally and propagates build/test failures.
+Use `-TestRegex dreadzone` for the Dreadzone checks during a focused iteration.
+It requires neither the PS2 compiler nor disc assets. This runs algorithm and
+renderer fixtures; use `run-native.cmd` for the interactive scene viewer.
+
 ## Verified first step
 
 `native/CMakeLists.txt` builds a native static library from seventeen recovered game
@@ -70,6 +83,60 @@ linked into the viewer or sufficient to initialize actors. L01 `00628020` and
 helper `006A9AE0` pass actual-address byte comparison; `006A9640` and `006AF588`
 remain nonmatching drafts, kept outside accepted coverage. The independent
 canonical L00 scratch initializer has its own checked L00 data binding.
+
+The pre-loop bulk clear `00529280` also runs through bounded guest-address
+translation in `DreadzoneBulkArena`. It clears the actual half-open range
+`00222900..003A0B40`, or 1,565,248 bytes. The caller owns the backing allocation
+and binds it before entry execution. The real quad-fill helper and byte fallback
+preserve their observed footprints, including a first quad store for an aligned
+empty range. The fixture checks all cleared bytes, guards, unaligned host
+placement and rejected out-of-range mappings. No PS2 pointer is dereferenced on
+Windows. These algorithms share `deadlocked_native_dreadzone_memory` so they
+can later be linked to real startup storage without recompiling test copies.
+
+The real state initializer `0055DFE8`, table helper `0055DCF8` and selector
+`0055E0A0` also execute through bounded guest storage. The two fixed tables each
+contain 207 eight-byte records. The helper conditionally masks a record's first
+word after reading its actual object byte, preserves its second word, publishes
+three guest32 addresses, and the selector chooses one of three slots. The
+native fixture checks all records, signed counts, enable/disable branches,
+wrapped guest arithmetic, guards and rejected mappings before slot mutation.
+Its 8,389,683 byte/field checks pass; all three PS2 drafts remain nonmatching.
+
+`deadlocked_native_dreadzone_payload` executes the genuine descriptor allocator
+and release algorithms, preserving their packed guest32 links and first-fit
+search. Allocation rounds capacity to 64 bytes; the actor's clear step writes
+four-byte words. The tests cover fragmentation, exhaustion, reuse, clearing and
+corrupt chains. The actor initializer and its class/model effects remain separate
+dependencies. See `DREADZONE_OBJECT_SETUP.md` for the instruction comparison and
+the unfinished full actor constructor.
+
+## Recovered Dreadzone packet decoding
+
+`deadlocked_native_dreadzone_input` builds the actual L01 decoder `005BDA40`
+and recovered angle helpers `0055D708` and `0055D910`. Its isolated test executes
+4,309 checks for buttons, edge masks, every axis byte, dead zones, pressure,
+sample delays, ring wraps, mode/flip ordering, history and repeat. It performs
+the real caller's four previous-mask operations before each controlled packet;
+polling, transport and configuration remain unimplemented.
+
+The angle polynomial uses independently recovered coefficients and quadrant
+pairs. A double-precision atan2 oracle measures a maximum circular error of
+`3.34129247e-7` radians on the tested `33 x 33` finite grid. Scalar host floats
+and sqrt do not reproduce VU accumulator precision, rounding or flags, and
+threshold fidelity at adjacent float values is unverified. The verified input
+domain is bounded finite channels and valid ring indices. These three sources
+remain nonmatching and outside the scene viewer; no actor movement or game
+frame has been added. See `DREADZONE_INPUT_PATH.md` for actual bindings and
+`DREADZONE_OBJECT_SETUP.md` for the record producers still needed.
+
+The library also contains the actual selective/history/delay resets and packet
+callback `006B5CB8` with its real MSB-first bit writer. Separate fixtures execute
+195 reset checks and 4,250 callback/encoding checks, including callback-before-
+decoder order across four frames. These calls retain the original guest record
+layout and context. No driver, actor frame or game input transport is supplied
+by the fixtures. Their actual local bindings and limits are recorded in
+`DREADZONE_INPUT_PATH.md`.
 
 ## Native terrain loading and rendering
 
@@ -280,7 +347,7 @@ substituted boundary in this target is the existing CRT byte filler.
 The handler compiles to 508 bytes versus 512 in retail and fails comparison.
 These native tests validate observed cases, not full semantic equivalence, game
 boot or campaign play. Its algorithm stays outside accepted `src/` and matching
-coverage while recovery continues. All six native CTest checks currently pass.
+coverage while recovery continues.
 
 ## Priorities toward the beginning of the game
 

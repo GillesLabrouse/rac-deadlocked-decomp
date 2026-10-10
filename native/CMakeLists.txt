@@ -24,6 +24,37 @@ target_compile_definitions(deadlocked_native_core PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_core PUBLIC include)
 target_compile_features(deadlocked_native_core PUBLIC c_std_11)
 
+add_library(deadlocked_native_dreadzone_memory STATIC
+    ../nonmatching/L01_00628020.c ../nonmatching/L01_006A9640.c
+    ../nonmatching/L01_006AF588.c ../nonmatching/L01_00529280.c
+    ../nonmatching/L01_0055DFE8.c ../nonmatching/L01_0055DCF8.c)
+target_compile_definitions(deadlocked_native_dreadzone_memory PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_memory PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_memory PUBLIC c_std_11)
+
+# Payload descriptors preserve guest32 links; the actor constructor is separate.
+add_library(deadlocked_native_dreadzone_payload STATIC
+    ../nonmatching/L01_0058D538.c ../nonmatching/L01_0058D6A8.c)
+target_compile_definitions(deadlocked_native_dreadzone_payload PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_payload PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_payload PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_memory PRIVATE /W4 /WX)
+    target_compile_options(deadlocked_native_dreadzone_payload PRIVATE /W4 /WX)
+endif()
+
+# Actual L01 packet decoding and recovered math, kept outside the matching core.
+add_library(deadlocked_native_dreadzone_input STATIC
+    ../nonmatching/L01_005BDA40.c ../nonmatching/L01_0055D708.c
+    ../nonmatching/L01_0055D910.c ../nonmatching/L01_005BD950.c
+    ../nonmatching/L01_006B5CB8.c)
+target_compile_definitions(deadlocked_native_dreadzone_input PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_input PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_input PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_input PRIVATE /W4 /WX /fp:precise)
+endif()
+
 add_library(deadlocked_native_scene STATIC scene.cpp)
 target_include_directories(deadlocked_native_scene PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_scene PUBLIC cxx_std_17)
@@ -64,19 +95,41 @@ if(BUILD_TESTING)
     add_test(NAME native_consumer_draft COMMAND deadlocked_native_consumer_tests)
     # Execute actual L01 memory algorithms in isolated guest-layout storage.
     add_executable(deadlocked_native_dreadzone_memory_tests
-        tests/dreadzone_memory_tests.c ../nonmatching/L01_00628020.c
-        ../nonmatching/L01_006A9640.c)
-    target_compile_definitions(deadlocked_native_dreadzone_memory_tests PRIVATE DEADLOCKED_NATIVE=1)
-    target_include_directories(deadlocked_native_dreadzone_memory_tests PRIVATE include ${CMAKE_CURRENT_SOURCE_DIR})
-    target_compile_features(deadlocked_native_dreadzone_memory_tests PRIVATE c_std_11)
+        tests/dreadzone_memory_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_memory_tests PRIVATE deadlocked_native_dreadzone_memory)
     add_test(NAME native_dreadzone_memory COMMAND deadlocked_native_dreadzone_memory_tests)
     add_executable(deadlocked_native_dreadzone_record_reset_tests
-        tests/dreadzone_record_reset_tests.c ../nonmatching/L01_006AF588.c
-        ../nonmatching/L01_006A9640.c)
-    target_compile_definitions(deadlocked_native_dreadzone_record_reset_tests PRIVATE DEADLOCKED_NATIVE=1)
-    target_include_directories(deadlocked_native_dreadzone_record_reset_tests PRIVATE include)
-    target_compile_features(deadlocked_native_dreadzone_record_reset_tests PRIVATE c_std_11)
+        tests/dreadzone_record_reset_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_record_reset_tests PRIVATE deadlocked_native_dreadzone_memory)
     add_test(NAME native_dreadzone_record_reset COMMAND deadlocked_native_dreadzone_record_reset_tests)
+    add_executable(deadlocked_native_dreadzone_bulk_clear_tests tests/dreadzone_bulk_clear_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_bulk_clear_tests PRIVATE deadlocked_native_dreadzone_memory)
+    add_test(NAME native_dreadzone_bulk_clear COMMAND deadlocked_native_dreadzone_bulk_clear_tests)
+    add_executable(deadlocked_native_dreadzone_state_init_tests tests/dreadzone_state_init_tests.c)
+    target_compile_definitions(deadlocked_native_dreadzone_state_init_tests PRIVATE DEADLOCKED_NATIVE=1)
+    target_link_libraries(deadlocked_native_dreadzone_state_init_tests PRIVATE deadlocked_native_dreadzone_memory)
+    add_test(NAME native_dreadzone_state_init COMMAND deadlocked_native_dreadzone_state_init_tests)
+    add_executable(deadlocked_native_dreadzone_actor_pool_tests tests/dreadzone_actor_pool_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_actor_pool_tests PRIVATE deadlocked_native_dreadzone_payload)
+    add_test(NAME native_dreadzone_actor_pool COMMAND deadlocked_native_dreadzone_actor_pool_tests)
+    add_executable(deadlocked_native_dreadzone_input_tests tests/dreadzone_input_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_input_tests PRIVATE deadlocked_native_dreadzone_input)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_input_tests PRIVATE /W4 /WX /fp:precise)
+    endif()
+    add_test(NAME native_dreadzone_input COMMAND deadlocked_native_dreadzone_input_tests)
+    add_executable(deadlocked_native_dreadzone_input_reset_tests tests/dreadzone_input_reset_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_input_reset_tests PRIVATE deadlocked_native_dreadzone_input)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_input_reset_tests PRIVATE /W4 /WX /fp:precise)
+    endif()
+    add_test(NAME native_dreadzone_input_reset COMMAND deadlocked_native_dreadzone_input_reset_tests)
+    add_executable(deadlocked_native_dreadzone_input_callback_tests tests/dreadzone_input_callback_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_input_callback_tests PRIVATE deadlocked_native_dreadzone_input)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_input_callback_tests PRIVATE /W4 /WX /fp:precise)
+    endif()
+    add_test(NAME native_dreadzone_input_callback COMMAND deadlocked_native_dreadzone_input_callback_tests)
     add_executable(deadlocked_native_scene_tests tests/scene_tests.cpp)
     target_link_libraries(deadlocked_native_scene_tests PRIVATE deadlocked_native_scene)
     add_test(NAME native_scene_validation COMMAND deadlocked_native_scene_tests)
