@@ -8,11 +8,13 @@
 #define REMAP 0x00601000U
 static u8 tables[0x20002],globals[0x102],dispatch[0x1002],data[0x10002];
 static u8 textures[0x1002],remap[0x102],info[0x102],other[0x20002],late[0x10002];
-static DreadzoneTableView views[9];
+static DreadzoneTableView views[11];
 static DreadzoneTableContext context;
 static void put32(u8 *p,u32 value) { memcpy(p,&value,4); }
 static u32 get32(const u8 *p) { u32 value; memcpy(&value,p,4); return value; }
 static u16 get16(const u8 *p) { u16 value; memcpy(&value,p,2); return value; }
+static void put64(u8 *p,u64 value) { memcpy(p,&value,8); }
+static u64 get64(const u8 *p) { u64 value; memcpy(&value,p,8); return value; }
 static void fixture(void) {
     u32 i;
     memset(tables,0xA5,sizeof(tables)); memset(globals,0,sizeof(globals));
@@ -80,7 +82,8 @@ static void relocation_checks(void) {
     REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP,9)==DREADZONE_TABLE_COMPLETED);
     REQUIRE(get32(data+1+0x48)==DATA+0x200 && get32(data+1+0x4C)==0x220);
     REQUIRE(data[1+0x47]==255 && tables[1+0xEFB0]==0xA5 && get32(globals+1+0x18)==1);
-    fixture(); definition(); put32(data+1,0x1000);
+    fixture(); definition(); put32(data+1,0x1000); data[1+4]=1;
+    put32(data+1+0x1000,0x02000000); put32(data+1+0x1004,0x00040004);
     memcpy(before,data,sizeof(data));
     REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP,9)==DREADZONE_TABLE_NEEDS_GEOMETRY);
     REQUIRE(memcmp(before,data,sizeof(data))==0 && get32(globals+1+0x18)==0 && tables[1+0xB590+9]==0xA5);
@@ -97,6 +100,67 @@ static void relocation_checks(void) {
     fixture(); data[1+0x47]=255;
     REQUIRE(dreadzone_class_relocate_definition(&context,DATA,0,0,-1)==DREADZONE_TABLE_COMPLETED);
     REQUIRE(data[1+0x47]==0);
+}
+static void geometry_publication_checks(void) {
+    u8 *d=data+1,*packet;
+    u64 first=0x0123456789ABCDEFULL,second=0xC,third=0xFEDCBA9876543210ULL;
+    u32 i;
+    fixture(); definition(); d[4]=1; put32(d,0x1000);
+    put32(d+0x1000,0x2000); put32(d+0x1004,0x00040004);
+    /* Auxiliary count2 must not replace the initial geometry count1. */
+    put32(d+0x1014,0xABCD5555);
+    packet=d+0x2000; memset(packet,0xCD,64);
+    put32(packet,2); put32(packet+4,3); put32(packet+0x10,4); put32(packet+0x14,5); put32(packet+0x20,0);
+    put64(tables+1+0x99A0+20*24,first);
+    put64(tables+1+0x99A0+20*24+8,second);
+    put64(tables+1+0x99A0+20*24+16,third);
+    REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP,9)==DREADZONE_TABLE_COMPLETED);
+    REQUIRE(get32(d)==DATA+0x1000 && get32(d+0x1000)==DATA+0x2000);
+    REQUIRE(get32(d+0x1004)==4 && get32(d+0x1014)==0xABCD5555);
+    REQUIRE(get64(packet)==(((u64)2<<32)|((u64)3<<6)|0x20|(second&0x1C)));
+    REQUIRE(get64(packet+0x10)==(4|((u64)5<<2)|((u64)20<<24)));
+    REQUIRE(get64(packet+0x20)==first && get64(packet+0x30)==third);
+    for(i=0;i<4;i++) REQUIRE(get64(packet+i*16+8)==0xCDCDCDCDCDCDCDCDULL);
+    REQUIRE(d[0x47]==0 && get32(globals+1+0x18)==1 && get32(tables+1+0xAA40)==DATA);
+    REQUIRE(data[0]==0 && data[sizeof(data)-1]==0);
+}
+static void auxiliary_reload_checks(void) {
+    u8 *d=data+1;
+    u8 relocated[10]={0xD3,0,0,0,0,0x30,0,0,0,0x7C};
+    fixture(); definition();
+    d[8]=1; d[0xC]=8; put32(d+0x48,0xFFFFFFF8U); put32(d+0x10,0);
+    /* auxiliary=definition-8: its +0x14 relocation changes the count word
+     * from8 to definition. The reloaded low byte0 ends the retail loop. */
+    REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP,9)==DREADZONE_TABLE_COMPLETED);
+    REQUIRE(get32(d+0xC)==DATA && get32(d+0x4C)==0x220);
+    REQUIRE(get32(d+0x218)==0x40 && get32(d+0x240)==0x10);
+    fixture(); definition(); d[8]=1; d[0xC]=1;
+    put32(d+0x218,0x18);
+    /* The first record aliases auxiliary+0x18 and relocates its pointer
+     * again. Retail reloads that pointer before visiting the second word. */
+    views[9]=(DreadzoneTableView){0x00800418,8,relocated+1};
+    context.view_count=10;
+    REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP,9)==DREADZONE_TABLE_COMPLETED);
+    REQUIRE(get32(d+0x218)==0x00800418 && get32(d+0x21C)==DATA+0x260);
+    REQUIRE(get32(relocated+5)==DATA+0x230);
+    REQUIRE(relocated[0]==0xD3 && relocated[9]==0x7C);
+}
+static void list_pointer_reload_checks(void) {
+    u8 *d=data+1;
+    u8 relocated[14]={0xD3,0,0,0,0,0,0,0,0,0x30,0,0,0,0x7C};
+    u8 unused[18]={0xD3,255,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x80,0x7C};
+    fixture(); definition();
+    put32(d+0x18,2-DATA); put32(d+0x1C,0x18); put32(d+0x20,0);
+    views[9]=(DreadzoneTableView){0x00800018,12,relocated+1};
+    views[10]=(DreadzoneTableView){0x00800000,16,unused+1};
+    context.view_count=11;
+    /* The first item is the list pointer itself. The second iteration must
+     * reload its new value, and must leave definition+0x20 untouched. */
+    REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP,9)==DREADZONE_TABLE_COMPLETED);
+    REQUIRE(get32(d+0x18)==2 && get32(d+0x1C)==0x00800018 && get32(d+0x20)==0);
+    REQUIRE(get32(relocated+9)==DATA+0x30);
+    REQUIRE(get32(unused+13)==0x80000000U);
+    REQUIRE(relocated[0]==0xD3 && relocated[13]==0x7C && unused[0]==0xD3 && unused[17]==0x7C);
 }
 static void texture_checks(void) {
     u8 *d=data+1;
@@ -124,7 +188,7 @@ static void reset_checks(void) {
     REQUIRE(get32(tables+1+0xB590)==0xA5A5A5A5U);
 }
 int main(void) {
-    publication_checks(); relocation_checks(); texture_checks(); reset_checks();
+    publication_checks(); relocation_checks(); texture_checks(); reset_checks(); geometry_publication_checks(); auxiliary_reload_checks(); list_pointer_reload_checks();
     puts("Dreadzone actual class table publication and relocation checks passed.");
     return 0;
 }

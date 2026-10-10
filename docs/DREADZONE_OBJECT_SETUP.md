@@ -418,5 +418,15 @@ This validates the exercised slice, not the unexecuted model or cleanup paths.
 All three sources compile and pass relocation resolution, but remain nonmatching:
 initializer 872/880 bytes, environment 84 plus padding versus 88, and packer 32/32
 with instruction differences. These are draft diagnostics outside coverage.
-Real nonzero model allocation/compaction, class-table producers and vector/DMA
-model processing still need recovery before this slice can initialize a player.
+The subsequent model-pool and class-producer libraries now execute nonzero
+allocation, release, compaction, publication and relocation. Relocation also
+constructs geometry packet words through recovered CPU packing routines. They
+retain guest32 pointers and validate mapped inputs before mutation. See
+`native/dreadzone_model_pool.h`, `native/dreadzone_class_tables.h` and
+`native/dreadzone_geometry.h` for the supported domains.
+
+The initializer's nonzero-model branch still requires the real transformation
+path `0058A648` and its VU/DMA dependencies. Those operations are not replaced by
+successful captures. The larger constructor and frame loop also remain
+outstanding, so these libraries do not yet initialize or render a playable
+character.
