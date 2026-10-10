@@ -15,14 +15,15 @@ prove a later one. Emulator tests are optional reference checks.
 
 ## Current verified checkpoint
 
-- 273 matching functions, 0.532% of counted code, including open-source libraries.
-- 222 game functions pass exact linking: 145 resident and 77 overlay functions.
-- Resident reconstruction replaces 10,272 bytes with exact compiled C. The whole
+- 274 matching functions, 0.532% of counted code, including open-source libraries.
+- 223 game functions pass exact linking: 146 resident and 77 overlay functions.
+- Resident reconstruction replaces 10,280 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Thirty-four Python regression tests and all five native CTest checks pass.
-- Thirteen recovered functions compile and execute in Windows x64 test targets.
-  Fixtures capture unrecovered command and request handlers and map byte filling
-  to CRT memset. No native
+- Thirty-four Python regression tests and all six native CTest checks pass.
+- Fourteen matching functions compile and execute in Windows x64 test targets.
+  A separate target also executes the experimental nonmatching request handler
+  together with the actual queue. Fixtures capture unrecovered command handlers
+  and map byte filling to CRT memset. No native
   game update loop, game boot, or campaign play has been verified.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
   render natively, using 86 shared object models and 440 textures. Hardware and
@@ -291,3 +292,28 @@ prove a later one. Emulator tests are optional reference checks.
   experimental analysis remain ignored/local.
 - The matching checkpoint remains 273 audited functions / 222 exactly linked
   game functions. Work stays on the local fork; nothing has been pushed.
+
+## 2026-10-10 — Request preflight on the native host
+
+- Recovered the `0047F568` request-handler algorithm as a typed draft, including
+  four ordered rejection codes, object gating, eight-slot snapshots and payload
+  assignment. The fifth argument is an optional completion-byte pointer. Its
+  508-byte PS2 output still differs from the 512-byte original, so it stays in
+  `nonmatching/` and outside accepted matching coverage.
+- Recovered its only callee, `00465C08`, as exact C. It reads the scalar at
+  `0021DAE0` without arguments. Its eight bytes pass exact linking.
+- Added a separate native target for the experimental handler. It executes real
+  queue dispatch and the matched state reader, rather than a request-handler
+  stub. Tests pass for success/refusal precedence, history capacity, unchanged
+  rejected payloads, host pointer width, float zero/NaN object gates, scan bounds
+  and queue reset after a pending request rejects a later dispatch. Native alias
+  pairs share one scalar storage location. The target substitutes only CRT byte
+  filling and does not execute the request consumer or claim a campaign boot.
+- Re-expressed Dreadzone's observed scalar fields through their shared base at
+  `00172160`, with compile-time field-offset checks. Its draft now uses the same
+  112-byte stack frame as retail, but produces 4,424 versus 4,584 bytes and still
+  fails comparison. Source-form and mixed-address experiments remain local.
+- All six native tests pass. The global audit has 274 exact functions, and 223
+  game functions pass exact linking with zero mismatches or object failures.
+  Resident reconstruction inserts 146 functions / 10,280 bytes and equals retail.
+  Source and documentation remain local; nothing has been pushed.

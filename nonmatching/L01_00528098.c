@@ -1,7 +1,7 @@
 /* cflags: -mno-split-addresses */
 /* Dreadzone Station entry 0x00528098, retail extent 0x11E8 bytes.
- * NONMATCHING: SN GCC currently produces 4452 bytes, versus 4584 in retail.
- * Stack size (0x80 versus 0x70), register allocation, mixed GP/absolute global
+ * NONMATCHING: SN GCC currently produces 4424 bytes, versus 4584 in retail.
+ * Stack size now agrees at 0x70. Register allocation, mixed GP/absolute global
  * accesses and block scheduling differ. Several callee signatures remain
  * inferred and must be reviewed against their bodies before acceptance.
  *
@@ -16,6 +16,25 @@
  * bytes remain unspecified. No campaign execution or native gameplay is claimed.
  */
 #include "common.h"
+
+typedef struct EntryBlock172160 {
+    u8 pad0[0x8];
+    s32 f8;
+    u8 padC[0x14];
+    s32 f20;
+    u8 pad24[0x1F4];
+    s32 f218;
+    u8 pad21C[0x34];
+    u8 f250;
+    u8 pad251[0x3];
+    s32 f254;
+    s32 f258;
+    s32 f25C;
+    u8 pad260[0x594];
+    s32 f7F4;
+    u8 f7F8;
+} EntryBlock172160;
+extern EntryBlock172160 D_00172160_[];
 
 typedef struct EntryRow304 {
     u8 pad0[0x300]; u8 f300; u8 pad301[3];
@@ -48,26 +67,17 @@ extern u8 D_00171BA4_[];
 #define D_00171BA4 (D_00171BA4_[0])
 extern s32 D_00171D38_[];
 #define D_00171D38 (D_00171D38_[0])
-extern s32 D_00172168_[];
-#define D_00172168 (D_00172168_[0])
-extern s32 D_00172180_[];
-#define D_00172180 (D_00172180_[0])
-extern s32 D_00172378_[];
-#define D_00172378 (D_00172378_[0])
-extern u8 D_001723B0_[];
-#define D_001723B0 (D_001723B0_[0])
-extern s32 D_001723B4_[];
-#define D_001723B4 (D_001723B4_[0])
-extern s32 D_001723B8_[];
-#define D_001723B8 (D_001723B8_[0])
-extern s32 D_001723BC_[];
-#define D_001723BC (D_001723BC_[0])
+#define D_00172168 (D_00172160_[0].f8)
+#define D_00172180 (D_00172160_[0].f20)
+#define D_00172378 (D_00172160_[0].f218)
+#define D_001723B0 (D_00172160_[0].f250)
+#define D_001723B4 (D_00172160_[0].f254)
+#define D_001723B8 (D_00172160_[0].f258)
+#define D_001723BC (D_00172160_[0].f25C)
 extern u8 D_00172829[];
 extern s32 D_0017292C[];
-extern s32 D_00172954_[];
-#define D_00172954 (D_00172954_[0])
-extern u8 D_00172958_[];
-#define D_00172958 (D_00172958_[0])
+#define D_00172954 (D_00172160_[0].f7F4)
+#define D_00172958 (D_00172160_[0].f7F8)
 extern s16 D_001DFC48_[];
 #define D_001DFC48 (D_001DFC48_[0])
 extern s16 D_001DFC4A_[];
@@ -172,6 +182,15 @@ typedef char check_state1A6[ENTRY_OFFSET(EntryState, f1A6) == 0x1A6 ? 1 : -1];
 typedef char check_record2F10[ENTRY_OFFSET(EntryRecord31F0, f2F10) == 0x2F10 ? 1 : -1];
 typedef char check_record2F28[ENTRY_OFFSET(EntryRecord31F0, f2F28) == 0x2F28 ? 1 : -1];
 typedef char check_payload6[ENTRY_OFFSET(EntryPayload20, f6) == 6 ? 1 : -1];
+typedef char check_block8[ENTRY_OFFSET(EntryBlock172160, f8) == 0x8 ? 1 : -1];
+typedef char check_block20[ENTRY_OFFSET(EntryBlock172160, f20) == 0x20 ? 1 : -1];
+typedef char check_block218[ENTRY_OFFSET(EntryBlock172160, f218) == 0x218 ? 1 : -1];
+typedef char check_block250[ENTRY_OFFSET(EntryBlock172160, f250) == 0x250 ? 1 : -1];
+typedef char check_block254[ENTRY_OFFSET(EntryBlock172160, f254) == 0x254 ? 1 : -1];
+typedef char check_block258[ENTRY_OFFSET(EntryBlock172160, f258) == 0x258 ? 1 : -1];
+typedef char check_block25C[ENTRY_OFFSET(EntryBlock172160, f25C) == 0x25C ? 1 : -1];
+typedef char check_block7F4[ENTRY_OFFSET(EntryBlock172160, f7F4) == 0x7F4 ? 1 : -1];
+typedef char check_block7F8[ENTRY_OFFSET(EntryBlock172160, f7F8) == 0x7F8 ? 1 : -1];
 #undef ENTRY_OFFSET
 
 typedef char check_row304[sizeof(EntryRow304) == 0x304 ? 1 : -1];

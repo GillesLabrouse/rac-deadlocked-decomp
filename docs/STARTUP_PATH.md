@@ -64,10 +64,22 @@ routines. The queue has ten eight-byte items, read/write indices at offsets
 | `0045C990` | Removes one request, derives mode from state, calls `0047F568`, and resets the queue on a negative result. |
 
 All five functions match exactly after linking and execute as recovered C in a
-native test. The native fixture maps byte filling to CRT `memset` and captures
-the unrecovered request handler. It does not assign gameplay meanings to requests
+native test. The queue-only fixture maps byte filling to CRT `memset` and captures
+the request handler. It does not assign gameplay meanings to requests
 or simulate their effects. The handler's fifth parameter is an optional pointer;
 this caller supplies null.
+
+The experimental `nonmatching/0047F568.c` now implements observed request
+preflight, object gating, previous-state snapshots and parameter assignment.
+Its only call is the exactly matched `00465C08`, which reads `0021DAE0` without
+arguments. Rejection codes `-1`, `-2`, `-3` and `-4` can override earlier failures
+in that order. Only successful preflight changes the pending request and payload;
+the optional completion byte is cleared even when the request fails.
+
+A separate native target executes this draft together with the actual queue,
+including snapshot capacity and rejection/reset cases. The 508-byte output still
+differs from retail's 512 bytes, so it is excluded from accepted matching sources.
+Those tests do not execute the consumer of the pending request or enter a level.
 
 ## Campaign entry draft and level bindings
 
@@ -98,8 +110,10 @@ initializes a scalar at offset zero and the byte value eight at offset six; its 
 bytes stay unspecified. An observed call passing six floating-point and six
 integer arguments also requires explicit ABI handling in the decompiler input.
 
-SN GCC produces 4,452 bytes against the entry's 4,584 retail bytes. The comparison
-fails: stack size, register allocation, mixed GP/absolute global accesses, block
+SN GCC now produces 4,424 bytes against the entry's 4,584 retail bytes. Expressing
+observed scalar fields through their shared base at `00172160` restores the
+original 112-byte stack frame; compile-time checks preserve every field offset.
+The comparison still fails: register allocation, mixed GP/absolute global accesses, block
 scheduling and provisional callee signatures still need work. The draft is outside
 `src/`, excluded from progress coverage, and unsuitable for a native build.
 

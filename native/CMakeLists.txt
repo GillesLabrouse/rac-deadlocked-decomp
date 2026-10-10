@@ -15,6 +15,7 @@ add_library(deadlocked_native_core STATIC
     ../src/game/0045CB88.c
     ../src/game/0045C768.c
     ../src/game/0045C8C8.c
+    ../src/game/00465C08.c
 )
 target_include_directories(deadlocked_native_core PUBLIC include)
 target_compile_features(deadlocked_native_core PUBLIC c_std_11)
@@ -40,6 +41,13 @@ if(BUILD_TESTING)
     add_executable(deadlocked_native_queue_tests tests/queue_tests.c)
     target_link_libraries(deadlocked_native_queue_tests PRIVATE deadlocked_native_core)
     add_test(NAME native_startup_queue COMMAND deadlocked_native_queue_tests)
+    # The handler remains nonmatching; keep its host experiment separate from
+    # the accepted matching core and from the scene viewer's product runtime.
+    add_executable(deadlocked_native_request_tests tests/request_tests.c
+        ../nonmatching/0047F568.c)
+    target_compile_definitions(deadlocked_native_request_tests PRIVATE DEADLOCKED_NATIVE=1)
+    target_link_libraries(deadlocked_native_request_tests PRIVATE deadlocked_native_core)
+    add_test(NAME native_request_draft COMMAND deadlocked_native_request_tests)
     add_executable(deadlocked_native_scene_tests tests/scene_tests.cpp)
     target_link_libraries(deadlocked_native_scene_tests PRIVATE deadlocked_native_scene)
     add_test(NAME native_scene_validation COMMAND deadlocked_native_scene_tests)

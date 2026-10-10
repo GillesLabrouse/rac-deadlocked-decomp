@@ -24,7 +24,7 @@ The launcher also forwards command-line options for repeatable captures:
 
 ## Verified first step
 
-`native/CMakeLists.txt` builds a native static library from thirteen recovered game
+`native/CMakeLists.txt` builds a native static library from fourteen recovered game
 functions in `src/core` and `src/game`, without retail machine code or PS2 toolchain inputs.
 An explicit source list excludes platform startup, drivers, and address-dependent code
 that cannot run unchanged on a host. The original matching header remains intact.
@@ -189,7 +189,8 @@ source passes a native test with signed boundary values and full-layout checks.
 Its eight slots have not been assigned a gameplay interpretation.
 
 The native core library includes this routine, five recovered queue routines,
-and the original seven isolated helpers. The renderer does not yet invoke the recovered startup/update
+the original seven isolated helpers, and the matched `00465C08` state reader.
+The renderer does not yet invoke the recovered startup/update
 chain. Tests of parameter initialization prove this routine's behavior, not boot
 of the native game.
 
@@ -201,12 +202,36 @@ and pass both exact PS2 linking and native behavioral tests. The latter check
 capacity, wraparound, lock transitions, untouched empty-pop outputs, request
 arguments, all signed state boundaries, and reset after handler errors.
 
-The host fixture substitutes CRT `memset` for the unrecovered PS2 vectorized
+The queue-only fixture substitutes CRT `memset` for the unrecovered PS2 vectorized
 byte filler. It captures the `0047F568` handler boundary and supplies test results;
 it does not implement that handler's game behavior. The queue's request identifiers
 and connection to gameplay still need interpretation. Its native test is separate
 from the scenery renderer. See [the startup path](STARTUP_PATH.md) for verified
 entry points and the remaining dependency chain.
+
+## Experimental request preflight and dispatch
+
+The separate `deadlocked_native_request_tests` target links the recovered queue
+to `nonmatching/0047F568.c`, a typed draft of its real handler. It runs the
+accepted `00465C08` state reader rather than replacing that call with a fixture.
+The matching core and scenery viewer exclude the handler draft.
+
+The test exercises accepted requests, all four rejection codes and their
+precedence, eight-slot state history, untouched state after rejection, optional
+completion-byte clearing, and preservation of a full-width host pointer. It also
+checks zero, negative zero and NaN in the observed object field, the object scan
+boundary, and queue reset when a pending request rejects a later dispatch.
+Request and state identifiers still have no assigned gameplay meanings.
+
+PS2 GP and absolute aliases refer to the same storage. The host test explicitly
+maps each such pair to one scalar; it does not create independent copies.
+Fixtures supply valid internal table indices and history counts. The only
+substituted boundary in this target is the existing CRT byte filler.
+
+The handler compiles to 508 bytes versus 512 in retail and fails comparison.
+These native tests validate observed cases, not full semantic equivalence, game
+boot or campaign play. Its algorithm stays outside accepted `src/` and matching
+coverage while recovery continues. All six native CTest checks currently pass.
 
 ## Priorities toward the beginning of the game
 
