@@ -228,6 +228,11 @@ class RetailIntegerCPU:
                     self._put(rd, int(a < b))
                 elif function == 45:
                     self._put(rd, a + b)
+                elif function == 46:
+                    difference = signed(a, 64) - signed(b, 64)
+                    if not -(1 << 63) <= difference < (1 << 63):
+                        raise IntegerCPUError(f"Signed DSUB overflow at {pc:08X}; exception handlers are outside this oracle")
+                    self._put(rd, difference)
                 elif function == 52:
                     if a == b:
                         raise IntegerTrap(f"TEQ at {pc:08X}")
@@ -302,10 +307,21 @@ class RetailIntegerCPU:
                         bits ^= MASK32
                     result |= (31 - bits.bit_length()) << (i * 32)
                 self._put(rd, result)
+            elif op == 28 and (word & 63) in (60, 62, 63):
+                # Word shifts operate on all four independent lanes of rt.
+                source = self.registers[rt]
+                function = word & 63
+                result = 0
+                for lane in range(4):
+                    value = (source >> (lane * 32)) & MASK32
+                    value = (value << shift if function == 60 else
+                             value >> shift if function == 62 else signed(value, 32) >> shift)
+                    result |= (value & MASK32) << (lane * 32)
+                self._put_quad(rd, result)
             elif op == 28 and (word & 63, shift) in (
                     (8, 26), (8, 22), (8, 18), (8, 25), (8, 3), (8, 1),
-                    (8, 23), (40, 3),
-                    (9, 14), (9, 31), (41, 14), (41, 18)):
+                    (8, 23), (8, 27), (8, 0), (8, 5), (40, 3),
+                    (9, 14), (9, 31), (41, 14), (41, 18), (41, 27)):
                 left, right = self.registers[rs], self.registers[rt]
                 function = word & 63
                 if function == 8 and shift in (26, 22, 18):
@@ -322,12 +338,24 @@ class RetailIntegerCPU:
                     # PSUBW wraps each word independently, without saturation.
                     result = sum((((left >> (lane * 32)) - (right >> (lane * 32)))
                                   & MASK32) << (lane * 32) for lane in range(4))
+                elif function == 8 and shift == 0:
+                    result = sum((((left >> (lane * 32)) + (right >> (lane * 32)))
+                                  & MASK32) << (lane * 32) for lane in range(4))
+                elif function == 8 and shift == 5:
+                    result = sum((((left >> (lane * 16)) - (right >> (lane * 16)))
+                                  & 65535) << (lane * 16) for lane in range(8))
                 elif function == 8 and shift == 23:
                     # PPACH retains the low halfword of each word: rt, then rs.
                     result = sum(((source >> (lane * 32)) & 65535)
                                  << ((lane + group * 4) * 16)
                                  for group, source in enumerate((right, left))
                                  for lane in range(4))
+                elif function == 8 and shift == 27:
+                    # PPACB retains the low byte of each halfword: rt, then rs.
+                    result = sum(((source >> (lane * 16)) & 255)
+                                 << ((lane + group * 8) * 8)
+                                 for group, source in enumerate((right, left))
+                                 for lane in range(8))
                 elif function == 40:
                     result = sum((min(signed(left >> (lane * 32), 32),
                                       signed(right >> (lane * 32), 32)) & MASK32)
@@ -344,6 +372,11 @@ class RetailIntegerCPU:
                     result = (right & MASK64) | ((left & MASK64) << 64)
                 elif shift == 18:
                     result = left | right
+                elif shift == 27:
+                    # PCPYH replicates rt halfwords 0 and 4 into each 64-bit half.
+                    result = sum(((right >> (group * 64)) & 65535)
+                                 << ((group * 4 + lane) * 16)
+                                 for group in range(2) for lane in range(4))
                 else:
                     result = (left >> 64) | ((right >> 64) << 64)
                 self._put_quad(rd, result)

@@ -1468,3 +1468,19 @@ prove a later one. Emulator tests are optional reference checks.
   physical VU state publication, animation update and renderer. Host binary32
   arithmetic remains explicitly approximate. The complete PS2 C draft5894F0
   is still absent. No animated or playable frame is claimed; nothing is pushed.
+
+## 2026-10-11 — Enable full terrain-stage instruction replay
+
+- Extended the shared bounded integer oracle with PPACB, PADDW, PSUBH,
+  PCPYH, PSLLW, PSRLW, PSRAW and checked signed DSUB. Packed operations
+  snapshot complete sources, preserve actual lane packing and wrap each lane
+  independently. DSUB refuses signed64 overflow after preserving preceding
+  effects, including when its destination is the zero register.
+- Root reviewed semantics against primary PCSX2 MMI and scalar instruction
+  sources. Seven synthetic test methods exercise literal lane order, aliases,
+  zero registers, wrap, all 32 shifts and signed64 boundaries/overflow.
+  Root's full 160-test Python suite passes in 2.447 seconds. All 58 independent
+  float-diagnostic checks still pass; shared class/run hooks remain unchanged.
+- This enables validation of the original packed terrain stage. It does not
+  implement a DMA backend, complete contact probe or playable frame. The
+  terrain composition remains in progress. Nothing is pushed.

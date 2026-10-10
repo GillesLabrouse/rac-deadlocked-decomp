@@ -80,6 +80,107 @@ class IntegerCPUTests(unittest.TestCase):
                 self.assertEqual(cpu.registers[destination], 0 if not destination else
                                  top | (MASK64 ^ (left | right)))
 
+    def test_dsub_signed_extremes_aliases_and_high_half_preservation(self):
+        minimum, maximum = -(1 << 63), (1 << 63) - 1
+        values = (minimum, minimum + 1, -1, 0, 1, maximum - 1, maximum)
+        top = 0xABCDEF0123456789 << 64
+        for left in values:
+            for right in values:
+                difference = left - right
+                if minimum <= difference <= maximum:
+                    for destination in (0, 1, 2, 3):
+                        with self.subTest(left=left, right=right, destination=destination):
+                            cpu, _ = self.execute([r(46, 1, 2, destination), r(8, 31), 0],
+                                                  {1: top | (left & MASK64),
+                                                   2: top | (right & MASK64), 3: top | 123})
+                            self.assertEqual(cpu.registers[destination], 0 if not destination else
+                                             top | (difference & MASK64))
+
+    def test_dsub_overflow_preserves_destination_and_preceding_effects(self):
+        cases = ((-(1 << 63), 1), ((1 << 63) - 1, -1),
+                 (0, -(1 << 63)), ((1 << 63) - 1, -(1 << 63)),
+                 (-(1 << 63), (1 << 63) - 1))
+        top = 0x9876543210ABCDEF << 64
+        for left, right in cases:
+            for destination in (0, 1, 2, 3):
+                initial = {1: top | (left & MASK64), 2: top | (right & MASK64),
+                           3: top | 42, 4: 0x2000, 5: 0xDEADBEEF}
+                words = {0x1000: i(43, 4, 5), 0x1004: r(46, 1, 2, destination)}
+                cpu = RetailIntegerCPU(words, IntegerMemory([(0x2000, bytes(4))]))
+                with self.subTest(left=left, right=right, destination=destination):
+                    with self.assertRaisesRegex(IntegerCPUError, 'DSUB overflow at 00001004'):
+                        cpu.run(0x1000, initial_registers=initial)
+                    self.assertEqual(cpu.registers[destination], initial.get(destination, 0))
+                    self.assertEqual(cpu.memory.read(0x2000, 4), 0xDEADBEEF)
+
+    def test_ppacb_selects_low_halfword_bytes_rt_then_rs(self):
+        left = int.from_bytes(bytes(range(0x10, 0x20)), 'little')
+        right = int.from_bytes(bytes(range(0xE0, 0xF0)), 'little')
+        expected = int.from_bytes(bytes.fromhex('E0 E2 E4 E6 E8 EA EC EE 10 12 14 16 18 1A 1C 1E'), 'little')
+        for source_left, source_right, result in ((1, 2, expected), (0, 2, expected & MASK64),
+                                                  (1, 0, expected & (MASK64 << 64)), (0, 0, 0)):
+            for destination in (0, 1, 2, 3):
+                cpu, _ = self.execute([(28 << 26) | r(8, source_left, source_right, destination, 27),
+                                       r(8, 31), 0], {1: left, 2: right, 3: (1 << 128) - 1})
+                self.assertEqual(cpu.registers[destination], result if destination else 0)
+
+    def test_pcpyh_replicates_halfwords_zero_and_four_and_ignores_rs(self):
+        right = int.from_bytes(bytes.fromhex('34 12 FF EE DD CC BB AA CD AB 11 22 33 44 55 66'), 'little')
+        expected = int.from_bytes(bytes.fromhex('34 12 34 12 34 12 34 12 CD AB CD AB CD AB CD AB'), 'little')
+        for source in (0, 2):
+            for destination in (0, 1, 2, 3):
+                cpu, _ = self.execute([(28 << 26) | r(41, 1, source, destination, 27), r(8, 31), 0],
+                                      {1: (1 << 128) - 1, 2: right, 3: 123})
+                self.assertEqual(cpu.registers[destination], expected if destination and source else 0)
+
+    def test_paddw_wraps_without_carries_between_words(self):
+        left = int.from_bytes(bytes.fromhex('FF FF FF FF 00 00 00 80 FF FF FF 7F 34 12 00 00'), 'little')
+        right = int.from_bytes(bytes.fromhex('01 00 00 00 00 00 00 80 01 00 00 00 CC ED FF FF'), 'little')
+        expected = 0x80000000 << 64
+        for source_left, source_right, result in ((1, 2, expected), (0, 2, right),
+                                                  (1, 0, left), (0, 0, 0),
+                                                  (1, 1, int.from_bytes(bytes.fromhex(
+                                                      'FE FF FF FF 00 00 00 00 FE FF FF FF 68 24 00 00'), 'little'))):
+            for destination in (0, 1, 2, 3):
+                cpu, _ = self.execute([(28 << 26) | r(8, source_left, source_right, destination, 0),
+                                       r(8, 31), 0], {1: left, 2: right, 3: 123})
+                self.assertEqual(cpu.registers[destination], result if destination else 0)
+
+    def test_psubh_wraps_without_borrows_between_halfwords(self):
+        left = int.from_bytes(bytes.fromhex('00 00 00 80 FF 7F FF FF 01 00 34 12 CD AB 00 00'), 'little')
+        right = int.from_bytes(bytes.fromhex('01 00 01 00 FF FF 00 80 FF FF 34 12 CD AB 00 00'), 'little')
+        expected = int.from_bytes(bytes.fromhex('FF FF FF 7F 00 80 FF 7F 02 00 00 00 00 00 00 00'), 'little')
+        negative_right = int.from_bytes(bytes.fromhex('FF FF FF FF 01 00 00 80 01 00 CC ED 33 54 00 00'), 'little')
+        for source_left, source_right, result in ((1, 2, expected), (0, 2, negative_right),
+                                                  (1, 0, left), (0, 0, 0), (1, 1, 0)):
+            for destination in (0, 1, 2, 3):
+                cpu, _ = self.execute([(28 << 26) | r(8, source_left, source_right, destination, 5),
+                                       r(8, 31), 0], {1: left, 2: right, 3: 123})
+                self.assertEqual(cpu.registers[destination], result if destination else 0)
+
+    def test_packed_word_shifts_all_counts_aliases_and_lane_signs(self):
+        lanes = (0x89ABCDEF, 0x7FFFFFFF, 0x80000000, 1)
+        source = sum(value << (lane * 32) for lane, value in enumerate(lanes))
+        for function in (60, 62, 63):
+            for shift in range(32):
+                expected_words = []
+                for value in lanes:
+                    if function == 60:
+                        expected_words.append((value * (2 ** shift)) % (2 ** 32))
+                    elif function == 62:
+                        expected_words.append(value // (2 ** shift))
+                    else:
+                        signed_value = value if value < 2 ** 31 else value - 2 ** 32
+                        expected_words.append((signed_value // (2 ** shift)) % (2 ** 32))
+                expected = int.from_bytes(b''.join(value.to_bytes(4, 'little') for value in expected_words), 'little')
+                for rt in (0, 2):
+                    for destination in (0, 1, 2, 3):
+                        with self.subTest(function=function, shift=shift, rt=rt, destination=destination):
+                            cpu, _ = self.execute([(28 << 26) | r(function, 1, rt, destination, shift),
+                                                   r(8, 31), 0],
+                                                  {1: (1 << 128) - 1, 2: source, 3: 123})
+                            self.assertEqual(cpu.registers[destination], expected if destination and rt else 0)
+
     def test_quad_copy_aligns_down_and_scalar_writes_retain_upper_64_bits(self):
         payload = bytes(range(16)) + bytes([0xCD] * 16)
         cpu, _ = self.execute([i(30, 1, 2, 3), i(9, 0, 2, -1), i(31, 1, 2, 31), r(8, 31), 0],
