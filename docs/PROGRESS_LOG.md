@@ -1664,3 +1664,16 @@ prove a later one. Emulator tests are optional reference checks.
   is not controllable. Original-clock preview integration and the primary
   capsule continue in parallel. No matching acceptance or playable frame is
   claimed; generated assets and private proofs remain ignored. Nothing pushed.
+
+## 2026-10-11 — Validate packed AND for capsule replay
+
+- Added PAND to the scoped integer oracle after reviewing the primary PCSX2
+  R5900 implementation. Both full 128-bit sources are captured before the
+  destination write; the zero register and HI/LO remain unchanged.
+- Authored cases check each bit from 0 through 127 against full/complement/self
+  masks, literal mixed-lane expectations, zero sources and all destination
+  aliases. All 171 Python tests pass in 2.337 seconds. This enables the actual
+  capsule/tree path to execute in validation; it adds no native player behavior.
+- The preceding static-body integration proof finished before this oracle
+  change and retains its recorded input hashes. The new capsule replay uses
+  the new frozen oracle. Nothing is pushed.

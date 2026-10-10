@@ -245,6 +245,26 @@ class IntegerCPUTests(unittest.TestCase):
                         expected = ((initial.get(destination, 0) >> 64) << 64) | (signed_result & MASK64)
                         self.assertEqual(cpu.registers[destination], expected if destination else 0)
 
+    def test_pand_full_register_bits_aliases_and_zero_sources(self):
+        full = (1 << 128) - 1
+        fixtures = [(1, 2, 0xFF00FF00FF00FF00FF00FF00FF00FF00,
+                     0xF0F0F0F0F0F0F0F0F0F0F0F0F0F0F0F0,
+                     0xF000F000F000F000F000F000F000F000),
+                    (0, 2, full, full, 0), (1, 0, full, full, 0),
+                    (0, 0, full, full, 0)]
+        for bit in range(128):
+            single = 1 << bit
+            fixtures.extend(((1, 2, single, full, single),
+                             (1, 2, single, full-single, 0),
+                             (1, 1, single, full, single)))
+        for rs, rt, left, right, expected in fixtures:
+            for destination in (0, 1, 2, 3):
+                with self.subTest(rs=rs, rt=rt, left=left, destination=destination):
+                    cpu, _ = self.execute([(28 << 26) | r(9, rs, rt, destination, 18),
+                                           r(8, 31), 0], {1: left, 2: right, 3: full})
+                    self.assertEqual(cpu.registers[destination], expected if destination else 0)
+                    self.assertEqual((cpu.hi, cpu.lo), (0, 0))
+
     def test_pmulth_all_accumulator_lanes_even_destination_aliases_and_zero(self):
         left = int.from_bytes(struct.pack('<8h', -32768, -1, 0, 1, 32767, -123, 2345, -32768), 'little')
         right = int.from_bytes(struct.pack('<8h', -32768, -1, 32767, -2, 32767, 321, -777, 1), 'little')

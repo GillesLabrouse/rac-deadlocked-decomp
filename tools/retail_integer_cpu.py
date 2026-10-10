@@ -327,7 +327,7 @@ class RetailIntegerCPU:
             elif op == 28 and (word & 63, shift) in (
                     (8, 26), (8, 22), (8, 18), (8, 25), (8, 3), (8, 1),
                     (8, 23), (8, 27), (8, 0), (8, 5), (40, 3), (40, 18), (40, 1),
-                    (9, 14), (9, 31), (9, 28), (41, 14), (41, 18), (41, 27)):
+                    (9, 14), (9, 18), (9, 31), (9, 28), (41, 14), (41, 18), (41, 27)):
                 left, right = self.registers[rs], self.registers[rt]
                 function = word & 63
                 if function == 8 and shift in (26, 22, 18):
@@ -380,6 +380,9 @@ class RetailIntegerCPU:
                     result = sum((max(signed(left >> (lane * 32), 32),
                                       signed(right >> (lane * 32), 32)) & MASK32)
                                  << (lane * 32) for lane in range(4))
+                elif function == 9 and shift == 18:
+                    # PAND snapshots both complete source registers before rd.
+                    result = left & right
                 elif function == 9 and shift == 28:
                     # PMULTH writes every signed halfword product to HI/LO,
                     # and the even products to rd, including aliased sources.
