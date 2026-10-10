@@ -14,6 +14,9 @@ enum DreadzoneActorParameterResult {
  * blocks separated byB0 bytes, preserving their remaining storage and all
  * other actor fields. The six retail global reads are supplied as one stable
  * mode word; concurrent mode changes are outside this bounded host domain.
- * This is a constructor dependency, not a complete actor constructor. */
+ * The backing pointer and mode are retained before writes, permitting a
+ * readable caller descriptor inside the destination. Numeric host wrapping
+ * is rejected before access. This is a constructor dependency, not a complete
+ * actor constructor. */
 int dreadzone_actor_00669A20(const DreadzoneActorParameterView *);
 #endif

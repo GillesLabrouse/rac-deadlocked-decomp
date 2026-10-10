@@ -33,7 +33,7 @@ static void parameter_float(u8 *p,f32 value) {
     copy.f=value;
     p[0]=(u8)copy.bits; p[1]=(u8)(copy.bits>>8); p[2]=(u8)(copy.bits>>16); p[3]=(u8)(copy.bits>>24);
 }
-#define MODE host->mode_0021E824
+#define MODE mode
 #define PARAMETER(offset,id,flag,a,b) do { \
     parameter_half(record+(offset),(s16)(id)); \
     parameter_half(record+(offset)+2,(s16)(flag)); \
@@ -43,10 +43,14 @@ static void parameter_float(u8 *p,f32 value) {
 } while(0)
 int dreadzone_actor_00669A20(const DreadzoneActorParameterView *host) {
     u8 *record;
-    if(!host || !host->record || host->record_bytes<0x31F0 || (host->record_guest&3) ||
-       host->record_guest>0xFFFFFFFFU-(host->record_bytes-1))
+    s32 mode;
+    if(!host || (uintptr_t)host>UINTPTR_MAX-(sizeof(*host)-1) ||
+       !host->record || host->record_bytes<0x31F0 || (host->record_guest&3) ||
+       host->record_guest>0xFFFFFFFFU-(host->record_bytes-1) ||
+       (uintptr_t)host->record>UINTPTR_MAX-(host->record_bytes-1))
         return DREADZONE_ACTOR_PARAMETERS_INVALID_STORAGE;
     record=host->record;
+    mode=host->mode_0021E824;
 #else
 extern volatile s32 D_0021E824;
 #define MODE D_0021E824

@@ -37,11 +37,23 @@ int main(void) {
         for(i=0;i<sizeof(backing);i++) CHECK(backing[i]==expected[i]);
     }
     memcpy(expected,backing,sizeof(backing));
+    CHECK(dreadzone_actor_00669A20((const DreadzoneActorParameterView *)(UINTPTR_MAX-3))==-1);
+    view.record=(u8 *)(UINTPTR_MAX-0x100); view.record_guest=0x368F60;
+    view.record_bytes=0x31F0; CHECK(dreadzone_actor_00669A20(&view)==-1);
+    view.record=backing+16;
     view.record_bytes=0x31EF; CHECK(dreadzone_actor_00669A20(&view)==-1);
     view.record_bytes=0x31F0; view.record_guest=0x368F61; CHECK(dreadzone_actor_00669A20(&view)==-1);
     view.record_guest=0xFFFFD000; CHECK(dreadzone_actor_00669A20(&view)==-1);
     view.record_guest=0x368F60; view.record=0; CHECK(dreadzone_actor_00669A20(&view)==-1);
     CHECK(dreadzone_actor_00669A20(0)==-1);
+    for(i=0;i<sizeof(backing);i++) CHECK(backing[i]==expected[i]);
+    /* This descriptor's mode word sits at the second float of prefix1100.
+     * The initial mode must survive that store for all later prefixes. */
+    view.record=backing+16; view.record_guest=0x368F60;
+    view.record_bytes=0x31F0; view.mode_0021E824=1;
+    memcpy(backing+16+0x10F8,&view,sizeof(view));
+    oracle(1,16);
+    CHECK(dreadzone_actor_00669A20((const DreadzoneActorParameterView *)(backing+16+0x10F8))==0);
     for(i=0;i<sizeof(backing);i++) CHECK(backing[i]==expected[i]);
     printf("Actor parameters: %u checks, %u failures. All288 written bytes and untouched record/guards verified.\n",checks,failures);
     return failures?1:0;

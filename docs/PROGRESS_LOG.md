@@ -800,3 +800,14 @@ prove a later one. Emulator tests are optional reference checks.
 - All123 Python tests pass. Inventory work now reuses these tested operations
   rather than adding a separate instruction interpreter. This tool change
   neither supplies retail data nor implements a game or hardware callee.
+
+## 2026-10-10 — Retained actor parameter inputs
+
+- Review found that a caller descriptor inside a parameter prefix could lose
+  its stable mode before later prefixes read it. The native entry now retains
+  the backing pointer and mode before mutation and rejects numeric host spans
+  that wrap before dereferencing them. PS2 code is unchanged.
+- The new regression places the mode inside prefix1100; full output and guards
+  agree. All3,315,048 focused native checks pass, and a freshly rebuilt DLL
+  still agrees across512 original-instruction cases and95,104 instructions.
+  Fake wrapping descriptor/backing pointers are refused without access.
