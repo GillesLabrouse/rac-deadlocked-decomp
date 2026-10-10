@@ -771,3 +771,22 @@ prove a later one. Emulator tests are optional reference checks.
 - Result `CPU_EFFECT_PREPARED` is distinct from the PS2 return0. No DMA, FIFO,
   synchronization or Direct3D upload has executed, and no complete texture load
   or playable frame is claimed. All work remains local and coverage unchanged.
+
+## 2026-10-10 — Complete CPU actor animation selection
+
+- Integrated `00688FE0` with its genuine `0058A8D8`, `0058B6B0` and existing
+  `0055D2D0` dependencies. The head clear precedes the next-pointer reload;
+  only the head is released, including when its old link was cyclic or self.
+- All12,596,504 native checks pass, covering four rounding modes, integer
+  frame bounds, full storage/guards, wrapping ranges and descriptor aliases.
+  Root rebuilt the differential DLL from current sources and repeated4,096
+  cases:237,568 original instructions and85 distinct instructions agree.
+- Root independently compiled and strictly linked all three PS2 drafts with
+  the default SN recipe. Setup176/176 and metadata32/32 remain nonmatching;
+  release104/104 is exact in the private diagnostic. Its canonical accepted
+  overlay identity has not been resolved, so no matching coverage is added.
+  Removed misleading extra-flag comments: the proof uses default flags.
+- All thirty-four native CTest checks pass together under MSVC Release
+  /W4 /WX. This selects animation data and initializes fields; it does not
+  play an animation, transform a model or complete a playable actor. The
+  constructor, inventory grants and model transformations remain in progress.

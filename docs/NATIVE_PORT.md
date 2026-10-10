@@ -498,6 +498,16 @@ preparation; it differs from the original `00575180` hardware return value.
 The complete PS2 wrapper preserves all eight real calls but remains nonmatching.
 The native adapter does not execute those calls or mark a class texture loaded.
 
+The complete CPU animation setup `00688FE0` executes its actual node release
+and metadata helpers. The original clears the head before reloading its next
+pointer, so only that head is released; old tails and self pointers are not
+traversed. The mapped host domain supports animation indices0..255 and integer
+frames0..2^24, whose float conversion is exact under all rounding modes.
+Descriptors, mapped reads and writes are validated before mutation. All mapped
+bytes agree across4,096 original-instruction cases. This selects animation
+data and updates fields; transforms, playback and the actor constructor remain
+outstanding. All three PS2 sources remain drafts outside accepted coverage.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
