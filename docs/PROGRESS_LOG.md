@@ -1443,3 +1443,28 @@ prove a later one. Emulator tests are optional reference checks.
   the selected configuration boundary, not the entire parser or startup.
 - True position production, ground/wall caller integration, animation and
   a playable frame remain in progress. No retail data or push is introduced.
+
+## 2026-10-11 — Decode genuine variable animation poses natively
+
+- Added the bounded CPU-visible normal5894F0 decoder effects, including real
+  VU160/250 arithmetic order. Fixed/current/next banks and initialized joint
+  records are explicit scratchpad inputs. The inherited 4 KiB VU data image
+  is also explicit; metadata lanes are not silently initialized to zero.
+  Gathers from unwritten high cache entries refuse atomically.
+- Preserved packed opcode0/24/48 handling, signed-byte expansion and halfword
+  wrapping, low-half index injection, interpolation, alternating output banks
+  and all three priming groups. The authentic F99/V5 animation0 has 30 frames
+  and consumes 54 quaternion pairs, one scale pair and seven translation pairs.
+  Resulting values remain encoded local state, not glTF rotations or matrices.
+- Root's fresh /W4 /WX /fp:precise DLL uses independently reread ISO class and
+  Armor0 slices. All 210 genuine cases (30 frames at seven fractions, including
+  wrap29-to0 and varied explicit inherited VU metadata) agree with original
+  EE/VU replay and separate packing derivation: 776,160 EE instructions,
+  418,740 VU pairs, 3,440,640 scratch bytes and zero differences. Actual
+  resident MPG1170E0 words are checked through328. All 20,507 focused native
+  assertions pass, including rejection and unchanged input guards.
+  All 54 registered native tests pass in 3.75 seconds after integration.
+- This adapter excludes DMA/waits, blend330/620, subsequent matrices738/858,
+  physical VU state publication, animation update and renderer. Host binary32
+  arithmetic remains explicitly approximate. The complete PS2 C draft5894F0
+  is still absent. No animated or playable frame is claimed; nothing is pushed.

@@ -790,6 +790,27 @@ assertions pass. The publication helper00575BD0 is privately exact16/16;
 No disk success substitute, GPU upload, pose decode, animated rendering or
 complete native actor startup is supplied by this adapter.
 
+`dreadzone_variable_pose` now performs the CPU-visible normal5894F0 decoder
+memory effects with actual VU160/250 interpolation order. Explicit inputs are
+the initialized 16 KiB scratchpad with fixed/current/next stream banks and
+the inherited 4 KiB VU data image. Low VU metadata lanes retain their supplied
+values; high-address gathers must have been initialized by the decoder's own
+cache writes. Unsupported/truncated streams refuse without publishing writes.
+The adapter preserves packed opcode0/24/48 handling, signed byte/halfword wrap,
+injected indices, alternating banks and the three real priming groups.
+
+Root's fresh DLL agrees with actual EE/VU replay and a separate packing
+derivation across 210 genuine animation0 cases: all 30 frames at seven
+fractions, including29-to0 wrapping, with varied explicit inherited VU data.
+All 3,440,640 scratchpad bytes agree, including untouched stream banks;
+776,160 original EE instructions and 418,740 VU pairs execute. The microprogram
+pairs through328 are checked against the actual resident MPG payload1170E0.
+All 20,507 focused assertions pass. Arithmetic is explicitly approximate
+host binary32. Results remain encoded local pose values, not final joint
+matrices. The adapter excludes DMA/waits, blend330/620, matrix generation738/858,
+physical VU state publication, an animation update and visible animated rendering.
+The complete PS2 function5894F0 has not yet been recovered as a C draft.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
