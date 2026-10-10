@@ -887,3 +887,24 @@ prove a later one. Emulator tests are optional reference checks.
   bind composition and joint weights; direct translation of its GLB is invalid.
 - All thirty-seven native CTest checks pass together under MSVC Release
   /W4 /WX. Work remains local; the scene viewer is still not a playable game.
+
+## 2026-10-10 — Complete actor synchronization source review
+
+- Retained four complete PS2 drafts covering position/rotation oscillation,
+  record-to-actor synchronization and actor transform update. Their genuine
+  collision, spatial, animation and model dependencies remain visible; there
+  is no native success body that skips those dependencies.
+- Root added explicit nonmatching extent notes, rebuilt all four objects with
+  default SN flags, and strictly linked the full128/184/416/384-byte spans.
+  Compiled extents are124/184/436/428 bytes; none adds accepted coverage.
+- The independent full-span audit verifies branch closure, genuine direct-call
+  multiplicity and VU B58 selection. Original and freshly linked instruction
+  streams agree across256 complete inactive/no-volume returns:58,516 executed
+  instructions and3,403,776 compared bytes, with no captured callee.
+- Five synthetic checks cover raw COP1 signed-zero/NaN-payload transport,
+  unmapped PREF hints and rejection of floating arithmetic. Active oscillator,
+  VU, volume and DMA branches are structurally recovered, not replayed here.
+- Parallel work has explicit file ownership and dependency-sized lots; root
+  independently rebuilds each frozen lot before integrating it. Current next
+  dependencies are spatial cells, compact inverse-bind composition and genuine
+  equipment configuration. These lots do not yet provide a native game boot.

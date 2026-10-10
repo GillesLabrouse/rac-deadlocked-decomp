@@ -552,6 +552,16 @@ IEEE arithmetic, including original Armor0 inputs. The result remains
 The viewer still needs the genuine compact inverse-bind matrix composition
 and original joint weights before these matrices can transform its mesh.
 
+Complete actor synchronization sources `0066A678`, `0066A6F8`, `0066E580`
+and `0058DF58` retain the original oscillator, collision-volume, spatial and
+model calls. Root independently rebuilt and strictly linked their complete
+spans; all four remain nonmatching PS2 drafts with no native entry. Original
+and compiled instruction streams agree across256 complete inactive-state,
+negative-actor-byte20, absent-volume returns, executing the genuine copy and
+adjustment helpers. Raw COP1 word transport is checked without approximating
+floating arithmetic. Active oscillation, VU B58, collision and model submission
+remain unexecuted dependencies; this evidence does not establish actor motion.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
