@@ -47,7 +47,7 @@ Important ordered calls before the first loop iteration include:
 | `006C1D68` | None | Installs L01 function addresses in the callback block at `00212148`. A native port needs host function pointers, not copied guest integers. |
 | `00529280` | None | Clears the range `00222900..003A0B40`; the aligned path calls `0055D2D0`, otherwise it clears bytes. Recovered C now executes with an explicitly bound host arena; all 1,565,248 bytes and guards are tested. It remains nonmatching. |
 | `00574730` | None | Calls core `0011EF60`; subsystem behavior has not been recovered here. |
-| `0055DFE8` | None | Initializes state through three calls to `0055DCF8` and one to `0055E0A0`. |
+| `0055DFE8` | None | Actual state helper/selector execute with bounded guest storage; both 207-record fixed tables and conditional slot2 are tested. |
 | `00665D58` | None | Campaign initialization audited below; eight callees remain necessary. |
 | `00628020` | None | Copies the pointer at `001DFA70` into its field at offset `30`, clears its count at `34`, and clears two fields in each of 64 sixteen-byte records at `0034D320`. |
 | `005742C8` | None | Sets up several memory regions through core and L01 calls, including `00633248`, `00633360` and `0055D2A8`. |

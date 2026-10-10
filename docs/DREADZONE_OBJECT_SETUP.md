@@ -374,7 +374,8 @@ it does not emulate the game, its renderer or its actor constructor.
 
 The sources and native test are reviewable progress toward the actor path.
 They do not provide a playable native first frame. The next essential work
-is `00586B10` and the actor/class-table producers, plus the larger constructor
+is the remaining model-dependent `00586B10` path and actor/class-table producers,
+plus the larger constructor
 `00668070` and child-link producer `0015FA68`.
 
 ## Validation status
@@ -389,3 +390,33 @@ no matching coverage.
 
 No game frames or native actor effects were executed for this draft. No SDK
 source, assets or disassembly are included in these tracked files.
+
+## Executed class-initialization slice
+
+`L01_00586B10.c` now reconstructs the complete PS2 class initializer while its
+bounded native interface executes actual branches needing neither cleanup nor
+model setup: a mismatched class slot, or a mapped definition whose byte `8` is
+zero. The former assigns the handler guest pointer and observed flags; the latter
+assigns the definition/model/auxiliary guest fields and all recovered defaults.
+The native path clears 256 bytes by 64 four-byte stores through `memcpy`, retaining
+the real word-filler footprint with safely unaligned host backing.
+
+The zero-count branch at `00586D38` resets the earlier float word at actor `48`
+to zero and sets flag `40`. A private instruction differential caught this effect
+before finalization. The actual environment initializer `00589210` and packed
+64-bit operation `0058D468` also execute in C; actor pointers remain guest32.
+Read-only class views map only independently supplied local tables. Every required
+mapping is checked before mutation, and outstanding cleanup/model paths return
+explicit dependency results without pretending to construct an actor.
+
+The native byte-image/guard fixtures pass. A separate bounded interpreter executes
+the actual initializer and its small callees for 512 cases: 254 mapped, 258
+mismatched, 245 with environment data and 138 with auxiliary data. All 256 actor
+bytes and unchanged class-table bytes agree after 198,060 retail instructions.
+This validates the exercised slice, not the unexecuted model or cleanup paths.
+
+All three sources compile and pass relocation resolution, but remain nonmatching:
+initializer 872/880 bytes, environment 84 plus padding versus 88, and packer 32/32
+with instruction differences. These are draft diagnostics outside coverage.
+Real nonzero model allocation/compaction, class-table producers and vector/DMA
+model processing still need recovery before this slice can initialize a player.

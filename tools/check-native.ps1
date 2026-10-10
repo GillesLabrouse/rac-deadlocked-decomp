@@ -37,7 +37,7 @@ try {
     Invoke-Checked $cmakePath @('-S', (Join-Path $repoRoot 'native'), '-B', $buildPath,
         '-G', 'Visual Studio 17 2022', '-A', 'x64', '-DBUILD_TESTING=ON')
     Invoke-Checked $cmakePath @('--build', $buildPath, '--config', 'Release', '--', '/nodeReuse:false')
-    $testArguments = @('--test-dir', $buildPath, '-C', 'Release', '--output-on-failure')
+    $testArguments = @('--test-dir', $buildPath, '-C', 'Release', '--output-on-failure', '--no-tests=error')
     if ($TestRegex) { $testArguments += @('-R', $TestRegex) }
     Invoke-Checked $ctestPath $testArguments
 } catch {

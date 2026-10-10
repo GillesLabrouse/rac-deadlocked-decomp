@@ -384,6 +384,40 @@ counter overflow, sufficient stream storage, a readable four-byte packet
 storage on a little-endian host. Four frames need at most 76 payload bits.
 No bounds checks absent from the retail function are invented here. The stream
 pointer is derived from the complete context object at byte `19`, allowing
-access across the overlapping word and padding within that object. Tests supply
-an initialized context; its actual startup producer still needs recovery before
-the callback can be integrated into a native actor frame.
+access across the overlapping word and padding within that object. These callback
+tests supplied initialized storage. Its actual producer is now recovered below;
+the complete native actor frame remains unfinished.
+
+## Actual actor-context producer
+
+The vtable at `003B10C0` stores `00668070` at slot `2C` and `006A6598` at slot
+`28`. `006A8420` invokes the former at `006A8478`; `006A8758` does likewise at
+`006A88F0`. The larger constructor calls slot `28` at `00668120`, before the
+callback/context bindings at `006A8514` and `006A8A30`. Both inspected producers
+therefore perform the actual full actor clear before installing the callback.
+
+`006A6598` invokes the real word filler `0055D2A8` with 0 and `31F0` bytes,
+calls base constructor `006A93A0`, sets guest vtable word `14 = 003B10C0`, byte
+`266D = 1` and byte `31CF = 5`. The entire embedded context `2FEC..31CC`, including
+cursor `3C` and frame count `1D8`, is genuinely zeroed by this producer. Its native
+union retains 32-bit guest fields and supplies the original word-fill dependency
+from the shared memory recovery, without a CRT replacement.
+
+The base constructor writes `14 = 003B0718`, calls identity helper `006A9638`
+with the opaque subobject at offset `1970`, and returns the original actor pointer.
+Its retail empty loops are omitted: the draft preserves the inspected memory and
+return effects, not instruction timing. Calling the base constructor alone does
+not initialize the callback counters or clear the actor.
+
+The native context-initializer fixture passes 64,509 checks. A complete byte-image
+oracle covers all `31F0` bytes on four initial patterns and external guards;
+base-constructor preservation is checked independently. The actual initializer,
+callback and decoder then run for 24 frames with each of the seven input delays,
+checking delayed press/hold/release, histories, bounded stream publication and
+preserved actor fields. Packet transport and input BSS remain fixture inputs.
+
+Strict original-address checks report reset `006A6598` nonmatching at 80/80 bytes
+(`--entry 006A6598:50`), base constructor nonmatching at 56/656, and identity helper
+exact at 8/8. These L01 recovery files remain outside accepted matching coverage.
+The complete `00668070` constructor, actor integration and controller transport
+remain prerequisites for a playable frame.

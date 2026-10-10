@@ -15,12 +15,12 @@ prove a later one. Emulator tests are optional reference checks.
 
 ## Current verified checkpoint
 
-- 278 matching functions, 0.535% of counted code, including open-source libraries.
-- 227 game functions pass exact linking: 149 resident and 78 overlay functions.
-- Resident reconstruction replaces 10,352 bytes with exact compiled C. The whole
+- 279 matching functions, 0.535% of counted code, including open-source libraries.
+- 228 game functions pass exact linking: 150 resident and 78 overlay functions.
+- Resident reconstruction replaces 10,376 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Eighty-six Python regression tests and all sixteen native CTest checks pass.
-- Seventeen matching functions compile and execute in Windows x64 test targets.
+- Ninety-eight Python regression tests and all nineteen native CTest checks pass.
+- Eighteen matching functions compile and execute in Windows x64 test targets.
   Separate targets execute queue/request drafts with captured unrecovered
   transition effects and actual Dreadzone memory, payload and packet algorithms.
   The latter execute their recovered callback and bit writer. Guest links retain
@@ -29,7 +29,9 @@ prove a later one. Emulator tests are optional reference checks.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
   render natively, using 86 shared object models and 440 textures. Hardware and
   WARP captures completed; the room capture was inspected. The scene backend does
-  not yet render characters or execute the recovered startup/update chain.
+  not yet render actors in the level or execute the recovered startup/update
+  chain. A separate editor-mesh preview renders selected armor geometry, without
+  the remaining body parts, animation or game logic.
 - Work remains on the local branch; nothing has been pushed.
 
 ## 2026-10-10 — Environment and priorities
@@ -444,3 +446,45 @@ prove a later one. Emulator tests are optional reference checks.
   this checkpoint. The interactive artifact remains the scenery viewer. Work
   continues on actual class setup and remaining pre-loop/input dependencies.
   Everything remains local; nothing pushed.
+
+## 2026-10-10 — Actor-context producer, class slice and model inspection
+
+- Recovered the actual virtual reset `006A6598`, base constructor `006A93A0`
+  and identity helper `006A9638`. Both inspected input-binding paths invoke the
+  larger constructor, then this virtual reset, before callback installation.
+  The real word clear initializes the full `31F0`-byte actor and its embedded
+  `2FEC` context. A 64,509-check fixture verifies the complete image, preserved
+  base-constructor bytes and 24 callback/decoder frames at each delay `0..6`.
+  Reset/base remain nonmatching; identity helper is exact but draft-only.
+- Executed real `00586B10` class branches that require no cleanup or model
+  allocation, with genuine environment and packed-field helpers. A private
+  differential caught the zero-model-count branch's extra field/flag effects
+  before finalization. All 512 cases / 198,060 instructions now agree for every
+  actor byte and preserved table data. Model/cleanup branches fail explicitly
+  in the host adapter until their real dependencies exist; none are stubbed.
+- Recovered actual byte filler `0011A518` and pre-loop `005D6CB0`: the native
+  fixture verifies exact byte counts/return values, all sixteen alignments and
+  the real 262,144-byte `EF` region. It now performs 11,934,811 checks including
+  parity between L01's level decision and the independently recovered matching
+  resident `00510EB0`. That new accepted function passes its own 24-byte exact
+  linked comparison. The byte filler itself remains nonmatching, 188/184.
+- Added a strict GLB editor-mesh asset bridge, twelve authored tests, model
+  inspection documentation and `run-model-preview.cmd`. The local primary armor
+  preview renders 2,714 triangles/one texture with hardware and WARP, each with
+  89,815 non-background pixels; the software image was inspected. Only the
+  selected torso/arm mesh is present, without head/legs, animation or gameplay.
+  An inventory imports 288 of 380 meshes and explicitly rejects the other
+  unsupported joint/weight or empty meshes. Asset tool checkpoint: `b6e64a0`.
+- The native validation script now rejects filters matching no tests. The
+  deliberate unmatched-filter check returned failure, while all nineteen
+  native fixtures pass together. All 98 Python tests pass. Incremental accepted
+  build compiled one source and reused 222 objects; audit has 279 exact and no
+  failures. Full link has 228 exact, no mismatches or object failures. Resident
+  reconstruction inserts 150 functions / 10,376 C bytes and still equals retail;
+  ELF SHA-1 remains `5619a8de0247e093ab672fca30dbf59bc16fe333`.
+- The model pool and class-table producers are the next actual dependencies:
+  the retail matrix capacity is `3094` records / `C2500` bytes, matching the
+  pre-loop allocation. Parallel recovery continues on that real allocator and
+  compaction, class definition relocation, and the controller configuration/
+  packet dispatch path. No playable campaign frame or native game boot is
+  claimed. Changes remain local and nothing has been pushed.

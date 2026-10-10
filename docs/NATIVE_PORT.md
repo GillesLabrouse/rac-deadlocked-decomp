@@ -35,9 +35,13 @@ Use `-TestRegex dreadzone` for the Dreadzone checks during a focused iteration.
 It requires neither the PS2 compiler nor disc assets. This runs algorithm and
 renderer fixtures; use `run-native.cmd` for the interactive scene viewer.
 
+`run-model-preview.cmd` opens a separately prepared armor editor-mesh package.
+See [native model inspection](NATIVE_MODELS.md) for preparation, verified captures
+and the missing parts/animation. It is separate from initialized actor rendering.
+
 ## Verified first step
 
-`native/CMakeLists.txt` builds a native static library from seventeen recovered game
+`native/CMakeLists.txt` builds a native static library from eighteen recovered game
 functions in `src/core` and `src/game`, without retail machine code or PS2 toolchain inputs.
 An explicit source list excludes platform startup, drivers, and address-dependent code
 that cannot run unchanged on a host. The original matching header remains intact.
@@ -111,6 +115,13 @@ corrupt chains. The actor initializer and its class/model effects remain separat
 dependencies. See `DREADZONE_OBJECT_SETUP.md` for the instruction comparison and
 the unfinished full actor constructor.
 
+The pre-loop fill `005D6CB0` executes the actual core `0011A518` byte algorithm,
+writing precisely 262,144 bytes of `EF` through the guest buffer pointer. All
+sixteen alignment residues, byte counts around block boundaries, signed value
+patterns, returned pointers and guard regions are verified. The matching
+resident decision `00510EB0` also compiles natively and agrees with L01's real
+`00666600` branch across tested levels and signed extremes.
+
 ## Recovered Dreadzone packet decoding
 
 `deadlocked_native_dreadzone_input` builds the actual L01 decoder `005BDA40`
@@ -137,6 +148,12 @@ decoder order across four frames. These calls retain the original guest record
 layout and context. No driver, actor frame or game input transport is supplied
 by the fixtures. Their actual local bindings and limits are recorded in
 `DREADZONE_INPUT_PATH.md`.
+
+The real virtual reset `006A6598` initializes the complete `31F0`-byte actor
+record and its embedded input context before callback execution. The fixture
+verifies the entire byte image and 24 frames for each sample delay in `0..6`.
+This establishes the context producer; the complete higher-level constructor
+and its model/game dependencies remain unfinished.
 
 ## Native terrain loading and rendering
 
