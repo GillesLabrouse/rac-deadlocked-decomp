@@ -1,3 +1,4 @@
 // Startup routines hidden inside an earlier oversized level-code function.
 // Extents checked against retail control flow; no instruction bytes or SDK names.
+func_00437EB0 = 0x437EB0; // type:func size:0x7D4
 func_0045CB88 = 0x45CB88; // type:func size:0xA0

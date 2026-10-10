@@ -134,6 +134,11 @@ segments:
       - [0xE9088, c, text_00406640]
       - [0xEC62C, c, text_00409BE4]
       - [0xEC9D0, c, text_00409F88]
+      # Startup enters the shared body eight bytes after a fall-through prelude.
+      - [0x11A8F8, c, text_00437EB0]
+      - [0x11B0D0, c, text_00438688]
+      # Queue helpers contain early returns, not separate function entries.
+      - [0x13F1B0, c, text_0045C768]
       # Separate a verified startup routine from an earlier handwritten span.
       - [0x13F5D0, c, text_0045CB88]
       - [0x13F670, c, text_0045CC28]
