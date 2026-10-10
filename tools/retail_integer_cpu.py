@@ -4,6 +4,9 @@ This is original test tooling, not a console emulator. It executes only the
 integer instructions needed by the scoped workload and rejects everything else.
 No hardware, DMA, VU, floating arithmetic, syscalls, BIOS or captured callees exist.
 LWC1/SWC1 transport raw words only; PREF has no observable cache result here.
+Only the non-interlocked zero-to-immutable-VF0 transfer is accepted from COP2;
+it has no register/memory result in this domain, which excludes concurrent VU
+work. All VU computations and other COP2 instructions are rejected.
 Instruction words must be supplied locally; this module contains no retail code.
 
 Registers retain 128 bits for LQ/SQ. Scalar operations replace their low 64 bits;
@@ -38,6 +41,10 @@ class UnsupportedInstruction(IntegerCPUError):
 
 class InstructionBudgetExceeded(IntegerCPUError):
     pass
+
+
+class IntegerTrap(IntegerCPUError):
+    """Executed TEQ: preceding effects are retained; no exception handler runs."""
 
 
 class MemoryAccessError(IntegerCPUError):
@@ -112,6 +119,10 @@ class RetailIntegerCPU:
     def _put_word(self, register: int, value: int) -> None:
         self._put(register, signed(value, 32))
 
+    def _put_quad(self, register: int, value: int) -> None:
+        if register:
+            self.registers[register] = value & MASK128
+
     def run(self, entry: int, arguments: Sequence[int] = (), *,
             initial_registers: Mapping[int, int] | None = None,
             stop_address: int = 0x0FFF0000, gp: int = 0, sp: int = 0,
@@ -152,6 +163,8 @@ class RetailIntegerCPU:
                     self._put_word(rd, (b & MASK32) >> shift)
                 elif function == 3:
                     self._put_word(rd, signed(b, 32) >> shift)
+                elif function == 4:
+                    self._put_word(rd, b << (a & 31))
                 elif function == 8:
                     target = a & MASK32
                 elif function == 10:
@@ -162,6 +175,10 @@ class RetailIntegerCPU:
                         self._put(rd, a)
                 elif function == 16:
                     self._put(rd, self.hi)
+                elif function == 20:
+                    self._put(rd, b << (a & 63))
+                elif function == 22:
+                    self._put(rd, b >> (a & 63))
                 elif function == 24:
                     product = signed(a, 32) * signed(b, 32)
                     self.lo, self.hi = signed(product, 32) & MASK64, signed(product >> 32, 32) & MASK64
@@ -185,6 +202,11 @@ class RetailIntegerCPU:
                     self._put_word(rd, total)
                 elif function == 33:
                     self._put_word(rd, a + b)
+                elif function == 34:
+                    difference = signed(a, 32) - signed(b, 32)
+                    if not -(1 << 31) <= difference < (1 << 31):
+                        raise IntegerCPUError(f"Signed SUB overflow at {pc:08X}; exception handlers are outside this oracle")
+                    self._put_word(rd, difference)
                 elif function == 35:
                     self._put_word(rd, a - b)
                 elif function == 36:
@@ -199,6 +221,9 @@ class RetailIntegerCPU:
                     self._put(rd, int(a < b))
                 elif function == 45:
                     self._put(rd, a + b)
+                elif function == 52:
+                    if a == b:
+                        raise IntegerTrap(f"TEQ at {pc:08X}")
                 elif function == 56:
                     self._put(rd, b << shift)
                 elif function == 58:
@@ -245,6 +270,10 @@ class RetailIntegerCPU:
                     likely = op >= 20
                 annul = likely and not condition
                 target = (pc + 4 + displacement * 4) & MASK32 if condition else (pc + 8) & MASK32
+            elif word == ((18 << 26) | (5 << 21)):
+                # Only non-interlocked QMTC2 zero -> immutable VF0. No VU
+                # calculation or concurrent VU work is part of this domain.
+                pass
             elif op == 51:
                 # Cache state/timing is outside this memory-effect oracle.
                 pass
@@ -264,6 +293,29 @@ class RetailIntegerCPU:
                         bits ^= MASK32
                     result |= (31 - bits.bit_length()) << (i * 32)
                 self._put(rd, result)
+            elif op == 28 and (word & 63, shift) in (
+                    (8, 26), (8, 22), (8, 25), (8, 3), (9, 14), (41, 14)):
+                left, right = self.registers[rs], self.registers[rt]
+                function = word & 63
+                if function == 8 and shift in (26, 22):
+                    width = 8 if shift == 26 else 16
+                    mask = (1 << width) - 1
+                    result = sum(((right >> (lane * width)) & mask) << (lane * 2 * width)
+                                 | ((left >> (lane * width)) & mask) << ((lane * 2 + 1) * width)
+                                 for lane in range(64 // width))
+                elif function == 8 and shift == 25:
+                    result = sum((max(-128, min(127, signed(left >> (lane * 8), 8)
+                                               - signed(right >> (lane * 8), 8))) & 255)
+                                 << (lane * 8) for lane in range(16))
+                elif function == 8:
+                    result = sum((max(signed(left >> (lane * 32), 32),
+                                      signed(right >> (lane * 32), 32)) & MASK32)
+                                 << (lane * 32) for lane in range(4))
+                elif function == 9:
+                    result = (right & MASK64) | ((left & MASK64) << 64)
+                else:
+                    result = (left >> 64) | ((right >> 64) << 64)
+                self._put_quad(rd, result)
             elif op in (30, 31, 32, 33, 35, 36, 37, 40, 41, 43, 55, 63):
                 size = {30: 16, 31: 16, 32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4, 55: 8, 63: 8}[op]
                 address = (a + displacement) & MASK32

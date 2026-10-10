@@ -7,7 +7,7 @@ import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from retail_integer_cpu import (IntegerCPUError, IntegerMemory, RetailIntegerCPU,
                                 MemoryAccessError, UnsupportedInstruction,
-                                InstructionBudgetExceeded, MASK64)
+                                InstructionBudgetExceeded, IntegerTrap, MASK64)
 
 
 def r(function, rs=0, rt=0, rd=0, shift=0):
@@ -301,6 +301,110 @@ class IntegerCPUTests(unittest.TestCase):
             self.assertEqual(cpu.registers[1], value)
             self.assertEqual(cpu.float_bits, [0] * 32)
             self.assertEqual(result.steps, 3)
+
+    def test_variable_shifts_mask_counts_preserve_upper_half_and_aliases(self):
+        top = 0x8877665544332211 << 64
+        value = 0xFEDCBA9887654321
+        for count in range(128):
+            for function, width in ((4, 32), (20, 64), (22, 64)):
+                amount = count % width
+                expected = (value >> amount if function == 22 else value << amount)
+                if width == 32:
+                    expected &= 0xFFFFFFFF
+                    if expected & 0x80000000:
+                        expected |= MASK64 ^ 0xFFFFFFFF
+                for destination in (0, 1, 2, 3):
+                    cpu, _ = self.execute([r(function, 1, 2, destination), r(8, 31), 0],
+                                          {1: top | (0xABCDEF00 << 32) | count,
+                                           2: top | value, 3: top})
+                    self.assertEqual(cpu.registers[destination],
+                                     0 if not destination else top | (expected & MASK64))
+
+    def test_signed_sub_overflow_and_zero_destination_are_explicit(self):
+        cpu, _ = self.execute([r(34, 1, 2, 1), r(8, 31), 0],
+                              {1: (0x1234 << 64) | 0xFFFFFFFF, 2: 1})
+        self.assertEqual(cpu.registers[1], (0x1234 << 64) | (MASK64 - 1))
+        for left, right in ((0x7FFFFFFF, 0xFFFFFFFF), (0x80000000, 1)):
+            for destination in (0, 1, 3):
+                with self.assertRaisesRegex(IntegerCPUError, "Signed SUB overflow"):
+                    self.execute([r(34, 1, 2, destination)], {1: left, 2: right})
+
+    def test_teq_uses_low_64_bits_and_retains_prior_effects(self):
+        words = {0x1000: i(43, 3, 1), 0x1004: r(52, 1, 2),
+                 0x1008: i(43, 3, 2, 4), 0x100C: r(8, 31), 0x1010: 0}
+        cpu = RetailIntegerCPU(words, IntegerMemory([(0x2000, bytes(8))]))
+        with self.assertRaisesRegex(IntegerTrap, "TEQ at 00001004"):
+            cpu.run(0x1000, initial_registers={1: (123 << 64) | 7,
+                                             2: (456 << 64) | 7, 3: 0x2000})
+        self.assertEqual(cpu.memory.read(0x2000, 8), 7)
+        cpu.run(0x1000, initial_registers={1: 7, 2: 8, 3: 0x2000})
+        self.assertEqual(cpu.memory.read(0x2000, 8), (8 << 32) | 7)
+
+    def test_packed_interleave_and_doubleword_copy_lane_order_and_aliases(self):
+        left = bytes(range(0x80, 0x90))
+        right = bytes(range(16))
+        for function, operation in ((8, 26), (8, 22), (9, 14), (41, 14)):
+            if operation in (26, 22):
+                size = 1 if operation == 26 else 2
+                expected = b''.join(right[n:n+size] + left[n:n+size]
+                                    for n in range(0, 8, size))
+            elif function == 9:
+                expected = right[:8] + left[:8]
+            else:
+                expected = left[8:] + right[8:]
+            for destination in (0, 1, 2, 3):
+                instruction = (28 << 26) | r(function, 1, 2, destination, operation)
+                cpu, _ = self.execute([instruction, r(8, 31), 0],
+                                      {1: int.from_bytes(left, 'little'),
+                                       2: int.from_bytes(right, 'little'), 3: (1 << 128) - 1})
+                self.assertEqual(cpu.registers[destination],
+                                 int.from_bytes(expected, 'little') if destination else 0)
+
+    def test_packed_signed_byte_subtract_all_pairs_and_destination_aliases(self):
+        for start in range(0, 65536, 16):
+            pairs = [(n // 256 - 128, n % 256 - 128) for n in range(start, start + 16)]
+            left = bytes(a & 255 for a, _ in pairs)
+            right = bytes(b & 255 for _, b in pairs)
+            expected = bytearray()
+            for a, b in pairs:
+                difference = a - b
+                if difference > 127:
+                    difference = 127
+                elif difference < -128:
+                    difference = -128
+                expected.append(difference & 255)
+            for destination in (0, 1, 2, 3):
+                instruction = (28 << 26) | r(8, 1, 2, destination, 25)
+                cpu, _ = self.execute([instruction, r(8, 31), 0],
+                                      {1: int.from_bytes(left, 'little'),
+                                       2: int.from_bytes(right, 'little')})
+                self.assertEqual(cpu.registers[destination],
+                                 int.from_bytes(expected, 'little') if destination else 0)
+
+    def test_packed_signed_word_max_and_same_source_interleave(self):
+        left = [0x80000000, 0xFFFFFFFF, 0x7FFFFFFF, 0]
+        right = [0xFFFFFFFF, 0x80000000, 0, 0x7FFFFFFF]
+        pack = lambda lanes: int.from_bytes(b''.join(n.to_bytes(4, 'little') for n in lanes), 'little')
+        for destination in (0, 1, 2, 3):
+            cpu, _ = self.execute([(28 << 26) | r(8, 1, 2, destination, 3), r(8, 31), 0],
+                                  {1: pack(left), 2: pack(right)})
+            self.assertEqual(cpu.registers[destination],
+                             pack([0xFFFFFFFF, 0xFFFFFFFF, 0x7FFFFFFF, 0x7FFFFFFF]) if destination else 0)
+        raw = bytes(range(16))
+        for size, operation in ((1, 26), (2, 22)):
+            expected = b''.join(raw[n:n+size] * 2 for n in range(0, 8, size))
+            cpu, _ = self.execute([(28 << 26) | r(8, 1, 1, 1, operation), r(8, 31), 0],
+                                  {1: int.from_bytes(raw, 'little')})
+            self.assertEqual(cpu.registers[1], int.from_bytes(expected, 'little'))
+
+    def test_only_noninterlocked_zero_to_vf0_transport_is_supported(self):
+        instruction = (18 << 26) | (5 << 21)
+        cpu, result = self.execute([instruction, r(8, 31), 0])
+        self.assertEqual(result.steps, 3)
+        self.assertEqual(cpu.registers[:31], [0] * 31)
+        for other in (instruction | 1, instruction | (1 << 16), instruction | (1 << 11)):
+            with self.assertRaises(UnsupportedInstruction):
+                self.execute([other])
 
     def test_instruction_budget_and_delay_control_fail(self):
         cpu = RetailIntegerCPU({0x1000: i(4, 0, 0, -1), 0x1004: 0}, IntegerMemory([]))

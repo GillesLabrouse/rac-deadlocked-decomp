@@ -927,3 +927,24 @@ prove a later one. Emulator tests are optional reference checks.
   module and repeated256 cases:58,516 instructions and3,403,776 bytes still
   agree. The private fork is no longer needed for that check. No native source
   or accepted matching coverage changed in this tooling lot.
+
+## 2026-10-10 — Shared packed-integer spatial validation
+
+- Extended the shared oracle for operations genuinely executed by the spatial
+  routines: variable scalar shifts, checked signed SUB, TEQ, packed byte/half
+  interleave, saturating signed-byte subtraction, signed-word maximum and
+  lower/upper doubleword copies. TEQ raises an explicit IntegerTrap while
+  retaining preceding effects; exception-handler execution is unsupported.
+- The only accepted COP2 word transfers zero to immutable VF0 without an
+  interlock. This models no register/memory result under the explicit absence
+  of concurrent VU work; other COP2 instructions and VU computation still fail.
+  Lane/shift/trap semantics were checked against public
+  [MMI.cpp](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/MMI.cpp),
+  [R5900OpcodeImpl.cpp](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/R5900OpcodeImpl.cpp)
+  and [VU0.cpp](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VU0.cpp).
+  No reference implementation was copied or vendored.
+- Seven new synthetic test methods cover all65,536 signed-byte subtraction
+  pairs with destination aliases, lane order, signed extremes, scalar shift
+  counts and upper halves, overflow with zero destination, retained trap memory
+  and rejection of other COP2 words. All136 Python tests pass in under3 seconds.
+  The spatial workstream can now reuse this implementation rather than a copy.
