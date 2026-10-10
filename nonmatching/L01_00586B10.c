@@ -7,10 +7,10 @@
  * actor only; m2c's additional leftover arguments are not consumed inputs.
  * Complete PS2 reconstruction retains real model and cleanup callees.
  * Host execution supports only paths that need neither subsystem.
- * Outstanding dependencies:
- * 0058B268: release bookkeeping for actor->58 in live matrix/model pool.
+ * Dependencies of paths excluded by this host slice:
+ * 0058B268: recovered release bookkeeping in the separate model-pool library.
  * 0058ACB8: cleanup of model-related actor state.
- * 0058B148: allocate model records using definition byte 8 and 00222D78..94.
+ * 0058B148: recovered allocation in the separate model-pool library.
  * 0058A648: scratchpad/vector model update via 0058A440 and 00589950.
  * These functions are never replaced with success callbacks in the host path.
  */
@@ -80,7 +80,7 @@ void func_L01_00586B10(u8 *actor,s32 objectClass,s32 skipCleanup) {
     u8 *definition;
     u8 *auxiliary;
     u16 flags;
-    u32 model;
+    u32 callback;
     if (skipCleanup==0 && class_u32(actor+0x58)!=0) {
         func_L01_0058B268(actor);
         func_L01_0058ACB8(actor);
@@ -96,9 +96,9 @@ void func_L01_00586B10(u8 *actor,s32 objectClass,s32 skipCleanup) {
         class_mismatch(actor,D_0026DD90[index]);
         return;
     }
-    model=D_0026AE00[index];
-    class_set32(actor+0xA8,model);
-    if (model==0) class_set16(actor+0x34,class_u16(actor+0x34)|2);
+    callback=D_0026AE00[index];
+    class_set32(actor+0xA8,callback);
+    if (callback==0) class_set16(actor+0x34,class_u16(actor+0x34)|2);
     definition=(u8 *)D_0026AA40[actor[0x22]];
     class_set32(actor+0x24,(u32)definition);
     actor[0x64]=definition[0xE];
@@ -187,9 +187,9 @@ const u8 *dreadzone_class_translate(const DreadzoneClassContext *context,u32 add
 
 int dreadzone_actor_initialize_class_slice(const DreadzoneClassContext *context,
     u8 *actor,u32 actorBytes,s32 objectClass,s32 skipCleanup) {
-    const u8 *indexPointer,*mapped,*handle,*modelPointer,*definitionPointer,*definition=NULL,*auxiliary=NULL;
+    const u8 *indexPointer,*mapped,*handle,*callbackPointer,*definitionPointer,*definition=NULL,*auxiliary=NULL;
     const u8 *environment,*entry;
-    u32 definitionAddress=0,auxiliaryAddress=0,model=0,handler=0,upper=0;
+    u32 definitionAddress=0,auxiliaryAddress=0,callback=0,handler=0,upper=0;
     u32 entryAddress,clearOffset;
     u16 flags;
     u8 index,preserved,component=0;
@@ -206,10 +206,10 @@ int dreadzone_actor_initialize_class_slice(const DreadzoneClassContext *context,
         if (handle==NULL) return DREADZONE_CLASS_INVALID;
         handler=class_u32(handle);
     } else {
-        modelPointer=dreadzone_class_translate(context,0x0026AE00U+index*4U,4);
+        callbackPointer=dreadzone_class_translate(context,0x0026AE00U+index*4U,4);
         definitionPointer=dreadzone_class_translate(context,0x0026AA40U+index*4U,4);
-        if (modelPointer==NULL || definitionPointer==NULL) return DREADZONE_CLASS_INVALID;
-        model=class_u32(modelPointer);
+        if (callbackPointer==NULL || definitionPointer==NULL) return DREADZONE_CLASS_INVALID;
+        callback=class_u32(callbackPointer);
         definitionAddress=class_u32(definitionPointer);
         if (definitionAddress==0) return DREADZONE_CLASS_INVALID;
         definition=dreadzone_class_translate(context,definitionAddress,0x4C);
@@ -242,8 +242,8 @@ int dreadzone_actor_initialize_class_slice(const DreadzoneClassContext *context,
         class_mismatch(actor,handler);
         return DREADZONE_CLASS_INITIALIZED;
     }
-    class_set32(actor+0xA8,model);
-    flags=model==0 ? 2 : 0;
+    class_set32(actor+0xA8,callback);
+    flags=callback==0 ? 2 : 0;
     class_set32(actor+0x24,definitionAddress);
     actor[0x64]=definition[0xE];
     flags|=class_u16(definition+0x44);

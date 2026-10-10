@@ -389,6 +389,15 @@ build dependencies. Its preparation is deferred while native work takes priority
 
 ## Acceptance
 
+The native validation command `powershell -ExecutionPolicy Bypass -File
+tools/check-native.ps1` builds and runs the recovered algorithm fixtures.
+It currently includes model-pool allocation/release/compaction, class publication
+and bounded relocation, and configured controller polling through the real
+callback, decoder and button repetition. Platform driver calls remain captures
+in those input fixtures. The model transformations and nonempty geometry path
+are still outstanding. These libraries are not yet connected to the viewer's
+runtime, so running their tests does not launch the game.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

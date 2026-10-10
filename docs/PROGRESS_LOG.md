@@ -15,16 +15,18 @@ prove a later one. Emulator tests are optional reference checks.
 
 ## Current verified checkpoint
 
-- 279 matching functions, 0.535% of counted code, including open-source libraries.
-- 228 game functions pass exact linking: 150 resident and 78 overlay functions.
-- Resident reconstruction replaces 10,376 bytes with exact compiled C. The whole
+- 280 matching functions, 0.537% of counted code, including open-source libraries.
+- 229 game functions pass exact linking: 151 resident and 78 overlay functions.
+- Resident reconstruction replaces 10,448 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Ninety-eight Python regression tests and all nineteen native CTest checks pass.
+- Ninety-eight Python regression tests and all twenty-three native CTest checks pass.
 - Eighteen matching functions compile and execute in Windows x64 test targets.
   Separate targets execute queue/request drafts with captured unrecovered
   transition effects and actual Dreadzone memory, payload and packet algorithms.
-  The latter execute their recovered callback and bit writer. Guest links retain
-  their 32-bit width. No native game update
+  The latter execute their recovered callback, bit writer and button repetition.
+  Model allocation/compaction and class publication/relocation also execute
+  native C. Controller transport and nonempty geometry remain outstanding.
+  Guest links retain their 32-bit width. No native game update
   loop, game boot, or campaign play has been verified.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
   render natively, using 86 shared object models and 440 textures. Hardware and
@@ -488,3 +490,49 @@ prove a later one. Emulator tests are optional reference checks.
   compaction, class definition relocation, and the controller configuration/
   packet dispatch path. No playable campaign frame or native game boot is
   claimed. Changes remain local and nothing has been pushed.
+
+## 2026-10-10 — Model pool, class producers and configured input pipeline
+
+- Recovered the six actual model-pool routines for initialization, animation
+  free-list setup, allocation, release and compaction. The native adapter binds
+  bounded guest32 ranges for the real 795,904-byte matrix pool and 1,024 eight-byte
+  descriptors; no game pointers are truncated to host addresses. Its 9,892,653
+  checks pass. A private instruction differential executes 20,483 retail calls /
+  3,350,848 instructions and compares 166,418,304 bytes, including twelve
+  allocations that themselves trigger compaction. VU/DMA transformation remains
+  required to complete visual model initialization.
+- The L01 reset `0058B050` compares exactly after linking. Independently verified
+  the resident equivalent `0046F6B0` and its own `00221454..6C` globals; accepted
+  that 72-byte resident function only after full audit, exact linking and retail-
+  equal reconstruction. The remaining model routines stay nonmatching drafts.
+- Recovered the actual class slot publication, dispatch selection and definition
+  relocation, plus the explicit table-write slice of the larger reset. A private
+  differential compares all bytes and guards across 640 cases / 166,779 retail
+  instructions. Publication uses 10,240 class IDs, 240 normal slots and 128
+  alternative slots. Native preflight refuses nonempty geometry requiring the
+  still-unrecovered `00576AA8`, before mutating storage. The real class callback
+  stored at actor `A8` is selected from the 313-record dispatch table; it is not
+  itself a model pointer. All four PS2 drafts remain nonmatching.
+- Recovered the full controller polling state machine and its eight-record loop.
+  Cross-review caught a mistaken branch target: configured state99 and all
+  unsigned out-of-table states must reach packet reading, not the function exit.
+  Corrected the draft and added a complete mode7 configuration-to-reading test.
+  The real callback, decoder and newly recovered button-repeat pass execute
+  together over 28 pool frames, producing initial presses and repeats after
+  20 frames then every five frames. All 2,002 polling and 405 repeat checks pass.
+  Driver calls remain explicit captures in these tests. No real hardware input,
+  controller transport or actor update is claimed by this lot.
+- Poll and wrapper remain nonmatching. The strict checker rejects the poll's
+  allocated switch table; a private diagnostic places its independently verified
+  316-byte table at `003AD890` and resolves every relocation, without changing
+  accepted coverage or masking differences. Repeat and selector drafts are
+  likewise checked against their actual L01 spans and remain nonmatching.
+- All twenty-three native CTest checks pass together. The accepted incremental
+  build compiles one source and reuses 223 objects: 280 exact audited functions,
+  229 exact linked game functions and no failures. Reconstruction inserts 151
+  resident functions / 10,448 C bytes, still equals the whole retail section
+  stream and retains ELF SHA-1 `5619a8de0247e093ab672fca30dbf59bc16fe333`.
+  Python/tool sources are unchanged since the 98-test passing checkpoint.
+- Parallel work now targets real geometry conversion, the preselected core
+  startup path and a Windows controller backend. No native game boot or playable
+  campaign frame is verified. All work remains local; nothing has been pushed.
