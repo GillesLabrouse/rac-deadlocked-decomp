@@ -743,6 +743,34 @@ establish physical VU equivalence. All153,170 native assertions pass. Root's
 fresh SN objects compile and strictly link all five complete PS2 drafts;
 all are nonmatching. No playable actor frame is established.
 
+`dreadzone_actor_direction` now executes selected complete direction0067C5F8
+and rotation0067CFD0 paths with genuine history, getter, angle-wrap, projection
+and scalar turn callees. Input axes produce the real direction vector,
+magnitude and facing fields; rotation updates facing and angular-speed state.
+The native contract requires actual0021E878=0 and actor2659=0, preserving the
+larger nonzero-mode dependencies as atomic refusals. Body and camera matrices,
+history and boost globals remain supplied original state, not invented inputs.
+
+Root's fresh DLL agrees with actual-word approximate COP1/VU execution in
+4,096 direction cases, 1,024 turns, 128 ordered aliases and 512 scalar cases,
+including 256 angle/speed pointer aliases: 1,583,894 instructions at 697 sites,
+all ten selected callees executed and no captures. Full supplied RAM agrees
+apart from explicitly tolerated floating outputs; the largest observed
+absolute difference is 1.1920929e-7. All 11,453 native assertions and 58
+independent diagnostic assertions pass. The diagnostic uses approximate
+binary32 arithmetic and excludes physical PS2 ACC precision, rounding,
+flags and timing. Root's fresh SN builds strictly link all ten complete PS2
+drafts; all remain nonmatching.
+
+Root also reads the genuine L01 gameplay core directly from ISO97BC8900,
+located by primary header+60 rather than the sound-bank level header+20.
+The decoded core has 2,390,596 bytes, settings at90 and settings+2C=0 atBC.
+The actual nine-instruction producer57B0E8..57B108 executes its source read,
+global clear and taken branch/delay, retaining0021E878=0 with all RAM guards
+unchanged. This establishes the real zero-option input boundary, not execution
+of the complete parser, disk driver, constructor or playable actor frame.
+Position integration and the actual movement caller remain outside this API.
+
 `dreadzone_animation_replacement` executes the full CPU memory effects of
 original00575A18, transferring animation pointers and metadata into retained
 geometry and reconciling actor.half36 bit8. The source pointer count is reloaded

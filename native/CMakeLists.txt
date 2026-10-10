@@ -259,6 +259,19 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_actor_input_bridge PRIVATE /W4 /WX /fp:precise)
 endif()
 
+add_library(deadlocked_native_dreadzone_actor_direction STATIC
+    dreadzone_actor_direction.c ../nonmatching/L01_0067C5F8.c ../nonmatching/L01_0067CFD0.c
+    ../nonmatching/L01_005952B8.c ../nonmatching/L01_00595188.c ../nonmatching/L01_00594A88.c
+    ../nonmatching/L01_0055D828.c ../nonmatching/L01_0055D870.c ../nonmatching/L01_005BD868.c
+    ../nonmatching/L01_006739B0.c ../nonmatching/L01_0068ABA8.c)
+target_compile_definitions(deadlocked_native_dreadzone_actor_direction PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_actor_direction PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_actor_direction PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_direction PUBLIC deadlocked_native_dreadzone_actor_input_bridge)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_actor_direction PRIVATE /W4 /WX /fp:precise)
+endif()
+
 add_library(deadlocked_native_dreadzone_spatial_grid STATIC dreadzone_spatial_grid.c)
 target_include_directories(deadlocked_native_dreadzone_spatial_grid PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_spatial_grid PUBLIC c_std_11)
@@ -630,6 +643,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_dreadzone_actor_input_bridge_tests PRIVATE /W4 /WX /fp:precise)
     endif()
     add_test(NAME native_dreadzone_actor_input_bridge COMMAND deadlocked_native_dreadzone_actor_input_bridge_tests)
+    add_executable(deadlocked_native_dreadzone_actor_direction_tests tests/dreadzone_actor_direction_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_actor_direction_tests PRIVATE deadlocked_native_dreadzone_actor_direction)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_actor_direction_tests PRIVATE /W4 /WX /fp:precise)
+    endif()
+    add_test(NAME native_dreadzone_actor_direction COMMAND deadlocked_native_dreadzone_actor_direction_tests)
     add_executable(deadlocked_native_game_random_tests tests/game_random_tests.c)
     target_link_libraries(deadlocked_native_game_random_tests PRIVATE deadlocked_native_game_random)
     if(MSVC)

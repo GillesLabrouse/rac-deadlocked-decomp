@@ -1411,3 +1411,35 @@ prove a later one. Emulator tests are optional reference checks.
   probe. Packed block/quad iteration, prefetch order, hit stopping condition,
   final units, dynamic actors, cache, DMA and player motion still require
   integration. Physical VU flags/timing remain unclaimed. Nothing is pushed.
+
+## 2026-10-11 — Recover native player direction and turning
+
+- Added selected complete0067C5F8 direction and0067CFD0 rotation paths with
+  genuine projection, normalization, history, getter and scalar turn callees.
+  The stronger original-word comparison corrected classification to use the
+  preserved unnegated input axes at67C8B4/BC. Facing-angle preparation keeps
+  its real negation. No position integration or invented body/camera basis
+  is introduced; nonzero actor2659 dependencies refuse atomically.
+- Root rebuilds an isolated /W4 /WX /fp:precise DLL and replays actual words:
+  4,096 direction cases, 1,024 turns, 128 ordered aliases and 512 scalar cases,
+  including 256 angle/speed pointer aliases. All ten selected callees execute,
+  with 1,583,894 original instructions and 697 covered sites, no captures.
+  Full supplied RAM agrees except explicitly tolerated approximate floating
+  results; maximum observed absolute difference is 1.1920929e-7. Physical
+  PS2 ACC precision, rounding, flags and scheduling are excluded. All 11,453
+  native assertions and 58 independent diagnostic assertions pass.
+  All 53 registered native tests pass in 3.74 seconds after integration.
+- Root freshly compiles and strictly links all ten complete PS2 drafts.
+  Eight float sources use explicit -ffast-math; history/getter use baseline
+  flags. All remain nonmatching. The authored normalization VU block keeps
+  its explicit branch/delay ordering without forced registers or a whole
+  assembly-function substitution. Accepted matching reports stay unchanged.
+- Located the actual gameplay core at primary header+60, ISO97BC8900;
+  level header+20 is a sound bank. Root's fresh decoded core is 2,390,596
+  bytes, SHA256c9697eba9d7f5eb46bf196d6c67af489b10a188a1dd5a97e34fa4e9f913adfbd.
+  Settings90+2C (BC) equals zero. Root executes the original nine-instruction
+  source-read/clear/branch producer57B0E8..57B108 against that data, proving
+  global0021E878=0 with unchanged input and all global guards. This proves
+  the selected configuration boundary, not the entire parser or startup.
+- True position production, ground/wall caller integration, animation and
+  a playable frame remain in progress. No retail data or push is introduced.
