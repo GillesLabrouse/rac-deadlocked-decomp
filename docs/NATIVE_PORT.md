@@ -549,8 +549,19 @@ streams, blend lists and override lists are refused atomically. An independent
 executor of the original VU0738/0858 pairs agrees across129 cases under host
 IEEE arithmetic, including original Armor0 inputs. The result remains
 `APPROXIMATE`: PS2 rounding, DMA/VIF and VU internal state are not reproduced.
-The viewer still needs the genuine compact inverse-bind matrix composition
-and original joint weights before these matrices can transform its mesh.
+The viewer still needs original joint weights and their actual consumer before
+these matrices can transform its mesh.
+
+`dreadzone_bind_pose_prepare` now composes the genuine64-byte pose records
+with the supplied48-byte compact binding records in the original A40/AA8
+order. It supports count0..127 and the real existing-scratch pose bypass,
+copies bindings into scratch, and preserves untouched bytes. All descriptors
+are retained before output writes; invalid mappings and unsupported arithmetic
+fail atomically. Root's fresh DLL agrees across257 original-microprogram cases
+under host IEEE arithmetic, including all107 Armor0 joints. Its result remains
+`APPROXIMATE`; it executes no DMA or VU internal state. The resulting translations
+do not establish a visually correct rest pose. Original vertex weights, joint
+association and the subsequent rendering consumer remain necessary.
 
 Complete actor synchronization sources `0066A678`, `0066A6F8`, `0066E580`
 and `0058DF58` retain the original oscillator, collision-volume, spatial and

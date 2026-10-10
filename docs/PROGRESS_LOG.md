@@ -948,3 +948,26 @@ prove a later one. Emulator tests are optional reference checks.
   counts and upper halves, overflow with zero destination, retained trap memory
   and rejection of other COP2 words. All136 Python tests pass in under3 seconds.
   The spatial workstream can now reuse this implementation rather than a copy.
+
+## 2026-10-10 — Native compact binding-matrix composition
+
+- Integrated `dreadzone_bind_pose_prepare` into native CMake. The bounded
+  CPU adapter executes original pose64 * binding48 composition in A40/AA8
+  order, including count-zero identity and pose70000000 scratch bypass.
+  It retains copied bindings and scratch tails; unavailable/nonfinite inputs
+  fail atomically. APPROXIMATE explicitly covers host binary32 rounding.
+- Root rebuilt a fresh /W4 /WX /fp:precise DLL and added six checks for
+  view descriptors inside scratch and null/wrapping requests. All75,305 native
+  assertions pass. The integrated focused CTest also passes.
+- Root independently replayed257 original microprogram cases:16,531 joints,
+  214,903 original instruction pairs and264,496 output float words agree with
+  zero different bit patterns. Both external-pose and scratch-source paths
+  are checked; original107-joint Armor0 inputs are included locally only.
+- Root independently compiled and strictly linked the full384-byte PS2 draft:
+  compiled extent352 bytes, nonmatching. Real DMA transfers and paired VU
+  calls remain in that source; no accepted coverage or hardware equivalence
+  is claimed. The native adapter does not execute DMA/VIF or internal VU state.
+- Composed Armor0 translations remain broad, so no rest-pose cancellation or
+  rendered character is claimed. The next geometry work follows actual vertex
+  weights and their rendering consumer rather than applying matrices to an
+  editor GLB with inferred joints. No playable native game boot is added.
