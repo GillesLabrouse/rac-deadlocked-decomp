@@ -710,3 +710,7 @@ prove a later one. Emulator tests are optional reference checks.
   behavior and sign extension; all 120 Python tests pass.
 - Inventory storage is a constructor dependency. Item grants, full actor
   initialization and a native gameplay frame remain unverified.
+- Follow-up review retained the host backing pointer and guest address before
+  mutation, allowing a caller descriptor located inside the cleared storage.
+  Two such regressions now pass; the fixture has 11,269,089 checks. Rebuilding
+  its differential DLL and repeating all 1,024 instruction cases still agrees.

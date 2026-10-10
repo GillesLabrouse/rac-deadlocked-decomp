@@ -10,11 +10,12 @@ static void reset_half(u8 *record,u32 offset,u16 value) {
 #define RESET_HALF(offset,value) reset_half(record,offset,(u16)(value))
 #define RESET_WORD(offset) do { u32 n; for(n=0;n<4;++n) record[(offset)+n]=0; } while(0)
 #define RESET_CLEAR(offset,length) do { \
-    DreadzoneInventoryMemory part={record+(offset),view->guest_address+(offset),(length)}; \
+    DreadzoneInventoryMemory part={record+(offset),guest+(offset),(length)}; \
     (void)dreadzone_clear_0055D2F8(&part,(length)); \
 } while(0)
 int dreadzone_inventory_006C0D88(const DreadzoneInventoryMemory *view) {
     u8 *record;
+    u32 guest;
     s32 i;
     if (!view || !view->storage || view->bytes<0x12B0 || (view->guest_address&15) ||
         (u64)view->guest_address+view->bytes>0x80000000ULL ||
@@ -22,6 +23,7 @@ int dreadzone_inventory_006C0D88(const DreadzoneInventoryMemory *view) {
         (uintptr_t)view->storage>UINTPTR_MAX-view->bytes)
         return DREADZONE_INVENTORY_RESET_INVALID;
     record=view->storage;
+    guest=view->guest_address;
 #else
 void func_L01_0055D2F8(u8 *,s32);
 #define RESET_HALF(offset,value) (*(u16 *)(record+(offset))=(u16)(value))

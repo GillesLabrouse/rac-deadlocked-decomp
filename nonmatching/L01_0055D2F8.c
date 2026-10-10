@@ -8,9 +8,10 @@ static void clear_store(u8 *p, u32 size) {
     u32 i;
     for (i=0; i<size; ++i) p[i]=0;
 }
-#define CLEAR_AT(address,size) clear_store(view->storage+(address-start),(size))
+#define CLEAR_AT(address,size) clear_store(storage+(address-start),(size))
 int dreadzone_clear_0055D2F8(const DreadzoneInventoryMemory *view,s32 bytes) {
     u32 start,cursor,end,end16,end8,end4;
+    u8 *storage;
     if (!view || !view->storage || (view->guest_address&15) || bytes<0 ||
         ((u32)bytes&15) || view->bytes<(u32)bytes ||
         (u64)view->guest_address+view->bytes>0x80000000ULL ||
@@ -18,6 +19,7 @@ int dreadzone_clear_0055D2F8(const DreadzoneInventoryMemory *view,s32 bytes) {
         (uintptr_t)view->storage>UINTPTR_MAX-view->bytes)
         return DREADZONE_INVENTORY_RESET_INVALID;
     start=cursor=view->guest_address;
+    storage=view->storage;
 #else
 typedef unsigned int InventoryClearQuad __attribute__((mode(TI)));
 #define CLEAR_AT(address,size) do { \

@@ -1,6 +1,7 @@
 #include "dreadzone_inventory_reset.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 static unsigned checks,failures;
 #define CHECK(x) do { ++checks; if(!(x)) { ++failures; if(failures<8) fprintf(stderr,"line%d: %s\n",__LINE__,#x); } } while(0)
 static u8 data[0x12B0+64],expected[sizeof(data)];
@@ -56,8 +57,29 @@ static void aligned_clear(void) {
     CHECK(dreadzone_clear_0055D2F8(&view,16)==-1);
     for(i=0;i<sizeof(data);++i) CHECK(data[i]==expected[i]);
 }
+static void descriptor_inside_destination(void) {
+    u8 *backing=(u8 *)malloc(sizeof(data));
+    DreadzoneInventoryMemory *view;
+    u32 i;
+    CHECK(backing!=NULL);
+    if(!backing) return;
+    memset(backing,0xC3,sizeof(data));
+    view=(DreadzoneInventoryMemory *)(backing+16+0x30);
+    view->storage=backing+16; view->guest_address=0x1D3F90; view->bytes=0x12B0;
+    memcpy(expected,backing,sizeof(data));
+    for(i=0;i<0x12B0;++i) expected[16+i]=inventory_byte(i,backing[16+i]);
+    CHECK(dreadzone_inventory_006C0D88(view)==0);
+    for(i=0;i<sizeof(data);++i) CHECK(backing[i]==expected[i]);
+    memset(backing,0xC3,sizeof(data));
+    view=(DreadzoneInventoryMemory *)(backing+16+0x20);
+    view->storage=backing+16; view->guest_address=0x400000; view->bytes=0x100;
+    memcpy(expected,backing,sizeof(data)); memset(expected+16,0,0x100);
+    CHECK(dreadzone_clear_0055D2F8(view,0x100)==0);
+    for(i=0;i<sizeof(data);++i) CHECK(backing[i]==expected[i]);
+    free(backing);
+}
 int main(void) {
-    resets(); aligned_clear();
+    resets(); aligned_clear(); descriptor_inside_destination();
     printf("Inventory reset and aligned clear: %u checks, %u failures\n",checks,failures);
     return failures!=0;
 }
