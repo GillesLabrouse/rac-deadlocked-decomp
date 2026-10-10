@@ -29,6 +29,15 @@ streams the data through the scratchpad in 0x2000 blocks. Decoding state and
 the match window continue across those boundaries. `tools/unpack_wad.py`
 decodes it: **5,157,636 bytes**, ending exactly at the declared size.
 
+Zero-distance markers have two distinct meanings. Length tag1 (`11 00 00`)
+is an ordinary no-op and can carry a tiny literal; a following `EE` remains
+a valid match opcode. Other length tags select block padding and do not carry
+that literal. The original loader's `00800378..00800384` branch distinguishes
+them before its real DMA boundary. Treating both markers as padding corrupted
+the Dreadzone level asset stream by one byte. The corrected tool reproduces
+all14,214,848 level1 asset bytes from independent Wrench extraction, while
+retaining the exact resident image. Synthetic packet tests contain no game data.
+
 The unpacked image is a stream of 16-byte headers (`dest`, `size`, ELF type,
 entry) each followed by its data: **17 sections**, entry point `0x1574E8`.
 `tools/split_image.py` splits them and builds `baserom/SCUS_974.65.elf` (one

@@ -16,8 +16,9 @@ Compression") and confirmed against the loader's code:
   0x07  9 bytes padding
   0x10  stream of LZO1X-style packets
 
-A packet `11/12 00 00` (distance 0, optional squashed literal in the low two
-bits of the second byte) is a no-op. The compressor uses it at 0x2000-byte
+A packet `11 00 00` (distance 0, length tag 1) is a no-op, with an optional
+squashed literal in the low two bits of the second byte. Other zero-distance
+length tags mark block padding. The compressor uses `12 00 00` before block
 boundaries, followed by 0xEE fill until (pos - wad_start) % 0x2000 == 0x10,
 because the game streams the data through the scratchpad in 0x2000 blocks.
 Decoding state and the match window continue across those boundaries.
@@ -120,12 +121,13 @@ def decompress(src: bytes, base: int) -> bytes:
             d = far + ((src[ip] | (src[ip + 1] << 8)) >> 2)
             ip += 2
             if d == 0:
-                # padding packet; a squashed literal may follow
-                state = src[ip - 2] & 3
+                # Tag 1 is an ordinary no-op, even if the next opcode is EE.
+                # Other tags mark padding and do not carry a literal.
+                state = (src[ip - 2] & 3) if t == 1 else 0
                 if state:
                     out += src[ip:ip + state]
                     ip += state
-                else:
+                elif t != 1:
                     while (ip < end and (ip - base) % BLOCK != HEADER
                            and src[ip] == 0xEE):
                         ip += 1

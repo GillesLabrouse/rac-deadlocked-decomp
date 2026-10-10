@@ -1299,3 +1299,25 @@ prove a later one. Emulator tests are optional reference checks.
   2206B0 and returns528098. This proves the supplied-data copy boundary,
   not the disk driver or complete native level load. All ISO/CPU bytes
   and generated receipts remain ignored. Nothing is pushed.
+
+## 2026-10-10 — Repair zero-distance WAD marker decoding
+
+- Collision recovery exposed a one-byte shift in the shared asset decoder.
+  The tool incorrectly skipped a legitimate EE match opcode after ordinary
+  no-op110000, first differing at decompressed level1 asset offset1B5DF0.
+- Recovered the real distinction from original loader00800330..00800384:
+  length tag1 selects the no-op/tiny-literal path; other zero-distance tags
+  select the actual DMA block boundary without a literal. Root executes
+  28 isolated original classification cases, including all tiny-literal
+  low bits, with504 instructions and no substituted DMA/callee execution.
+  The independent Wrench v0.6 decoder documents the same distinction.
+- Fixed classification rather than adding a level/address-specific exception.
+  Four synthetic regression tests cover a following EE opcode, block-start
+  no-op, padding with all low-bit values and an embedded WAD/tiny literal.
+  All150 Python tests pass. No original asset bytes are tracked.
+- Root's full level1 asset output now equals independent Wrench extraction:
+  14,214,848 bytes, SHA256c953c0d97031da97493e9ecf83e3025de4c150370dd77dea6ac469d994a79331.
+  The resident output remains byte-for-byte unchanged at5,157,636 bytes,
+  SHA25665e358a40e07c9bd8e7f07d4c8c0f1ce6ebf8578a4db61f96c25ab240aaf871b.
+  This restores reliable collision/animation data extraction; it does not
+  establish native terrain contacts or a running game frame. Nothing is pushed.
