@@ -71,6 +71,49 @@ static void motion_checks(void) {
         check(memcmp(baseline,record,sizeof(record))==0);
     }
 }
+static void height_offset_checks(void) {
+    DreadzoneActorInputContext c;DreadzoneActorInputMemory view;u32 i;
+    for(i=0;i<6;++i) {
+        u32 output=(i&1)?0x210000:0x210010;
+        f32 z=i<2?7.f:i<4?0.f:-0.f;
+        f32 offset=i<2?2.f:(i==3 || i==5)?-0.f:0.f;
+        c=fixture();view=(DreadzoneActorInputMemory){extra+1,0x210000,64,1};
+        c.views=&view;c.view_count=1;
+        dreadzone_actor_input_store32(extra+1,0x7FC12345U);
+        dreadzone_actor_input_store32(extra+5,0xDEADBEEFU);
+        put(extra+1,8,z);dreadzone_actor_input_store32(extra+13,0xFFC12345U);
+        dreadzone_actor_input_store32(extra+17,0x80000000U);
+        dreadzone_actor_input_store32(extra+21,0x7FC98765U);
+        put(extra+1,24,-12.f);dreadzone_actor_input_store32(extra+29,0x12345678U);
+        memcpy(saved,extra,sizeof(extra));memcpy(baseline,record,sizeof(record));
+        check(dreadzone_actor_height_offset_0068A178(&c,output,0x210000,offset)==1);
+        {
+            f32 expected=z-offset;u32 delta=1+output-0x210000;
+            check(raw(extra+delta+8)==raw(&expected));
+            memcpy(saved+delta+8,&expected,4);
+        }
+        check(memcmp(saved,extra,sizeof(extra))==0);
+        check(memcmp(baseline,record,sizeof(record))==0);
+    }
+    for(i=0;i<7;++i) {
+        u32 input=0x210000,output=0x210010;f32 offset=1.f;
+        c=fixture();view=(DreadzoneActorInputMemory){extra+1,0x210000,64,1};
+        c.views=&view;c.view_count=1;put(extra+1,8,7.f);
+        switch(i) {
+        case 0:view.writable=0;break;
+        case 1:input++;break;
+        case 2:output=0x210040;break;
+        case 3:offset=NAN;break;
+        case 4:put(extra+1,8,NAN);break;
+        case 5:put(extra+1,8,17.f);break;
+        case 6:c.record[0x2659]=1;break;
+        }
+        memcpy(saved,extra,sizeof(extra));memcpy(baseline,record,sizeof(record));
+        check(dreadzone_actor_height_offset_0068A178(&c,output,input,offset)<0);
+        check(memcmp(saved,extra,sizeof(extra))==0);
+        check(memcmp(baseline,record,sizeof(record))==0);
+    }
+}
 int main(void) {
     DreadzoneActorInputContext c;DreadzoneActorInputMemory view;
     VelocityVector v;u32 i,j;f32 result;clock_t start=clock();
@@ -199,6 +242,7 @@ int main(void) {
     dreadzone_actor_input_store32((u8 *)&v+8,0xFFC12345U);
     result=func_L01_0068AB40(c.record,&v);check(raw(&result)==0xFFC12345U);
     motion_checks();
+    height_offset_checks();
     printf("Velocity: %u checks, %u failures, %.3f seconds\n",checks,failures,
         (double)(clock()-start)/CLOCKS_PER_SEC);
     return failures?1:0;

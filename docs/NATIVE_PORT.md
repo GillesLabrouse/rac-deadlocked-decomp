@@ -894,9 +894,54 @@ Root's fresh integrated DLL agrees with original/SN execution on 1,024 cases:
 731,870 original instructions, 730,910 rebuilt instructions, 3,448,832 bytes
 and zero differences. This includes 310 cycles and aliases to future node
 fields or occupancy bytes. The complete retail body is 88 bytes, rather than
-the splitter's truncated 80. Full 589CE0 layer-weight/unlink composition remains
-in progress. All 61 registered native tests pass in 4.28 seconds; no complete
+the splitter's truncated 80. Full 589CE0 layer-weight/unlink composition is
+provided by the separate adapter described below. At this milestone all 61
+registered native tests passed in 4.28 seconds; no complete
 player/state/game frame is claimed.
+
+The height-offset entry `dreadzone_actor_height_offset_0068A178` now performs
+the original mode 0 source-Z subtraction while preserving destination X/Y/W.
+This differs from vertical projection's raw source-lane transport. Its snapshot
+retains source/destination aliases and signed-zero subtraction, with atomic
+refusal on unsupported modes, floats or memory. The complete PS2 draft includes
+modes 1/2 and their actual projection calls; it remains NONMATCHING (252-byte
+entry plus a local normalization helper versus the original 456-byte span).
+Root compares 2,048 original/SN cases and 512 native cases, including 293 aliases
+and 128 exact signed-zero cases: 363,008 instructions and zero observed difference.
+Native velocity now has 1,639 focused checks. No position update is added.
+
+`dreadzone_static_body_contact` implements complete 00542280 supplementary static
+contact and its reverse 64-contact collection mode. The mapped relocated table,
+original source preloads, packed coordinates, contact packet publication and
+incoming VU W lanes are explicit. Signed broad-phase overflow and unsupported
+numeric/memory cases refuse before publication. The authored native entry uses
+ordered host binary32 and saturated-Q diagnostics; it does not claim physical
+VU identity. The complete 1416-byte PS2 span recompiles and links NONMATCHING.
+Its 45 focused assertions pass. Root's integrated DLL agrees with original
+instructions on 3,009 fixtures: 857 contacts, 2,151 misses and one genuine
+signed-SUB trap refused atomically. This compares 5,532,024,832 backing bytes
+through 4,794,058 EE and 132,374 actual microbank instructions.
+Fresh complete SN execution also agrees on 600 cases spanning all 250 authentic
+faces and nine edge cases, including preload aliases, 64-contact exhaustion,
+degenerate triangles and trapping overflow. These runs execute 7,139,384 EE
+and 26,774 actual microbank instructions; no helper results are captured.
+This is supplementary body correction; the
+primary capsule probe 0053FAA8 and full 67EF00 motion composition remain separate.
+
+`dreadzone_animation_layers_advance` composes complete 00589CE0 CPU effects using
+the proved primary temporal block plus actual list cleanup/release. Genuine
+guest links remain intact, weights decay in original order, and metadata aliases
+can affect later nodes. Caller memory is snapshotted and published only after
+supported completion. Negative fractional elapsed time and nonterminating
+temporal chains refuse atomically. The integrated DLL agrees with original/SN
+on 460 supported scenarios (128 with original class 23F7 clip metadata), including
+108 pre-cleanups and 52 metadata-to-decay aliases: 145,507 original instructions,
+168,443 SN instructions, 1,718,088 mapped bytes and zero differences. There are
+180 separately reported atomic refusals and 4,595 focused checks. Event dispatch,
+clip selection, display cadence and DMA remain outside this API.
+
+All 63 registered native tests pass in 3.96 seconds after these integrations.
+The visible model remains a sampled animation preview with no player controls.
 
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every

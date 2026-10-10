@@ -50,6 +50,10 @@ int dreadzone_actor_planar_projection_0068AC58(const DreadzoneActorInputContext 
  * The reduction scalar is signed; no invented nonnegative clamp is imposed. */
 int dreadzone_actor_vertical_projection_0068ABA8(const DreadzoneActorInputContext *,u32 output_guest,u32 input_guest,f32 height);
 int dreadzone_actor_accumulated_motion_006834C8(const DreadzoneActorInputContext *,f32 reduction);
+/* Mode0 height offset preserves destination X/Y/W, reads the original source
+ * Z before any store, and subtracts the original scalar. Ordered aliases and
+ * the same finite bounded scalar/domain and transactional rules apply. */
+int dreadzone_actor_height_offset_0068A178(const DreadzoneActorInputContext *,u32 output_guest,u32 input_guest,f32 offset);
 /* Internal routines require a validated shadow context and supported floats. */
 f32 dreadzone_velocity_float(const void *);
 void dreadzone_velocity_store(void *,f32);
@@ -68,4 +72,5 @@ f32 func_L01_0068AB40(const u8 *,const VelocityVector *);
 int dreadzone_velocity_0068AC58(const u8 *,u8 *,const u8 *,f32);
 int dreadzone_velocity_0068ABA8(const u8 *,u8 *,const u8 *,f32);
 int dreadzone_velocity_006834C8(u8 *,f32);
+int dreadzone_velocity_0068A178(const u8 *,u8 *,const u8 *,f32);
 #endif

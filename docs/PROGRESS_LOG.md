@@ -1632,3 +1632,35 @@ prove a later one. Emulator tests are optional reference checks.
   the independent oracle with its real helpers. That collision lot remains in
   final validation; SRLV itself adds no native movement or playable frame.
   Nothing is pushed.
+
+## 2026-10-11 — Integrate height offset, static body and animation layers
+
+- Recovered complete 0068A178 (456 bytes including padding), keeping modes 1/2
+  normalization and projection dependencies. The fresh SN entry is 252 bytes
+  plus a local helper and remains NONMATCHING. Native mode 0 subtracts the real
+  offset from source Z and preserves destination X/Y/W, with ordered aliases
+  and atomic refusal. Root replays 2,048 original/SN cases and 512 native cases:
+  363,008 instructions, 293 aliases, 128 exact signed-zero cases, zero observed
+  difference. Velocity's 1,639 focused checks pass.
+- Integrated the complete 00542280 static-body adapter and reverse contact
+  collector, with 45 assertions. The fresh SN object strictly links NONMATCHING
+  against the full 1416-byte span. Root's integrated DLL agrees with original
+  instructions on 3,009 fixtures: 857 contacts, 2,151 misses and one actual
+  signed-SUB trap refused atomically; 5,532,024,832 backing bytes, 4,794,058 EE
+  and 132,374 genuine microbank instructions. Fresh complete SN execution also
+  agrees on 600 cases spanning all 250 authentic faces and nine edge cases:
+  7,139,384 EE and 26,774 microbank instructions, no captured helper results.
+  The primary capsule and player motion
+  frame remain in progress; this entry is supplementary static correction.
+- Integrated complete 00589CE0 layer clock/weight/unlink effects using genuine
+  cleanup/release components. Root's integrated DLL agrees with actual original
+  and SN instructions on 460 supported cases, including 128 original clip
+  metadata fixtures, 108 pre-cleanups and 52 metadata-to-decay aliases. There are
+  145,507 original and 168,443 SN instructions, 1,718,088 mapped bytes and zero
+  differences. 180 unsupported negative fractional cases refuse atomically.
+  All 4,595 focused checks pass. No event scheduler or cadence is invented.
+- All 63 registered native tests pass in 3.96 seconds; all 170 Python tests pass
+  in 2.456 seconds. The animated native preview remains available but Ratchet
+  is not controllable. Original-clock preview integration and the primary
+  capsule continue in parallel. No matching acceptance or playable frame is
+  claimed; generated assets and private proofs remain ignored. Nothing pushed.

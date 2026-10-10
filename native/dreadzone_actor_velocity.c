@@ -95,7 +95,7 @@ static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u3
         return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     if(operation==1 && !bounded(a,100000.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     if(operation==3 && (!bounded(a,16.f) || a<0.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
-    if((operation==4 || operation==5) && !bounded(a,16.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
+    if((operation==4 || operation==5 || operation==6) && !bounded(a,16.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     for(i=0;i<=ctx->view_count;++i) {
         region(ctx,i,original+i);
         if(original[i].bytes>16U*1024U*1024U-total) return DREADZONE_VELOCITY_TRANSACTION_MEMORY;
@@ -133,17 +133,19 @@ static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u3
         }
         status=dreadzone_velocity_006834C8(tx.record,a);
     } else {
-        if((input&15) || ((operation==3 || operation==4) && (output&15))) {status=DREADZONE_VELOCITY_NEEDS_MEMORY;goto discard;}
+        if((input&15) || (operation!=2 && (output&15))) {status=DREADZONE_VELOCITY_NEEDS_MEMORY;goto discard;}
         source=dreadzone_actor_input_read(&tx,input,16);
         destination=operation==2?tx.record+0x130:dreadzone_actor_input_write(&tx,output,16);
         if(!source || !destination) {status=DREADZONE_VELOCITY_NEEDS_MEMORY;goto discard;}
-        if((operation!=4 && !vector_valid(source,operation==2?3:2)) ||
+        if(((operation==2 || operation==3) && !vector_valid(source,operation==2?3:2)) ||
+           (operation==6 && !bounded(dreadzone_velocity_float(source+8),16.f)) ||
            (operation==2 && !bounded(dreadzone_velocity_float(tx.record+0x1784),16.f))) {
             status=DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;goto discard;
         }
         if(operation==2) status=dreadzone_velocity_0067D480(tx.record,source);
         else if(operation==3) status=dreadzone_velocity_0068AC58(tx.record,destination,source,a);
-        else status=dreadzone_velocity_0068ABA8(tx.record,destination,source,a);
+        else if(operation==4) status=dreadzone_velocity_0068ABA8(tx.record,destination,source,a);
+        else status=dreadzone_velocity_0068A178(tx.record,destination,source,a);
     }
     if(status>=0) for(i=0;i<=ctx->view_count;++i) if(original[i].writable) memcpy(original[i].storage,buffers[i],original[i].bytes);
 discard:
@@ -155,3 +157,4 @@ int dreadzone_actor_normalized_velocity_0067D480(const DreadzoneActorInputContex
 int dreadzone_actor_planar_projection_0068AC58(const DreadzoneActorInputContext *c,u32 output,u32 input,f32 a) {return run(c,3,output,input,a,0.f);}
 int dreadzone_actor_vertical_projection_0068ABA8(const DreadzoneActorInputContext *c,u32 output,u32 input,f32 a) {return run(c,4,output,input,a,0.f);}
 int dreadzone_actor_accumulated_motion_006834C8(const DreadzoneActorInputContext *c,f32 a) {return run(c,5,0,0,a,0.f);}
+int dreadzone_actor_height_offset_0068A178(const DreadzoneActorInputContext *c,u32 output,u32 input,f32 a) {return run(c,6,output,input,a,0.f);}
