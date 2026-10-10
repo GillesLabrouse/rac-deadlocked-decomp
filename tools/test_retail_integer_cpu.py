@@ -58,6 +58,28 @@ class IntegerCPUTests(unittest.TestCase):
         self.assertEqual(cpu.registers[6], top | 0x8877665544332211)
         self.assertEqual(cpu.memory.read(0x2010, 8), 0x8877665544332211)
 
+    def test_unsigned_word_load_zero_extends_and_preserves_high_half(self):
+        for bits in (0, 1, 0x7FFFFFFF, 0x80000000, 0xFFFFFFFF):
+            for destination in (0, 1, 2):
+                top = 0xABCDEF0123456789 << 64
+                cpu, _ = self.execute([i(39, 1, destination, -4), r(8, 31), 0],
+                                      {1: top | 0x2004, 2: top | MASK64},
+                                      [(0x2000, bits.to_bytes(4, 'little'))])
+                self.assertEqual(cpu.registers[destination], 0 if not destination else top | bits)
+        for address, data in ((0x2001, bytes(8)), (0x2000, bytes(3))):
+            with self.assertRaises(MemoryAccessError):
+                self.execute([i(39, 1, 0)], {1: address}, [(0x2000, data)])
+
+    def test_nor_uses_low_64_bits_and_preserves_destination_high_half(self):
+        for left, right in ((0, 0), (MASK64, 0), (0x80000000, 0),
+                            (0x1234567890ABCDEF, 0xFEDCBA0987654321)):
+            top = 0x9988776655443322 << 64
+            for destination in (0, 1, 2, 3):
+                cpu, _ = self.execute([r(39, 1, 2, destination), r(8, 31), 0],
+                                      {1: top | left, 2: top | right, 3: top})
+                self.assertEqual(cpu.registers[destination], 0 if not destination else
+                                 top | (MASK64 ^ (left | right)))
+
     def test_quad_copy_aligns_down_and_scalar_writes_retain_upper_64_bits(self):
         payload = bytes(range(16)) + bytes([0xCD] * 16)
         cpu, _ = self.execute([i(30, 1, 2, 3), i(9, 0, 2, -1), i(31, 1, 2, 31), r(8, 31), 0],
@@ -89,6 +111,17 @@ class IntegerCPUTests(unittest.TestCase):
         self.assertEqual(cpu.registers[6], 0x7F6E5D4)
         self.assertEqual(cpu.registers[7], 0xFFFFFFFFF8000000)
         self.assertEqual(cpu.registers[8], 0x12345678)
+
+    def test_arithmetic_doubleword_shift32_and_destination_aliases(self):
+        for value in (0, 1, 0x7FFFFFFFFFFFFFFF, 0x8000000000000000, MASK64):
+            signed_value = value if value < (1 << 63) else value - (1 << 64)
+            for shift in range(32):
+                for destination in (0, 1, 2):
+                    top = 0xFEDCBA9876543210 << 64
+                    cpu, _ = self.execute([r(63, rt=1, rd=destination, shift=shift), r(8, 31), 0],
+                                          {1: top | value, 2: top | 0x1234})
+                    self.assertEqual(cpu.registers[destination], 0 if not destination else
+                                     top | ((signed_value >> (shift + 32)) & MASK64))
 
     def test_signed_division_remainder_and_exceptional_inputs(self):
         upper = 0x123456789ABCDEF0 << 64

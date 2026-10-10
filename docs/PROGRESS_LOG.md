@@ -993,3 +993,16 @@ prove a later one. Emulator tests are optional reference checks.
 - Root independently compiled and strictly linked all seven PS2 drafts:
   only006BE040 is privately exact16/16; the other six remain nonmatching.
   No accepted source coverage changed and no files were pushed.
+
+## 2026-10-10 — Complete compiled spatial opcode inventory
+
+- Added shared LWU zero extension, DSRA32 signed64 shifts and NOR, required
+  by the actual spatial instructions and the freshly compiled allocator helpers.
+  Synthetic fixtures cover signed extremes, all shift counts, upper halves,
+  destination/base aliases, zero destinations and invalid load memory.
+  All139 Python tests pass in2.42 seconds.
+- The spatial workstream now inventories every original and compiled opcode
+  before replay, including ordinary compiler-generated operations. Unknown
+  executed instructions still fail explicitly. This avoids discovering one
+  unsupported operation per run while retaining the bounded oracle contract.
+  No native game or accepted matching source changed in this tooling lot.

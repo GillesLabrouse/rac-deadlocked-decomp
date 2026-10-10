@@ -215,6 +215,8 @@ class RetailIntegerCPU:
                     self._put(rd, a | b)
                 elif function == 38:
                     self._put(rd, a ^ b)
+                elif function == 39:
+                    self._put(rd, ~(a | b))
                 elif function == 42:
                     self._put(rd, int(signed(a, 64) < signed(b, 64)))
                 elif function == 43:
@@ -232,6 +234,8 @@ class RetailIntegerCPU:
                     self._put(rd, b << (shift + 32))
                 elif function == 62:
                     self._put(rd, b >> (shift + 32))
+                elif function == 63:
+                    self._put(rd, signed(b, 64) >> (shift + 32))
                 else:
                     raise UnsupportedInstruction(f"Unsupported SPECIAL function {function:02X} at {pc:08X}")
             elif op == 8:
@@ -316,8 +320,8 @@ class RetailIntegerCPU:
                 else:
                     result = (left >> 64) | ((right >> 64) << 64)
                 self._put_quad(rd, result)
-            elif op in (30, 31, 32, 33, 35, 36, 37, 40, 41, 43, 55, 63):
-                size = {30: 16, 31: 16, 32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 40: 1, 41: 2, 43: 4, 55: 8, 63: 8}[op]
+            elif op in (30, 31, 32, 33, 35, 36, 37, 39, 40, 41, 43, 55, 63):
+                size = {30: 16, 31: 16, 32: 1, 33: 2, 35: 4, 36: 1, 37: 2, 39: 4, 40: 1, 41: 2, 43: 4, 55: 8, 63: 8}[op]
                 address = (a + displacement) & MASK32
                 if op in (30, 31):
                     address &= ~15
