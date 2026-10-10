@@ -7,7 +7,7 @@ a PC executable. Keep that validation while developing the host runtime.
 
 ## Verified first step
 
-`native/CMakeLists.txt` builds a native static library from eight recovered game
+`native/CMakeLists.txt` builds a native static library from thirteen recovered game
 functions in `src/core` and `src/game`, without retail machine code or PS2 toolchain inputs.
 An explicit source list excludes platform startup, drivers, and address-dependent code
 that cannot run unchanged on a host. The original matching header remains intact.
@@ -98,7 +98,7 @@ build/native/Release/deadlocked_native_scene_viewer.exe `
 Add `--software` to use WARP. Each capture writes a JSON report containing draw
 counts, camera parameters, renderer type, and `game_logic_running: false`.
 The native CTest suite includes scalar/command ABI checks, recovered startup
-parameter checks, malformed scene rejection, and a WARP draw/readback test. It
+parameter and queue checks, malformed scene rejection, and a WARP draw/readback test. It
 decodes an authored PNG and renders two differently placed and tinted triangles.
 Python tests use authored synthetic geometry for the asset converter.
 
@@ -171,10 +171,25 @@ to eight slots, and initializes four state markers to `-1`. The routine's exact
 source passes a native test with signed boundary values and full-layout checks.
 Its eight slots have not been assigned a gameplay interpretation.
 
-The native core library now includes this routine as well as the original seven
-isolated helpers. The renderer does not yet invoke the recovered startup/update
+The native core library includes this routine, five recovered queue routines,
+and the original seven isolated helpers. The renderer does not yet invoke the recovered startup/update
 chain. Tests of parameter initialization prove this routine's behavior, not boot
 of the native game.
+
+## Recovered request queue used by startup
+
+`src/game/0045C768.c` and `src/game/0045C8C8.c` implement a ten-entry FIFO queue,
+its reset wrapper, and single-request dispatch. They preserve the scalar layout
+and pass both exact PS2 linking and native behavioral tests. The latter check
+capacity, wraparound, lock transitions, untouched empty-pop outputs, request
+arguments, all signed state boundaries, and reset after handler errors.
+
+The host fixture substitutes CRT `memset` for the unrecovered PS2 vectorized
+byte filler. It captures the `0047F568` handler boundary and supplies test results;
+it does not implement that handler's game behavior. The queue's request identifiers
+and connection to gameplay still need interpretation. Its native test is separate
+from the scenery renderer. See [the startup path](STARTUP_PATH.md) for verified
+entry points and the remaining dependency chain.
 
 ## Priorities toward the beginning of the game
 

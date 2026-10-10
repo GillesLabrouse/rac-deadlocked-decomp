@@ -15,13 +15,14 @@ prove a later one. Emulator tests are optional reference checks.
 
 ## Current verified checkpoint
 
-- 268 matching functions, 0.536% of counted code, including open-source libraries.
-- 217 game functions pass exact linking: 140 resident and 77 overlay functions.
-- Resident reconstruction replaces 9,688 bytes with exact compiled C. The whole
+- 273 matching functions, 0.532% of counted code, including open-source libraries.
+- 222 game functions pass exact linking: 145 resident and 77 overlay functions.
+- Resident reconstruction replaces 10,272 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Thirty-four Python regression tests and all four native CTest checks pass.
-- Eight recovered functions compile and execute in Windows x64 test targets.
-  A capture transport replaces the command driver for these tests. No native
+- Thirty-four Python regression tests and all five native CTest checks pass.
+- Thirteen recovered functions compile and execute in Windows x64 test targets.
+  Fixtures capture unrecovered command and request handlers and map byte filling
+  to CRT memset. No native
   game update loop, game boot, or campaign play has been verified.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
   render natively, using 86 shared object models and 440 textures. Hardware and
@@ -220,3 +221,38 @@ prove a later one. Emulator tests are optional reference checks.
   instancing self-test verifies distinct red/green placements and orientation,
   including PNG decoding and texture channel order with an authored texture.
   Work remains local; nothing has been pushed.
+
+## 2026-10-10 — Startup entry boundaries and recovered request queue
+
+- Verified the resident startup's real initial entry at `00437EB0`, after an
+  eight-byte fall-through prelude. Its 2,004-byte extent contains all 33 direct
+  branches and all 18 targets in the state table. The body has 63 distinct direct
+  callees across initialization, frame work and cleanup; it is not yet recovered C.
+- Corrected two false splits caused by early returns inside queue routines.
+  The split configuration now exposes another 438 resident function-table entries.
+  These are newly indexed functions, not newly decompiled code. The denominator
+  is 15,766; counted coverage changes from 0.536% to 0.532% with five new matches.
+- Recovered exact queue initialization, enqueue, dequeue, reset and dispatch in
+  `src/game/0045C768.c` and `src/game/0045C8C8.c`: five routines, 584 linked bytes.
+  Enqueue classifies values at the boundary 100. Dispatch derives its mode from
+  the observed state, calls the handler with five arguments including a null
+  optional pointer, and resets the queue after a negative handler result.
+- Native tests execute all five routines with FIFO, capacity, wraparound, lock,
+  empty-output, signed-state, handler-argument and error-reset cases. State
+  subtraction is unsigned before decrement, preserving defined behavior at
+  `INT32_MIN`. The same expression still produces exact PS2 code.
+- Native fixtures replace vectorized memset with CRT byte filling and capture
+  `0047F568` without implementing its game effects. These tests do not execute the
+  menu loop or add gameplay to the scenery renderer.
+- Identified the Dreadzone overlay ELF entry `00528098`, grouped by the existing
+  normalizer under common function `func_L00_00594458`. Its 4,584-byte extent and
+  normalized grouping were checked against both overlay ELFs. This grouping is
+  not proof of equivalent global/callee addresses or a verified host port.
+- Documented the entry chain, state branch groups and missing host boundaries in
+  `docs/STARTUP_PATH.md`. The campaign entry and frame/update dependencies remain
+  the next recovery targets.
+- Global audit: 273 exact functions. Exact linking: 222 game functions, including
+  145 resident and 77 overlay functions. Resident reconstruction replaces 10,272
+  bytes and still equals retail; ELF SHA-1 remains
+  `5619a8de0247e093ab672fca30dbf59bc16fe333`. All five native CTest checks pass.
+  Source and documentation remain local; nothing has been pushed.
