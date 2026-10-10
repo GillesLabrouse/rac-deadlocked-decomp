@@ -2,6 +2,7 @@
 from pathlib import Path
 import sys
 import tempfile
+import struct
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
@@ -216,6 +217,51 @@ class IntegerCPUTests(unittest.TestCase):
         self.assertEqual(cpu.registers[3], (-21) & MASK64)
         self.assertEqual(cpu.lo, (-21) & MASK64)
         self.assertEqual(cpu.hi, MASK64)
+
+    def test_pabsw_saturates_signed_minimum_and_snapshots_aliases(self):
+        source = 0xFFFFFFFF7FFFFFFF8000000000000000
+        expected = 0x000000017FFFFFFF7FFFFFFF00000000
+        for rt in (0, 1, 2):
+            for destination in (0, 1, 2, 3):
+                with self.subTest(rt=rt, destination=destination):
+                    cpu, _ = self.execute([(28 << 26) | r(40, 3, rt, destination, 1), r(8, 31), 0],
+                                          {1: source, 2: source, 3: (1 << 128) - 1})
+                    self.assertEqual(cpu.registers[destination], expected if rt and destination else 0)
+
+    def test_pmulth_all_accumulator_lanes_even_destination_aliases_and_zero(self):
+        left = int.from_bytes(struct.pack('<8h', -32768, -1, 0, 1, 32767, -123, 2345, -32768), 'little')
+        right = int.from_bytes(struct.pack('<8h', -32768, -1, 32767, -2, 32767, 321, -777, 1), 'little')
+        mixed = (1073741824, 1, 0, -2, 1073676289, -39483, -1822065, -32768)
+        square = (1073741824, 1, 0, 1, 1073676289, 15129, 5499025, 1073741824)
+        pack = lambda lanes: int.from_bytes(struct.pack('<4I', *(x & 0xFFFFFFFF for x in lanes)), 'little')
+        for rs, rt, products in ((1, 2, mixed), (2, 1, mixed), (1, 1, square),
+                                 (0, 2, (0,) * 8), (1, 0, (0,) * 8), (0, 0, (0,) * 8)):
+            for destination in (0, 1, 2, 3):
+                with self.subTest(rs=rs, rt=rt, destination=destination):
+                    cpu, _ = self.execute([(28 << 26) | r(9, rs, rt, destination, 28), r(8, 31), 0],
+                                          {1: left, 2: right, 3: (1 << 128) - 1})
+                    self.assertEqual(cpu.lo, pack((products[0], products[1], products[4], products[5])))
+                    self.assertEqual(cpu.hi, pack((products[2], products[3], products[6], products[7])))
+                    self.assertEqual(cpu.registers[destination],
+                                     pack((products[0], products[2], products[4], products[6])) if destination else 0)
+        cpu, _ = self.execute([(28 << 26) | r(9, 1, 2, 0, 28),
+                               (28 << 26) | r(9, 0, 0, 0, 28), r(8, 31), 0], {1: left, 2: right})
+        self.assertEqual((cpu.hi, cpu.lo), (0, 0))
+
+    def test_scalar_mult_and_div_preserve_packed_accumulator_upper_halves(self):
+        halfwords = int.from_bytes(struct.pack('<8h', 1, 2, 3, 4, 5, 6, 7, 8), 'little')
+        high_lo = (25 << 64) | (36 << 96)
+        high_hi = (49 << 64) | (64 << 96)
+        for function, low_lo, low_hi in ((24, -21, -1), (26, 0, -3)):
+            cpu, _ = self.execute([(28 << 26) | r(9, 1, 1, 0, 28), r(function, 4, 5, 6),
+                                   r(16, rd=7), r(8, 31), 0],
+                                  {1: halfwords, 4: -3, 5: 7, 6: 0x123456789ABCDEF0 << 64,
+                                   7: 0xFEDCBA9876543210 << 64})
+            self.assertEqual(cpu.lo, high_lo | (low_lo & MASK64))
+            self.assertEqual(cpu.hi, high_hi | (low_hi & MASK64))
+            self.assertEqual(cpu.registers[7], (0xFEDCBA9876543210 << 64) | (low_hi & MASK64))
+            if function == 24:
+                self.assertEqual(cpu.registers[6], (0x123456789ABCDEF0 << 64) | (low_lo & MASK64))
 
     def test_doubleword_shifts_movz_and_word_signed_shift(self):
         cpu, _ = self.execute([r(56, rt=1, rd=4, shift=7), r(60, rt=1, rd=5, shift=5),

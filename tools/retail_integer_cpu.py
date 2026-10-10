@@ -11,7 +11,9 @@ Instruction words must be supplied locally; this module contains no retail code.
 
 Registers retain 128 bits for LQ/SQ. Scalar operations replace their low 64 bits;
 word arithmetic and signed word loads sign-extend into that low half. Comparisons
-and ordinary branches use 64 bits. PLZCW counts redundant sign bits separately
+and ordinary branches use 64 bits. HI/LO also retain 128 bits; scalar arithmetic
+replaces their low halves while packed halfword multiplication writes all lanes.
+PLZCW counts redundant sign bits separately
 in the two low words. LQ/SQ round addresses down to 16; other accesses require
 their natural alignment. These details were independently cross-checked against
 the PCSX2 project's R5900OpcodeImpl.cpp and MMI.cpp; no code was copied from them.
@@ -186,7 +188,8 @@ class RetailIntegerCPU:
                     self._put(rd, b >> (a & 63))
                 elif function == 24:
                     product = signed(a, 32) * signed(b, 32)
-                    self.lo, self.hi = signed(product, 32) & MASK64, signed(product >> 32, 32) & MASK64
+                    self.lo = (self.lo & (MASK128 ^ MASK64)) | (signed(product, 32) & MASK64)
+                    self.hi = (self.hi & (MASK128 ^ MASK64)) | (signed(product >> 32, 32) & MASK64)
                     self._put(rd, self.lo)
                 elif function == 26:
                     dividend, divisor = signed(a, 32), signed(b, 32)
@@ -199,7 +202,8 @@ class RetailIntegerCPU:
                         if (dividend < 0) != (divisor < 0):
                             quotient = -quotient
                         remainder = dividend - quotient * divisor
-                    self.lo, self.hi = signed(quotient, 32) & MASK64, signed(remainder, 32) & MASK64
+                    self.lo = (self.lo & (MASK128 ^ MASK64)) | (signed(quotient, 32) & MASK64)
+                    self.hi = (self.hi & (MASK128 ^ MASK64)) | (signed(remainder, 32) & MASK64)
                 elif function == 32:
                     total = signed(a, 32) + signed(b, 32)
                     if not -(1 << 31) <= total < (1 << 31):
@@ -320,8 +324,8 @@ class RetailIntegerCPU:
                 self._put_quad(rd, result)
             elif op == 28 and (word & 63, shift) in (
                     (8, 26), (8, 22), (8, 18), (8, 25), (8, 3), (8, 1),
-                    (8, 23), (8, 27), (8, 0), (8, 5), (40, 3), (40, 18),
-                    (9, 14), (9, 31), (41, 14), (41, 18), (41, 27)):
+                    (8, 23), (8, 27), (8, 0), (8, 5), (40, 3), (40, 18), (40, 1),
+                    (9, 14), (9, 31), (9, 28), (41, 14), (41, 18), (41, 27)):
                 left, right = self.registers[rs], self.registers[rt]
                 function = word & 63
                 if function == 8 and shift in (26, 22, 18):
@@ -356,6 +360,10 @@ class RetailIntegerCPU:
                                  << ((lane + group * 8) * 8)
                                  for group, source in enumerate((right, left))
                                  for lane in range(8))
+                elif function == 40 and shift == 1:
+                    # PABSW saturates the absolute value of signed minimum.
+                    result = sum(min(0x7FFFFFFF, abs(signed(right >> (lane * 32), 32)))
+                                 << (lane * 32) for lane in range(4))
                 elif function == 40 and shift == 18:
                     # PEXTUW interleaves upper words: rt2, rs2, rt3, rs3.
                     result = sum(((source >> ((lane + 2) * 32)) & MASK32)
@@ -370,6 +378,18 @@ class RetailIntegerCPU:
                     result = sum((max(signed(left >> (lane * 32), 32),
                                       signed(right >> (lane * 32), 32)) & MASK32)
                                  << (lane * 32) for lane in range(4))
+                elif function == 9 and shift == 28:
+                    # PMULTH writes every signed halfword product to HI/LO,
+                    # and the even products to rd, including aliased sources.
+                    products = [(signed(left >> (lane * 16), 16)
+                                 * signed(right >> (lane * 16), 16)) & MASK32
+                                for lane in range(8)]
+                    self.lo = sum(products[source] << (lane * 32)
+                                  for lane, source in enumerate((0, 1, 4, 5)))
+                    self.hi = sum(products[source] << (lane * 32)
+                                  for lane, source in enumerate((2, 3, 6, 7)))
+                    result = sum(products[source] << (lane * 32)
+                                 for lane, source in enumerate((0, 2, 4, 6)))
                 elif function == 9 and shift == 31:
                     # PROT3W rotates words xyz left, retaining w; raw bits.
                     result = sum(((right >> (source * 32)) & MASK32) << (lane * 32)

@@ -1560,3 +1560,20 @@ prove a later one. Emulator tests are optional reference checks.
   animation-clock integration remain in progress. The existing animated model
   preview remains available through `run-model-animation.cmd`. No assets or
   original instructions are tracked; nothing is pushed.
+
+## 2026-10-11 — Validate packed multiplication for static-body replay
+
+- Added PABSW and PMULTH to the bounded integer oracle after reviewing primary
+  PCSX2 instruction semantics. PABSW saturates the signed minimum; PMULTH
+  snapshots complete sources, writes all eight signed halfword products into
+  128-bit HI/LO and writes even products to the destination. A zero destination
+  still changes HI/LO. Subsequent scalar MULT/DIV retain upper accumulator
+  halves, matching the original low-half-only writes.
+- Three synthetic test methods cover literal lane order, signed boundaries,
+  aliased/zero sources and destinations, accumulator replacement and scalar
+  upper-half preservation. All 169 Python tests pass in 2.402 seconds; all 58
+  independent float-diagnostic checks also pass. No original instruction list
+  or third-party implementation is tracked.
+- This enables independent static-body instruction replay. It does not itself
+  integrate the body's collision response or a playable frame. The autonomous
+  work continues locally; nothing is pushed.
