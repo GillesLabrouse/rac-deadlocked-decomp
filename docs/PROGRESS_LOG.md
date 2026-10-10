@@ -1108,3 +1108,18 @@ prove a later one. Emulator tests are optional reference checks.
 - APPROXIMATE explicitly excludes physical VU/EE rounding, flags, register
   effects, stack spills and timing. This supplies one real constructor
   dependency; actor state/collision and the full native game loop remain.
+
+## 2026-10-10 — Genuine indirect integer call validation
+
+- Added JALR to the shared integer oracle for the equipment setter's actual
+  virtual getter. The target uses old rs.low32 before the link store, retains
+  upper register halves and executes the real delay slot. Actual indirect
+  targets join the same call trace as direct calls; no target is captured.
+  Behavior was independently checked against the primary
+  [PCSX2 interpreter](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/Interpreter.cpp)
+  and [link-register definition](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/R5900.h),
+  without copying an implementation.
+- Synthetic tests cover source/link aliases, zero destination, link-visible
+  delay stores, low-word targets,32-bit link wrapping, missing target code
+  and invalid nested control transfers. All146 Python tests pass in2.54
+  seconds. Missing code or unsupported executed instructions still fail.

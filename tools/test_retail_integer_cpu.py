@@ -488,6 +488,44 @@ class IntegerCPUTests(unittest.TestCase):
             with self.assertRaises(UnsupportedInstruction):
                 self.execute([other])
 
+    def test_jalr_reads_old_target_and_publishes_link_before_delay_slot(self):
+        for destination in (0, 1, 5, 31):
+            words = {0x1000: r(9, 1, 0, destination),
+                     0x1004: i(43, 2, destination),
+                     0x2000: r(8, 7), 0x2004: i(9, 0, 3, 27)}
+            memory = IntegerMemory([(0x3000, bytes(4))])
+            cpu = RetailIntegerCPU(words, memory)
+            result = cpu.run(0x1000, initial_registers={1: (0xABCDEF << 64) | 0x2000,
+                2: 0x3000, 7: 0x0FFF0000, 5: 0x123456 << 64})
+            self.assertEqual(result.calls, (0x2000,))
+            self.assertEqual(memory.read(0x3000, 4), 0x1008 if destination else 0)
+            self.assertEqual(cpu.registers[3], 27)
+            if destination:
+                self.assertEqual(cpu.registers[destination] & MASK64, 0x1008)
+            if destination == 1:
+                self.assertEqual(cpu.registers[1] >> 64, 0xABCDEF)
+            if destination == 5:
+                self.assertEqual(cpu.registers[5] >> 64, 0x123456)
+
+    def test_jalr_target_uses_low_word_and_link_wraps_at_32_bits(self):
+        cpu = RetailIntegerCPU({0xFFFFFFFC: r(9, 1, 0, 5), 0: i(9, 0, 3, 18),
+                                0x2000: r(8, 31), 0x2004: 0}, IntegerMemory([]))
+        result = cpu.run(0xFFFFFFFC, initial_registers={1: (1 << 80) | (0xABCD << 32) | 0x2000})
+        self.assertEqual(result.calls, (0x2000,))
+        self.assertEqual(cpu.registers[5], 4)
+        self.assertEqual(cpu.registers[3], 18)
+
+    def test_jalr_in_delay_slot_and_unmapped_target_fail(self):
+        with self.assertRaises(IntegerCPUError):
+            self.execute([r(9, 1, 0, 5), r(9, 1, 0, 6)], {1: 0x2000})
+        cpu = RetailIntegerCPU({0x1000: r(9, 1, 0, 5), 0x1004: i(9, 0, 3, 18)},
+                               IntegerMemory([]))
+        with self.assertRaises(IntegerCPUError):
+            cpu.run(0x1000, initial_registers={1: 0x2000})
+        self.assertEqual(cpu.calls, [0x2000])
+        self.assertEqual(cpu.registers[3], 18)
+        self.assertEqual(cpu.registers[5], 0x1008)
+
     def test_instruction_budget_and_delay_control_fail(self):
         cpu = RetailIntegerCPU({0x1000: i(4, 0, 0, -1), 0x1004: 0}, IntegerMemory([]))
         with self.assertRaises(InstructionBudgetExceeded):

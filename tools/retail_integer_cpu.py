@@ -167,6 +167,11 @@ class RetailIntegerCPU:
                     self._put_word(rd, b << (a & 31))
                 elif function == 8:
                     target = a & MASK32
+                elif function == 9:
+                    # Resolve old rs before publishing the link (rd may alias).
+                    target = a & MASK32
+                    self._put(rd, (pc + 8) & MASK32)
+                    self.calls.append(target)
                 elif function == 10:
                     if b == 0:
                         self._put(rd, a)
