@@ -814,6 +814,44 @@ matrices. The adapter excludes DMA/waits, blend330/620, matrix generation738/858
 physical VU state publication, an animation update and visible animated rendering.
 The complete PS2 function5894F0 has not yet been recovered as a C draft.
 
+`dreadzone_terrain_contact` composes the genuine static-terrain stage of
+0053DC70: ordered grid traversal, actual physical tree axes (root Z, row Y,
+node X), prefetch/copy effects, clipped packed-cell decode, primary triangles,
+quad mutation and closest-contact termination. Endpoints use world units;
+contact fields retain the original 1024-scaled units. The recorded root is
+diagnostic provenance, not the final game object's pointer. Misses leave the
+contact unchanged; unsupported input leaves both contact and work information
+unchanged. Original DMA/cache timing, dynamic actors and final probe packet
+publication remain outside this contract.
+
+Root's fresh strict-float build agrees with the original terrain stage across
+10,998 fixtures covering all 8,249 nonempty original cells and additional
+multicell/oblique paths: 10,774,074 EE instructions, 17,954 real tree calls,
+14,040 modeled memory-copy effects and no captured callees. All 189,072 hit
+contact bytes and work counters agree, including 984 quad-winner cases.
+There are 2,626 hits, 8,358 misses and 14 atomic numerical-domain refusals.
+The complete replay guards source and oracle hashes before and after execution.
+This validates bounded CPU effects with ordered IEEE approximations, rather
+than physical PS2 arithmetic or a complete player collision response.
+
+`dreadzone_actor_velocity` executes actual speed progression 0067D350,
+velocity production 0067D3A0, normalization 0067D480 and planar projection
+0068AC58 for actor byte2659=0. Velocity consumes the real target/speed,
+pitch and selected heading, evaluating the recovered C60 pitch/heading
+microprogram in its original order. Stable mapped views preserve ordered
+guest aliases; all supported writes publish transactionally. The numerical
+domain and unsupported modes are explicit in the public header. Inputs,
+elapsed-time globals and initial player state are not manufactured here.
+
+Eight complete PS2 drafts compile and strictly link as nonmatching. Root's
+fresh integrated diagnostic DLL agrees with original and separately compiled
+instruction execution on 3,072 cases: 212,019 EE instructions and 77,952 actual
+C60 pairs. All supplied RAM agrees outside declared bounded float tolerances;
+the largest observed absolute float difference is 2.3841858e-7. The native
+suite includes 1,552 velocity checks and 27 terrain checks; all 59 registered
+tests pass. Speed/velocity output does not yet apply the full original position
+update, resolve the capsule/static-body contacts or run a playable frame.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

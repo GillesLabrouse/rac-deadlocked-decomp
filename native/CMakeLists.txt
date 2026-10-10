@@ -261,6 +261,16 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_collision_grid PRIVATE /W4 /WX /fp:strict)
 endif()
 
+add_library(deadlocked_native_dreadzone_terrain_contact STATIC dreadzone_terrain_contact.c)
+target_include_directories(deadlocked_native_dreadzone_terrain_contact PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_terrain_contact PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_terrain_contact PUBLIC
+    deadlocked_native_dreadzone_collision_grid deadlocked_native_dreadzone_collision_tree
+    deadlocked_native_dreadzone_collision_triangle)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_terrain_contact PRIVATE /W4 /WX /fp:strict)
+endif()
+
 add_library(deadlocked_native_dreadzone_actor_input_bridge STATIC
     dreadzone_actor_input_bridge.c ../nonmatching/L01_006A7D48.c
     ../nonmatching/L01_0067BD58.c ../nonmatching/L01_0055D180.c
@@ -292,6 +302,32 @@ target_include_directories(deadlocked_native_dreadzone_spatial_grid PUBLIC inclu
 target_compile_features(deadlocked_native_dreadzone_spatial_grid PUBLIC c_std_11)
 if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_spatial_grid PRIVATE /W4 /WX)
+endif()
+
+set(DEADLOCKED_VELOCITY_SOURCES dreadzone_actor_velocity.c
+    ../nonmatching/L01_00594AE8.c ../nonmatching/L01_0067D350.c ../nonmatching/L01_00652978.c
+    ../nonmatching/L01_0067D3A0.c ../nonmatching/L01_0067D480.c ../nonmatching/L01_0068A920.c
+    ../nonmatching/L01_0068AB40.c ../nonmatching/L01_0068AC58.c)
+add_library(deadlocked_native_dreadzone_actor_velocity STATIC ${DEADLOCKED_VELOCITY_SOURCES})
+target_compile_definitions(deadlocked_native_dreadzone_actor_velocity PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_actor_velocity PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_actor_velocity PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_velocity PUBLIC
+    deadlocked_native_dreadzone_actor_input_bridge deadlocked_native_dreadzone_angle_pair)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_actor_velocity PRIVATE /W4 /WX /fp:precise)
+endif()
+if(WIN32)
+    add_library(deadlocked_native_velocity_diagnostic SHARED ${DEADLOCKED_VELOCITY_SOURCES}
+        dreadzone_velocity_diagnostic.def)
+    target_compile_definitions(deadlocked_native_velocity_diagnostic PRIVATE DEADLOCKED_NATIVE=1)
+    target_include_directories(deadlocked_native_velocity_diagnostic PRIVATE include ${CMAKE_CURRENT_SOURCE_DIR})
+    target_compile_features(deadlocked_native_velocity_diagnostic PRIVATE c_std_11)
+    target_link_libraries(deadlocked_native_velocity_diagnostic PRIVATE
+        deadlocked_native_dreadzone_actor_input_bridge deadlocked_native_dreadzone_angle_pair)
+    if(MSVC)
+        target_compile_options(deadlocked_native_velocity_diagnostic PRIVATE /W4 /WX /fp:precise)
+    endif()
 endif()
 
 add_library(deadlocked_native_dreadzone_topology STATIC dreadzone_topology.c)
@@ -690,6 +726,16 @@ if(BUILD_TESTING)
     add_executable(deadlocked_native_scene_tests tests/scene_tests.cpp)
     target_link_libraries(deadlocked_native_scene_tests PRIVATE deadlocked_native_scene)
     add_test(NAME native_scene_validation COMMAND deadlocked_native_scene_tests)
+    add_executable(deadlocked_native_terrain_contact_tests tests/dreadzone_terrain_contact_tests.c)
+    target_link_libraries(deadlocked_native_terrain_contact_tests PRIVATE deadlocked_native_dreadzone_terrain_contact)
+    add_executable(deadlocked_native_actor_velocity_tests tests/dreadzone_actor_velocity_tests.c)
+    target_link_libraries(deadlocked_native_actor_velocity_tests PRIVATE deadlocked_native_dreadzone_actor_velocity)
+    if(MSVC)
+        target_compile_options(deadlocked_native_terrain_contact_tests PRIVATE /W4 /WX /fp:strict)
+        target_compile_options(deadlocked_native_actor_velocity_tests PRIVATE /W4 /WX /fp:precise)
+    endif()
+    add_test(NAME native_terrain_contact_validation COMMAND deadlocked_native_terrain_contact_tests)
+    add_test(NAME native_actor_velocity_validation COMMAND deadlocked_native_actor_velocity_tests)
     add_executable(deadlocked_native_general_matrices_tests tests/dreadzone_general_matrices_tests.c)
     target_link_libraries(deadlocked_native_general_matrices_tests PRIVATE deadlocked_native_dreadzone_general_matrices)
     if(MSVC)

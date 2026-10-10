@@ -1530,3 +1530,33 @@ prove a later one. Emulator tests are optional reference checks.
   The complete current Python suite passes all 166 tests. This enables genuine
   velocity helper replay; it does not add movement, position or a game frame.
   Frozen terrain and velocity lots await parent integration. Nothing is pushed.
+
+## 2026-10-11 — Integrate terrain contacts and genuine velocity production
+
+- Integrated bounded 0053DC70 static-terrain CPU effects, including original
+  grid/tree ordering, physical axis mapping, clipped packed-cell decoding,
+  primary/quad selection and closest-contact termination. Contact units remain
+  1024-scaled; root provenance is not a final game object pointer. The adapter
+  excludes full probe publication, other actors and physical DMA/cache timing.
+- Root rebuilt a separate /W4 /WX /fp:strict DLL and replayed 10,998 fixtures
+  covering all 8,249 nonempty terrain cells: 10,774,074 original EE instructions,
+  17,954 true tree calls, 14,040 memory-copy effect models, zero captured callees
+  and 189,072 exact contact bytes. The 2,626 hits, 8,358 misses, 14 atomic IEEE
+  refusals and work counters agree. Source/oracle hashes stay unchanged across
+  the full run; 984 cases select the quad mutation result.
+- Integrated speed progression, real velocity production, normalization and
+  planar projection in actor2659=0. Actual C60 evaluates pitch before heading;
+  mapped RAM aliases and unsupported-domain atomic refusals remain explicit.
+  Eight complete PS2 drafts compile and strictly link as NONMATCHING, outside
+  accepted sources. They do not increase matching progress.
+- Root rebuilt and checked the integrated CMake velocity diagnostic DLL against
+  actual and separately compiled words: 3,072 cases, 212,019 EE instructions,
+  77,952 C60 pairs and maximum absolute float difference 2.3841858e-7 within
+  declared approximate binary32 tolerances. Other supplied RAM agrees exactly.
+  The 1,552 velocity and 27 terrain checks pass; all 59 registered native tests
+  pass in 4.25 seconds. No full position update or playable frame is claimed.
+- Ordinary walking also tests twelve static collision elements in the station.
+  Capsule/static-body response, genuine target-speed/turn callers and actor
+  animation-clock integration remain in progress. The existing animated model
+  preview remains available through `run-model-animation.cmd`. No assets or
+  original instructions are tracked; nothing is pushed.
