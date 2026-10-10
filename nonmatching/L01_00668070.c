@@ -81,14 +81,15 @@ void func_L01_0068FE70(void);
 #define COPY_QUAD(dst,src) (*(ConstructorQuad *)(dst)=*(ConstructorQuad *)(src))
 
 /* VCALLMS C60 consumes vf15.x and returns the lanes actually selected by
- * QMFC2/PROT3W: lane0 and lane2. Other returned lanes are not fabricated.
+ * QMFC2/PROT3W: lane0 and lane1. PROT3W rotates words [1,2,0,3],
+ * selecting the original y lane in its low word.
  * The installed microprogram is intentionally still required. */
 #define CONSTRUCTOR_TRIG(angle,sine,cosine) do { \
     ConstructorFloatBits input;ConstructorLanes result; \
     input.f=(angle); \
     __asm__ volatile("qmtc2.ni %1,$vf15\n\tvcallms 0xC60\n\tqmfc2.i %0,$vf15" \
         : "=r"(result.quad) : "r"(input.bits) : "memory"); \
-    (sine)=result.lane[0];(cosine)=result.lane[2]; \
+    (sine)=result.lane[0];(cosine)=result.lane[1]; \
 } while(0)
 
 #define CONSTRUCTOR_BASIS(actor) do { \

@@ -453,6 +453,32 @@ class IntegerCPUTests(unittest.TestCase):
                                   {2: 1 << bit})
             self.assertEqual(cpu.registers[2], 1 << bit)
 
+    def test_pextlw_low_two_words_interleave_aliases_and_zero(self):
+        left = (0x80000000, 0xABCDEF01, 0x11111111, 0x22222222)
+        right = (0xFFFFFFFF, 0x01234567, 0x33333333, 0x44444444)
+        pack = lambda values: sum(word << (lane * 32) for lane, word in enumerate(values))
+        for rs, rt in ((1, 2), (1, 1), (0, 2), (1, 0), (0, 0)):
+            for destination in (0, 1, 2, 3):
+                a = left if rs else (0, 0, 0, 0)
+                b = right if rt == 2 else left if rt else (0, 0, 0, 0)
+                expected = pack((b[0], a[0], b[1], a[1]))
+                cpu, _ = self.execute([(28 << 26) | r(8, rs, rt, destination, 18),
+                                       r(8, 31), 0], {1: pack(left), 2: pack(right)})
+                self.assertEqual(cpu.registers[destination], expected if destination else 0)
+
+    def test_por_uses_all_bits_with_aliases_and_zero(self):
+        top = (1 << 128)-1
+        for bit in range(128):
+            left, right = 1 << bit, top ^ (1 << bit)
+            for destination in (0, 1, 2, 3):
+                cpu, _ = self.execute([(28 << 26) | r(41, 1, 2, destination, 18),
+                                       r(8, 31), 0], {1: left, 2: right})
+                self.assertEqual(cpu.registers[destination], top if destination else 0)
+        cpu, _ = self.execute([(28 << 26) | r(41, 1, 0, 1, 18),
+                               (28 << 26) | r(41, 0, 1, 3, 18), r(8, 31), 0], {1: 1 << 127})
+        self.assertEqual(cpu.registers[1], 1 << 127)
+        self.assertEqual(cpu.registers[3], 1 << 127)
+
     def test_only_noninterlocked_zero_to_vf0_transport_is_supported(self):
         instruction = (18 << 26) | (5 << 21)
         cpu, result = self.execute([instruction, r(8, 31), 0])

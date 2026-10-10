@@ -298,11 +298,12 @@ class RetailIntegerCPU:
                     result |= (31 - bits.bit_length()) << (i * 32)
                 self._put(rd, result)
             elif op == 28 and (word & 63, shift) in (
-                    (8, 26), (8, 22), (8, 25), (8, 3), (9, 14), (9, 31), (41, 14)):
+                    (8, 26), (8, 22), (8, 18), (8, 25), (8, 3),
+                    (9, 14), (9, 31), (41, 14), (41, 18)):
                 left, right = self.registers[rs], self.registers[rt]
                 function = word & 63
-                if function == 8 and shift in (26, 22):
-                    width = 8 if shift == 26 else 16
+                if function == 8 and shift in (26, 22, 18):
+                    width = {26: 8, 22: 16, 18: 32}[shift]
                     mask = (1 << width) - 1
                     result = sum(((right >> (lane * width)) & mask) << (lane * 2 * width)
                                  | ((left >> (lane * width)) & mask) << ((lane * 2 + 1) * width)
@@ -321,6 +322,8 @@ class RetailIntegerCPU:
                                  for lane, source in enumerate((1, 2, 0, 3)))
                 elif function == 9:
                     result = (right & MASK64) | ((left & MASK64) << 64)
+                elif shift == 18:
+                    result = left | right
                 else:
                     result = (left >> 64) | ((right >> 64) << 64)
                 self._put_quad(rd, result)

@@ -1067,3 +1067,20 @@ prove a later one. Emulator tests are optional reference checks.
   restoring each of128 individual input bits. All141 Python tests pass in2.38
   seconds. The camera workstream can reuse this operation without a private ISA
   copy; unsupported instruction families remain explicit errors.
+
+## 2026-10-10 — Correct constructor orientation pair and share camera opcodes
+
+- Independent C60 inspection found a real constructor draft defect: PROT3W
+  selects original word1, not word2. Corrected the shared constructor macro's
+  cosine lane at all three uses. Root rebuilt and strictly linked the complete
+  4,104-byte recovered entry; the3,212-byte source remains nonmatching. Full
+  branch bounds,19 real direct targets and one virtual dispatch are retained;
+  this is structural validation, not constructor execution.
+- Shared PEXTLW now interleaves the two low words rt/rs into a full quad;
+  POR performs raw128-bit OR. Both operations are present in the actual camera
+  initializer. Their lane order was checked against the primary
+  [PCSX2 MMI implementation](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/MMI.cpp),
+  without copying its implementation. Synthetic tests cover aliases, zero
+  registers, discarded upper words and each of128 OR bits. All143 Python
+  tests pass in2.55 seconds. No floating arithmetic or VU hardware is added
+  to the shared integer oracle.
