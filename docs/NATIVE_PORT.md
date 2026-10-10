@@ -480,6 +480,15 @@ remains unverified; this helper performs no DMA, synchronization or Direct3D
 texture upload. Converted bytes are a transfer stream, not a linear display
 image. The fixture also checks descriptors stored inside scratch.
 
+The complete class texture producer `0057A658` is reconstructed as PS2 source
+only, outside native CMake. It retains genuine pixel conversion, upload, syscall,
+completion and class-publication calls. Its descriptors occupy an uncleared
+stack frame; fields the original never writes are preserved as unspecified
+inputs, and the draft's different stack layout remains a validation limit.
+Its 256 complete CPU return paths agree with linked SN instructions; two real
+PIF prefixes agree up to the first conversion call, which is not executed in
+that diagnostic. Positive-count texture loading is still unvalidated end to end.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

@@ -732,3 +732,23 @@ prove a later one. Emulator tests are optional reference checks.
   This reproduces a documented hardware memory effect within a bounded domain;
   it is not a hardware capture, DMA/synchronization backend, complete texture
   loader or Direct3D upload. No accepted matching coverage was added.
+
+## 2026-10-10 — Complete PS2 class texture producer reconstruction
+
+- Reconstructed all of `0057A658` with its actual five arguments, tracking
+  cursor reloads, special TEX0 branches, PIF handling and genuine hardware
+  dependencies. There is no native entry or successful captured upload path.
+- The descriptor frame retains the real missing initialization. The original
+  one-mip path leaves +0/+C/+E unspecified; C stack-layout differences remain
+  unresolved. A nonpositive PIF archive still synchronizes the palette cursor;
+  the first diagnostic caught and corrected an incorrect branch interpretation.
+- Root independently compiles and links the source: 1296/1352 bytes,
+  nonmatching. Repeating the private linked-SN versus original-instruction
+  comparison passes 256 complete CPU return paths, 272,289 instructions and
+  235,930,624 externally mapped bytes, with the same real callee sequence.
+  Stack saves/dead locals are excluded from that comparison.
+- Two original armor PIF prefixes agree through entry to the first real
+  `00575180` conversion. That callee is not executed, skipped or captured;
+  positive-count PIF uploads are not fully validated. Source remains outside
+  accepted coverage and native CMake. No complete native texture load or
+  playable campaign frame is claimed.
