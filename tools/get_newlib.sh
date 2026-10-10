@@ -10,6 +10,9 @@ if [ ! -d private/newlib/.git ]; then
         https://sourceware.org/git/newlib-cygwin.git private/newlib
 fi
 cd private/newlib
+# Fetch this historical snapshot in full. Some servers do not supply missing
+# historical blobs on demand after the initial filtered clone.
+GIT_TERMINAL_PROMPT=0 git fetch --refetch --no-filter --depth 1 origin "$SNAPSHOT"
 GIT_TERMINAL_PROMPT=0 git checkout "$SNAPSHOT" -- newlib/libm newlib/libc/include
 mkdir -p ../include
 [ -f ../include/stddef.h ] || cat > ../include/stddef.h <<'EOH'
