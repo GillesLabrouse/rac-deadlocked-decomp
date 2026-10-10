@@ -9,6 +9,7 @@ toolchain/
 *.bin
 *.cue
 *.elf
+*.dlscene
 disks/
 
 # Build output

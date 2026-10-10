@@ -19,10 +19,13 @@ prove a later one. Emulator tests are optional reference checks.
 - 216 game functions pass exact linking: 139 resident and 77 overlay functions.
 - Resident reconstruction replaces 9,528 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Nineteen synthetic regression tests and the native ABI/command test pass.
+- Twenty-six Python regression tests and all three native CTest checks pass.
 - Seven recovered functions compile and execute in a Windows x64 test target.
   A capture transport replaces the command driver for these tests. No native
-  game scene, game boot, or campaign play has been verified.
+  game update loop, game boot, or campaign play has been verified.
+- Dreadzone Station terrain loads and renders natively: 14,310 triangles and
+  55 textures. Hardware and WARP captures completed; a room capture was inspected.
+  The terrain backend does not yet render characters or execute recovered game logic.
 - Work remains on the local branch; nothing has been pushed.
 
 ## 2026-10-10 — Environment and priorities
@@ -118,8 +121,8 @@ prove a later one. Emulator tests are optional reference checks.
 ## Next milestones
 
 1. Map startup and first-scene platform dependencies for the native target.
-2. Implement host asset loading, then the recovered scene/update path and host
-   rendering/input backends; use explicit guest-address conversion.
+2. Extend host asset loading beyond terrain to placed scene objects/characters,
+   then implement the recovered scene/update path; use explicit guest-address conversion.
 3. Continue recovering startup and first-level code with exact linking as the
    matching acceptance check. Keep failed matching drafts outside src.
 
@@ -144,3 +147,34 @@ prove a later one. Emulator tests are optional reference checks.
   handling; it has no game, BIOS, emulator or original-toolchain dependency.
 - Documented the remaining native startup, asset, overlay and platform work in
   `docs/NATIVE_PORT.md`. The test executable is not a game runtime.
+
+## 2026-10-10 — Native terrain backend
+
+- Inspected the local Wrench v0.6 extraction. Dreadzone Station chunk zero has
+  terrain geometry in COLLADA, PNG textures, and a color accessor not connected
+  by its vertex inputs. Added an explicit validated recovery option for that
+  aligned color source, rather than applying it to arbitrary COLLADA files.
+- Added a dependency-free local asset bridge and a versioned host scene reader.
+  The bridge checks geometry, attributes, material paths and supported transforms;
+  the reader rejects truncated packages, non-finite fields and invalid draw ranges.
+  All extracted data and generated packages remain ignored. No asset bytes were
+  added to the repository.
+- Built a native Windows Direct3D 11 renderer with texture decoding, depth testing,
+  a free camera and offscreen PNG capture. Its C++ backend is written for the host;
+  it does not run the PS2 executable or the recovered game update loop.
+- Prepared and rendered 42,930 vertices / 14,310 triangles and 55 textures. Inspected
+  the room view at developer camera `(600, 480, 203)`, yaw `-1.5707963`, pitch `-0.05`.
+  The hardware capture contains 921,600 non-background pixels at 1280 x 720; this
+  full-frame count is not proof of gameplay. A bounds-framed WARP capture also passed.
+- Local scene package SHA-256:
+  `8f154a144afce71f6bc946e02252af91d79fcb76c2f6a2bd92cffc6b831769e6`.
+  Inspected room PNG SHA-256:
+  `5cc7cfc656875ad93fff83a76405ae0049aa0ef801312c1223a811761e7288c3`.
+- Fixed the capture encoder to use supported BGRA PNG output with explicit channel
+  conversion. The render self-test verifies red triangle pixels, not merely a
+  changed background. All three native CTest checks pass with MSVC 19.38; all
+  twenty-six Python tests pass. Matching progress remains 267 functions / 0.539%.
+- Remaining work includes scene-object placement, characters, collision, original
+  camera/player behavior, audio, missions, and recovered startup/update code.
+  Rendering fidelity is unverified. This is the first terrain backend milestone,
+  not a playable beginning. Changes are local; nothing has been pushed.

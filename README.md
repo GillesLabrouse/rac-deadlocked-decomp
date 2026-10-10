@@ -26,9 +26,10 @@ The project runs in two phases:
 > [`docs/REBUILD.md`](docs/REBUILD.md). Runtime boot and campaign play remain
 > unverified; this is not a native PC port.
 
-The local fork also targets a future native PC runtime. Its first host build
-executes seven recovered functions in isolation and validates scalar widths,
-payload layouts and callback forwarding. It does not run the game yet. See
+The local fork also targets a future native PC runtime. Its host tests execute
+seven recovered functions in isolation, and a Windows renderer displays extracted
+Dreadzone Station terrain with a free camera. The game update loop, characters,
+collision and missions remain incomplete; it does not run the game yet. See
 [`docs/NATIVE_PORT.md`](docs/NATIVE_PORT.md) for the verified scope and priorities.
 
 ## Progress
