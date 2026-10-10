@@ -1361,3 +1361,27 @@ prove a later one. Emulator tests are optional reference checks.
   single-bit packing positions, zero registers and aliased destinations.
   All153 Python tests pass. This enables the original collision-grid replay;
   it is validation tooling, not native collision or a playable frame.
+
+## 2026-10-11 — Preserve real animation definitions in native armor data
+
+- Recovered four complete PS2 functions005756D0/00575A18/00575B88/00575BD0.
+  The loader retains genuine disc/GPU dependencies; the slot caller uses
+  actual001DFC60+20 and publication uses001DFC84. Root's fresh SN builds
+  strictly link all four drafts; publication is privately exact16/16 and
+  the remaining functions are nonmatching. Accepted reports stay unchanged.
+- Added the complete bounded native memory effects of00575A18: metadata and
+  animation pointer transfer into retained geometry, preserved destination
+  byte47 bit8 and reconciliation of actual actor.half36 bit8. A write journal
+  preserves ordered aliases, including the source count reload, and preflights
+  every access before publication. Original actor-pool bounds are explicitly
+  immutable; aliases writing their global words are refused.
+- Root's independent shared raw-word CPU compares the original function,
+  fresh SN build and fresh /W4 /WX DLL in513 cases:581,137 original and655,806
+  compiled instructions,7,309,952 bytes and zero differences. Fresh ISO reads
+  establish the real class23F7 source:107 joints and112 animation pointers.
+  The fixture transfers those pointers and metadata into authentic Armor0
+  data. All3,145,994 focused assertions pass.
+  All51 registered native tests pass in3.55 seconds after source freeze.
+- This transfers animation definitions; it does not decode poses, animate the
+  viewer, execute the disk/GPU loader or establish a playable frame. Original
+  assets and differential receipts remain ignored. Nothing is pushed.

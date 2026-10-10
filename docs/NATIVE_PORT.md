@@ -725,6 +725,25 @@ establish physical VU equivalence. All153,170 native assertions pass. Root's
 fresh SN objects compile and strictly link all five complete PS2 drafts;
 all are nonmatching. No playable actor frame is established.
 
+`dreadzone_animation_replacement` executes the full CPU memory effects of
+original00575A18, transferring animation pointers and metadata into retained
+geometry and reconciling actor.half36 bit8. The source pointer count is reloaded
+after ordered writes; even overlapping definitions retain the original effects.
+Mapped numeric guest addresses remain32-bit. Stable view/request descriptors
+are snapshotted, all writes are preflighted and failures publish nothing.
+The explicit pool bounds are immutable; writes aliasing their original global
+words are outside this domain.
+
+Root independently rebuilds the host DLL and all four complete PS2 drafts,
+then replays513 cases through the shared raw-word integer CPU:581,137 original
+instructions,655,806 freshly compiled SN instructions,7,309,952 bytes and zero
+differences. The real case uses fresh direct-ISO class23F7 and Armor0 data,
+transferring112 authentic animation pointers for107 joints. All3,145,994 focused
+assertions pass. The publication helper00575BD0 is privately exact16/16;
+005756D0/00575A18/00575B88 remain nonmatching and retain their actual dependencies.
+No disk success substitute, GPU upload, pose decode, animated rendering or
+complete native actor startup is supplied by this adapter.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

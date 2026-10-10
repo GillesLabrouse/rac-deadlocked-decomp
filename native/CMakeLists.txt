@@ -171,6 +171,14 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_actor_animation PRIVATE /W4 /WX /fp:precise)
 endif()
 
+add_library(deadlocked_native_dreadzone_animation_replacement STATIC dreadzone_animation_replacement.c)
+target_compile_definitions(deadlocked_native_dreadzone_animation_replacement PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_animation_replacement PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_animation_replacement PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_animation_replacement PRIVATE /W4 /WX)
+endif()
+
 add_library(deadlocked_native_dreadzone_inventory_setup STATIC
     ../nonmatching/L01_005688A0.c ../nonmatching/L01_006BE050.c
     ../nonmatching/L01_006BE198.c ../nonmatching/L01_006BE208.c
@@ -511,6 +519,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_dreadzone_actor_animation_tests PRIVATE /W4 /WX /fp:precise)
     endif()
     add_test(NAME native_dreadzone_actor_animation COMMAND deadlocked_native_dreadzone_actor_animation_tests)
+    add_executable(deadlocked_native_dreadzone_animation_replacement_tests tests/dreadzone_animation_replacement_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_animation_replacement_tests PRIVATE deadlocked_native_dreadzone_animation_replacement)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_animation_replacement_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_dreadzone_animation_replacement COMMAND deadlocked_native_dreadzone_animation_replacement_tests)
     add_executable(deadlocked_native_dreadzone_inventory_setup_tests tests/dreadzone_inventory_setup_tests.c)
     target_link_libraries(deadlocked_native_dreadzone_inventory_setup_tests PRIVATE deadlocked_native_dreadzone_inventory_setup)
     if(MSVC)
