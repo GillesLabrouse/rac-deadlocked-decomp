@@ -69,6 +69,14 @@ The ordinary Python tool tests require no disc or compiler.
 
 ## Verified first step
 
+The complete constructor parameter initializer `00669A20` is also available as
+`deadlocked_native_dreadzone_actor_parameters`. It writes eighteen 16-byte
+prefixes within a guest-layout actor record and preserves every other byte.
+Its host interface supplies one stable mode word for the six original global
+reads. This is a complete CPU dependency, not the complete player constructor.
+The native fixture checks guards and all actor bytes, and an independent
+512-case instruction comparison agrees. The PS2 draft remains nonmatching.
+
 `native/CMakeLists.txt` builds a native static library from eighteen recovered game
 functions in `src/core` and `src/game`, without retail machine code or PS2 toolchain inputs.
 An explicit source list excludes platform startup, drivers, and address-dependent code

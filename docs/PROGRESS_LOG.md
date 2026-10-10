@@ -660,3 +660,16 @@ prove a later one. Emulator tests are optional reference checks.
 - All 118 Python tests pass, including twenty synthetic interpreter/provenance
   checks. Matching sources, coverage and reconstruction are unchanged. This
   improves repeatable validation, without claiming a native game launch.
+
+## 2026-10-10 — Complete constructor parameter initializer
+
+- Integrated `00669A20` as a separate native library. Its eighteen parameter
+  prefixes retain the real indices, flags, floating-point constants and B0-byte
+  stride. The bounded interface requires a mapped actor record and supplies a
+  stable mode word; concurrent changes to that global are outside its domain.
+- All 3,302,197 native checks pass. The independent diagnostic compares 512
+  complete actor images plus guards after 95,104 original instructions, covering
+  every one of the 196 instructions. Root independently compiled and linked the
+  PS2 source: 732 compiled versus 784 original bytes, still nonmatching.
+- This initializes parameters only. Actor construction, update, rendering and
+  campaign launch remain incomplete; no matching coverage was added.
