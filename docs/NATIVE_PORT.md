@@ -44,6 +44,29 @@ recovered controller poll, callback and decoder. It preserves button history
 between samples. See [native controller testing](NATIVE_INPUT.md) for commands,
 packet conversion and the attached-hardware validation still required.
 
+## Compare native class loading with original instructions
+
+After extracting the L01 overlay from your own disc, run from the repository root:
+
+```powershell
+venv/Scripts/python.exe tools/check_native_class_differential.py --overlay private/overlays/levels/campaign/1_dreadzone_station/overlay.elf --report build/drafts/native-class-differential.json
+```
+
+The tool discovers CMake through PATH or Visual Studio's installer and builds a
+Windows x64 DLL from the six recovered class/geometry C sources and a source
+bridge. It executes their genuine local instruction words with a bounded integer
+interpreter and compares every mapped byte and host guard across 515 cases.
+Seven invalid host domains are checked separately for atomic refusal. These are
+algorithm fixtures, not a complete loader, GPU execution or a playable frame.
+
+A build-input receipt binds the DLL to the current source, headers, bridge,
+compile recipe and DLL hash. Stale or missing receipts force a clean rebuild;
+explicit `--dll` reuse rejects them. Inputs are checked again after comparison.
+An unsupported instruction, unmapped access, exhausted instruction budget,
+native rejection or differing byte fails the command. The interpreter includes
+no retail instruction list and does not emulate hardware, VU or floating point.
+The ordinary Python tool tests require no disc or compiler.
+
 ## Verified first step
 
 `native/CMakeLists.txt` builds a native static library from eighteen recovered game

@@ -644,3 +644,19 @@ prove a later one. Emulator tests are optional reference checks.
   784-byte leaf. An earlier provisional call graph incorrectly included later
   functions and was corrected before source adoption. Recovery now follows that
   actual boundary. No boot/update or campaign play is verified.
+
+## 2026-10-10 — Reproducible native class differential
+
+- Added a source-only bounded integer instruction interpreter and a Windows
+  bridge builder for the six complete class/geometry functions. Retail words
+  are read only from the user's local L01 overlay, never stored in the repository.
+- Independently reran the public command with automatic CMake discovery: all
+  515 cases agree after 227,348 original instructions and 72,643,978 compared
+  bytes. This includes three ordered-reload alias regressions and seven separate
+  atomic host-domain refusals. No captured callee or GPU effects are used.
+- DLL reuse requires a receipt covering all C sources, headers, bridge, compile
+  recipe/configuration and DLL hash. Missing or stale inputs trigger a clean
+  automatic rebuild; explicit reuse fails. Inputs are rechecked after execution.
+- All 118 Python tests pass, including twenty synthetic interpreter/provenance
+  checks. Matching sources, coverage and reconstruction are unchanged. This
+  improves repeatable validation, without claiming a native game launch.
