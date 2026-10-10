@@ -531,6 +531,27 @@ including signed/wrapped range widths and the R5900 zero-divisor remainder.
 All8,192 original-instruction cases agree across seed storage and guards.
 This provides deterministic game RNG; it does not initialize the player.
 
+The complete inventory setup `006909C8` now executes18 recovered routines
+and the existing real reset/clear helpers. Its supported paths grant the default
+level-zero loadout in mode0, attach an existing mode0 inventory, or reset the
+indexed mode1 inventory. Tables and globals are immutable caller mappings;
+no extracted table is embedded. Full preflight rejects unavailable progression
+or notification paths before mutation. All mapped memory agrees across2,048
+original-instruction cases with19 genuine callees. This initializes inventory,
+not the whole player constructor.
+
+`dreadzone_model_transform_static` prepares the full CPU-visible memory effects
+of the normal static-animation model path, including the real107-joint Armor0
+skeleton, hierarchy translations, both scratchpad banks and dirty-bit update.
+Its identity quaternion/unit-scale specialization follows actual initialized
+inputs when the animation stream has zero variable qwords. Compressed animated
+streams, blend lists and override lists are refused atomically. An independent
+executor of the original VU0738/0858 pairs agrees across129 cases under host
+IEEE arithmetic, including original Armor0 inputs. The result remains
+`APPROXIMATE`: PS2 rounding, DMA/VIF and VU internal state are not reproduced.
+The viewer still needs the genuine compact inverse-bind matrix composition
+and original joint weights before these matrices can transform its mesh.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

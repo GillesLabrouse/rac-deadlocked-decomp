@@ -171,6 +171,31 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_actor_animation PRIVATE /W4 /WX /fp:precise)
 endif()
 
+add_library(deadlocked_native_dreadzone_inventory_setup STATIC
+    ../nonmatching/L01_005688A0.c ../nonmatching/L01_006BE050.c
+    ../nonmatching/L01_006BE198.c ../nonmatching/L01_006BE208.c
+    ../nonmatching/L01_006BE240.c ../nonmatching/L01_006BE270.c
+    ../nonmatching/L01_006BE480.c ../nonmatching/L01_006BE0D0.c
+    ../nonmatching/L01_006BF200.c ../nonmatching/L01_006BF278.c
+    ../nonmatching/L01_006BF2D0.c ../nonmatching/L01_006C0090.c
+    ../nonmatching/L01_006C01F8.c ../nonmatching/L01_006C04A8.c
+    ../nonmatching/L01_006C0740.c ../nonmatching/L01_006C0768.c
+    ../nonmatching/L01_006C0C60.c ../nonmatching/L01_006909C8.c)
+target_compile_definitions(deadlocked_native_dreadzone_inventory_setup PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_inventory_setup PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_inventory_setup PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_inventory_setup PUBLIC deadlocked_native_dreadzone_inventory_reset)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_inventory_setup PRIVATE /W4 /WX)
+endif()
+
+add_library(deadlocked_native_dreadzone_model_transform STATIC dreadzone_model_transform.c)
+target_include_directories(deadlocked_native_dreadzone_model_transform PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_model_transform PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_model_transform PRIVATE /W4 /WX /fp:precise)
+endif()
+
 add_library(deadlocked_native_game_random STATIC ../nonmatching/00163408.c ../nonmatching/L01_0058FF38.c)
 target_compile_definitions(deadlocked_native_game_random PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_game_random PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
@@ -358,6 +383,18 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_dreadzone_actor_animation_tests PRIVATE /W4 /WX /fp:precise)
     endif()
     add_test(NAME native_dreadzone_actor_animation COMMAND deadlocked_native_dreadzone_actor_animation_tests)
+    add_executable(deadlocked_native_dreadzone_inventory_setup_tests tests/dreadzone_inventory_setup_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_inventory_setup_tests PRIVATE deadlocked_native_dreadzone_inventory_setup)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_inventory_setup_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_dreadzone_inventory_setup COMMAND deadlocked_native_dreadzone_inventory_setup_tests)
+    add_executable(deadlocked_native_dreadzone_model_transform_tests tests/dreadzone_model_transform_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_model_transform_tests PRIVATE deadlocked_native_dreadzone_model_transform)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_model_transform_tests PRIVATE /W4 /WX /fp:precise)
+    endif()
+    add_test(NAME native_dreadzone_model_transform COMMAND deadlocked_native_dreadzone_model_transform_tests)
     add_executable(deadlocked_native_game_random_tests tests/game_random_tests.c)
     target_link_libraries(deadlocked_native_game_random_tests PRIVATE deadlocked_native_game_random)
     if(MSVC)

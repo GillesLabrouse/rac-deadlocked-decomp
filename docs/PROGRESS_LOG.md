@@ -848,3 +848,42 @@ prove a later one. Emulator tests are optional reference checks.
 - Both PS2 drafts compile and strictly link: seed44/56 remains nonmatching;
   wrapper72/72 is exact in its private L01 diagnostic. No accepted source or
   coverage was changed; complete player construction remains outstanding.
+
+## 2026-10-10 — Complete native default inventory setup
+
+- Integrated18 complete PS2 routines totaling2,144 retail bytes into a native
+  library linked to the genuine existing reset/clear implementation. Supported
+  paths execute mode0 fresh level-zero grants, existing inventory attachment
+  and mode1 indexed reset with original ammunition and slot operations.
+- All26,608,676 native byte/guard/refusal checks pass. Caller-zero BSS fixtures
+  are explicit: reset preserves shared slot counts rather than inventing zeros.
+  Caller-owned immutable table/global layouts are validated before mutation;
+  positive progression and paid-message calls remain unavailable dependencies.
+- Root rebuilt the DLL and repeated2,048 full-memory instruction cases:
+  5,618,114 instructions,566 distinct instructions,1,024 fresh loadouts,
+  512 existing inventories and512 indexed resets agree. All19 real callees
+  execute;512 cases include originally zeroed pool storage. No call is captured.
+- Root independently compiled and strictly linked all18 PS2 drafts using
+  default SN flags. Only006BE198 is exact24/24 in the draft diagnostic;
+  other17 remain nonmatching. No accepted coverage or full actor boot is added.
+
+## 2026-10-10 — Native static model pose with original hierarchy
+
+- Added the normal static model path as a bounded CPU adapter. It reads actual
+  skeleton/animation inputs, expands initialized records, copies the static
+  stream and prepares both64-byte matrix banks plus the original dirty bit.
+  Unsupported animated streams, lists and non-finite/intermediate failures
+  leave all outputs unchanged. Inputs are retained before publication.
+- Root review added numeric wrapping guards for the request and view-array
+  objects before their initial reads. Six new atomic assertions pass;
+  the fixture now has164,231 successful checks.
+- Root rebuilt the current transform DLL and reran the independent original
+  VU-pair executor:129 cases,8,178 joints,237,162 instruction pairs and130,848
+  float words agree with zero different bit patterns under host IEEE arithmetic.
+  The original107-joint Armor0 inputs are included; no game data is tracked.
+- Status remains APPROXIMATE for VU rounding and covers CPU-visible memory
+  effects only. DMA/VIF, internal VU state and a complete game update have not
+  executed. Viewer skinning additionally requires the actual compact inverse-
+  bind composition and joint weights; direct translation of its GLB is invalid.
+- All thirty-seven native CTest checks pass together under MSVC Release
+  /W4 /WX. Work remains local; the scene viewer is still not a playable game.
