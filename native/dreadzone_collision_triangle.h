@@ -13,6 +13,9 @@ typedef struct DreadzoneCollisionTriangleContact {
     float fraction,position_scaled[3],normal[3],vertices_scaled[3][3];
     u32 source_guest,hit_metadata;
 } DreadzoneCollisionTriangleContact;
+typedef struct DreadzoneCollisionTriangleQStatus {
+    u32 division_executed,q_bits,exception_bits;
+} DreadzoneCollisionTriangleQStatus;
 enum {
     DREADZONE_TRIANGLE_MISS=0,
     DREADZONE_TRIANGLE_APPROXIMATE_CONTACT=1,
@@ -43,4 +46,19 @@ enum {
  */
 int dreadzone_collision_triangle(const DreadzoneCollisionTriangleRequest *request,
                                 DreadzoneCollisionTriangleContact *contact);
+/* Same complete calculation, additionally representing the actual VDIV
+ * zero-denominator saturation instead of refusing it. Q receives signed
+ * 0x7F7FFFFF; exception_bits is0x10 for0/0 and0x20 for nonzero/0, otherwise0.
+ * This is a numerical diagnostic, not the physical VU status register, timing
+ * or exception pipeline. All original plane and edge branches still execute;
+ * a saturated Q is never treated as an automatic miss or successful contact.
+ * If a later operation leaves the supported finite-normal/zero domain, both
+ * outputs remain unchanged. On MISS, contact stays unchanged and q_status
+ * reports whether division executed (early filters can skip it entirely).
+ * On CONTACT both outputs are supplied. The two outputs must be disjoint;
+ * either may overlap the request, which is snapshotted before computation.
+ */
+int dreadzone_collision_triangle_with_q(const DreadzoneCollisionTriangleRequest *request,
+                                       DreadzoneCollisionTriangleContact *contact,
+                                       DreadzoneCollisionTriangleQStatus *q_status);
 #endif

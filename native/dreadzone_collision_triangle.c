@@ -8,10 +8,18 @@ static u32 bits(float value) {u32 word;memcpy(&word,&value,4);return word;}
 static int add(float a,float b,float *out) {volatile float v=a+b;*out=v;return valid(v);}
 static int sub(float a,float b,float *out) {volatile float v=a-b;*out=v;return valid(v);}
 static int mul(float a,float b,float *out) {volatile float v=a*b;*out=v;return valid(v);}
-static int divide(float a,float b,float *out) {
+static int divide(float a,float b,float *out,int saturate,DreadzoneCollisionTriangleQStatus *status) {
     volatile float value;
-    if(b==0.0f) return 0;
-    value=a/b;*out=value;return valid(value);
+    status->division_executed=1;
+    if(b==0.0f) {
+        u32 word;
+        if(!saturate)return 0;
+        word=0x7F7FFFFFU|((bits(a)^bits(b))&0x80000000U);
+        memcpy(out,&word,4);
+        status->q_bits=word;status->exception_bits=a==0.0f?0x10U:0x20U;
+        return 1;
+    }
+    value=a/b;*out=value;status->q_bits=bits(value);return valid(value);
 }
 static int vector_sub(const float a[3],const float b[3],float out[3]) {
     u32 i;for(i=0;i<3;i++)if(!sub(a[i],b[i],out+i))return 0;return 1;
@@ -32,8 +40,9 @@ static int sum(const float v[3],float *out) {
     return add(v[0],v[1],&acc)&&mul(1.0f,v[2],&product)&&add(acc,product,out);
 }
 #define REQUIRE(x) do {if(!(x))return DREADZONE_TRIANGLE_UNSUPPORTED;}while(0)
-int dreadzone_collision_triangle(const DreadzoneCollisionTriangleRequest *request,
-                                DreadzoneCollisionTriangleContact *contact) {
+static int triangle_calculate(const DreadzoneCollisionTriangleRequest *request,
+                              DreadzoneCollisionTriangleContact *contact,int saturate,
+                              DreadzoneCollisionTriangleQStatus *status) {
     DreadzoneCollisionTriangleRequest r;DreadzoneCollisionTriangleContact result;
     float edge2[3],edge3[3],normal[3],plane_start[3],plane_end[3],start_delta[3];
     float intersection[3],edge9[3],edge10[3],side[3][3],direction_product[3],start_product[3],end_product[3];
@@ -41,6 +50,7 @@ int dreadzone_collision_triangle(const DreadzoneCollisionTriangleRequest *reques
     float product,acc;u32 i,j,common,front;
     if(request==NULL || contact==NULL || (uintptr_t)request>UINTPTR_MAX-sizeof(r) ||
        (uintptr_t)contact>UINTPTR_MAX-sizeof(result))return DREADZONE_TRIANGLE_INVALID;
+    memset(status,0,sizeof(*status));
     memcpy(&r,request,sizeof(r));
     if(!valid(r.best_fraction)||r.best_fraction<0 || r.best_fraction>1 || r.surface>255)
         return DREADZONE_TRIANGLE_UNSUPPORTED;
@@ -67,7 +77,7 @@ int dreadzone_collision_triangle(const DreadzoneCollisionTriangleRequest *reques
     REQUIRE(sum(direction_product,&denominator));
     REQUIRE(sum(start_product,&start_dot));
     REQUIRE(sum(end_product,&end_dot));
-    REQUIRE(divide(start_dot,denominator,&q));
+    REQUIRE(divide(start_dot,denominator,&q,saturate,status));
     for(i=0;i<3;i++)REQUIRE(mul(start_delta[i],1.0f,start_delta+i));
     if(!(r.effective_flags&0x1000U)) {
         if(!(bits(start_dot)&0x80000000U) || (s32)bits(end_dot)<=0)return DREADZONE_TRIANGLE_MISS;
@@ -105,4 +115,21 @@ int dreadzone_collision_triangle(const DreadzoneCollisionTriangleRequest *reques
         REQUIRE(add(0.0f,result.vertices_scaled[0][i],result.vertices_scaled[0]+i));
     }
     memcpy(contact,&result,sizeof(result));return DREADZONE_TRIANGLE_APPROXIMATE_CONTACT;
+}
+int dreadzone_collision_triangle(const DreadzoneCollisionTriangleRequest *request,
+                                DreadzoneCollisionTriangleContact *contact) {
+    DreadzoneCollisionTriangleQStatus status;
+    return triangle_calculate(request,contact,0,&status);
+}
+int dreadzone_collision_triangle_with_q(const DreadzoneCollisionTriangleRequest *request,
+                                       DreadzoneCollisionTriangleContact *contact,
+                                       DreadzoneCollisionTriangleQStatus *q_status) {
+    DreadzoneCollisionTriangleQStatus status;int result;
+    uintptr_t a=(uintptr_t)contact,b=(uintptr_t)q_status;
+    if(contact==NULL || q_status==NULL || a>UINTPTR_MAX-sizeof(*contact) ||
+       b>UINTPTR_MAX-sizeof(*q_status) ||
+       (a<b+sizeof(*q_status) && b<a+sizeof(*contact)))return DREADZONE_TRIANGLE_INVALID;
+    result=triangle_calculate(request,contact,1,&status);
+    if(result>=0)memcpy(q_status,&status,sizeof(status));
+    return result;
 }

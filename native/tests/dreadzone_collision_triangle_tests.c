@@ -15,6 +15,7 @@ static DreadzoneCollisionTriangleRequest request(void) {
 }
 int main(void) {
     DreadzoneCollisionTriangleRequest r=request();DreadzoneCollisionTriangleContact c,sentinel;
+    DreadzoneCollisionTriangleQStatus status,status_before;
     union {DreadzoneCollisionTriangleRequest r;DreadzoneCollisionTriangleContact c;} alias;
     memset(&sentinel,0xA5,sizeof(sentinel));c=sentinel;
     CHECK(dreadzone_collision_triangle(&r,&c)==DREADZONE_TRIANGLE_APPROXIMATE_CONTACT);
@@ -50,5 +51,32 @@ int main(void) {
     r.best_fraction=c.fraction;r.vertex[0][2]=r.vertex[1][2]=r.vertex[2][2]=1;sentinel=c;
     CHECK(dreadzone_collision_triangle(&r,&c)==0);CHECK(memcmp(&c,&sentinel,sizeof(c))==0);
     CHECK(dreadzone_collision_triangle(NULL,&c)==-1);CHECK(dreadzone_collision_triangle(&r,NULL)==-1);
+    r=request();memset(&status,0xB6,sizeof(status));status_before=status;
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,&status)==1);
+    CHECK(status.division_executed==1 && status.q_bits==0x3F000000 && status.exception_bits==0);
+    r=request();r.direction[2]=0;r.end_relative[2]=-1;c=sentinel;
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,&status)==0);
+    CHECK(status.division_executed==1 && status.q_bits==0xFF7FFFFF && status.exception_bits==0x20);
+    CHECK(memcmp(&c,&sentinel,sizeof(c))==0);
+    r.start_relative[2]=r.end_relative[2]=0;
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,&status)==0);
+    /* Negative-zero plane dot divided by positive-zero denominator. */
+    CHECK(status.division_executed==1 && status.q_bits==0xFF7FFFFF && status.exception_bits==0x10);
+    r.start_relative[0]=r.end_relative[0]=r.start_relative[1]=r.end_relative[1]=-0.25f;
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,&status)==0);
+    CHECK(status.q_bits==0x7F7FFFFF && status.exception_bits==0x10);
+    r=request();r.vertex[1][2]=r.vertex[2][2]=-1;
+    r.start_relative[0]=r.start_relative[1]=r.start_relative[2]=-1;
+    memcpy(r.end_relative,r.start_relative,sizeof(r.end_relative));memset(r.direction,0,sizeof(r.direction));
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,&status)==0);
+    CHECK(status.q_bits==0x7F7FFFFF && status.exception_bits==0x20);
+    r=request();r.surface=0x80;r.effective_flags=0x80;
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,&status)==0);
+    CHECK(status.division_executed==0 && status.q_bits==0 && status.exception_bits==0);
+    r=request();r.vertex[0][0]=NAN;status=status_before;c=sentinel;
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,&status)==-2);
+    CHECK(memcmp(&status,&status_before,sizeof(status))==0 && memcmp(&c,&sentinel,sizeof(c))==0);
+    r=request();CHECK(dreadzone_collision_triangle_with_q(&r,&c,(DreadzoneCollisionTriangleQStatus *)(void *)&c)==-1);
+    CHECK(dreadzone_collision_triangle_with_q(&r,&c,NULL)==-1);
     printf("%u collision triangle checks passed\n",checks);return 0;
 }

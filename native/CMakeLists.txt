@@ -239,6 +239,13 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_collision_triangle PRIVATE /W4 /WX /fp:strict)
 endif()
 
+add_library(deadlocked_native_dreadzone_collision_grid STATIC dreadzone_collision_grid.c)
+target_include_directories(deadlocked_native_dreadzone_collision_grid PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_collision_grid PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_collision_grid PRIVATE /W4 /WX /fp:strict)
+endif()
+
 add_library(deadlocked_native_dreadzone_actor_input_bridge STATIC
     dreadzone_actor_input_bridge.c ../nonmatching/L01_006A7D48.c
     ../nonmatching/L01_0067BD58.c ../nonmatching/L01_0055D180.c
@@ -611,6 +618,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_dreadzone_collision_triangle_tests PRIVATE /W4 /WX /fp:strict)
     endif()
     add_test(NAME native_dreadzone_collision_triangle COMMAND deadlocked_native_dreadzone_collision_triangle_tests)
+    add_executable(deadlocked_native_dreadzone_collision_grid_tests tests/dreadzone_collision_grid_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_collision_grid_tests PRIVATE deadlocked_native_dreadzone_collision_grid)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_collision_grid_tests PRIVATE /W4 /WX /fp:strict)
+    endif()
+    add_test(NAME native_dreadzone_collision_grid COMMAND deadlocked_native_dreadzone_collision_grid_tests)
     add_executable(deadlocked_native_dreadzone_actor_input_bridge_tests tests/dreadzone_actor_input_bridge_tests.c)
     target_link_libraries(deadlocked_native_dreadzone_actor_input_bridge_tests PRIVATE deadlocked_native_dreadzone_actor_input_bridge)
     if(MSVC)

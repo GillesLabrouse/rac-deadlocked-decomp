@@ -700,10 +700,28 @@ host IEEE approximation; physical VU/Q flags, saturation and timing are absent.
 
 The real fixture segments stay within their source cells after global f32
 quantization, so actual traversal fractions0/1 produce the verified clip bounds.
-Multi-cell bounds require the full traversal producer. Zero denominators,
-subnormal/nonfinite inputs and unsupported arithmetic refuse atomically;
-grazing triangles must still be handled before composing a useful full probe.
-The outer grid traversal, packed face/quad iteration, final unit conversion,
+The strict triangle API still refuses zero denominators atomically. Its second
+API now follows the same complete calculation with signed FLT_MAX Q saturation
+for zero denominators, exposing whether division executed and the numerical
+I/D condition. Early filters can skip division; a saturated Q still follows
+the original plane and edge tests. Root's fresh DLL agrees across3,331 fixtures:
+2,552 contacts,775 misses,4 refusals,8 saturated divisions and32 request/status
+aliases, with330,287 original instructions. All56 focused assertions pass.
+Physical VU exception registers and timing are outside this numerical contract.
+
+`dreadzone_collision_grid` supplies the actual0053DDE0..0053DF84 axis lists and
+stable packed-cell merge, retaining X/Y/Z tie priority, signed-word fraction
+clamping, first record and terminal sentinel. Identical truncated integer
+endpoints genuinely return only the first record. Each axis is bounded to79
+crossings, excluding the original80th-entry path that counts an unwritten
+fraction. Zero-axis reciprocals retain explicit Q saturation diagnostics.
+Root's fresh DLL agrees in529 original-word cases,4,810 records,38,480 bytes
+and174,958 instructions, including382 cases with zero-Q axes. All30 assertions
+pass. Outputs are atomic, request/output aliases are supported and output/output
+aliases refuse. Arithmetic remains an ordered host-f32 approximation.
+
+Subnormal/nonfinite inputs and unsupported arithmetic refuse atomically.
+Packed face/quad iteration, final unit conversion,
 dynamic actors, contact cache, DMA and complete player motion remain unexecuted.
 
 `dreadzone_actor_input_bridge` connects actual006A7D48/0067BD58 to the recovered

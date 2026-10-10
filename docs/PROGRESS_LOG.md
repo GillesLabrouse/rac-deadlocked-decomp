@@ -1385,3 +1385,29 @@ prove a later one. Emulator tests are optional reference checks.
 - This transfers animation definitions; it does not decode poses, animate the
   viewer, execute the disk/GPU loader or establish a playable frame. Original
   assets and differential receipts remain ignored. Nothing is pushed.
+
+## 2026-10-11 — Traverse real collision cells and retain zero-Q behavior
+
+- Added the actual axis-list producer and stable grid merge0053DDE0..0053DF84.
+  Preserved X/Y/Z tie priority, signed fraction clamps, packed cell stepping,
+  initial record and sentinel. Identical truncated integer endpoints take
+  the original early exit before sentinel publication. The bounded domain
+  permits at most79 crossings per axis, explicitly excluding the original
+  cap path that counts an unwritten80th fraction.
+- Root's fresh /W4 /WX /fp:strict DLL agrees with genuine original words and
+  the shared integer/MMI oracle in529 cases:4,810 records,38,480 bytes,
+  174,958 original instructions and zero captured callees.382 cases exercise
+  zero-axis reciprocal saturation. All30 focused assertions pass, including
+  capacity and output-alias refusal without partial writes.
+- Extended the triangle kernel with a separate zero-denominator Q API;
+  the strict API keeps its refusal contract. Signed saturation and numerical
+  I/D condition are supplied explicitly while all real plane/edge branches
+  still execute. Both outputs remain unchanged on unsupported arithmetic.
+  Root's fresh original-word comparison covers3,331 fixtures:2,552 contacts,
+  775 misses,4 refusals,8 saturated divisions,32 request/status aliases and
+  330,287 instructions. All56 focused assertions pass.
+  All52 registered native tests pass in3.77 seconds after source freeze.
+- This validates traversal and a complete triangle iteration, not the full
+  probe. Packed block/quad iteration, prefetch order, hit stopping condition,
+  final units, dynamic actors, cache, DMA and player motion still require
+  integration. Physical VU flags/timing remain unclaimed. Nothing is pushed.
