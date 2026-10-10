@@ -32,6 +32,11 @@ establish the final live player state. Existing actors can retain different
 masks. `--low-detail` explicitly selects low-detail candidates without running
 distance-based LOD or render-queue budget checks. Omitting `--actor-mask`
 retains the primary-only comparison.
+Its literal is directly present in the local ISO at `0x96DC9E00`. Independent
+TOC/primary-section parsing and execution of the entire original `00157738`
+copy publish `0x1002` to `0x2206B0` under the actual caller limit and explicit
+level1 state. This verifies the data boundary, not the disk driver, complete
+constructor or full native startup.
 Positions use genuine byte/256 blends, persistent matrices/guest IDs,
 delayed vertex associations and duplicates. Signed ST divides by 4096. Raw
 FIFO winding and ADC suppression are retained without editor strip parity

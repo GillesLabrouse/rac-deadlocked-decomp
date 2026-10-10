@@ -1266,3 +1266,36 @@ prove a later one. Emulator tests are optional reference checks.
   original microbytes and capture images remain local and ignored. All
   48 native CTest checks pass together in 7.55 seconds. No accepted matching
   coverage, live actor frame, native game boot or remote push is added.
+
+## 2026-10-10 — Controller-to-actor bridge and literal publication proof
+
+- Added five complete PS2 drafts: 006A7D48, 0067BD58, 0055D180, 005BE808
+  and 0067C570. Root's fresh original-compiler objects strictly link and
+  compare as nonmatching: compiled/retail sizes144/144,116/136,60/48,
+  116/144 and64/80. The first four use baseline flags; magnitude uses
+  -ffast-math. No accepted matching coverage is changed.
+- Added the genuine bounded native bridge to the existing snapshot/predicate
+  and input libraries. Actual button/timer work precedes the one-shot read;
+  mode and input-axis aliases observe ordered stores/reloads. The one-shot
+  path genuinely clears the flag and skips magnitude/angle work. Active
+  input copies axes and computes direction fields, retaining actor128 as
+  the third magnitude component. Transactions preserve supplied RAM on
+  refusal and publish writable regions only after the selected path succeeds.
+- Root's fresh /W4 /WX /fp:precise DLL agrees across4,096 full one-shot
+  bridges,4,096 button calls,65,536 signed timers and4,096 mask remaps.
+  The original CPU executes1,328,033 instructions at142 distinct sites,
+  including256 global/timer aliases; every supplied memory image agrees.
+  No floating/VU callee is captured as completed. Active numerical behavior
+  is separately approximate, with2,048 independent finite fixtures and256
+  actual decoded packet inputs. All153,170 native assertions pass; all49
+  CTest checks pass together in3.51 seconds. No position integration,
+  collision, animation, controller transport or playable frame is claimed.
+- Independently traced the model-selection literal from ISO TOCsector1001
+  through level1 header40C and primary96DC7000 to sectionstream96DC78C0.
+  Actual literal bytes02 10 are at96DC9E00. Root independently executes
+  all00157738 original words with the shared integer CPU oracle:3,782,341
+  instructions, zero callees, all destination bytes and guards agree.
+  The actual caller limit1E9A000 skips net.text, publishes half1002 at
+  2206B0 and returns528098. This proves the supplied-data copy boundary,
+  not the disk driver or complete native level load. All ISO/CPU bytes
+  and generated receipts remain ignored. Nothing is pushed.

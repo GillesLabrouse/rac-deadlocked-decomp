@@ -227,6 +227,19 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_collision_tree PRIVATE /W4 /WX)
 endif()
 
+add_library(deadlocked_native_dreadzone_actor_input_bridge STATIC
+    dreadzone_actor_input_bridge.c ../nonmatching/L01_006A7D48.c
+    ../nonmatching/L01_0067BD58.c ../nonmatching/L01_0055D180.c
+    ../nonmatching/L01_005BE808.c ../nonmatching/L01_0067C570.c)
+target_compile_definitions(deadlocked_native_dreadzone_actor_input_bridge PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_actor_input_bridge PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_actor_input_bridge PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_input_bridge PUBLIC
+    deadlocked_native_dreadzone_actor_snapshot deadlocked_native_dreadzone_input)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_actor_input_bridge PRIVATE /W4 /WX /fp:precise)
+endif()
+
 add_library(deadlocked_native_dreadzone_spatial_grid STATIC dreadzone_spatial_grid.c)
 target_include_directories(deadlocked_native_dreadzone_spatial_grid PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_spatial_grid PUBLIC c_std_11)
@@ -574,6 +587,12 @@ if(BUILD_TESTING)
     endif()
     add_test(NAME native_dreadzone_actor_basis COMMAND deadlocked_native_dreadzone_actor_basis_tests)
     add_test(NAME native_dreadzone_collision_tree COMMAND deadlocked_native_dreadzone_collision_tree_tests)
+    add_executable(deadlocked_native_dreadzone_actor_input_bridge_tests tests/dreadzone_actor_input_bridge_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_actor_input_bridge_tests PRIVATE deadlocked_native_dreadzone_actor_input_bridge)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_actor_input_bridge_tests PRIVATE /W4 /WX /fp:precise)
+    endif()
+    add_test(NAME native_dreadzone_actor_input_bridge COMMAND deadlocked_native_dreadzone_actor_input_bridge_tests)
     add_executable(deadlocked_native_game_random_tests tests/game_random_tests.c)
     target_link_libraries(deadlocked_native_game_random_tests PRIVATE deadlocked_native_game_random)
     if(MSVC)

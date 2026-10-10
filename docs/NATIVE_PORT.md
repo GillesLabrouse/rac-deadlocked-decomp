@@ -683,6 +683,25 @@ Root's fresh DLL agrees across1,027 fixtures,19,059 original EE instructions,
 assertions pass. A returned leaf is collision data, not an established contact
 with the ground; triangle contact and the movement caller still need recovery.
 
+`dreadzone_actor_input_bridge` connects actual006A7D48/0067BD58 to the recovered
+predicate, signed timer, input-mask remapper, xyz magnitude and angle polynomial.
+It preserves button/timer writes before the one-shot flag read and the second
+axis reload after the first axis store. Actor128 remains an actual magnitude
+component. A nonzero0021E8F4 is genuinely cleared and skips floating work.
+Mapped stable RAM is copied transactionally, preserving guest aliases and
+publishing writable images only after success. No controller transport or
+position integration is added by this API.
+
+Root's fresh DLL agrees across4,096 complete one-shot bridge cases,4,096 button
+cases,65,536 signed timer values and4,096 remaps:1,328,033 original integer
+instructions,142 distinct sites and256 ordered global/timer alias cases.
+Every selected CPU callee runs without captures. The active magnitude/angle
+branch is separately labelled `APPROXIMATE_VU`, with2,048 independent finite
+numeric fixtures and256 actual decoder-to-bridge packet cases. These do not
+establish physical VU equivalence. All153,170 native assertions pass. Root's
+fresh SN objects compile and strictly link all five complete PS2 drafts;
+all are nonmatching. No playable actor frame is established.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
