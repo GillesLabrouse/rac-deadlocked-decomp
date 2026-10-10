@@ -15,17 +15,18 @@ prove a later one. Emulator tests are optional reference checks.
 
 ## Current verified checkpoint
 
-- 267 matching functions, 0.539% of counted code, including open-source libraries.
-- 216 game functions pass exact linking: 139 resident and 77 overlay functions.
-- Resident reconstruction replaces 9,528 bytes with exact compiled C. The whole
+- 268 matching functions, 0.536% of counted code, including open-source libraries.
+- 217 game functions pass exact linking: 140 resident and 77 overlay functions.
+- Resident reconstruction replaces 9,688 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Twenty-six Python regression tests and all three native CTest checks pass.
-- Seven recovered functions compile and execute in a Windows x64 test target.
+- Thirty-four Python regression tests and all four native CTest checks pass.
+- Eight recovered functions compile and execute in Windows x64 test targets.
   A capture transport replaces the command driver for these tests. No native
   game update loop, game boot, or campaign play has been verified.
-- Dreadzone Station terrain loads and renders natively: 14,310 triangles and
-  55 textures. Hardware and WARP captures completed; a room capture was inspected.
-  The terrain backend does not yet render characters or execute recovered game logic.
+- Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
+  render natively, using 86 shared object models and 440 textures. Hardware and
+  WARP captures completed; the room capture was inspected. The scene backend does
+  not yet render characters or execute the recovered startup/update chain.
 - Work remains on the local branch; nothing has been pushed.
 
 ## 2026-10-10 — Environment and priorities
@@ -121,7 +122,7 @@ prove a later one. Emulator tests are optional reference checks.
 ## Next milestones
 
 1. Map startup and first-scene platform dependencies for the native target.
-2. Extend host asset loading beyond terrain to placed scene objects/characters,
+2. Extend host asset loading beyond static objects to dynamic objects/characters,
    then implement the recovered scene/update path; use explicit guest-address conversion.
 3. Continue recovering startup and first-level code with exact linking as the
    matching acceptance check. Keep failed matching drafts outside src.
@@ -178,3 +179,44 @@ prove a later one. Emulator tests are optional reference checks.
   camera/player behavior, audio, missions, and recovered startup/update code.
   Rendering fidelity is unverified. This is the first terrain backend milestone,
   not a playable beginning. Changes are local; nothing has been pushed.
+
+## 2026-10-10 — Static objects and recovered boot parameters
+
+- Added an authored parser for the structured local export text, static class
+  resolution, and a version-two host package with shared mesh geometry and affine
+  instance records. The renderer uses separate per-vertex/per-instance buffers.
+  Missing classes, escaping mesh paths, invalid matrices/ranges/bounds and excessive
+  draw work fail explicitly. The original terrain format still loads.
+- Prepared both Dreadzone Station terrain chunks and all 1,856 exported static
+  object placements, from 86 models. Final package: 197,412 shared vertices,
+  1,858 instances including terrain, 440 textures and 461 material draw batches;
+  672,516 submitted triangles before GPU clipping. The second chunk resolves its
+  textures through the explicitly supplied chunk-zero material directory.
+- Hardware and WARP room captures completed. Inspected the added wall ornaments,
+  support structures and other static geometry. Instance lighting remains an
+  unimplemented part of rendering fidelity; static objects currently use white
+  tint. Dynamic objects, vegetation, characters, collision, sky and game behavior
+  remain excluded. All packages and images stay local and ignored.
+- Final package SHA-256:
+  `889c4d466f4725a38fc8702e8ebcfe35bdda0bb9aa1fd285a7e5d0e854fd79b5`.
+  Hardware room capture SHA-256:
+  `2e8b938885782f5898acea5f55c1fa348ccc6ac1bdd17f65a3a35c4954a5a23e`.
+  Version-one room regression PNG remains byte-identical to its earlier capture.
+- Recovered `func_0045CB88`, the startup configuration copier, as exact C: nine
+  values and two bytes initialize eight slots, followed by four `-1` markers.
+  All 40 words match and its linked bytes equal retail with no masking. Native
+  tests execute the same source with signed boundary values and byte-layout checks.
+- Splitting around the verified `0045CB88..0045CC28` routine also makes an existing
+  handwritten span's following labels available as 265 new function-table entries.
+  They are newly indexed, not newly decompiled. The denominator is now 15,328;
+  coverage changes from 0.539% to 0.536% despite the additional matched routine.
+  The earlier `0045CB78` entry ends before the real routine instead of overlapping it.
+- Startup loop `00157C58` remains a draft. Compiler flag and loop-form variants
+  did not match. Its observed argument strings are `BOPT=`, `gooey` and `multi`;
+  further recovery is needed before using this path in the native runtime.
+- All 268 audited functions and 217 exact linked game functions pass. The resident
+  reconstruction contains 140 compiled functions / 9,688 bytes and still equals
+  retail. All thirty-four Python tests and four native CTest checks pass. The
+  instancing self-test verifies distinct red/green placements and orientation,
+  including PNG decoding and texture channel order with an authored texture.
+  Work remains local; nothing has been pushed.

@@ -7,9 +7,9 @@ a PC executable. Keep that validation while developing the host runtime.
 
 ## Verified first step
 
-`native/CMakeLists.txt` builds a native static library from seven recovered game
-functions in `src/core`, without retail machine code or PS2 toolchain inputs.
-An explicit source list excludes startup, drivers, and address-dependent code
+`native/CMakeLists.txt` builds a native static library from eight recovered game
+functions in `src/core` and `src/game`, without retail machine code or PS2 toolchain inputs.
+An explicit source list excludes platform startup, drivers, and address-dependent code
 that cannot run unchanged on a host. The original matching header remains intact.
 
 The native `common.h` uses fixed-width integer types. SN's PS2 compiler uses
@@ -35,16 +35,17 @@ achieved.
 ## Native terrain loading and rendering
 
 The Windows target `deadlocked_native_scene_viewer` loads a host scene package
-and renders extracted terrain through Direct3D 11. It supports an interactive
+and renders extracted terrain and static objects through Direct3D 11. It supports an interactive
 free camera and an offscreen PNG capture, with hardware rendering or WARP.
 This is a host backend written for the port, not recovered game logic. It does
 not execute a MIPS binary, and it does not link the isolated command-test transport.
 
-The local Dreadzone Station chunk-zero export successfully converted and rendered:
+The first terrain-only checkpoint converted and rendered Dreadzone Station chunk zero:
 42,930 vertices, 14,310 triangles, and 55 PNG textures in 55 draw batches. A room
-capture was inspected, and both hardware and WARP captures completed. Terrain
-is only part of the scene: placed objects, characters, sky, missions, collision,
-audio and the recovered frame/update path remain absent. Color modulation,
+capture was inspected, and both hardware and WARP captures completed. This package
+contains terrain only; the static-object extension below adds the remaining terrain
+and object placements. Characters, sky, missions, collision, audio and the recovered
+frame/update path remain absent. Color modulation,
 transparency and PS2 rendering fidelity still need verification.
 
 Prepare the local assets after extracting the user's disc with Wrench v0.6:
@@ -96,8 +97,9 @@ build/native/Release/deadlocked_native_scene_viewer.exe `
 
 Add `--software` to use WARP. Each capture writes a JSON report containing draw
 counts, camera parameters, renderer type, and `game_logic_running: false`.
-The native CTest suite includes scalar/command ABI checks, malformed scene
-rejection, and a WARP draw/readback test that must render a red synthetic triangle.
+The native CTest suite includes scalar/command ABI checks, recovered startup
+parameter checks, malformed scene rejection, and a WARP draw/readback test. It
+decodes an authored PNG and renders two differently placed and tinted triangles.
 Python tests use authored synthetic geometry for the asset converter.
 
 ## Build and test
@@ -122,6 +124,58 @@ The test needs no ISO, BIOS, emulator, original compiler, or extracted assets.
 A playable native build will read assets extracted from the user's ISO. The
 terrain renderer already consumes these assets through the conversion step above.
 
+## Static-object placements and shared geometry
+
+`tools/prepare_native_level.py` reads the local structured export text, resolves
+the level's allowed static-object classes, and preserves model sharing in a
+version-two host scene. Matrices retain their column-major affine representation;
+the renderer applies their basis vectors and translations with `DrawInstanced`.
+The version-one terrain format remains readable and renders the same room PNG
+as before this extension.
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  -o build/native-assets/dreadzone-static.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-static.dlscene --camera 600 480 203 -1.5707963 -0.05
+```
+
+The current Dreadzone package contains both terrain chunks and 1,856 static object
+placements from 86 shared models: 197,412 shared vertices, 1,858 instances including
+the terrain, 440 textures, and 461 material draw batches. It submits 672,516
+triangles before GPU clipping. The second terrain export reuses the PNG material
+set in chunk zero; this shared texture directory is supplied explicitly by the
+level converter and recorded in its input hashes.
+
+The text parser rejects malformed blocks and duplicate attributes. Class
+resolution rejects unavailable level classes, duplicate instance IDs and mesh
+paths escaping their class directory. Package validation includes affine matrices,
+instance draw ranges, transformed bounds and bounded draw work. The WARP self-test
+checks that two copies of one textured triangle receive distinct transforms and
+tints, with the red copy to the left of the green copy. The authored texture also
+exercises PNG decoding and texture channel order without game assets.
+
+Static-object instance lighting is not reproduced: their exported ambient bytes
+are not yet decoded and their tint is currently white. Dynamic objects, vegetation,
+characters, collision, sky, original visibility/LOD rules and game behavior remain
+absent. The level converter fails on missing static models rather than dropping
+them, but does not claim to implement these excluded systems.
+
+## Recovered startup parameter initialization
+
+`src/game/0045CB88.c` is called from the resident startup loop before entering
+level code. It reads nine scalar configuration values and two bytes, copies them
+to eight slots, and initializes four state markers to `-1`. The routine's exact
+160-byte match is verified after resolving its global addresses, and the same C
+source passes a native test with signed boundary values and full-layout checks.
+Its eight slots have not been assigned a gameplay interpretation.
+
+The native core library now includes this routine as well as the original seven
+isolated helpers. The renderer does not yet invoke the recovered startup/update
+chain. Tests of parameter initialization prove this routine's behavior, not boot
+of the native game.
+
 ## Priorities toward the beginning of the game
 
 1. Recover the startup dependency chain and identify its platform interfaces.
@@ -129,7 +183,7 @@ terrain renderer already consumes these assets through the conversion step above
    at `0x157738` and `0x1579A0` load executable sections. These routines copy
    code to PS2 addresses and call it. The host needs compiled functions and
    explicit level selection in their place, not calls into copied MIPS bytes.
-2. Extend the terrain asset bridge to placed scene objects and characters from
+2. Extend the static scene asset bridge to dynamic objects and characters from
    the existing local Wrench extraction. Guest pointers, offsets, and overlay-local
    identities need explicit conversion before game structures can be consumed.
 3. Recover the menu/first-level update path and its rendering, input, audio,

@@ -57,7 +57,8 @@ def source_records(source):
     return records, tuple(p.attrib.get("name", "") for p in parameters)
 
 
-def texture_bindings(root, directory):
+def texture_bindings(root, directory, texture_directory=None):
+    texture_directory = Path(texture_directory) if texture_directory is not None else directory
     images = {i.attrib["id"]: required(i, "c:init_from").text
               for i in root.findall("c:library_images/c:image", NS)}
     effects = {}
@@ -73,8 +74,8 @@ def texture_bindings(root, directory):
         sampler = parameters[texture.attrib["texture"]]
         surface_name = required(sampler, "c:sampler2D/c:source").text
         image_name = required(parameters[surface_name], "c:surface/c:init_from").text
-        path = (directory / images[image_name]).resolve()
-        if not path.is_relative_to(directory.resolve()) or path.suffix.lower() != ".png":
+        path = (texture_directory / images[image_name]).resolve()
+        if not path.is_relative_to(texture_directory.resolve()) or path.suffix.lower() != ".png":
             raise ValueError("Texture must be a PNG inside the mesh directory")
         if not path.is_file():
             raise ValueError("Missing texture: " + str(path))
@@ -83,7 +84,7 @@ def texture_bindings(root, directory):
             for m in root.findall("c:library_materials/c:material", NS)}
 
 
-def read_mesh(path, recover_unbound_colors=False):
+def read_mesh(path, recover_unbound_colors=False, texture_directory=None):
     path = Path(path)
     root = ET.parse(path).getroot()
     if root.findtext("c:asset/c:up_axis", "Y_UP", NS) != "Z_UP":
@@ -91,7 +92,7 @@ def read_mesh(path, recover_unbound_colors=False):
     unit = root.find("c:asset/c:unit", NS)
     if unit is not None and float(unit.attrib.get("meter", "1")) != 1:
         raise ValueError("Non-unit coordinate scales are unsupported")
-    materials = texture_bindings(root, path.parent)
+    materials = texture_bindings(root, path.parent, texture_directory)
     geometry = {g.attrib["id"]: g for g in root.findall("c:library_geometries/c:geometry", NS)}
     if len(root.findall("c:library_visual_scenes/c:visual_scene", NS)) != 1:
         raise ValueError("Expected exactly one visual scene")

@@ -27,8 +27,8 @@ The project runs in two phases:
 > unverified; this is not a native PC port.
 
 The local fork also targets a future native PC runtime. Its host tests execute
-seven recovered functions in isolation, and a Windows renderer displays extracted
-Dreadzone Station terrain with a free camera. The game update loop, characters,
+eight recovered functions in isolation, and a Windows renderer displays extracted
+Dreadzone Station terrain and placed static objects with a free camera. The game update loop, characters,
 collision and missions remain incomplete; it does not run the game yet. See
 [`docs/NATIVE_PORT.md`](docs/NATIVE_PORT.md) for the verified scope and priorities.
 

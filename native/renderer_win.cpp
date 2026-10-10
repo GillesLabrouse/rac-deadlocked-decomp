@@ -36,13 +36,19 @@ const char* shader_source = R"(
 cbuffer Camera : register(b0) { row_major float4x4 view_projection; };
 Texture2D image : register(t0);
 SamplerState image_sampler : register(s0);
-struct Input { float3 position:POSITION; float2 uv:TEXCOORD; float4 color:COLOR; };
+struct Input {
+    float3 position:POSITION; float2 uv:TEXCOORD; float4 color:COLOR;
+    float4 basis0:WORLD0; float4 basis1:WORLD1; float4 basis2:WORLD2; float4 origin:WORLD3;
+    float4 tint:TINT;
+};
 struct Output { float4 position:SV_POSITION; float2 uv:TEXCOORD; float4 color:COLOR; };
 Output vs_main(Input input) {
     Output output;
-    output.position = mul(float4(input.position, 1), view_projection);
+    float3 world = input.position.x*input.basis0.xyz + input.position.y*input.basis1.xyz +
+                   input.position.z*input.basis2.xyz + input.origin.xyz;
+    output.position = mul(float4(world, 1), view_projection);
     output.uv = input.uv;
-    output.color = input.color;
+    output.color = input.color*input.tint;
     return output;
 }
 float4 ps_main(Output input) : SV_TARGET {
@@ -61,7 +67,10 @@ struct Camera {
     }
 };
 
-struct CaptureStats { std::size_t drawn; std::size_t red; };
+struct CaptureStats {
+    std::size_t drawn, red, green;
+    std::uint64_t red_x, green_x;
+};
 
 Camera frame_camera(const Scene& scene) {
     const auto& b = scene.bounds;
@@ -82,6 +91,7 @@ class Renderer {
     ComPtr<ID3D11RenderTargetView> target_view;
     ComPtr<ID3D11DepthStencilView> depth_view;
     ComPtr<ID3D11Buffer> geometry;
+    ComPtr<ID3D11Buffer> instance_buffer;
     ComPtr<ID3D11Buffer> camera_buffer;
     ComPtr<ID3D11VertexShader> vertex_shader;
     ComPtr<ID3D11PixelShader> pixel_shader;
@@ -188,14 +198,22 @@ public:
         const D3D11_INPUT_ELEMENT_DESC elements[] = {
             {"POSITION",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0},
             {"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,12,D3D11_INPUT_PER_VERTEX_DATA,0},
-            {"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,20,D3D11_INPUT_PER_VERTEX_DATA,0}
+            {"COLOR",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,20,D3D11_INPUT_PER_VERTEX_DATA,0},
+            {"WORLD",0,DXGI_FORMAT_R32G32B32A32_FLOAT,1,0,D3D11_INPUT_PER_INSTANCE_DATA,1},
+            {"WORLD",1,DXGI_FORMAT_R32G32B32A32_FLOAT,1,16,D3D11_INPUT_PER_INSTANCE_DATA,1},
+            {"WORLD",2,DXGI_FORMAT_R32G32B32A32_FLOAT,1,32,D3D11_INPUT_PER_INSTANCE_DATA,1},
+            {"WORLD",3,DXGI_FORMAT_R32G32B32A32_FLOAT,1,48,D3D11_INPUT_PER_INSTANCE_DATA,1},
+            {"TINT",0,DXGI_FORMAT_R32G32B32A32_FLOAT,1,64,D3D11_INPUT_PER_INSTANCE_DATA,1}
         };
-        checked(device->CreateInputLayout(elements, 3, vs->GetBufferPointer(), vs->GetBufferSize(), &layout), "Create scene vertex layout");
+        checked(device->CreateInputLayout(elements, 8, vs->GetBufferPointer(), vs->GetBufferSize(), &layout), "Create scene vertex layout");
         D3D11_BUFFER_DESC buffer{};
         buffer.ByteWidth=static_cast<UINT>(scene.vertices.size()*sizeof(Vertex));
         buffer.Usage=D3D11_USAGE_IMMUTABLE; buffer.BindFlags=D3D11_BIND_VERTEX_BUFFER;
         D3D11_SUBRESOURCE_DATA data{scene.vertices.data(), 0, 0};
         checked(device->CreateBuffer(&buffer, &data, &geometry), "Upload scene vertices");
+        buffer.ByteWidth=static_cast<UINT>(scene.instances.size()*sizeof(Instance));
+        data.pSysMem=scene.instances.data();
+        checked(device->CreateBuffer(&buffer, &data, &instance_buffer), "Upload scene instances");
         buffer.ByteWidth=sizeof(XMFLOAT4X4); buffer.Usage=D3D11_USAGE_DEFAULT; buffer.BindFlags=D3D11_BIND_CONSTANT_BUFFER;
         checked(device->CreateBuffer(&buffer, nullptr, &camera_buffer), "Create scene camera buffer");
         D3D11_SAMPLER_DESC sampling{};
@@ -226,8 +244,9 @@ public:
         context->UpdateSubresource(camera_buffer.Get(), 0, nullptr, &transform, 0, 0);
         auto* constant = camera_buffer.Get(); context->VSSetConstantBuffers(0,1,&constant);
         context->IASetInputLayout(layout.Get());
-        auto* vertices = geometry.Get(); UINT stride=sizeof(Vertex), offset=0;
-        context->IASetVertexBuffers(0,1,&vertices,&stride,&offset);
+        ID3D11Buffer* buffers[]={geometry.Get(),instance_buffer.Get()};
+        const UINT strides[]={sizeof(Vertex),sizeof(Instance)}, offsets[]={0,0};
+        context->IASetVertexBuffers(0,2,buffers,strides,offsets);
         context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         context->VSSetShader(vertex_shader.Get(),nullptr,0);
         context->PSSetShader(pixel_shader.Get(),nullptr,0);
@@ -235,7 +254,7 @@ public:
         for (const auto& batch : batches) {
             auto* texture = textures[batch.texture].Get();
             context->PSSetShaderResources(0,1,&texture);
-            context->Draw(batch.count,batch.first);
+            context->DrawInstanced(batch.count,batch.instance_count,batch.first,batch.first_instance);
         }
         if (swap_chain) checked(swap_chain->Present(1,0), "Present scene frame");
     }
@@ -258,7 +277,12 @@ public:
         for (std::size_t i=0;i<pixels.size();i+=4) {
             if (std::abs(int(pixels[i])-8)>1 || std::abs(int(pixels[i+1])-11)>1 || std::abs(int(pixels[i+2])-20)>1)
                 stats.drawn++;
-            if (pixels[i]>200 && pixels[i+1]<10 && pixels[i+2]<10) stats.red++;
+            if (pixels[i]>200 && pixels[i+1]<10 && pixels[i+2]<10) {
+                stats.red++; stats.red_x+=(i/4)%width;
+            }
+            if (pixels[i+1]>200 && pixels[i]<10 && pixels[i+2]<10) {
+                stats.green++; stats.green_x+=(i/4)%width;
+            }
         }
         ComPtr<IWICStream> stream;
         ComPtr<IWICBitmapEncoder> encoder;
@@ -289,9 +313,22 @@ LRESULT CALLBACK window_events(HWND window, UINT message, WPARAM wparam, LPARAM 
 
 Scene test_triangle() {
     Scene scene;
-    scene.bounds={-1,0,-1,1,0,1};
-    scene.vertices={{{-1,0,-1},{0,0},{1,0,0,1}},{{1,0,-1},{0,0},{1,0,0,1}},{{0,0,1},{0,0},{1,0,0,1}}};
-    scene.batches={{0,3,0}};
+    scene.bounds={-1.7f,0,-0.7f,1.7f,0,0.7f};
+    scene.vertices={{{-0.7f,0,-0.7f},{0,0},{1,1,1,1}},{{0.7f,0,-0.7f},{0,0},{1,1,1,1}},{{0,0,0.7f},{0,0},{1,1,1,1}}};
+    scene.instances.resize(2);
+    scene.instances[0].transform[12]=-1; scene.instances[1].transform[12]=1;
+    scene.instances[0].color[1]=scene.instances[0].color[2]=0;
+    scene.instances[1].color[0]=scene.instances[1].color[2]=0;
+    // Authored 1x1 RGBA (255,255,64,255) PNG exercises decoding and channel order.
+    // Red and green instance tints must both survive texture multiplication.
+    scene.pngs.push_back({
+        0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,0x00,0x00,0x0d,0x49,0x48,0x44,0x52,
+        0x00,0x00,0x00,0x01,0x00,0x00,0x00,0x01,0x08,0x06,0x00,0x00,0x00,0x1f,0x15,0xc4,
+        0x89,0x00,0x00,0x00,0x0d,0x49,0x44,0x41,0x54,0x78,0x9c,0x63,0xf8,0xff,0xdf,0xe1,
+        0x3f,0x00,0x08,0x7d,0x03,0x3e,0xb4,0x20,0xff,0x7e,0x00,0x00,0x00,0x00,0x49,0x45,
+        0x4e,0x44,0xae,0x42,0x60,0x82
+    });
+    scene.batches={{0,3,1,0,2}};
     return scene;
 }
 }
@@ -314,7 +351,7 @@ int wmain(int argc,wchar_t** argv) {
                 std::cout << "Usage: deadlocked_native_scene_viewer scene.dlscene [--capture frame.png] [--software]\n"
                              "       [--camera x y z yaw_radians pitch_radians]\n"
                              "Controls: WASD move, Q/E vertical, arrows look, Shift faster, Esc exit.\n"
-                             "This renders extracted terrain; game logic and campaign are not implemented.\n";
+                             "This renders extracted scenery; game logic and campaign are not implemented.\n";
                 return 0;
             } else if (!arg.empty() && arg[0]!=L'-' && input.empty()) input=arg;
             else throw std::runtime_error("Invalid command line; use --help");
@@ -322,7 +359,7 @@ int wmain(int argc,wchar_t** argv) {
         if (!self_test && input.empty()) throw std::runtime_error("Supply a prepared scene file; use --help");
         if (self_test && output.empty()) throw std::runtime_error("Render self-test requires --capture");
         auto scene=self_test ? test_triangle() : load_scene(input);
-        if (!explicit_camera) camera=self_test ? Camera{{0,-3,0},XM_PIDIV2,0} : frame_camera(scene);
+        if (!explicit_camera) camera=self_test ? Camera{{0,-5,0},XM_PIDIV2,0} : frame_camera(scene);
         if (!std::isfinite(camera.position.x) || !std::isfinite(camera.position.y) || !std::isfinite(camera.position.z) ||
             !std::isfinite(camera.yaw) || !std::isfinite(camera.pitch) || std::abs(camera.pitch)>=XM_PIDIV2)
             throw std::runtime_error("Camera must be finite with pitch between -pi/2 and pi/2");
@@ -335,24 +372,30 @@ int wmain(int argc,wchar_t** argv) {
             if (!RegisterClassW(&cls)) throw std::runtime_error("Cannot register native scene window");
             const DWORD style=WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX;
             RECT rectangle{0,0,LONG(width),LONG(height)}; AdjustWindowRect(&rectangle,style,FALSE);
-            window=CreateWindowW(cls.lpszClassName,L"Deadlocked native terrain | WASD move | arrows look | Esc exit",
+            window=CreateWindowW(cls.lpszClassName,L"Deadlocked native scene | WASD move | arrows look | Esc exit",
                                  style,CW_USEDEFAULT,CW_USEDEFAULT,rectangle.right-rectangle.left,rectangle.bottom-rectangle.top,
                                  nullptr,nullptr,cls.hInstance,nullptr);
             if (!window) throw std::runtime_error("Cannot create native scene window");
             ShowWindow(window,SW_SHOW);
         }
         Renderer renderer(scene,width,height,software,window);
-        std::cout << "Native terrain: " << scene.vertices.size()/3 << " triangles, " << scene.pngs.size()
+        std::uint64_t submitted_triangles=0;
+        for (const auto& batch:scene.batches) submitted_triangles+=std::uint64_t(batch.count/3)*batch.instance_count;
+        std::cout << "Native scene: " << scene.vertices.size()/3 << " prototype triangles, " << scene.instances.size()
+                  << " instances, " << submitted_triangles << " submitted triangles, " << scene.pngs.size()
                   << " textures, " << scene.batches.size() << " draw batches; "
                   << (renderer.uses_software() ? "WARP" : "hardware") << " Direct3D 11.\n";
         if (!output.empty()) {
             renderer.render(camera);
             const auto pixels=renderer.capture(output);
             std::cout << "Captured " << pixels.drawn << " non-background pixels.\n";
-            if (self_test && pixels.red < 10000) throw std::runtime_error("Render self-test did not draw the red triangle");
+            if (self_test && (pixels.red < 10000 || pixels.green < 10000 ||
+                             double(pixels.red_x)/pixels.red >= double(pixels.green_x)/pixels.green))
+                throw std::runtime_error("Render self-test did not place the red and green instances correctly");
             std::ofstream report(output.wstring()+L".json");
-            report << "{\n  \"kind\": \"native-terrain-capture\",\n  \"triangles\": " << scene.vertices.size()/3
+            report << "{\n  \"kind\": \"native-scene-capture\",\n  \"prototype_triangles\": " << scene.vertices.size()/3
                    << ",\n  \"textures\": " << scene.pngs.size() << ",\n  \"draw_batches\": " << scene.batches.size()
+                   << ",\n  \"instances\": " << scene.instances.size() << ",\n  \"submitted_triangles\": " << submitted_triangles
                    << ",\n  \"non_background_pixels\": " << pixels.drawn << ",\n  \"software_renderer\": "
                    << (renderer.uses_software()?"true":"false") << ",\n  \"game_logic_running\": false,\n"
                    << "  \"camera\": [" << camera.position.x << ',' << camera.position.y << ',' << camera.position.z
