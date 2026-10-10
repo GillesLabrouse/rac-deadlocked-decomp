@@ -1507,7 +1507,7 @@ prove a later one. Emulator tests are optional reference checks.
   bounded memory-copy model, not hardware timing or captured callee success.
 - Added a bounded sampled-position file linked to ordered base vertices,
   explicit presentation-rate playback, deterministic sample captures and
-  mutable Direct3D geometry.168 loader/time checks and an actual WARP test
+  mutable Direct3D geometry. 168 loader/time checks and an actual WARP test
   moving the same geometry between two captures pass. All 57 native tests pass
   in 3.63 seconds; 166 Python tests pass in 2.323 seconds, including five new
   packaging/dependency tests and the independently reviewed PEXTUW addition.
@@ -1518,3 +1518,15 @@ prove a later one. Emulator tests are optional reference checks.
   explicitly diagnostic; no actor clock/state label, live player movement,
   terrain response, campaign frame or playable game is claimed. Terrain/contact
   and genuine velocity integration remain the next work.
+
+## 2026-10-11 — Complete upper-word interleave for velocity validation
+
+- Added PEXTUW to the shared bounded integer oracle. It snapshots full sources,
+  interleaves rt.word2/rs.word2/rt.word3/rs.word3, transports raw bits and retains
+  the immutable zero register. Root reviewed the primary PCSX2 MMI semantics;
+  no third-party implementation or retail instruction list is copied.
+- A literal synthetic fixture covers 24 source/destination combinations,
+  including zero sources, inverted/same sources and destination aliases.
+  The complete current Python suite passes all 166 tests. This enables genuine
+  velocity helper replay; it does not add movement, position or a game frame.
+  Frozen terrain and velocity lots await parent integration. Nothing is pushed.

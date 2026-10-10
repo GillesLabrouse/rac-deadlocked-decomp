@@ -133,6 +133,21 @@ class IntegerCPUTests(unittest.TestCase):
                                       {1: (1 << 128) - 1, 2: right, 3: 123})
                 self.assertEqual(cpu.registers[destination], expected if destination and source else 0)
 
+    def test_pextuw_interleaves_upper_words_with_aliases_and_zero_sources(self):
+        left = 0xFFFFFFFF800000002222222211111111
+        right = 0x89ABCDEF7FFFFFFF4444444433333333
+        fixtures = ((1, 2, 0xFFFFFFFF89ABCDEF800000007FFFFFFF),
+                    (2, 1, 0x89ABCDEFFFFFFFFF7FFFFFFF80000000),
+                    (0, 2, 0x0000000089ABCDEF000000007FFFFFFF),
+                    (1, 0, 0xFFFFFFFF000000008000000000000000),
+                    (0, 0, 0), (1, 1, 0xFFFFFFFFFFFFFFFF8000000080000000))
+        for rs, rt, expected in fixtures:
+            for destination in (0, 1, 2, 3):
+                with self.subTest(rs=rs, rt=rt, destination=destination):
+                    cpu, _ = self.execute([(28 << 26) | r(40, rs, rt, destination, 18),
+                                           r(8, 31), 0], {1: left, 2: right, 3: (1 << 128) - 1})
+                    self.assertEqual(cpu.registers[destination], expected if destination else 0)
+
     def test_paddw_wraps_without_carries_between_words(self):
         left = int.from_bytes(bytes.fromhex('FF FF FF FF 00 00 00 80 FF FF FF 7F 34 12 00 00'), 'little')
         right = int.from_bytes(bytes.fromhex('01 00 00 00 00 00 00 80 01 00 00 00 CC ED FF FF'), 'little')

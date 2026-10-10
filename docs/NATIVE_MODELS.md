@@ -17,7 +17,7 @@ From the repository root, double-click the launcher or run:
 .\run-model-animation.cmd --software --pose-frame 30 --capture build/native-assets/animation-frame15.png
 ```
 
-`--pose-frame` freezes a **sample index**, so 30 selects original frame15 at
+`--pose-frame` freezes a **sample index**, so 30 selects original frame 15 at
 fraction 0. Without that option, the viewer loops 60 samples at 60 samples/second.
 W/A/S/D, Q/E and arrows operate the inspection camera. No emulator or BIOS is
 used in preparation or playback. The GIF in `build/native-assets` contains
@@ -34,7 +34,7 @@ venv/Scripts/python.exe tools/prepare_native_animation.py `
   -o build/native-assets/armor-0-native-animation.dlscene
 ```
 
-The recovered native stages initialize the real skeleton16 records through
+The recovered native stages initialize the real 16-byte skeleton records through
 589368, decode the real fixed/current/next banks through 5894F0 and VU 160/250,
 generate matrices through 589950 and VU 738/858, apply the real bind 48 records
 through 589B60 and A40/AA8, then execute selected vertex blend and GS FIFO
@@ -55,7 +55,7 @@ have separate original-instruction differential validation.
 The separate local `.dlposes` file carries evaluated positions, linked to the
 base scene's complete ordered vertex bytes by FNV-1a. Its 64-byte little-endian
 header contains magic `DLPOSE01`, version 1, sample/vertex counts, presentation
-rate, fingerprint, six bounds and a zero reserved 64 word. Payload is sample
+rate, fingerprint, six bounds and a zero reserved 64-bit word. Payload is sample
 order, vertex order, three binary32 positions. The loader limits files to 256 MiB,
 requires one identity instance, finite bounded positions and exact extents, and
 preserves UV/color/topology while updating a mutable Direct3D vertex buffer.

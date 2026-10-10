@@ -320,7 +320,7 @@ class RetailIntegerCPU:
                 self._put_quad(rd, result)
             elif op == 28 and (word & 63, shift) in (
                     (8, 26), (8, 22), (8, 18), (8, 25), (8, 3), (8, 1),
-                    (8, 23), (8, 27), (8, 0), (8, 5), (40, 3),
+                    (8, 23), (8, 27), (8, 0), (8, 5), (40, 3), (40, 18),
                     (9, 14), (9, 31), (41, 14), (41, 18), (41, 27)):
                 left, right = self.registers[rs], self.registers[rt]
                 function = word & 63
@@ -356,6 +356,12 @@ class RetailIntegerCPU:
                                  << ((lane + group * 8) * 8)
                                  for group, source in enumerate((right, left))
                                  for lane in range(8))
+                elif function == 40 and shift == 18:
+                    # PEXTUW interleaves upper words: rt2, rs2, rt3, rs3.
+                    result = sum(((source >> ((lane + 2) * 32)) & MASK32)
+                                 << ((lane * 2 + group) * 32)
+                                 for lane in range(2)
+                                 for group, source in enumerate((right, left)))
                 elif function == 40:
                     result = sum((min(signed(left >> (lane * 32), 32),
                                       signed(right >> (lane * 32), 32)) & MASK32)
