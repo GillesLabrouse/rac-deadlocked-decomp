@@ -24,6 +24,7 @@ options:
   symbol_addrs_path:
     - config/symbol_addrs.txt
     - config/core_symbols.txt
+    - config/game_symbols.txt
 
 # The ELF holds the 17 sections back to back, with no padding, and every
 # section has its own address (config/sections.txt), so each section is its
@@ -133,6 +134,9 @@ segments:
       - [0xE9088, c, text_00406640]
       - [0xEC62C, c, text_00409BE4]
       - [0xEC9D0, c, text_00409F88]
+      # Separate a verified startup routine from an earlier handwritten span.
+      - [0x13F5D0, c, text_0045CB88]
+      - [0x13F670, c, text_0045CC28]
       - [0x14CB58, c, text_0046A110]
       - [0x14CB80, c, text_0046A138]
       - [0x14CBB0, c, text_0046A168]
