@@ -1123,3 +1123,35 @@ prove a later one. Emulator tests are optional reference checks.
   delay stores, low-word targets,32-bit link wrapping, missing target code
   and invalid nested control transfers. All146 Python tests pass in2.54
   seconds. Missing code or unsupported executed instructions still fail.
+
+## 2026-10-10 — Complete bounded equipment UI CPU chain
+
+- Integrated14 complete recovered PS2 routines and the bounded native
+  005D7558/005E93D8 entry points. They retain the actual chosen-item store,
+  recent-queue insertion/rotation, actor selector and dirty/summary flags.
+  The common chosen-item store still executes when query bytes suppress
+  shuffling. Rotation uses the real wrap-index helper, not a captured RNG.
+- Root independently rebuilt all14 SN objects and compared full spans:
+  1,720 original/1,724 compiled bytes. Only005D7558(32),005D8A08(48) and
+  00652FD0(88) are privately exact;11 remain nonmatching. Splitter extents
+  for005EA230/005EA270 omit early-return tails and are overridden with the
+  independently recovered64/80-byte complete ranges. Accepted coverage is
+  unchanged.
+- Consolidated the identical ABI/declaration blocks into one authored internal
+  header. Native public headers load from their C translation units before
+  that shared header, avoiding MSVC's ancestor-directory quoted-include
+  resolution selecting PS2 scalar types. Both native and SN builds were
+  rebuilt after this correction; source/header inputs remain recorded.
+- Root's fresh /W4 /WX DLL agrees across4,096 complete original-instruction
+  cases:791,780 instructions,333 distinct instructions,13 real CPU callees,
+  1,024 zero-queue item2 cases,1,035 rotations and319 rejected selections.
+  Whole actor/pool/table/query/global/queue/state/summary bytes agree.
+- Public preflight checks selected-path reads/writes before stores, including
+  the real unused paired-copy lookahead word, aliases and wraparound. The
+  supported domain is force1/category0/definition28nonzero/initial state24
+  and28zero. Secondary/reentrant setter paths remain explicitly unavailable.
+  No renderer/audio call, fresh-player setter binding or native game frame is
+  captured or claimed. Fixture callback globals satisfy unused linked storage
+  only; no callback is invoked.
+- Root's integrated UI fixture passes3,932 checks. All forty-three native
+  CTest checks pass together in3.17 seconds under MSVC Release /W4 /WX.

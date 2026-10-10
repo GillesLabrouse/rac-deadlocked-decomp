@@ -623,6 +623,18 @@ Unsupported mappings or arithmetic refuse atomically. Physical VU/EE rounding,
 flags, register effects and timing remain outside the `APPROXIMATE` contract.
 This supplies one constructor dependency, not a playable camera/game loop.
 
+The equipment UI CPU chain `005D7558` / `005E93D8` now preserves actual item
+selection, recent-queue insertion/rotation and dirty/summary flags in a bounded
+fresh-selection domain. Its14 complete PS2 routines retain every real callee;
+native preflight supports category-zero definitions with nonzero28, index0..1,
+force1 and both state24/28 fields initially zero. Secondary/reentrant paths
+refuse before writes. Root's fresh DLL agrees across4,096 original-instruction
+cases with13 actual CPU callees, including1,024 real item2 zero-queue cases
+and1,035 queue rotations. The paired-copy helper's unused lookahead word is
+also checked before mutation. This is CPU queue/state behavior; the separate
+flag1 setter still needs its genuine virtual getter binding. No UI rendering,
+audio, completed actor or playable game frame is added.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

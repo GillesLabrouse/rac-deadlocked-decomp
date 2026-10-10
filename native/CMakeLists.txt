@@ -242,6 +242,24 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_equipment PRIVATE /W4 /WX)
 endif()
 
+add_library(deadlocked_native_dreadzone_equipment_ui STATIC
+    dreadzone_equipment_ui.c
+    ../nonmatching/L01_005D7558.c ../nonmatching/L01_005E93D8.c
+    ../nonmatching/L01_005EA270.c ../nonmatching/L01_006BDDF0.c
+    ../nonmatching/L01_005D89E8.c ../nonmatching/L01_005EA230.c
+    ../nonmatching/L01_005E97D8.c ../nonmatching/L01_005D8A08.c
+    ../nonmatching/L01_005D8A40.c ../nonmatching/L01_005D8AE0.c
+    ../nonmatching/L01_005E9350.c ../nonmatching/L01_005EA6A8.c
+    ../nonmatching/L01_005F0A40.c ../nonmatching/L01_00652FD0.c)
+target_compile_definitions(deadlocked_native_dreadzone_equipment_ui PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_dreadzone_equipment_ui PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_equipment_ui PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_equipment_ui PUBLIC
+    deadlocked_native_dreadzone_inventory_setup deadlocked_native_dreadzone_input)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_equipment_ui PRIVATE /W4 /WX)
+endif()
+
 add_library(deadlocked_native_game_random STATIC ../nonmatching/00163408.c ../nonmatching/L01_0058FF38.c)
 target_compile_definitions(deadlocked_native_game_random PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_game_random PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
@@ -471,6 +489,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_dreadzone_equipment_tests PRIVATE /W4 /WX)
     endif()
     add_test(NAME native_dreadzone_equipment COMMAND deadlocked_native_dreadzone_equipment_tests)
+    add_executable(deadlocked_native_dreadzone_equipment_ui_tests tests/dreadzone_equipment_ui_tests.c)
+    target_link_libraries(deadlocked_native_dreadzone_equipment_ui_tests PRIVATE deadlocked_native_dreadzone_equipment_ui)
+    if(MSVC)
+        target_compile_options(deadlocked_native_dreadzone_equipment_ui_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_dreadzone_equipment_ui COMMAND deadlocked_native_dreadzone_equipment_ui_tests)
     add_executable(deadlocked_native_game_random_tests tests/game_random_tests.c)
     target_link_libraries(deadlocked_native_game_random_tests PRIVATE deadlocked_native_game_random)
     if(MSVC)
