@@ -20,8 +20,11 @@ The project runs in two phases:
 
 > **Status: early.** The whole build pipeline works (unpacking the retail
 > image, disassembly, compiler and flags identified, library code rebuilt from
-> its open-source originals) and functions are matching. There is no linked
-> image yet, so matching is checked function by function.
+> its open-source originals) and functions are matching. An optional exact
+> hybrid reconstruction links compiled game functions at retail addresses and
+> retains local retail fallback for undecompiled code and data. See
+> [`docs/REBUILD.md`](docs/REBUILD.md). Runtime boot and campaign play remain
+> unverified; this is not a native PC port.
 
 ## Progress
 
@@ -121,7 +124,7 @@ level code* instead).
 </details>
 
 A function counts as matched when its compiled code equals retail with
-relocatable fields masked (`tools/audit_matches.py`). This is not a
+actual ELF relocation fields masked (`tools/audit_matches.py`). This is not a
 link-time comparison yet, so a function that calls or reads the wrong symbol
 can still count.
 

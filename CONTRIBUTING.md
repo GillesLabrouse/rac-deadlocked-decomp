@@ -86,10 +86,15 @@ python3 tools/gen_progress_report.py --check       # what CI runs
 ```
 
 `tools/audit_matches.py` compares each compiled function with the retail bytes at
-its address, with relocatable fields masked (jump targets, the immediate of
-`lui`, and of loads, stores and adds that are not stack-relative). This is
+its address, with only fields carrying actual ELF relocations masked. Constant
+immediates and pointer strides remain significant. This is
 **not** a link-time comparison: a function that calls or reads the wrong symbol
 can still pass, so check calls and globals by eye.
+
+For an exact check of game objects after resolving relocations, run
+`tools/link_objects.py --overlays` with the local Python environment. See
+[`docs/REBUILD.md`](docs/REBUILD.md) for native Windows commands, reconstruction,
+disc packaging and the distinction between binary validation and runtime tests.
 
 ### How code is compiled (`tools/cc.sh`)
 
@@ -155,6 +160,11 @@ addresses only, never a substitute for source).
 ### Things that make functions match
 
 These came out of the work so far; add yours here.
+
+- **Pointer arithmetic**: a displacement in the disassembly is in bytes. Adding
+  `4` to an `s32 *` advances 16 bytes, not 4. Correct draft types or divide byte
+  strides by the pointed-to size. Actual-relocation masking and exact linking
+  catch these mistakes; broad instruction-immediate masking does not.
 
 - **Globals read with `lui`/`lw`** (not through `$gp`): declare them without a
   size so the compiler keeps them out of small data:
