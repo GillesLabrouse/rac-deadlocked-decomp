@@ -413,6 +413,13 @@ mutations execute exactly within mapped host storage. Other modes return
 tested, but VU precision, flags and scheduling are not reproduced. This setter
 does not construct or update a playable actor.
 
+The complete CPU state snapshot `0066A2A0` executes with its actual byte copier,
+predicate and supported virtual getters. It resolves the mapped guest vtable
+instead of taking a test callback. Unknown getters, missing mappings and late
+reads aliasing the destination are rejected before mutation. The supported
+memory domain agrees across 2,048 original-instruction cases. Snapshot capture
+is a preparation dependency; the constructor and frame update remain absent.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

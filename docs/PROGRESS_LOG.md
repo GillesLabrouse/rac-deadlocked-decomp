@@ -19,7 +19,7 @@ prove a later one. Emulator tests are optional reference checks.
 - 229 game functions pass exact linking: 151 resident and 78 overlay functions.
 - Resident reconstruction replaces 10,448 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Ninety-eight Python regression tests and all twenty-seven native CTest checks pass.
+- Ninety-eight Python regression tests and all twenty-eight native CTest checks pass.
 - Eighteen matching functions compile and execute in Windows x64 test targets.
   Separate targets execute queue/request drafts with captured unrecovered
   transition effects and actual Dreadzone memory, payload and packet algorithms.
@@ -27,7 +27,8 @@ prove a later one. Emulator tests are optional reference checks.
   Model allocation/compaction, class publication/relocation and nonempty geometry
   packet packing also execute native C. A Windows XInput diagnostic executes the
   recovered input path; attached-controller hardware remains unverified. Actor
-  field mutation is tested, with nonzero VU normalization explicitly approximate.
+  field mutation and the actual CPU state snapshot are tested, with nonzero VU
+  normalization explicitly approximate.
   Guest links retain their 32-bit width. No native game update
   loop, game boot, or campaign play has been verified.
 - Dreadzone Station's two terrain chunks and 1,856 placed static objects load and
@@ -580,7 +581,8 @@ prove a later one. Emulator tests are optional reference checks.
   accepted metadata. Class relocation compiles to 928 versus 824 retail bytes.
   Default split-address flags avoid GNU as's unsupported symbolic quad store.
 - Real asset validation also relocated class9207's 813,184-byte `core.bin` with
-  the genuine overlay remap and no invented GS values. Its 883 changed bytes and
+  no invented GS values. The standalone class−1 branch makes no remap reads;
+  the genuine overlay remap was supplied but unused. Its 883 changed bytes and
   the whole class image agree after 3,822 original instructions. This class has
   no geometry packets. Nonempty class10024 and armor0 still require missing
   runtime graphics inputs and are rejected without mutation.
@@ -609,3 +611,36 @@ prove a later one. Emulator tests are optional reference checks.
 - Next dependencies are the real graphics-table producers, actor-state snapshot
   and the remaining VU/DMA transformation path. No native game boot, actor update
   or playable campaign frame is verified.
+
+## 2026-10-10 — Complete actor-state snapshot
+
+- Saved checkpoints `6013235` for Windows input and `9e45170` for bounded actor
+  mode fields. All changes remain local.
+- Recovered the complete CPU snapshot `0066A2A0`, read-only predicate `0068DE60`
+  and the genuine player/base virtual getters `006A7D28` and `00690E68`. Native
+  dispatch reads the mapped guest vtable; unsupported handler identities are
+  rejected. The existing recovered forward byte-copy helper executes the actual
+  48-byte copy, with no captured getter or helper effects.
+- An independent 2,048-case diagnostic executes 419,656 original instructions
+  and compares the complete record, client, getter object, related object,
+  vtable and mode storage. All supported cases agree. Native fixtures also check
+  untouched bytes, guards, short-circuit mappings and refused dependencies.
+- Review identified three late-read alias cases involving the destination
+  snapshot: the related-object field, getter-object field and virtual dispatch
+  entry. The bounded native interface explicitly rejects these aliases before
+  mutation; regression fixtures and original instructions establish why the
+  old preflight values would be wrong. This is a documented supported domain,
+  rather than a claim of unrestricted alias equivalence.
+- All twenty-eight native CTest checks pass together. Three PS2 drafts remain
+  nonmatching at 892/608, 180/188 and 28/28 bytes. The base getter's eight bytes
+  match its private diagnostic, but it remains a draft and adds no coverage.
+  The snapshot copies player state; it does not create a player or run a frame.
+- The texture audit located original armor0 PIF bytes on the ISO and verified
+  its class identity. Texture loading needs genuine GS indexed-pixel conversion
+  and transfer operations. Its descriptors occupy an uncleared stack frame,
+  so unused fields cannot be assumed zero for an exact packet comparison.
+  Pure CPU upload/readback packet builders are the next isolated dependencies.
+- Constructor parameter initialization `00669A20` is a separately verified
+  784-byte leaf. An earlier provisional call graph incorrectly included later
+  functions and was corrected before source adoption. Recovery now follows that
+  actual boundary. No boot/update or campaign play is verified.
