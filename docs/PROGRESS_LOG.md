@@ -19,7 +19,7 @@ prove a later one. Emulator tests are optional reference checks.
 - 229 game functions pass exact linking: 151 resident and 78 overlay functions.
 - Resident reconstruction replaces 10,448 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Ninety-eight Python regression tests and all twenty-three native CTest checks pass.
+- Ninety-eight Python regression tests and all twenty-four native CTest checks pass.
 - Eighteen matching functions compile and execute in Windows x64 test targets.
   Separate targets execute queue/request drafts with captured unrecovered
   transition effects and actual Dreadzone memory, payload and packet algorithms.
@@ -536,3 +536,22 @@ prove a later one. Emulator tests are optional reference checks.
 - Parallel work now targets real geometry conversion, the preselected core
   startup path and a Windows controller backend. No native game boot or playable
   campaign frame is verified. All work remains local; nothing has been pushed.
+
+## 2026-10-10 — Preselected core startup state
+
+- Saved checkpoint `e77e3dc` for the reviewed model, class and input lot. No push.
+- Recovered PS2 drafts of `0015A170`, `0015AA58` and `0015B498`, preserving the
+  genuine transport calls and the CP0 Count instruction in the PS2-only branch.
+  Exact linked comparisons remain nonmatching: 784/968, 472/472 and 172/172 bytes.
+  Equal compiled size alone is not accepted as a match.
+- Native execution covers the actual mode1 paths, the signed early exits, and
+  the existing-state early return in `0015F4A0`. The real Dreadzone entry publishes
+  `00223E40` to `0021DFE8`; its pre-loop caller sets mode258 to1 and calls these
+  two initialization phases. The native fixture verifies all accessed block
+  bytes, adjacent guards and scalar globals over 480,149 checks. Unsupported
+  transport, level-zero initialization and nonzero callbacks return explicit
+  dependency statuses rather than successful fake effects. A null callback is
+  the fixture's supported domain, not proof of the full startup's callback state.
+- All twenty-four native checks pass together. Matching coverage, linked bytes,
+  reconstruction and Python tools are unchanged from the preceding checkpoint.
+  The native scenery viewer still does not run the game boot/update chain.
