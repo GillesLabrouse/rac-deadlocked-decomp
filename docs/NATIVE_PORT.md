@@ -469,6 +469,17 @@ by16. The complete PS2 draft retains prefix/tail stores for other layouts.
 All mapped bytes and guards agree across 1,024 original-instruction cases.
 This resets storage only; it does not grant items or complete actor creation.
 
+The CPU texture pixel helper transforms the actual indexed byte stream for the
+successful `00575180` upload/readback sequence. Page-aligned rectangles with
+width divisible by128 and height divisible by64 are supported, including both
+original armor0 PIF images. Smaller mip rectangles are refused atomically.
+Its independently expressed coordinate relation agrees with a separate VRAM
+oracle using public [GS layout facts](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/GS/GSTables.cpp).
+No reference implementation or table is vendored. Physical-console capture
+remains unverified; this helper performs no DMA, synchronization or Direct3D
+texture upload. Converted bytes are a transfer stream, not a linear display
+image. The fixture also checks descriptors stored inside scratch.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

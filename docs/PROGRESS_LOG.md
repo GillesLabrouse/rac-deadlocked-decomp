@@ -714,3 +714,21 @@ prove a later one. Emulator tests are optional reference checks.
   mutation, allowing a caller descriptor located inside the cleared storage.
   Two such regressions now pass; the fixture has 11,269,089 checks. Rebuilding
   its differential DLL and repeating all 1,024 instruction cases still agrees.
+
+## 2026-10-10 — Native CPU indexed texture byte conversion
+
+- Added a bounded, allocation-free CPU permutation for the successful byte
+  effect of the actual PSMT8 upload followed by half-dimension PSMCT32 readback.
+  It uses an independently expressed coordinate equation, not copied GS tables
+  or Wrench code. Unsupported rectangles and invalid buffers fail atomically.
+- The supported page-aligned domain covers both original armor0 PIF images.
+  An independent GS-address oracle checks thirty rectangles and 3,702,784
+  positions; 11,190,272 native bytes agree, including both real textures.
+  Private source assets and reference material remain ignored.
+- Root reran that audit and retained the pixel pointer before scratch writes.
+  A new regression places the descriptor inside scratch; all 293,019 native
+  checks pass. Caller-owned scratch and explicit guest32/host bounds are kept.
+- All thirty-two native CTest checks pass together under MSVC Release /W4 /WX.
+  This reproduces a documented hardware memory effect within a bounded domain;
+  it is not a hardware capture, DMA/synchronization backend, complete texture
+  loader or Direct3D upload. No accepted matching coverage was added.

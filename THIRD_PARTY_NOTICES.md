@@ -21,3 +21,14 @@ distribute this software is freely granted, provided that this notice is
 preserved." Other files carry the notices of their respective authors in their
 headers. They are built unchanged to reproduce the library that Sony's
 toolchain linked into the game.
+
+## Public architecture references (no vendored code)
+
+The bounded integer instruction oracle and native indexed-pixel permutation
+were independently authored and cross-checked against public PCSX2 architecture
+facts: [R5900 operations](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/R5900OpcodeImpl.cpp),
+[GS layouts](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/GS/GSTables.cpp) and
+[GS address composition](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/GS/GSLocalMemory.h).
+PCSX2 source is copyright its developers and licensed GPL-3.0+; no implementation,
+lookup table or generated copy is included here. Local validation references
+retain their original notices under ignored private storage.
