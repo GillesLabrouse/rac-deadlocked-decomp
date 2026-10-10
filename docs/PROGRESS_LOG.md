@@ -1027,3 +1027,29 @@ prove a later one. Emulator tests are optional reference checks.
 - No accepted matching coverage changes, actor VU transform, collision test,
   native game frame or pushed files are claimed. Shared CMake runs this storage
   test with the existing native suite.
+
+## 2026-10-10 — Native original vertex blend and local position stages
+
+- Integrated a bounded source-only adapter of the renderer's actual matrix
+  transfer/blend and local position stages. Original byte weights divide
+  by256, not255; delayed IDs, terminal halfwords and cross-packet duplicates
+  use real packet fields. Both matrix and vertex caches persist explicitly.
+- Root independently built a fresh /W4 /WX /fp:precise DLL. All364 fixture
+  checks pass. Root strengthened the private original-pair oracle to compare
+  the entire retained state, every vertex-cache record and both definition
+  sets, verify decoded words against the extracted microprogram bytes, and
+  reread the class container from the local ISO to verify its provenance.
+- All60 cases agree:120,318 vertices and562,785 original instruction pairs,
+  zero differing local stage bytes. Original28 high/low/bangle ranges and32
+  arbitrary nonsymmetric107-joint inputs are included; alternatives are
+  validated independently, not drawn as one invented character.
+- Output/state/count publish only after all packets pass. Missing cache,
+  unsupported packet shapes, reserved constant slots62/63, invalid numeric
+  inputs and insufficient capacity refuse without publishing; temporary
+  workspace is explicitly allowed to change.
+- APPROXIMATE describes only host IEEE mathematical stages. No full0053C818,
+  lighting, normal decode, VU1 packing, world/view scale, hardware rounding,
+  DMA execution or rendered/gameplay frame is claimed. Genuine topology/ST
+  and the actual active bangle mask remain the next preview dependencies.
+- All forty-one native CTest checks pass together in2.91 seconds, including
+  the new vertex and spatial tests, renderer validation and existing CPU lots.

@@ -597,6 +597,20 @@ the native refusal is explicit, not an original successful return. This adds
 spatial storage, not collision evaluation, VU actor transformation or motion.
 All three complete PS2 drafts remain nonmatching outside accepted coverage.
 
+`dreadzone_vertex_blend_prepare` executes the actual local matrix transfer,
+two/three-way blend and position stages consumed by `0053C818`. Original
+byte weights divide by256. Matrix caches and512 vertex IDs persist between
+packets; IDs retain their seven-record delay, epilogue and duplicate behavior.
+Root's fresh DLL agrees in60 original-instruction-pair cases covering120,318
+vertices, including all28 Armor0 packet ranges and arbitrary joint matrices.
+The entire retained state, associations, source bytes and output match under
+host IEEE arithmetic;364 native checks also pass. Publication is atomic except
+for caller-designated temporary workspace. Status remains `APPROXIMATE`:
+lighting, normal decoding, packed VU1 output, world/view scale, physical VU
+rounding and DMA synchronization are outside these local mathematical stages.
+The viewer needs genuine topology/ST and the actor's active bangle mask; no
+weights or associations are inferred from the editor GLB.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
