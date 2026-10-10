@@ -35,6 +35,9 @@ jobs:
       - name: Check the committed report is well-formed
         run: python tools/gen_progress_report.py --check
 
+      - name: Test extraction and comparison tools with synthetic inputs
+        run: python -m unittest discover -s tools -p 'test_*.py'
+
       - name: Validate the report with objdiff
         run: |
           curl --fail --location --retry 3 -o "$RUNNER_TEMP/objdiff-cli" \
