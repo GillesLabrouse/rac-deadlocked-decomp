@@ -90,6 +90,29 @@ class IntegerCPUTests(unittest.TestCase):
         self.assertEqual(cpu.registers[7], 0xFFFFFFFFF8000000)
         self.assertEqual(cpu.registers[8], 0x12345678)
 
+    def test_signed_division_remainder_and_exceptional_inputs(self):
+        upper = 0x123456789ABCDEF0 << 64
+        cases = ((7,3,2,1), (-7,3,-2,-1), (7,-3,-2,1), (-7,-3,2,-1),
+                 (0,3,0,0), (7,0,-1,7), (-7,0,1,-7), (0,0,-1,0),
+                 (-2147483648,-1,-2147483648,0),
+                 (-2147483648,1,-2147483648,0),
+                 (-2147483648,0,1,-2147483648))
+        for dividend,divisor,quotient,remainder in cases:
+            with self.subTest(dividend=dividend,divisor=divisor):
+                cpu, _ = self.execute([r(26,1,2),r(16,rd=3),r(16,rd=0),r(8,31),0],
+                                      {1: dividend,2: divisor,3: upper})
+                self.assertEqual(cpu.lo,quotient & MASK64)
+                self.assertEqual(cpu.hi,remainder & MASK64)
+                self.assertEqual(cpu.registers[3],upper | (remainder & MASK64))
+                self.assertEqual(cpu.registers[0],0)
+
+    def test_division_uses_low_words_and_mfhi_can_alias_an_operand(self):
+        upper = 0xFEDCBA9876543210 << 64
+        cpu, _ = self.execute([r(26,1,2),r(16,rd=1),r(8,31),0],
+                              {1: upper | 0xAAAA0000FFFFFFF9,2: 0xBBBB000000000003})
+        self.assertEqual(cpu.lo,(-2)&MASK64)
+        self.assertEqual(cpu.registers[1],upper | MASK64)
+
     def test_partial_stores_preserve_neighbor_bytes(self):
         cpu, _ = self.execute([i(40, 1, 2, 1), i(41, 1, 2, 2), i(43, 1, 2, 4), r(8, 31), 0],
                               {1: 0x2000, 2: 0x123456789ABCDEF0}, [(0x2000, bytes([0xCD] * 12))])

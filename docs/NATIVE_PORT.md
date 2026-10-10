@@ -524,6 +524,13 @@ for completion. It has no native body that clears the dirty bit while bypassing
 those effects. Its canonical accepted overlay identity remains unresolved, so
 this diagnostic adds no accepted matching coverage.
 
+The constructor's complete random dependency `00163408` and range wrapper
+`0058FF38` now execute with caller-owned seed storage corresponding to
+`0021DC80`. They retain the actual32-bit seed transition and15-bit result,
+including signed/wrapped range widths and the R5900 zero-divisor remainder.
+All8,192 original-instruction cases agree across seed storage and guards.
+This provides deterministic game RNG; it does not initialize the player.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

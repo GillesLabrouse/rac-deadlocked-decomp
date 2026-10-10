@@ -155,10 +155,24 @@ class RetailIntegerCPU:
                 elif function == 11:
                     if b != 0:
                         self._put(rd, a)
+                elif function == 16:
+                    self._put(rd, self.hi)
                 elif function == 24:
                     product = signed(a, 32) * signed(b, 32)
                     self.lo, self.hi = signed(product, 32) & MASK64, signed(product >> 32, 32) & MASK64
                     self._put(rd, self.lo)
+                elif function == 26:
+                    dividend, divisor = signed(a, 32), signed(b, 32)
+                    if not divisor:
+                        quotient, remainder = (1 if dividend < 0 else -1), dividend
+                    elif dividend == -(1 << 31) and divisor == -1:
+                        quotient, remainder = -(1 << 31), 0
+                    else:
+                        quotient = abs(dividend) // abs(divisor)
+                        if (dividend < 0) != (divisor < 0):
+                            quotient = -quotient
+                        remainder = dividend - quotient * divisor
+                    self.lo, self.hi = signed(quotient, 32) & MASK64, signed(remainder, 32) & MASK64
                 elif function == 32:
                     total = signed(a, 32) + signed(b, 32)
                     if not -(1 << 31) <= total < (1 << 31):

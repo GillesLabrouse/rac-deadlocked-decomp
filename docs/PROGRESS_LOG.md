@@ -830,3 +830,21 @@ prove a later one. Emulator tests are optional reference checks.
   actor synchronization and actual model transforms. Pure CPU dependencies
   reuse one tested integer oracle; root owns integration and independent review.
   No compiled MIPS instruction fallback or successful captured callee is used.
+
+## 2026-10-10 — Complete constructor random dependency
+
+- Added the real `00163408` seed transition and `0058FF38` range wrapper to
+  native CMake. Seed storage is caller-owned, may be unaligned, and its backing
+  descriptor is retained before mutation. Output aliases/wrapping spans fail
+  atomically. The full signed/wrapped-width domain uses actual DIV semantics.
+- The first instruction comparison caught an incorrectly read multiplier:
+  the original is3359741 (0x3343FD), not the standard MSVC rand multiplier.
+  Corrected source and fixtures before integration. The freshly rebuilt DLL
+  agrees across8,192 cases,184,320 original instructions and393,216 bytes.
+  All4,096 range cases execute the genuine RNG callee.
+- Shared oracle DIV/MFHI now has synthetic signed remainder, zero-divisor,
+  INT_MIN/-1, upper-half and operand-alias fixtures. All125 Python tests pass.
+  All thirty-five native CTest checks pass together under MSVC Release /W4 /WX.
+- Both PS2 drafts compile and strictly link: seed44/56 remains nonmatching;
+  wrapper72/72 is exact in its private L01 diagnostic. No accepted source or
+  coverage was changed; complete player construction remains outstanding.
