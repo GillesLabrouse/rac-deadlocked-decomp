@@ -790,3 +790,13 @@ prove a later one. Emulator tests are optional reference checks.
   /W4 /WX. This selects animation data and initializes fields; it does not
   play an animation, transform a model or complete a playable actor. The
   constructor, inventory grants and model transformations remain in progress.
+
+## 2026-10-10 — Reusable inventory instruction validation
+
+- Extended the source-only integer oracle with MOVN, XOR/XORI and DSRL for
+  the genuine constructor inventory chain. Three new synthetic ISA tests
+  cover full low64 operands, preserved upper halves, zero destinations,
+  aliased registers, all32 shift amounts and unsigned immediate extension.
+- All123 Python tests pass. Inventory work now reuses these tested operations
+  rather than adding a separate instruction interpreter. This tool change
+  neither supplies retail data nor implements a game or hardware callee.

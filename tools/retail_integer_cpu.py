@@ -152,6 +152,9 @@ class RetailIntegerCPU:
                 elif function == 10:
                     if b == 0:
                         self._put(rd, a)
+                elif function == 11:
+                    if b != 0:
+                        self._put(rd, a)
                 elif function == 24:
                     product = signed(a, 32) * signed(b, 32)
                     self.lo, self.hi = signed(product, 32) & MASK64, signed(product >> 32, 32) & MASK64
@@ -169,6 +172,8 @@ class RetailIntegerCPU:
                     self._put(rd, a & b)
                 elif function == 37:
                     self._put(rd, a | b)
+                elif function == 38:
+                    self._put(rd, a ^ b)
                 elif function == 42:
                     self._put(rd, int(signed(a, 64) < signed(b, 64)))
                 elif function == 43:
@@ -177,6 +182,8 @@ class RetailIntegerCPU:
                     self._put(rd, a + b)
                 elif function == 56:
                     self._put(rd, b << shift)
+                elif function == 58:
+                    self._put(rd, b >> shift)
                 elif function == 60:
                     self._put(rd, b << (shift + 32))
                 elif function == 62:
@@ -198,6 +205,8 @@ class RetailIntegerCPU:
                 self._put(rt, a & immediate)
             elif op == 13:
                 self._put(rt, a | immediate)
+            elif op == 14:
+                self._put(rt, a ^ immediate)
             elif op == 15:
                 self._put_word(rt, immediate << 16)
             elif op in (2, 3):

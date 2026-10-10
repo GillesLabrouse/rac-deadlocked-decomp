@@ -96,6 +96,41 @@ class IntegerCPUTests(unittest.TestCase):
         backing, _ = cpu.memory.region(0x2000, 12)
         self.assertEqual(bytes(backing), bytes.fromhex("CD F0 F0 DE F0 DE BC 9A CD CD CD CD"))
 
+    def test_movn_uses_low_64_bit_condition_and_preserves_destination_upper_half(self):
+        upper = 0x1122334455667788 << 64
+        source = (0xFFEEDDCCBBAA9988 << 64) | 0xFEDCBA9876543210
+        for condition, expected in ((0, 7), (1 << 64, 7), (1 << 32, source & MASK64),
+                                    (1 << 63, source & MASK64)):
+            with self.subTest(condition=condition):
+                cpu, _ = self.execute([r(11, 1, 2, 3), r(11, 1, 2, 0), r(8, 31), 0],
+                                      {1: source, 2: condition, 3: upper | 7})
+                self.assertEqual(cpu.registers[3], upper | expected)
+                self.assertEqual(cpu.registers[0], 0)
+        cpu, _ = self.execute([r(11, 1, 2, 2), r(8, 31), 0],
+                              {1: source, 2: upper | (1 << 32)})
+        self.assertEqual(cpu.registers[2], upper | (source & MASK64))
+
+    def test_xor_and_xori_use_low_half_and_zero_extend_immediate(self):
+        upper = 0x13579BDF2468ACE0 << 64
+        cpu, _ = self.execute([r(38, 1, 2, 3), i(14, 1, 4, 0x8000),
+                               i(14, 1, 1, 0xFFFF), r(38, 1, 2, 0), r(8, 31), 0],
+                              {1: upper | 0xFEDCBA9876543210, 2: 0x0123456789ABCDEF,
+                               3: upper, 4: upper})
+        self.assertEqual(cpu.registers[3], upper | MASK64)
+        self.assertEqual(cpu.registers[4], upper | 0xFEDCBA987654B210)
+        self.assertEqual(cpu.registers[1], upper | 0xFEDCBA987654CDEF)
+        self.assertEqual(cpu.registers[0], 0)
+
+    def test_dsrl_logical_shift_preserves_upper_half_with_aliased_registers(self):
+        upper = 0xAABBCCDDEEFF0011 << 64
+        for shift in range(32):
+            with self.subTest(shift=shift):
+                cpu, _ = self.execute([r(58, rt=1, rd=1, shift=shift),
+                                       r(58, rt=1, rd=0, shift=shift), r(8, 31), 0],
+                                      {1: upper | (1 << 63)})
+                self.assertEqual(cpu.registers[1], upper | (1 << (63 - shift)))
+                self.assertEqual(cpu.registers[0], 0)
+
     def test_signed_addition_sign_extends_words_and_preserves_upper_half(self):
         upper = 0xFEDCBA9876543210 << 64
         cpu, _ = self.execute([r(32, 1, 2, 3), i(8, 3, 4, -1), r(8, 31), 0],
