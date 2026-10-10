@@ -984,6 +984,41 @@ All 65 registered native tests pass in 3.97 seconds, including 82 new integratio
 checks. These changes do not add position updates, wall response or controls
 to the animated preview.
 
+`dreadzone_actor_walk_parameters_00681B30` now implements the complete selected
+state-2 mode-0 parameter update. It reads the genuine recent-input history,
+state getter, angular wrap, progression and mapped coefficient/time globals.
+It preserves ordered guest aliases and commits copied writable RAM only after
+supported completion. Other states and spherical projection remain in complete
+PS2 drafts. These scalar fields do not establish animation selection.
+Root's fresh production-library proof agrees with original/SN execution on
+4,608 state-2 cases, including 512 aliases and 2,583 exact signed-zero checks;
+20 numeric refusals preserve all RAM. It executes 1,242,567 EE instructions with
+zero observed float differences in the declared approximate domain. The four
+complete drafts remain NONMATCHING. The wider PS2 dependency proof also covers
+5,632 cases, retaining original C78/C88 callees in main callers and testing each
+expanded rebuilt leaf independently. Seven actual input-bridge/dispatcher call
+snapshots agree; four active frames still stop at the genuine wall VU E90.
+All 90 focused native checks pass. No player-frame completion is claimed.
+
+`dreadzone_animation_update` now executes the reached CPU closure of 00589F98:
+real primary/secondary layers, phase dispatch, scheduler 00586FE0, task query
+0055DC00 and releases 006268A8/006268D8. The shadow preserves metadata writes
+that change later event-count reads. A first crossed event or eligible task
+allocation returns NEEDS_626D50; a reached mode-1 predicate returns NEEDS_665A28.
+Each refusal leaves caller RAM unchanged. Neither metadata nor scheduler state
+is altered to avoid an unavailable dependency. CPU effects exclude VF register
+publication and physical PS2 arithmetic/timing identity.
+Root's guarded central-production replay agrees on 1,536 complete original/SN
+cases: 305,374 original and 287,623 rebuilt instructions, 17,836,032 RAM bytes
+and zero differences. It executes 1,293 schedulers, 2,997 queries and 688 releases,
+with 255 secondary-layer cases and 94 event-count aliases. Another 96 native
+refusals are checked by running original code up to the actual unavailable call
+entry. All 87,899 focused checks pass. Fresh strict linking finds the 48-byte
+6268A8 helper exact; the five local sources stay outside accepted coverage.
+All 67 registered native tests pass in 4.10 seconds. The animated viewer is
+unchanged; first walking clip selection, wall response and position/ground
+composition remain active work.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

@@ -1727,3 +1727,33 @@ prove a later one. Emulator tests are optional reference checks.
   Active walking still needs the genuine wall probe, position/ground update and
   actor-frame composition. Capsule, walk parameters and animation-wrapper work
   continue in parallel. Nothing is pushed.
+
+## 2026-10-11 — Integrate walk parameters and reached animation update
+
+- Added the full selected state-2 mode-0 00681B30 native parameter update with
+  real history/getter/wrap/progression calls and ordered global reloads. Full
+  copied writable views commit only after a supported completion. Four complete
+  PS2 drafts retain other states/projection and stay NONMATCHING.
+- Root freshly compiled/strictly linked the four drafts and linked an independent
+  bridge against the central production libraries. Guarded original/SN/native
+  comparison passes 4,608 state-2 cases/512 aliases/20 atomic numeric refusals:
+  1,242,567 EE instructions and zero observed difference. The wider PS2 proof
+  covers 5,632 cases; adjacent expanded C78/C88 leaves are replayed separately.
+  Seven real bridge/dispatcher snapshots agree; four active original frames
+  still stop at genuine wall VU E90. All 90 focused checks pass.
+- Added reached 00589F98 CPU effects with true layers, phase, scheduler, query
+  and release. Event/allocation 626D50 and reached mode-1 predicate 665A28 refuse
+  atomically. The wrapper does not clear events or skip reached calls to succeed.
+  Its native fixture passes 87,899 checks.
+- Root freshly compiled the five complete wrapper/scheduler drafts and compared
+  current central-production libraries on 1,536 original/SN cases: 305,374
+  original/287,623 rebuilt instructions, 17,836,032 bytes and zero differences.
+  There are 1,293 schedulers, 2,997 queries, 688 releases, 255 layer cases and 94
+  event-count aliases. Another 96 atomic refusals reach the real unavailable
+  dependency in original execution. Strict linking finds 6268A8 exact48/48;
+  local drafts are not promoted to accepted normalized overlay coverage.
+- All 67 registered native tests pass in 4.10 seconds. Hash-guarded production
+  receipts preserve source/oracle/library/original inputs throughout execution.
+  No new visible player controls or playable frame are claimed. The next lots
+  target actual wall contact, position/radius helpers and walking clip selection.
+  No original assets or instruction bytes are tracked. Nothing is pushed.
