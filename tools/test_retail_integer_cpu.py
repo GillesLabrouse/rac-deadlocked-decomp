@@ -228,6 +228,23 @@ class IntegerCPUTests(unittest.TestCase):
                                           {1: source, 2: source, 3: (1 << 128) - 1})
                     self.assertEqual(cpu.registers[destination], expected if rt and destination else 0)
 
+    def test_srlv_word_count_mask_aliases_and_upper_half_preservation(self):
+        value = 0xFEDCBA98765432100123456789ABCDEF
+        count_upper = 0x123456789ABCDEF0
+        for count in range(64):
+            for rs, rt in ((1, 2), (0, 2), (1, 0), (2, 2)):
+                initial = {1: (count_upper << 64) | (0xFFFFFFFF00000000 + count),
+                           2: value, 3: 0xCAFEBABE01234567 << 64}
+                shift_count = 0 if rs == 0 else (initial[rs] % 32)
+                low_word = 0 if rt == 0 else (initial[rt] % (2 ** 32))
+                quotient = low_word // (2 ** shift_count)
+                signed_result = quotient if quotient < 2 ** 31 else quotient - 2 ** 32
+                for destination in (0, 1, 2, 3):
+                    with self.subTest(count=count, rs=rs, rt=rt, destination=destination):
+                        cpu, _ = self.execute([r(6, rs, rt, destination), r(8, 31), 0], initial)
+                        expected = ((initial.get(destination, 0) >> 64) << 64) | (signed_result & MASK64)
+                        self.assertEqual(cpu.registers[destination], expected if destination else 0)
+
     def test_pmulth_all_accumulator_lanes_even_destination_aliases_and_zero(self):
         left = int.from_bytes(struct.pack('<8h', -32768, -1, 0, 1, 32767, -123, 2345, -32768), 'little')
         right = int.from_bytes(struct.pack('<8h', -32768, -1, 32767, -2, 32767, 321, -777, 1), 'little')

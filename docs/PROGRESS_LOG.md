@@ -1616,3 +1616,19 @@ prove a later one. Emulator tests are optional reference checks.
   clock composition, small-angle movement domain and static-body/capsule
   collision response continue in parallel. No complete position/player/frame
   loop or new matching acceptance is claimed; nothing is pushed.
+
+## 2026-10-11 — Enable rebuilt static-body logical-shift replay
+
+- Added scalar SRLV to the bounded integer oracle after reviewing the primary
+  PCSX2 R5900 instruction source. It shifts the low32 source word logically
+  by the low five count bits, sign-extends the result into low64 and preserves
+  the destination's upper64. Sources are captured before destination writes;
+  the zero register stays immutable.
+- One authored test method checks all 64 count encodings, zero/same/independent
+  sources, four destination choices, aliases and nonzero upper register halves.
+  All 170 Python tests pass in 2.393 seconds; all 58 independent COP1/VU diagnostic
+  checks also pass. No original instruction list or third-party code is tracked.
+- This allows the complete newly compiled static-body body to execute through
+  the independent oracle with its real helpers. That collision lot remains in
+  final validation; SRLV itself adds no native movement or playable frame.
+  Nothing is pushed.

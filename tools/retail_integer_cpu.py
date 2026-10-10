@@ -167,6 +167,8 @@ class RetailIntegerCPU:
                     self._put_word(rd, signed(b, 32) >> shift)
                 elif function == 4:
                     self._put_word(rd, b << (a & 31))
+                elif function == 6:
+                    self._put_word(rd, (b & MASK32) >> (a & 31))
                 elif function == 8:
                     target = a & MASK32
                 elif function == 9:
