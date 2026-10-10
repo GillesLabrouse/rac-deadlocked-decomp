@@ -691,3 +691,22 @@ prove a later one. Emulator tests are optional reference checks.
   All 118 Python tests also pass. Pixel conversion, DMA execution, a complete
   actor constructor and the recovered frame loop remain outstanding. The viewer
   is still an interactive scene inspection tool, not a playable game.
+
+## 2026-10-10 — Complete constructor inventory storage reset
+
+- Recovered `006C0D88` and its actual `0055D2F8` clear helper. The host library
+  executes both complete algorithms within an explicit aligned, signed-safe
+  address domain. It preserves untouched header bytes, initializes both item
+  arrays, restores per-entry invalid markers and sets the real initialized byte.
+- All 11,259,390 native byte/guard and refusal checks pass. An independent
+  1,024-case comparison executes 1,377,286 original instructions and compares
+  4,931,584 mapped bytes, including empty aligned clears and host misalignment.
+  The actual clear callee executes twice per inventory reset, without captures.
+- Both sources compile and link at their real L01 addresses: inventory188/208
+  and clear200/192 bytes, still nonmatching and excluded from accepted coverage.
+- The bounded instruction oracle now supports signed ADD/ADDI. Overflow is
+  rejected before a register write, including zero-register destinations;
+  exception handlers remain outside its scope. Two synthetic tests cover that
+  behavior and sign extension; all 120 Python tests pass.
+- Inventory storage is a constructor dependency. Item grants, full actor
+  initialization and a native gameplay frame remain unverified.

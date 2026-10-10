@@ -460,6 +460,15 @@ oversized uploads are refused before mutation; the latter omits the original
 PS2 diagnostic printer. The library performs no transfer or pixel conversion.
 Both PS2 sources remain nonmatching and add no accepted coverage.
 
+The constructor inventory reset `006C0D88` now executes with its real
+`0055D2F8` clear helper. It clears both item arrays, restores invalid entry
+markers and publishes the initialized byte while preserving untouched header
+fields. Its mapped host domain requires guest16 alignment and signed-safe
+addresses; the clear helper's host entry accepts nonnegative lengths divisible
+by16. The complete PS2 draft retains prefix/tail stores for other layouts.
+All mapped bytes and guards agree across 1,024 original-instruction cases.
+This resets storage only; it does not grant items or complete actor creation.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
