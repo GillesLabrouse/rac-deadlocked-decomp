@@ -298,7 +298,7 @@ class RetailIntegerCPU:
                     result |= (31 - bits.bit_length()) << (i * 32)
                 self._put(rd, result)
             elif op == 28 and (word & 63, shift) in (
-                    (8, 26), (8, 22), (8, 25), (8, 3), (9, 14), (41, 14)):
+                    (8, 26), (8, 22), (8, 25), (8, 3), (9, 14), (9, 31), (41, 14)):
                 left, right = self.registers[rs], self.registers[rt]
                 function = word & 63
                 if function == 8 and shift in (26, 22):
@@ -315,6 +315,10 @@ class RetailIntegerCPU:
                     result = sum((max(signed(left >> (lane * 32), 32),
                                       signed(right >> (lane * 32), 32)) & MASK32)
                                  << (lane * 32) for lane in range(4))
+                elif function == 9 and shift == 31:
+                    # PROT3W rotates words xyz left, retaining w; raw bits.
+                    result = sum(((right >> (source * 32)) & MASK32) << (lane * 32)
+                                 for lane, source in enumerate((1, 2, 0, 3)))
                 elif function == 9:
                     result = (right & MASK64) | ((left & MASK64) << 64)
                 else:

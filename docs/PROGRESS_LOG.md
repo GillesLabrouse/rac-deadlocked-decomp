@@ -1053,3 +1053,17 @@ prove a later one. Emulator tests are optional reference checks.
   and the actual active bangle mask remain the next preview dependencies.
 - All forty-one native CTest checks pass together in2.91 seconds, including
   the new vertex and spatial tests, renderer validation and existing CPU lots.
+
+## 2026-10-10 — Shared raw orientation word rotation
+
+- Added PROT3W to the shared integer oracle: raw128-bit permutation
+  [word1,word2,word0,word3], alias-safe and retaining the fourth word.
+  The selector comes from the actual constructor instructions; lane order was
+  independently checked against the primary
+  [PCSX2 MMI implementation](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/MMI.cpp).
+  No implementation was copied and no floating arithmetic is performed.
+- Synthetic tests exercise destination/source aliases, ignored rs, zero source
+  and destination, distinct sign/NaN payloads, and three successive rotations
+  restoring each of128 individual input bits. All141 Python tests pass in2.38
+  seconds. The camera workstream can reuse this operation without a private ISA
+  copy; unsupported instruction families remain explicit errors.

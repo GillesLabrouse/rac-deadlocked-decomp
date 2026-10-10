@@ -430,6 +430,29 @@ class IntegerCPUTests(unittest.TestCase):
                                   {1: int.from_bytes(raw, 'little')})
             self.assertEqual(cpu.registers[1], int.from_bytes(expected, 'little'))
 
+    def test_prot3w_raw_word_rotation_aliases_zero_and_ignored_rs(self):
+        lanes = (0x80000000, 0x7FC12345, 0x01234567, 0xFEDCBA98)
+        pack = lambda values: sum(word << (lane * 32) for lane, word in enumerate(values))
+        source = pack(lanes)
+        expected = pack((lanes[1], lanes[2], lanes[0], lanes[3]))
+        for destination in (0, 1, 2, 3):
+            for unused_source in (0, 1, 2):
+                cpu, _ = self.execute([(28 << 26) | r(9, unused_source, 2, destination, 31),
+                                       r(8, 31), 0], {1: 0xAA, 2: source, 3: (1 << 128)-1})
+                self.assertEqual(cpu.registers[destination], expected if destination else 0)
+                if destination != 2:
+                    self.assertEqual(cpu.registers[2], source)
+        cpu, _ = self.execute([(28 << 26) | r(9, 0, 0, 3, 31), r(8, 31), 0],
+                              {3: source})
+        self.assertEqual(cpu.registers[3], 0)
+
+    def test_prot3w_three_rotations_restore_all_128_bits(self):
+        operation = (28 << 26) | r(9, 0, 2, 2, 31)
+        for bit in range(128):
+            cpu, _ = self.execute([operation, operation, operation, r(8, 31), 0],
+                                  {2: 1 << bit})
+            self.assertEqual(cpu.registers[2], 1 << bit)
+
     def test_only_noninterlocked_zero_to_vf0_transport_is_supported(self):
         instruction = (18 << 26) | (5 << 21)
         cpu, result = self.execute([instruction, r(8, 31), 0])
