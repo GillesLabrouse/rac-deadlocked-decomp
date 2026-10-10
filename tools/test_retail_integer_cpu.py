@@ -259,6 +259,49 @@ class IntegerCPUTests(unittest.TestCase):
         with self.assertRaises(IntegerCPUError):
             self.execute([0])
 
+    def test_raw_cop1_words_preserve_all_payloads_and_separate_registers(self):
+        payloads = (0, 0x80000000, 0x7FC12345, 0xFFFFFFFF, 0x00000001,
+                    0x7F800000, 0xFF800000, 0x12345678)
+        for register in range(32):
+            for bits in payloads:
+                with self.subTest(register=register, bits=bits):
+                    raw = bits.to_bytes(4, "little") + bytes(4)
+                    top = (0xAABBCCDDEEFF << 64) | 0x2000
+                    cpu, _ = self.execute([i(49, 1, register),
+                                           i(57, 1, register, 4), r(8, 31), 0],
+                                          {1: top}, [(0x2000, raw)])
+                    self.assertEqual(cpu.float_bits[register], bits)
+                    self.assertEqual(cpu.memory.read(0x2004, 4), bits)
+                    self.assertEqual(cpu.registers[1], top)
+
+    def test_raw_cop1_signed_offsets_wrap_addresses_and_reset_per_run(self):
+        raw = bytes.fromhex("45 23 C1 7F 00 00 00 00")
+        cpu, _ = self.execute([i(49, 1, 0, -4), i(57, 2, 0, 4), r(8, 31), 0],
+                              {1: 0x100000004, 2: 0}, [(0, raw)])
+        self.assertEqual(cpu.memory.read(4, 4), 0x7FC12345)
+        cpu.words = {0x1000: i(57, 0, 0, 4), 0x1004: r(8, 31), 0x1008: 0}
+        cpu.run(0x1000)
+        self.assertEqual(cpu.memory.read(4, 4), 0)
+
+    def test_raw_cop1_memory_failures_and_arithmetic_rejection(self):
+        for op in (49, 57):
+            with self.assertRaises(MemoryAccessError):
+                self.execute([i(op, 1, 0)], {1: 0x2001}, [(0x2000, bytes(8))])
+            with self.assertRaises(MemoryAccessError):
+                self.execute([i(op, 1, 0)], {1: 0x2000}, [(0x2000, bytes(3))])
+        for function in (0, 1, 2, 3, 4, 5, 6, 7, 24, 28, 36, 50):
+            with self.assertRaises(UnsupportedInstruction):
+                self.execute([(17 << 26) | (16 << 21) | function])
+
+    def test_pref_does_not_read_unmapped_memory_or_modify_registers(self):
+        for hint in range(32):
+            value = (0xABCDEF0123456789 << 64) | 0xFFFFFFFFFFFFFFFF
+            cpu, result = self.execute([i(51, 1, hint, -32768), r(8, 31), 0],
+                                       {1: value})
+            self.assertEqual(cpu.registers[1], value)
+            self.assertEqual(cpu.float_bits, [0] * 32)
+            self.assertEqual(result.steps, 3)
+
     def test_instruction_budget_and_delay_control_fail(self):
         cpu = RetailIntegerCPU({0x1000: i(4, 0, 0, -1), 0x1004: 0}, IntegerMemory([]))
         with self.assertRaises(InstructionBudgetExceeded):

@@ -908,3 +908,22 @@ prove a later one. Emulator tests are optional reference checks.
   independently rebuilds each frozen lot before integrating it. Current next
   dependencies are spatial cells, compact inverse-bind composition and genuine
   equipment configuration. These lots do not yet provide a native game boot.
+
+## 2026-10-10 — Shared oracle for complete CPU return paths
+
+- Added raw LWC1/SWC1 transport and PREF to the shared integer oracle so
+  parallel work can reuse one checked implementation. Floating arithmetic,
+  VU, cache state/timing and hardware remain outside its supported domain.
+  Load/store semantics were checked against the public
+  [PCSX2 FPU implementation](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/FPU.cpp)
+  and PREF's lack of a modeled memory result against
+  [R5900OpcodeImpl.cpp](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/R5900OpcodeImpl.cpp).
+  No implementation was copied or vendored.
+- Four new synthetic test methods cover all32 raw registers, signed zero,
+  NaN/infinity/subnormal payloads, separate integer registers, signed offsets,
+  address wrapping, run reset, bad memory/alignment, unmapped hints and explicit
+  floating-arithmetic rejection. All129 Python tests pass.
+- Root switched its independent actor synchronization replay to this shared
+  module and repeated256 cases:58,516 instructions and3,403,776 bytes still
+  agree. The private fork is no longer needed for that check. No native source
+  or accepted matching coverage changed in this tooling lot.

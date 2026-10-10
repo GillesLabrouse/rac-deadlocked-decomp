@@ -2,7 +2,8 @@
 
 This is original test tooling, not a console emulator. It executes only the
 integer instructions needed by the scoped workload and rejects everything else.
-No hardware, DMA, VU, floating point, syscalls, BIOS or captured callees exist.
+No hardware, DMA, VU, floating arithmetic, syscalls, BIOS or captured callees exist.
+LWC1/SWC1 transport raw words only; PREF has no observable cache result here.
 Instruction words must be supplied locally; this module contains no retail code.
 
 Registers retain 128 bits for LQ/SQ. Scalar operations replace their low 64 bits;
@@ -11,6 +12,8 @@ and ordinary branches use 64 bits. PLZCW counts redundant sign bits separately
 in the two low words. LQ/SQ round addresses down to 16; other accesses require
 their natural alignment. These details were independently cross-checked against
 the PCSX2 project's R5900OpcodeImpl.cpp and MMI.cpp; no code was copied from them.
+Raw COP1 load/store semantics were checked against its FPU.cpp. The oracle
+models memory effects only, not cache timing or floating control/status state.
 """
 from dataclasses import dataclass
 from typing import Mapping, Sequence
@@ -94,6 +97,7 @@ class RetailIntegerCPU:
         self.words = dict(words)
         self.memory = memory
         self.registers = [0] * 32
+        self.float_bits = [0] * 32
         self.hi = self.lo = 0
         self.steps = 0
         self.calls: list[int] = []
@@ -115,6 +119,7 @@ class RetailIntegerCPU:
         if budget <= 0 or len(arguments) > 8 or entry & 3 or stop_address & 3:
             raise IntegerCPUError("Invalid run parameters")
         self.registers = [0] * 32
+        self.float_bits = [0] * 32
         self.hi = self.lo = self.steps = 0
         self.calls = []
         for r, value in (initial_registers or {}).items():
@@ -240,6 +245,17 @@ class RetailIntegerCPU:
                     likely = op >= 20
                 annul = likely and not condition
                 target = (pc + 4 + displacement * 4) & MASK32 if condition else (pc + 8) & MASK32
+            elif op == 51:
+                # Cache state/timing is outside this memory-effect oracle.
+                pass
+            elif op in (49, 57):
+                address = (a + displacement) & MASK32
+                if address & 3:
+                    raise MemoryAccessError(f"Unaligned COP1 word at {address:08X}")
+                if op == 49:
+                    self.float_bits[rt] = self.memory.read(address, 4)
+                else:
+                    self.memory.write(address, self.float_bits[rt], 4)
             elif op == 28 and (word & 63) == 4 and rt == 0 and shift == 0:
                 result = 0
                 for i in range(2):
