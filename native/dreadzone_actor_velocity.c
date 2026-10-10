@@ -1,4 +1,5 @@
 #include "dreadzone_actor_velocity.h"
+#include "dreadzone_actor_direction.h"
 #include <float.h>
 #include <math.h>
 #include <stdlib.h>
@@ -82,6 +83,10 @@ static int vector_valid(const u8 *p,u32 dimensions) {
     u32 i;for(i=0;i<dimensions;++i) if(!bounded(dreadzone_velocity_float(p+i*4),16.f)) return 0;
     return 1;
 }
+int dreadzone_velocity_0068ABA8(const u8 *record,u8 *output,const u8 *input,f32 height) {
+    int status=dreadzone_direction_projection_bytes((u8 *)record,output,input,height);
+    return status<0?DREADZONE_VELOCITY_UNSUPPORTED_MODE:DREADZONE_VELOCITY_APPROXIMATE;
+}
 static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u32 input,f32 a,f32 b) {
     DreadzoneActorInputContext tx;DreadzoneActorInputMemory original[65],copies[64];
     u8 *buffers[65]={0};const u8 *source;u8 *destination;u32 i,total=0;int status;
@@ -90,6 +95,7 @@ static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u3
         return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     if(operation==1 && !bounded(a,100000.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     if(operation==3 && (!bounded(a,16.f) || a<0.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
+    if((operation==4 || operation==5) && !bounded(a,16.f)) return DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
     for(i=0;i<=ctx->view_count;++i) {
         region(ctx,i,original+i);
         if(original[i].bytes>16U*1024U*1024U-total) return DREADZONE_VELOCITY_TRANSACTION_MEMORY;
@@ -121,17 +127,23 @@ static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u3
         status=dreadzone_velocity_0067D3A0(tx.record,a);
         if(status>=0) for(i=0;i<3;++i) if(!normal(dreadzone_velocity_float(tx.record+0x130+i*4)))
             status=DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;
+    } else if(operation==5) {
+        if(!vector_valid(tx.record+0x1A0,2) || !vector_valid(tx.record+0x130,3)) {
+            status=DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;goto discard;
+        }
+        status=dreadzone_velocity_006834C8(tx.record,a);
     } else {
-        if((input&15) || (operation==3 && (output&15))) {status=DREADZONE_VELOCITY_NEEDS_MEMORY;goto discard;}
+        if((input&15) || ((operation==3 || operation==4) && (output&15))) {status=DREADZONE_VELOCITY_NEEDS_MEMORY;goto discard;}
         source=dreadzone_actor_input_read(&tx,input,16);
         destination=operation==2?tx.record+0x130:dreadzone_actor_input_write(&tx,output,16);
         if(!source || !destination) {status=DREADZONE_VELOCITY_NEEDS_MEMORY;goto discard;}
-        if(!vector_valid(source,operation==2?3:2) ||
+        if((operation!=4 && !vector_valid(source,operation==2?3:2)) ||
            (operation==2 && !bounded(dreadzone_velocity_float(tx.record+0x1784),16.f))) {
             status=DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;goto discard;
         }
         if(operation==2) status=dreadzone_velocity_0067D480(tx.record,source);
-        else status=dreadzone_velocity_0068AC58(tx.record,destination,source,a);
+        else if(operation==3) status=dreadzone_velocity_0068AC58(tx.record,destination,source,a);
+        else status=dreadzone_velocity_0068ABA8(tx.record,destination,source,a);
     }
     if(status>=0) for(i=0;i<=ctx->view_count;++i) if(original[i].writable) memcpy(original[i].storage,buffers[i],original[i].bytes);
 discard:
@@ -141,3 +153,5 @@ int dreadzone_actor_speed_0067D350(const DreadzoneActorInputContext *c,f32 a,f32
 int dreadzone_actor_velocity_0067D3A0(const DreadzoneActorInputContext *c,f32 a) {return run(c,1,0,0,a,0.f);}
 int dreadzone_actor_normalized_velocity_0067D480(const DreadzoneActorInputContext *c,u32 input) {return run(c,2,0,input,0.f,0.f);}
 int dreadzone_actor_planar_projection_0068AC58(const DreadzoneActorInputContext *c,u32 output,u32 input,f32 a) {return run(c,3,output,input,a,0.f);}
+int dreadzone_actor_vertical_projection_0068ABA8(const DreadzoneActorInputContext *c,u32 output,u32 input,f32 a) {return run(c,4,output,input,a,0.f);}
+int dreadzone_actor_accumulated_motion_006834C8(const DreadzoneActorInputContext *c,f32 a) {return run(c,5,0,0,a,0.f);}

@@ -1577,3 +1577,42 @@ prove a later one. Emulator tests are optional reference checks.
 - This enables independent static-body instruction replay. It does not itself
   integrate the body's collision response or a playable frame. The autonomous
   work continues locally; nothing is pushed.
+
+## 2026-10-11 — Integrate genuine movement callers and animation clocks
+
+- Integrated complete CAF8/D100 native target-speed/turn callers using real
+  direction/rotation gateways, mapped time/coefficient globals and actor state.
+  Root independently compiles and strictly links both PS2 bodies as NONMATCHING
+  (192/200 and 572/592), then checks the integrated CMake diagnostic on 6,272
+  actual/rebuilt cases: 4,009,074 instructions, 1,024 ordered coefficient aliases
+  and 128 real input-bridge/target/turn sequences. The 6,261 native completions,
+  11 atomic refusals and full RAM images agree outside stated float tolerances;
+  maximum absolute difference 4.7683716e-7. Small real target angles still expose
+  an inherited read-domain limit in eight sequences; none are clamped to zero.
+- Added complete 6834C8 accumulated-motion effects and a public transactional
+  vertical projection entry reusing the existing68ABA8 recovery. Root's fresh
+  helper replay covers 2,048 cases/361,216 EE instructions, all PS2 modes and 512
+  native mode0 cases, with the three actual callees and zero captures. Raw W,
+  signed reductions, threshold clears and atomic refusal are preserved. The
+  new PS2 draft remains NONMATCHING 196/184; velocity checks increase to 1,594.
+  These helpers update vectors, not positionA0 or collision response.
+- Integrated primary 589CE0 temporal effects with genuine frame durations and
+  explicit selected definition/rate. Root's fresh SN body remains NONMATCHING
+  848/696. Its integrated native diagnostic agrees on 911 original fixtures and
+  893 extra fixtures with mixed non-dyadic durations/rates: 144,110 original EE
+  instructions, 181,831 SN instructions, 461,824 actor bytes and zero differences.
+  Linked layers and negative fractional elapsed cases refuse atomically; no
+  unsupported reverse sign is treated as an acceptable arithmetic difference.
+  All 16,335 focused checks pass. No clip selection or update frequency is added.
+- Integrated complete 58ACB8 list cleanup through the recovered release helpers.
+  Its true span is 88 bytes including JR/delay; the splitter's 80 truncated return.
+  Root's fresh 80-byte PS2 draft strictly links as NONMATCHING. Actual original,
+  rebuilt and native execution agree on 1,024 cases/3,448,832 bytes, including 310
+  cycles, 1,534 metadata-to-node aliases and 994 occupancy aliases. Next is read
+  before clear; all accesses are preflighted before publication. There are
+  731,870 original and 730,910 SN instructions, with every callee executed.
+- All 61 registered native tests pass in 4.28 seconds after integration. The
+  existing sampled animated-model launcher remains available. Full layer-weight
+  clock composition, small-angle movement domain and static-body/capsule
+  collision response continue in parallel. No complete position/player/frame
+  loop or new matching acceptance is claimed; nothing is pushed.

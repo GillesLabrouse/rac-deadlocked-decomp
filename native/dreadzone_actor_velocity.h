@@ -41,6 +41,15 @@ int dreadzone_actor_speed_0067D350(const DreadzoneActorInputContext *,f32 accele
 int dreadzone_actor_velocity_0067D3A0(const DreadzoneActorInputContext *,f32 caller_angle);
 int dreadzone_actor_normalized_velocity_0067D480(const DreadzoneActorInputContext *,u32 input_guest);
 int dreadzone_actor_planar_projection_0068AC58(const DreadzoneActorInputContext *,u32 output_guest,u32 input_guest,f32 length);
+/* Vertical projection preserves raw X/Y/W and computes Z as +0 + height.
+ * Accumulated motion consumes actor1A0, projects away Z, reduces planar length
+ * by the supplied original scalar, then adds XYZ to actor130 preserving its W.
+ * At/below the genuine threshold, all four actor1A0 words are cleared instead.
+ * Neither entry writes positionA0 or performs terrain/collision response.
+ * The same mapped/transactional and finite bounded numerical domain applies.
+ * The reduction scalar is signed; no invented nonnegative clamp is imposed. */
+int dreadzone_actor_vertical_projection_0068ABA8(const DreadzoneActorInputContext *,u32 output_guest,u32 input_guest,f32 height);
+int dreadzone_actor_accumulated_motion_006834C8(const DreadzoneActorInputContext *,f32 reduction);
 /* Internal routines require a validated shadow context and supported floats. */
 f32 dreadzone_velocity_float(const void *);
 void dreadzone_velocity_store(void *,f32);
@@ -57,4 +66,6 @@ int dreadzone_velocity_0067D480(u8 *,const u8 *);
 f32 func_L01_0068A920(const u8 *,const VelocityVector *);
 f32 func_L01_0068AB40(const u8 *,const VelocityVector *);
 int dreadzone_velocity_0068AC58(const u8 *,u8 *,const u8 *,f32);
+int dreadzone_velocity_0068ABA8(const u8 *,u8 *,const u8 *,f32);
+int dreadzone_velocity_006834C8(u8 *,f32);
 #endif

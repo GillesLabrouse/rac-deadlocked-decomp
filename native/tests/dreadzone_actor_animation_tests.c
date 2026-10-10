@@ -77,14 +77,90 @@ static void rejected_storage(const DreadzoneAnimationContext *host) {
     CHECK(dreadzone_animation_00688FE0(host,0,0)==DREADZONE_ANIMATION_INVALID_STORAGE);
     CHECK(dreadzone_animation_0058A8D8(host,addresses[POOL])==DREADZONE_ANIMATION_INVALID_STORAGE);
     CHECK(dreadzone_animation_0058B6B0(host,addresses[POOL])==DREADZONE_ANIMATION_INVALID_STORAGE);
+    CHECK(dreadzone_animation_0058ACB8(host,addresses[ACTOR])==DREADZONE_ANIMATION_INVALID_STORAGE);
     CHECK(dreadzone_animation_validate(host)==0);
     CHECK(dreadzone_animation_translate(host,addresses[ACTOR],1)==0);
     verify();
+}
+static u8 *cleanup_expected(u32 guest) {
+    unsigned r;
+    for(r=0;r<REGIONS;r++) if(guest>=addresses[r]&&guest-addresses[r]<bytes[r])
+        return expected[r]+padding+guest-addresses[r];
+    return 0;
+}
+static void cleanup_oracle(void) {
+    u8 *actor=expected[ACTOR]+padding;
+    u32 node=readword(actor+0x50),steps=0;
+    while(node) {
+        u8 *p=cleanup_expected(node);
+        u32 next=readword(p+0x10),slot=(node-addresses[POOL])/32;
+        if(p[0x15]&4) {
+            s32 index=(s32)(((u32)p[0xE]|((u32)p[0xF]<<8))^0x8000U)-0x8000;
+            *cleanup_expected(0x293004U+(u32)(index*8))=0;
+        }
+        *cleanup_expected(addresses[OCCUPANCY]+slot)=0;
+        memset(p,0,32);node=next;
+        CHECK(++steps<=33);
+    }
+    word(actor+0x50,0);
+}
+static void cleanup_rejected(int expected_status) {
+    save();CHECK(dreadzone_animation_0058ACB8(&context,addresses[ACTOR])==expected_status);verify();
+}
+static void cleanup_tests(void) {
+    unsigned length,i;
+    /* The real cleanup captures next before clear and releases every node. */
+    for(length=0;length<=32;length++) {
+        setup(1,0,0);word(region[ACTOR]+0x50,length?addresses[POOL]:0);
+        for(i=0;i<length;i++) {
+            word(region[POOL]+i*32+0x10,i+1<length?addresses[POOL]+(i+1)*32:0);
+            region[POOL][i*32+0x15]=(u8)(i&1?4:0);
+            half(region[POOL]+i*32+0xE,(u16)(i*3));
+        }
+        save();cleanup_oracle();
+        CHECK(dreadzone_animation_0058ACB8(&context,addresses[ACTOR])==0);verify();
+    }
+    /* Self and cyclic lists revisit a genuinely cleared node, then stop. */
+    setup(1,0,0);word(region[ACTOR]+0x50,addresses[POOL]);
+    word(region[POOL]+0x10,addresses[POOL]);region[POOL][0x15]=0;
+    save();cleanup_oracle();CHECK(dreadzone_animation_0058ACB8(&context,addresses[ACTOR])==0);verify();
+    setup(1,0,0);word(region[ACTOR]+0x50,addresses[POOL]);
+    for(i=0;i<32;i++) { word(region[POOL]+i*32+0x10,addresses[POOL]+((i+1)%32)*32);region[POOL][i*32+0x15]=0; }
+    save();cleanup_oracle();CHECK(dreadzone_animation_0058ACB8(&context,addresses[ACTOR])==0);verify();
+    /* Actual signed metadata aliases a future node's frame byte. */
+    setup(1,0,0);word(region[ACTOR]+0x50,addresses[POOL]);
+    word(region[POOL]+0x10,addresses[POOL]+32);region[POOL][0x15]=4;
+    half(region[POOL]+0xE,(u16)((s32)(addresses[POOL]+32+4-0x293004U)/8));
+    word(region[POOL]+32+0x10,0);region[POOL][32+0x15]=0;
+    save();cleanup_oracle();CHECK(dreadzone_animation_0058ACB8(&context,addresses[ACTOR])==0);verify();
+    /* Another valid alias targets a later slot's occupancy byte. */
+    setup(1,0,0);word(region[ACTOR]+0x50,addresses[POOL]);
+    word(region[POOL]+0x10,addresses[POOL]+4*32);region[POOL][0x15]=4;
+    half(region[POOL]+0xE,(u16)((s32)(addresses[OCCUPANCY]+4-0x293004U)/8));
+    word(region[POOL]+4*32+0x10,0);region[POOL][4*32+0x15]=0;
+    save();cleanup_oracle();CHECK(dreadzone_animation_0058ACB8(&context,addresses[ACTOR])==0);verify();
+    setup(1,0,0);word(region[ACTOR]+0x50,addresses[POOL]);
+    region[POOL][0x15]=0;word(region[POOL]+0x10,addresses[POOL]+0x400);
+    cleanup_rejected(DREADZONE_ANIMATION_NEEDS_NODE_POOL);
+    setup(1,0,0);word(region[ACTOR]+0x50,addresses[POOL]);
+    region[POOL][0x15]=0;word(region[POOL]+0x10,addresses[POOL]+32);
+    region[POOL][32+0x15]=4;word(region[POOL]+32+0x10,0);half(region[POOL]+32+0xE,0x7FFF);
+    cleanup_rejected(DREADZONE_ANIMATION_NEEDS_METADATA);
+    /* Aliases rejected by the genuine bounded release remain atomic. */
+    setup(1,0,0);word(region[ACTOR]+0x50,addresses[POOL]);
+    word(region[POOL]+0x10,0);region[POOL][0x15]=4;
+    half(region[POOL]+0xE,(u16)((s32)(addresses[POOL]+4-0x293004U)/8));
+    cleanup_rejected(DREADZONE_ANIMATION_INVALID_STORAGE);
+    setup(1,0,0);word(region[POOL]+0x50,addresses[POOL]+32);
+    word(region[POOL]+32+0x10,0);region[POOL][32+0x15]=0;
+    save();CHECK(dreadzone_animation_0058ACB8(&context,addresses[POOL])==DREADZONE_ANIMATION_INVALID_STORAGE);verify();
+    setup(1,0,0);save();CHECK(dreadzone_animation_0058ACB8(&context,0)==DREADZONE_ANIMATION_NEEDS_ACTOR);verify();
 }
 int main(void) {
     unsigned seed;
     static const s32 animations[]={0,1,10,255};
     static const s32 frames[]={0,1,7,31,16777216};
+    cleanup_tests();
     for(seed=0;seed<640;seed++) {
         s32 animation=animations[(seed/8)%4],frame=frames[(seed/32)%5];
         setup(seed,animation,frame);save();oracle(animation,frame);
@@ -144,6 +220,7 @@ int main(void) {
         CHECK(dreadzone_animation_00688FE0(&alias_context.context,0,0)==DREADZONE_ANIMATION_INVALID_STORAGE);
         CHECK(dreadzone_animation_0058A8D8(&alias_context.context,addresses[POOL])==DREADZONE_ANIMATION_INVALID_STORAGE);
         CHECK(dreadzone_animation_0058B6B0(&alias_context.context,addresses[POOL])==DREADZONE_ANIMATION_INVALID_STORAGE);
+        CHECK(dreadzone_animation_0058ACB8(&alias_context.context,addresses[ACTOR])==DREADZONE_ANIMATION_INVALID_STORAGE);
         CHECK(memcmp(before,alias_context.bytes,sizeof(before))==0);verify();
         setup(1,0,0);memcpy(alias_views.views,views,sizeof(views));alias_views.views[POOL].storage=alias_views.bytes;
         context.views=alias_views.views+1;
@@ -151,6 +228,7 @@ int main(void) {
         CHECK(dreadzone_animation_00688FE0(&context,0,0)==DREADZONE_ANIMATION_INVALID_STORAGE);
         CHECK(dreadzone_animation_0058A8D8(&context,addresses[POOL]+32)==DREADZONE_ANIMATION_INVALID_STORAGE);
         CHECK(dreadzone_animation_0058B6B0(&context,addresses[POOL]+32)==DREADZONE_ANIMATION_INVALID_STORAGE);
+        CHECK(dreadzone_animation_0058ACB8(&context,addresses[ACTOR])==DREADZONE_ANIMATION_INVALID_STORAGE);
         CHECK(memcmp(before,alias_views.bytes,sizeof(before))==0);verify();
     }
     {
@@ -167,6 +245,6 @@ int main(void) {
         CHECK(fesetround(saved_round)==0);
     }
     CHECK(dreadzone_animation_00688FE0(0,0,0)==DREADZONE_ANIMATION_INVALID_STORAGE);
-    printf("Actor animation: %u checks, %u failures. Real head-only release and exact finite integer frames verified.\n",checks,failures);
+    printf("Actor animation: %u checks, %u failures. Real reset/release/cleanup and exact finite integer frames verified.\n",checks,failures);
     return failures?1:0;
 }

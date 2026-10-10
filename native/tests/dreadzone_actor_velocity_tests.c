@@ -19,6 +19,58 @@ static DreadzoneActorInputContext fixture(void) {
     return c;
 }
 static int near(f32 a,f32 b) {return fabsf(a-b)<=0.00001f;}
+static void motion_checks(void) {
+    DreadzoneActorInputContext c;DreadzoneActorInputMemory view;u32 i;
+    c=fixture();view=(DreadzoneActorInputMemory){extra+1,0x210000,64,1};
+    c.views=&view;c.view_count=1;
+    dreadzone_actor_input_store32(extra+1,0x7FC12345U);
+    dreadzone_actor_input_store32(extra+5,0x80000000U);
+    dreadzone_actor_input_store32(extra+9,0xFFC23456U);
+    dreadzone_actor_input_store32(extra+13,0xDEADBEEFU);
+    memcpy(saved,extra,sizeof(extra));memcpy(baseline,record,sizeof(record));
+    check(dreadzone_actor_vertical_projection_0068ABA8(&c,0x210010,0x210000,-0.f)==1);
+    check(raw(extra+17)==0x7FC12345U && raw(extra+21)==0x80000000U);
+    check(raw(extra+25)==0 && raw(extra+29)==0xDEADBEEFU);
+    memcpy(saved+17,extra+17,16);
+    check(memcmp(saved,extra,sizeof(extra))==0 && memcmp(baseline,record,sizeof(record))==0);
+    check(dreadzone_actor_vertical_projection_0068ABA8(&c,0x210000,0x210000,-3.f)==1);
+    check(raw(extra+1)==0x7FC12345U && get(extra+1,8)==-3.f && raw(extra+13)==0xDEADBEEFU);
+    for(i=0;i<4;++i) {
+        f32 reduction=i==0?2.f:i==1?-1.f:i==2?16.f:0.f;
+        c=fixture();put(c.record,0x1A0,i==3?0.00048828125f:3.f);
+        put(c.record,0x1A4,i==3?0.f:4.f);put(c.record,0x1A8,NAN);
+        dreadzone_actor_input_store32(c.record+0x1AC,0xDEADBEEFU);
+        put(c.record,0x130,1.f);put(c.record,0x134,-1.f);put(c.record,0x138,.5f);
+        dreadzone_actor_input_store32(c.record+0x13C,0x7FC12345U);
+        memcpy(baseline,record,sizeof(record));
+        check(dreadzone_actor_accumulated_motion_006834C8(&c,reduction)==1);
+        if(i<3) {
+            check(near(get(c.record,0x1A0),i==0?1.8f:i==1?3.6f:0.f));
+            check(near(get(c.record,0x1A4),i==0?2.4f:i==1?4.8f:0.f));
+            check(raw(c.record+0x1A8)==0 && raw(c.record+0x1AC)==0xDEADBEEFU);
+            check(near(get(c.record,0x130),1.f+get(c.record,0x1A0)));
+            check(near(get(c.record,0x134),-1.f+get(c.record,0x1A4)));
+            check(get(c.record,0x138)==.5f && raw(c.record+0x13C)==0x7FC12345U);
+        } else {
+            static const u8 zero[16]={0};
+            check(memcmp(c.record+0x1A0,zero,16)==0);
+            check(memcmp(c.record+0x130,baseline+1+0x130,16)==0);
+        }
+        memcpy(baseline+1+0x1A0,c.record+0x1A0,16);
+        memcpy(baseline+1+0x130,c.record+0x130,16);
+        check(memcmp(baseline,record,sizeof(record))==0);
+    }
+    for(i=0;i<4;++i) {
+        c=fixture();put(c.record,0x1A0,3.f);put(c.record,0x1A4,4.f);
+        put(c.record,0x130,1.f);put(c.record,0x134,0.f);put(c.record,0x138,0.f);
+        if(i==0)c.record[0x2659]=1;
+        if(i==1)put(c.record,0x1A4,NAN);
+        if(i==2)put(c.record,0x130,17.f);
+        memcpy(baseline,record,sizeof(record));
+        check(dreadzone_actor_accumulated_motion_006834C8(&c,i==3?NAN:1.f)<0);
+        check(memcmp(baseline,record,sizeof(record))==0);
+    }
+}
 int main(void) {
     DreadzoneActorInputContext c;DreadzoneActorInputMemory view;
     VelocityVector v;u32 i,j;f32 result;clock_t start=clock();
@@ -146,6 +198,7 @@ int main(void) {
     result=func_L01_0068AB40(c.record,&v);check(result==-7.f);
     dreadzone_actor_input_store32((u8 *)&v+8,0xFFC12345U);
     result=func_L01_0068AB40(c.record,&v);check(raw(&result)==0xFFC12345U);
+    motion_checks();
     printf("Velocity: %u checks, %u failures, %.3f seconds\n",checks,failures,
         (double)(clock()-start)/CLOCKS_PER_SEC);
     return failures?1:0;

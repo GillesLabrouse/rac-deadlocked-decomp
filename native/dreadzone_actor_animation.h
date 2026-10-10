@@ -41,7 +41,14 @@ enum DreadzoneAnimationResult {
 int dreadzone_animation_00688FE0(const DreadzoneAnimationContext *,s32 animation,s32 frame);
 int dreadzone_animation_0058A8D8(const DreadzoneAnimationContext *,u32 node_guest);
 int dreadzone_animation_0058B6B0(const DreadzoneAnimationContext *,u32 node_guest);
-/* Shared bounded memory validation for these three new implementations. */
+/* Complete58ACB8 cleanup through the genuine58A8D8 release. Next links are
+ * captured before each clear, including self/cyclic links. A byte journal
+ * preflights all releases and metadata aliases before the first store.
+ * Metadata may alias fields of a future node or a later occupancy byte.
+ * Actor/release footprints and aliases forbidden by the release are refused
+ * atomically. No callback, animation selection or GPU effect is substituted. */
+int dreadzone_animation_0058ACB8(const DreadzoneAnimationContext *,u32 actor_guest);
+/* Shared bounded memory validation for these CPU implementations. */
 int dreadzone_animation_validate(const DreadzoneAnimationContext *);
 u8 *dreadzone_animation_translate(const DreadzoneAnimationContext *,u32 address,u32 bytes);
 int dreadzone_animation_overlap(u32 a,u32 an,u32 b,u32 bn);

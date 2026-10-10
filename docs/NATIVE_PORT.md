@@ -852,6 +852,52 @@ suite includes 1,552 velocity checks and 27 terrain checks; all 59 registered
 tests pass. Speed/velocity output does not yet apply the full original position
 update, resolve the capsule/static-body contacts or run a playable frame.
 
+`dreadzone_actor_speed_target` now calls the real direction gateway and derives
+target1780 from mapped coefficient/time globals and actor state. Its turn entry
+derives the real force, damping and maximum arguments before calling 0067CFD0.
+No target speed or turn parameters are injected by this API. Root's fresh
+integrated DLL agrees with original and separately compiled caller bodies on
+6,272 cases, including 1,024 ordered coefficient aliases and 128 actual
+input-bridge/target/turn sequences: 4,009,074 instructions and maximum absolute
+float difference 4.7683716e-7 within the declared approximate domain. There are
+6,261 native completions and 11 atomic refusals. Eight sequence refusals expose
+the inherited small-angle read limit; those outputs are preserved rather than
+replaced with zero. Broadening this real dependency remains separate work.
+
+The velocity API also exposes the already recovered vertical projection and
+complete accumulated-motion helper 006834C8. It reduces actor1A0's planar
+length and adds XYZ to actor130, preserving raw W; the original threshold
+branch clears all four accumulated words. Signed reductions retain original
+behavior. Root compares 2,048 original/rebuilt helper cases, including all four
+PS2 modes and 512 supported native cases: 361,216 instructions, all three real
+callees executed and no captures. Native velocity now has 1,594 focused checks.
+Only the original helper effects are implemented; positionA0 is not written.
+
+`dreadzone_animation_clock` advances the genuine primary temporal state of
+00589CE0 using the selected definition, per-frame durations and effective rate
+already supplied by its actual caller. It retains forward/reverse wrap/clamp,
+the original reverse-clamp duration order, flags and ordered publication.
+No clip name or wall-clock frequency is assigned. Linked layers and negative
+fractional elapsed values are refused atomically. The latter still depend on
+EE adder alignment behavior not established by the finite chopped-float model.
+Root's fresh original/SN/native replays compare 911 dyadic cases and 893 extra
+mixed-duration cases (including durations3/5/7/31/255/32767) with zero byte
+differences. The two runs compare 461,824 actor bytes; unsupported cases are
+reported separately. All 16,335 focused checks pass. The current visible viewer
+still plays prepared pose samples; this clock is not yet wired into that loop.
+
+`dreadzone_animation_0058ACB8` now cleans the complete secondary-layer list
+through real 0058A8D8 release effects. The next link is captured before clearing
+each node, retaining original cyclic-list termination and signed metadata
+aliases. A byte journal preflights every release before publishing any writes.
+Root's fresh integrated DLL agrees with original/SN execution on 1,024 cases:
+731,870 original instructions, 730,910 rebuilt instructions, 3,448,832 bytes
+and zero differences. This includes 310 cycles and aliases to future node
+fields or occupancy bytes. The complete retail body is 88 bytes, rather than
+the splitter's truncated 80. Full 589CE0 layer-weight/unlink composition remains
+in progress. All 61 registered native tests pass in 4.28 seconds; no complete
+player/state/game frame is claimed.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
