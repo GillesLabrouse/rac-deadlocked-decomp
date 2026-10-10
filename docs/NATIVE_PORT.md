@@ -661,8 +661,27 @@ remaining callbacks are required before this can participate in a native frame.
 The [original model diagnostic](NATIVE_MODELS.md) now joins genuine native local
 vertex calculations to original VIF/ST/ID topology. Its107 explicit pose/binding
 matrices produce3,478 vertices and2,714 raw FIFO triangles from37 primary packets.
-The renderer shows the textured torso and arms; active head/leg selection,
-animation, actor/world/view, clipping and lighting remain outside the diagnostic.
+The primary-only comparison shows the textured torso and arms. Explicit
+fresh-boundary mask1002 now selects primary, bangle12 and bangle1:46 packets,
+4,238 computed vertices and3,326 triangles. Native candidates preserve actual
+descending-bit ordering and low-to-high fallback, including missing primary
+low forcing high for later bangles. They do not execute LOD distance, render
+queue budget or complete actor construction. The selected static pose remains
+fixed with outstretched arms; animation, actor/world/view, clipping and lighting are absent.
+
+`dreadzone_actor_basis` now computes the complete CPU-visible B58 basis using
+the actual C40 polynomial pair and B10 ordered matrix products. Root's fresh
+DLL agrees across1,039 cases,62,627 original VU pairs and66,496 output bytes,
+including all active-axis combinations and signed-zero endpoints.202 native
+assertions pass. The contract remains `APPROXIMATE` host IEEE arithmetic;
+physical VU flags/timing and the outer actor render/update are not executed.
+
+`dreadzone_collision_tree` implements the entire integer0053DBD0 hierarchical
+Y/X/Z lookup with actual root-relative offsets and delay-slot overflow checks.
+Root's fresh DLL agrees across1,027 fixtures,19,059 original EE instructions,
+8,413,184 table bytes,106 nonzero leaves and27 overflow refusals.25 native
+assertions pass. A returned leaf is collision data, not an established contact
+with the ground; triangle contact and the movement caller still need recovery.
 
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every

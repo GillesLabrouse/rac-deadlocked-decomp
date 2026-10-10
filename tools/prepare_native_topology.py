@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Render the original primary model's genuine native blend/topology stages.
+"""Render genuine native packet selection, blend and topology stages.
 
 Requires a local unrelocated class container, explicit joint matrices (or an
 explicit identity diagnostic), and local PNG textures. No editor GLB, inferred
-joint association, animation, active bangle selection or game frame is used.
-The scene bridge remaps raw (x,y,z) to display (y,z,x), applies class scale/1024
+joint association, animation or game frame is used. Actor mask and LOD are
+explicit inputs; omitting the mask retains the primary-only comparison.
+The scene bridge remaps raw (x,y,z) to display (y,x,z), applies class scale/1024
 and uses flat, double-sided shading. This is a diagnostic presentation; the
 original actor/world/view pipeline and physical PS2 arithmetic remain absent.
 """
@@ -68,13 +69,26 @@ class Topology(C.Structure):
                 ("capacity", U32), ("count", C.POINTER(U32))]
 
 
+class BangleRange(C.Structure):
+    _fields_ = [("first", U32), ("count", U32), ("bit", C.c_int32)]
+
+
+class BanglePlan(C.Structure):
+    _fields_ = [("ranges", BangleRange * 16), ("count", U32), ("packets", U32)]
+
+
+class BangleRequest(C.Structure):
+    _fields_ = [("raw", C.POINTER(U8)), ("bytes", U32),
+                ("mask", C.c_uint16), ("low", U8), ("reserved", U8)]
+
+
 def span(raw, offset, length):
     if length <= 0 or offset < 0 or offset + length > len(raw):
         raise ValueError("Model packet exceeds the local class container")
     return (U8 * length).from_buffer_copy(raw[offset:offset + length])
 
 
-def prepare(container, matrices, identity, textures, library, output):
+def prepare(container, matrices, identity, textures, library, output, actor_mask=None, low_detail=False):
     paths = [Path(container).resolve(), Path(library).resolve()]
     raw = paths[0].read_bytes()
     if not 0x30 <= len(raw) <= 32 * 1024 * 1024:
@@ -86,6 +100,25 @@ def prepare(container, matrices, identity, textures, library, output):
             table % 16 or table + packet_count * 16 > len(raw) or
             not math.isfinite(scale) or scale <= 0):
         raise ValueError("Invalid unrelocated primary class header")
+    dll = C.CDLL(str(paths[1]))
+    ranges = [[0, packet_count, -1]]
+    if actor_mask is not None:
+        if not 0 <= actor_mask <= 0x7FFF:
+            raise ValueError("Actor mask must fit the supported positive halfword domain")
+        dll.dreadzone_bangle_select.argtypes = [C.POINTER(BangleRequest), C.POINTER(BanglePlan)]
+        dll.dreadzone_bangle_select.restype = C.c_int
+        raw_storage = (U8 * len(raw)).from_buffer_copy(raw)
+        request, plan = BangleRequest(raw_storage, len(raw), actor_mask, low_detail, 0), BanglePlan()
+        status = dll.dreadzone_bangle_select(C.byref(request), C.byref(plan))
+        if status != 1:
+            raise ValueError(f"Native packet selection refused: {status}")
+        ranges = [[row.first, row.count, row.bit] for row in plan.ranges[:plan.count]]
+    elif low_detail:
+        raise ValueError("An explicit LOD choice requires an explicit actor mask")
+    selection = [number for first, count, _ in ranges for number in range(first, first + count)]
+    packet_count = len(selection)
+    if not packet_count:
+        raise ValueError("No candidate packets were selected")
     if identity:
         joint_data = struct.pack("<16f", *IDENTITY) * joint_count
     else:
@@ -95,18 +128,17 @@ def prepare(container, matrices, identity, textures, library, output):
         raise ValueError("Explicit joint matrix count differs from the class")
     vertex_storage, vif_storage, blend_packets, topology_packets = [], [], [], []
     total = 0
-    for number in range(packet_count):
+    for number in selection:
         row = table + number * 16
         vif, qwc, _, vertex_offset = struct.unpack_from("<IHHI", raw, row)
         vertex_bytes, count = raw[row + 12] * 16, raw[row + 15]
         if not 1 <= count <= 127 or vertex_offset % 16 or vif % 4:
-            raise ValueError("Invalid primary packet descriptor")
+            raise ValueError("Invalid selected packet descriptor")
         vertex_storage.append(span(raw, vertex_offset, vertex_bytes))
         vif_storage.append(span(raw, vif, qwc * 16))
         blend_packets.append(Packet(vertex_storage[-1], vertex_bytes))
         topology_packets.append(TopologyPacket(vif_storage[-1], qwc * 16, total, count))
         total += count
-    dll = C.CDLL(str(paths[1]))
     dll.dreadzone_vertex_blend_prepare.argtypes = [C.POINTER(Blend)]
     dll.dreadzone_vertex_blend_prepare.restype = C.c_int
     dll.dreadzone_topology_prepare.argtypes = [C.POINTER(Topology)]
@@ -136,23 +168,26 @@ def prepare(container, matrices, identity, textures, library, output):
             raise ValueError("Native texture identity has no supplied PNG")
         for index, st in zip(triangle.output, triangle.st):
             position = vertices[index].position
-            display = tuple(position[i] * scale for i in (1, 2, 0))
+            display = tuple(position[i] * scale for i in (1, 0, 2))
             if not all(math.isfinite(v) for v in display):
                 raise ValueError("Nonfinite diagnostic position")
             groups[textures[triangle.texture]].append((*display, st[0] / 4096, st[1] / 4096, 1, 1, 1, 1))
-    report = write_package([(groups, [IDENTITY], "Original primary native topology diagnostic")], output, paths)
+    report = write_package([(groups, [IDENTITY], "Original selected native topology diagnostic")], output, paths)
     report.update(kind="native-model-topology-diagnostic", native_blend_status="APPROXIMATE",
                   native_topology_status="DIAGNOSTIC", joint_count=joint_count,
                   packet_count=packet_count, blended_vertices=total,
                   explicit_identity_joints=identity, actor_frame_running=False,
-                  game_logic_running=False, active_bangles_selected=False,
+                  game_logic_running=False, active_bangles_selected=actor_mask is not None,
+                  explicit_actor_mask=actor_mask, explicit_low_detail=low_detail,
+                  candidate_ranges=ranges, original_packet_indices=selection,
+                  render_queue_budget_executed=False, lod_distance_executed=False,
                   original_lighting=False, original_world_view=False,
-                  presentation_axes=[1, 2, 0], presentation_scale=scale,
+                  presentation_axes=[1, 0, 2], presentation_scale=scale,
                   double_sided_required=True,
                   native_vertices_sha256=hashlib.sha256(bytes(vertices)).hexdigest(),
                   native_triangles_sha256=hashlib.sha256(C.string_at(
                       C.addressof(triangles), triangle_count.value * C.sizeof(Triangle))).hexdigest(),
-                  excluded_systems=["animation", "head/leg selection", "actor/world/view", "clipping",
+                  excluded_systems=["animation", "live actor mask", "LOD distance", "render queue budget", "actor/world/view", "clipping",
                                     "original lighting", "texture upload", "DMA", "collision", "gameplay"])
     Path(output).with_suffix(".json").write_text(json.dumps(report, indent=2) + "\n")
     return report
@@ -165,13 +200,15 @@ def main():
     joints.add_argument("--joint-matrices", type=Path)
     joints.add_argument("--identity-joints", action="store_true", help="Explicit comparison fixture only")
     parser.add_argument("--texture", type=Path, action="append", required=True, help="PNG by original texture index")
+    parser.add_argument("--actor-mask", type=lambda value: int(value, 0), help="Explicit actor half74, e.g. 0x1002 at the fresh reset/OR boundary")
+    parser.add_argument("--low-detail", action="store_true", help="Explicit low LOD candidate selection, without distance evaluation")
     parser.add_argument("--library", type=Path, default=Path(__file__).resolve().parent.parent /
                         "build/native/Release/deadlocked_native_model_diagnostic.dll")
     parser.add_argument("-o", "--output", type=Path, required=True)
     args = parser.parse_args()
     try:
         result = prepare(args.container, args.joint_matrices, args.identity_joints,
-                         args.texture, args.library, args.output)
+                         args.texture, args.library, args.output, args.actor_mask, args.low_detail)
     except (ValueError, OSError) as error:
         parser.exit(1, f"Native topology diagnostic failed: {error}\n")
     print(f"Native diagnostic: {result['blended_vertices']} computed vertices, "

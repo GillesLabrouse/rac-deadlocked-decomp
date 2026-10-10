@@ -1233,3 +1233,36 @@ prove a later one. Emulator tests are optional reference checks.
   MSVC Release /W4 /WX. All 146 Python tests pass in 2.35 seconds. Local
   progress adds no retail assets, accepted matching coverage or playable
   game frame; nothing is pushed.
+
+## 2026-10-10 — Actor orientation, collision leaf lookup and selected body
+
+- Added the genuine B58 actor basis with C40 polynomial rotation and B10
+  ordered matrix products. Root's fresh build agrees across 1,039 cases,
+  62,627 original VU pairs and 66,496 output bytes. Signed-zero subtraction
+  preserves the original +pi result. All 202 native assertions pass under
+  /fp:strict. Physical VU arithmetic, flags and timing remain approximate.
+- Added the complete integer 0053DBD0 Y/X/Z collision-tree lookup. Root's
+  independent fresh build agrees across 1,027 fixtures, 19,059 original
+  instructions and 8,413,184 table bytes, with 106 nonzero leaves and 27
+  signed-overflow refusals. All 25 native assertions pass. This retrieves
+  leaf data; it does not calculate a ground contact or move an actor.
+- Added bounded native primary/bangle candidate selection with explicit
+  actor mask and LOD inputs. Actual missing-primary-low and descriptor-low
+  fallbacks, descending mask-bit order and raw packet bounds are retained.
+  Unsupported sign-bit/material domains refuse atomically. All 311,314
+  native assertions pass. Root reruns the original instruction comparison
+  against the integrated DLL: 1,100 cases, 195,414 instructions and five
+  actual constructor read/OR boundaries; no full constructor is claimed.
+- The explicit fresh-boundary mask1002 selects primary0..36, bangle12
+  packets101..107 and bangle1 packets59..60. The integrated preparation
+  computes 4,238 vertices and 3,326 triangles. Their complete hashes agree
+  with original VU1 topology replay across 94,336 pairs and 144 XGKICKs,
+  under the documented finite non-clipping view fixture. The new WARP
+  capture uses corrected (y,x,z) presentation axes so original Z remains
+  vertical in the viewer. Additional body parts are
+  visible: head, torso, arms and legs, with 142,531 non-background pixels.
+  The pose has outstretched arms and is not animated gameplay.
+- Extended the reproducible preparation CLI and launcher. Assets, matrices,
+  original microbytes and capture images remain local and ignored. All
+  48 native CTest checks pass together in 7.55 seconds. No accepted matching
+  coverage, live actor frame, native game boot or remote push is added.

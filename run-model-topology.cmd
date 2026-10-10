@@ -4,7 +4,7 @@ set "viewer=%~dp0build\native\Release\deadlocked_native_scene_viewer.exe"
 set "scene=%~dp0build\native-assets\armor-0-native-topology.dlscene"
 if not exist "%viewer%" goto missing
 if not exist "%scene%" goto missing
-echo Native blend and topology diagnostic - incomplete body, no animation or gameplay.
+echo Native selected-body blend and topology diagnostic - static pose, no animation or gameplay.
 "%viewer%" "%scene%" %*
 if errorlevel 1 goto failed
 exit /b 0
