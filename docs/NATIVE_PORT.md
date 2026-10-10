@@ -611,6 +611,18 @@ rounding and DMA synchronization are outside these local mathematical stages.
 The viewer needs genuine topology/ST and the actor's active bangle mask; no
 weights or associations are inferred from the editor GLB.
 
+`dreadzone_camera_init` executes the complete CPU-visible `005617A8` initializer
+under an explicit host IEEE approximation of the actual C60 microprogram.
+`dreadzone_angle_pair` retains C60's reflection, polynomial coefficients and
+separately rounded multiply/ACC order. No ordinary sin/cos replacement is used.
+Two position reloads and the final global0021E754 read observe preceding output
+writes when aliased; untouched fields and raw position.w are preserved. Root's
+fresh DLL agrees in576 cases against original EE plus actual C60 and compiled
+PS2 instructions, as well as1,030 separate angle inputs;140 native checks pass.
+Unsupported mappings or arithmetic refuse atomically. Physical VU/EE rounding,
+flags, register effects and timing remain outside the `APPROXIMATE` contract.
+This supplies one constructor dependency, not a playable camera/game loop.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

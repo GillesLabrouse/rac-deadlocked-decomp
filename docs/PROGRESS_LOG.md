@@ -1084,3 +1084,27 @@ prove a later one. Emulator tests are optional reference checks.
   registers, discarded upper words and each of128 OR bits. All143 Python
   tests pass in2.55 seconds. No floating arithmetic or VU hardware is added
   to the shared integer oracle.
+
+## 2026-10-10 — Complete bounded native camera initialization
+
+- Recovered the entire688-byte005617A8 span, including all three actual C60
+  executions, raw constants, two position reloads and the late global load.
+  Root independently compiled and strictly linked its500-byte SN symbol;
+  it remains nonmatching with no accepted coverage update.
+- Integrated native C60 reflection/ninth-degree polynomial and the complete
+  CPU-visible initializer, with separately rounded host binary32 operations
+  and `/W4 /WX /fp:strict`. Native domain is finite normal/zero angles in
+  [-pi,pi] with supported intermediates and1..8 checked guest/host views.
+  Unsupported mappings/arithmetic leave all backing unchanged.
+- Root's fresh DLL passes140 native assertions and independently agrees in
+  576 full initializer cases against original EE plus the actual C60 resident
+  MPG instructions and the genuinely linked SN source. All1,478,912 compared
+  bytes agree across170,496 EE instructions and94,206 VU pairs. A separate
+  1,030-angle check includes signed zero and interval boundaries; no result
+  or callee is captured. Shared packed opcodes execute the actual EE words.
+- Position aliases cover all21 output quads; the late global can alias
+  output54 and observes that constant's prior store. Fourth quad words,
+  output tails, untouched fields and host guards are retained.
+- APPROXIMATE explicitly excludes physical VU/EE rounding, flags, register
+  effects, stack spills and timing. This supplies one real constructor
+  dependency; actor state/collision and the full native game loop remain.
