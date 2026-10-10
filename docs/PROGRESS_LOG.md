@@ -1006,3 +1006,24 @@ prove a later one. Emulator tests are optional reference checks.
   executed instructions still fail explicitly. This avoids discovering one
   unsupported operation per run while retaining the bounded oracle contract.
   No native game or accepted matching source changed in this tooling lot.
+
+## 2026-10-10 — Complete bounded native spatial storage
+
+- Integrated the complete rectangle update and bitmap allocator/releaser CPU
+  memory effects. Actual64x64 cells,1,536 blocks and192-byte allocation bitmap
+  come from the original initializers; unused bytes and actor indices remain
+  unchanged. Growth allocates before release, shrink releases before allocation.
+- Root independently rebuilt all three complete SN drafts and strictly linked
+  original96/120/736-byte spans. Compiled88/172/1,068-byte symbols remain
+  nonmatching. Full branch/call/trap audits and every original/compiled opcode
+  pass; compiled execution uses a genuine nonoverlapping private linker layout.
+- Root's fresh MSVC /W4 /WX DLL agrees in515 successful cases across original,
+  compiled PS2 and native runs:396,609 instructions,67,963,520 compared bytes,
+  matching real helper order and zero captured callees. Four separate native
+  atomic refusals include actual original traps/exhaustion after earlier writes.
+- Parent review added request-wrap checking before descriptor reads, signed
+  actor/base SUB-boundary rejection and unsigned release-count word wrapping.
+  All177 native assertions pass, including complete output preservation.
+- No accepted matching coverage changes, actor VU transform, collision test,
+  native game frame or pushed files are claimed. Shared CMake runs this storage
+  test with the existing native suite.

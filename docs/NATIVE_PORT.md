@@ -584,6 +584,19 @@ adjustment helpers. Raw COP1 word transport is checked without approximating
 floating arithmetic. Active oscillation, VU B58, collision and model submission
 remain unexecuted dependencies; this evidence does not establish actor motion.
 
+The complete bounded CPU spatial update `0058DC78` now executes the genuine
+bitmap helpers `0058DBA0` and `0058DC00`. It preserves cell membership order,
+aligned allocation, growth/shrink hysteresis, packed actor.A4 publication and
+the original count-byte wrap. Root independently compared515 scenarios across
+original instructions, genuinely linked compiled PS2 instructions and a fresh
+native DLL:67,963,520 compared bytes agree. All177 native checks pass.
+Host descriptors and complete backing spans are preflighted before writes;
+invalid state, missing membership and allocation exhaustion leave output
+unchanged. Retail can trap or leave its bitmap mapping after earlier writes;
+the native refusal is explicit, not an original successful return. This adds
+spatial storage, not collision evaluation, VU actor transformation or motion.
+All three complete PS2 drafts remain nonmatching outside accepted coverage.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
