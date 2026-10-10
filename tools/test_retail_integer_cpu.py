@@ -96,6 +96,21 @@ class IntegerCPUTests(unittest.TestCase):
         backing, _ = cpu.memory.region(0x2000, 12)
         self.assertEqual(bytes(backing), bytes.fromhex("CD F0 F0 DE F0 DE BC 9A CD CD CD CD"))
 
+    def test_signed_addition_sign_extends_words_and_preserves_upper_half(self):
+        upper = 0xFEDCBA9876543210 << 64
+        cpu, _ = self.execute([r(32, 1, 2, 3), i(8, 3, 4, -1), r(8, 31), 0],
+                              {1: 0xABCD0000FFFFFFFE, 2: 1, 3: upper, 4: upper})
+        self.assertEqual(cpu.registers[3], upper | MASK64)
+        self.assertEqual(cpu.registers[4], upper | (MASK64 - 1))
+
+    def test_signed_addition_overflow_fails_even_when_destination_is_zero(self):
+        for operands in ((0x7FFFFFFF, 1), (0x80000000, 0xFFFFFFFF)):
+            for destination in (0, 3):
+                with self.assertRaisesRegex(IntegerCPUError, "Signed ADD overflow"):
+                    self.execute([r(32, 1, 2, destination)], {1: operands[0], 2: operands[1]})
+                with self.assertRaisesRegex(IntegerCPUError, "Signed ADDI overflow"):
+                    self.execute([i(8, 1, destination, operands[1])], {1: operands[0]})
+
     def test_differential_comparison_rejects_byte_and_guard_mismatches(self):
         from check_native_class_differential import host_backing, compare_backing, DifferentialError
         segments = [(0x2000, bytearray([1, 2, 3, 4]))]

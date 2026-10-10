@@ -156,6 +156,11 @@ class RetailIntegerCPU:
                     product = signed(a, 32) * signed(b, 32)
                     self.lo, self.hi = signed(product, 32) & MASK64, signed(product >> 32, 32) & MASK64
                     self._put(rd, self.lo)
+                elif function == 32:
+                    total = signed(a, 32) + signed(b, 32)
+                    if not -(1 << 31) <= total < (1 << 31):
+                        raise IntegerCPUError(f"Signed ADD overflow at {pc:08X}; exception handlers are outside this oracle")
+                    self._put_word(rd, total)
                 elif function == 33:
                     self._put_word(rd, a + b)
                 elif function == 35:
@@ -178,6 +183,11 @@ class RetailIntegerCPU:
                     self._put(rd, b >> (shift + 32))
                 else:
                     raise UnsupportedInstruction(f"Unsupported SPECIAL function {function:02X} at {pc:08X}")
+            elif op == 8:
+                total = signed(a, 32) + displacement
+                if not -(1 << 31) <= total < (1 << 31):
+                    raise IntegerCPUError(f"Signed ADDI overflow at {pc:08X}; exception handlers are outside this oracle")
+                self._put_word(rt, total)
             elif op == 9:
                 self._put_word(rt, a + displacement)
             elif op == 10:
