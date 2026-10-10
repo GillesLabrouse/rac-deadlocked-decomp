@@ -59,6 +59,7 @@ counts the FP nops inserted inside it.
 usage: python tools/ps2eeas_nops.py IN.s IN.o OUT.s
 """
 import re
+import struct
 import sys
 
 import rabbitizer as rz
@@ -229,6 +230,8 @@ def move_sites(lines, start, end):
         if stripped in (".set\treorder", ".set reorder"):
             reorder, pending = True, None
             continue
+        if re.fullmatch(r"\.set\s+(at|noat|macro|nomacro)", stripped):
+            continue  # These directives emit no instruction or scheduling change.
         if not stripped or stripped.startswith("#"):
             continue
         if stripped.endswith(":") and not stripped.startswith("."):
@@ -241,9 +244,23 @@ def move_sites(lines, start, end):
         if pending and reads_fpr(mnemonic, operands, pending) and not macro_access(lines, operands):
             sites.append(j)
         pending = None
-        if reorder and mnemonic in ("mtc1", "li.s"):
+        if reorder and (mnemonic == "mtc1" or
+                        mnemonic == "li.s" and immediate_float_move(operands)):
             pending = operands.split(",")[1 if mnemonic == "mtc1" else 0].strip()
     return sites
+
+
+def immediate_float_move(operands: str) -> bool:
+    """Does the driver's GNU as expand this compiler `li.s` through mtc1?
+
+    A single-precision constant with a zero low half uses lui/mtc1. Other
+    constants use a literal-pool lwc1, so their following reader is not an
+    mtc1 hazard. This distinction is checked against the assembled object
+    by main(), just like every other source/object site pairing.
+    """
+    literal = operands.split(",", 1)[1].split("#", 1)[0].strip()
+    bits = struct.unpack("<I", struct.pack("<f", float(literal)))[0]
+    return bits & 0xFFFF == 0
 
 
 def main() -> None:

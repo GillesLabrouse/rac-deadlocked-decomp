@@ -317,3 +317,45 @@ prove a later one. Emulator tests are optional reference checks.
   game functions pass exact linking with zero mismatches or object failures.
   Resident reconstruction inserts 146 functions / 10,280 bytes and equals retail.
   Source and documentation remain local; nothing has been pushed.
+
+## 2026-10-10 — Parallel transition recovery and incremental validation
+
+- Ran three subagents on disjoint transition, finite-float and campaign-startup
+  scopes, with centralized integration and validation. Added exact recovered C
+  for `004757A0`, `0047F538` and `004598E0`. The native matching subset now has
+  17 functions. Finite progression tests cover both directions, overshoot,
+  signed zero, negative steps, decimal convergence and scalar boundaries;
+  Windows rounding and PS2 exceptional arithmetic remain separate concerns.
+- Recovered resident consumer `0047EFA8` as a typed draft and exercised its two
+  17-entry routing tables in an isolated native fixture. The real queue,
+  preflight draft and matching helpers now run through successive request
+  acceptance and consumption. Tests cover idle/delay behavior, completion timing,
+  pending changes during cleanup, multi-call progress, the observed `14C` record
+  stride and transfer arguments. Unrecovered transition effects are captured,
+  so this fixture is not an initialized game or a playable frame loop.
+- Kept compilable transition drafts outside matching coverage: `004D3060`
+  (232/232 bytes, five instruction differences), `004E4DF0` (192/200 bytes) and
+  `004E5638` (1,484/1,496 bytes). Corrected false decompiler arguments, actor and
+  record strides, a post-call field read, the `0.75` float argument and a bounded
+  polling loop. Their graphics, loading and callback dependencies are unresolved.
+- Audited Dreadzone's actual pre-loop and first-frame dependencies in
+  `DREADZONE_DEPENDENCIES.md`. Added initializer draft `L01_00665D58` with verified
+  offsets; three linked instruction words differ. Independently bound consumer
+  `L01_005A9030`: 35 direct calls, 32 callees, 67 constant-address references,
+  and 22 changed bindings. Both consumer drafts produce 1,460 versus 1,416 bytes.
+  The L01 record expressions remain unchanged after checking register sums;
+  positional binding does not prove all signatures or complete layouts.
+- Added explicit opt-in float-immediate expansion, preserving default assembly
+  behavior. Corrected move-hazard detection for literal-pool loads and directives
+  which emit no instructions. A full recompile preserves every accepted match.
+- Added `tools/build.sh --incremental` with content-hash, flag and header-set
+  checks, orphan cleanup and guarded output paths. An unchanged build reused all
+  221 objects in about 3.1 seconds locally. Removing one build object caused
+  exactly one compilation, followed by complete reuse. Planner failure propagates
+  through the shell instead of falsely reporting success.
+- Validation: 72 Python tests and eight native CTest checks pass. Audit has 277
+  exact functions; 226 game functions pass exact linking, with zero mismatches
+  or object failures. Resident reconstruction inserts 149 functions / 10,352
+  bytes and equals retail. ELF SHA-1 remains
+  `5619a8de0247e093ab672fca30dbf59bc16fe333`. The scenery viewer remains the current
+  interactive native artifact; no game launch has been achieved. Nothing pushed.

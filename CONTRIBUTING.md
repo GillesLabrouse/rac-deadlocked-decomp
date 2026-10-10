@@ -85,6 +85,12 @@ python3 tools/gen_progress_report.py               # progress/report.json
 python3 tools/gen_progress_report.py --check       # what CI runs
 ```
 
+For subsequent local iterations, `bash tools/build.sh --incremental` recompiles
+only objects whose source, header set, pipeline hashes, flags or recorded output
+changed. Removed sources also remove their orphan game objects and manifests.
+The default remains a full compile. Incremental reuse does not replace the audit,
+exact linking or reconstruction checks below.
+
 `tools/audit_matches.py` compares each compiled function with the retail bytes at
 its address, with only fields carrying actual ELF relocations masked. Constant
 immediates and pointer strides remain significant. This is
@@ -119,6 +125,18 @@ A source file can add compiler flags on its first line:
 
 Use it for functions whose global accesses retail expands as one macro
 (`lui $a0, hi; lw $a0, lo($a0)`, destination register as temporary).
+
+An experimentally recovered function may also request an explicit assembler
+adaptation in its first three lines:
+
+```c
+/* asflags: --float-immediates */
+```
+
+This expands decimal `li.s` constants with nonzero low halves into immediate-bit
+loads instead of GNU as literal-pool loads. Use it only when the local retail
+comparison establishes that form. The default is unchanged, and the build
+manifest records the option. It does not make a nonmatching function acceptable.
 
 ### libgcc and libm
 

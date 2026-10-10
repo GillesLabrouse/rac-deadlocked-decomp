@@ -24,7 +24,7 @@ The launcher also forwards command-line options for repeatable captures:
 
 ## Verified first step
 
-`native/CMakeLists.txt` builds a native static library from fourteen recovered game
+`native/CMakeLists.txt` builds a native static library from seventeen recovered game
 functions in `src/core` and `src/game`, without retail machine code or PS2 toolchain inputs.
 An explicit source list excludes platform startup, drivers, and address-dependent code
 that cannot run unchanged on a host. The original matching header remains intact.
@@ -115,9 +115,36 @@ build/native/Release/deadlocked_native_scene_viewer.exe `
 Add `--software` to use WARP. Each capture writes a JSON report containing draw
 counts, camera parameters, renderer type, and `game_logic_running: false`.
 The native CTest suite includes scalar/command ABI checks, recovered startup
-parameter and queue checks, malformed scene rejection, and a WARP draw/readback test. It
+parameter and queue checks, finite transition progression, experimental request
+consumption, malformed scene rejection, and a WARP draw/readback test. It
 decodes an authored PNG and renders two differently placed and tinted triangles.
 Python tests use authored synthetic geometry for the asset converter.
+
+## Experimental request consumption
+
+`deadlocked_native_consumer_tests` executes the recovered queue together with
+the preflight and consumer drafts in `nonmatching/`. It links the matching state
+reader, transition counter setter, status reader and float progression helper.
+Its capture fixture observes unresolved transition calls; these captures are
+test boundaries, not implementations of loading, rendering or game effects.
+
+Routing cases cover both 17-entry tables from the resident image, signed states
+outside those tables, pending-request changes during cleanup, delayed processing,
+completion-byte timing, and transitions which retain the pending request across
+multiple calls. A fixture checks the observed `14C` record stride and transfer
+arguments. A queue-to-consumer sequence accepts successive requests after the
+first request completes. This does not establish a frame loop or level launch.
+
+The progression helper is exact in the PS2 build; its Windows branch preserves
+finite signed-zero min/max ordering. Native arithmetic still uses host rounding,
+and PS2 exceptional floats/FPU flags are not reproduced. Decimal threshold tests
+must allow the observed floating-point convergence rather than assume that every
+transition completes after a fixed number of frames.
+
+The resident consumer is not automatically Dreadzone's consumer: L01 has a copy
+at `005A9030`, with its own call/data bindings. See
+[`DREADZONE_DEPENDENCIES.md`](DREADZONE_DEPENDENCIES.md) for the actual pre-loop
+initialization chain and host boundaries still required by the campaign entry.
 
 ## Build and test
 

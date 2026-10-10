@@ -16,7 +16,11 @@ add_library(deadlocked_native_core STATIC
     ../src/game/0045C768.c
     ../src/game/0045C8C8.c
     ../src/game/00465C08.c
+    ../src/game/004598E0.c
+    ../src/game/0047F538.c
+    ../src/game/004757A0.c
 )
+target_compile_definitions(deadlocked_native_core PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_core PUBLIC include)
 target_compile_features(deadlocked_native_core PUBLIC c_std_11)
 
@@ -48,6 +52,16 @@ if(BUILD_TESTING)
     target_compile_definitions(deadlocked_native_request_tests PRIVATE DEADLOCKED_NATIVE=1)
     target_link_libraries(deadlocked_native_request_tests PRIVATE deadlocked_native_core)
     add_test(NAME native_request_draft COMMAND deadlocked_native_request_tests)
+    add_executable(deadlocked_native_transition_math_tests tests/transition_math_tests.c)
+    target_link_libraries(deadlocked_native_transition_math_tests PRIVATE deadlocked_native_core)
+    add_test(NAME native_transition_math COMMAND deadlocked_native_transition_math_tests)
+    # Capture unrecovered transition boundaries while exercising the real
+    # queue, preflight draft, consumer draft and matching progression helper.
+    add_executable(deadlocked_native_consumer_tests tests/consumer_tests.c
+        ../nonmatching/0047F568.c ../nonmatching/0047EFA8.c)
+    target_compile_definitions(deadlocked_native_consumer_tests PRIVATE DEADLOCKED_NATIVE=1)
+    target_link_libraries(deadlocked_native_consumer_tests PRIVATE deadlocked_native_core)
+    add_test(NAME native_consumer_draft COMMAND deadlocked_native_consumer_tests)
     add_executable(deadlocked_native_scene_tests tests/scene_tests.cpp)
     target_link_libraries(deadlocked_native_scene_tests PRIVATE deadlocked_native_scene)
     add_test(NAME native_scene_validation COMMAND deadlocked_native_scene_tests)

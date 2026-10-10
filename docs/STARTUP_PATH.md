@@ -79,7 +79,34 @@ the optional completion byte is cleared even when the request fails.
 A separate native target executes this draft together with the actual queue,
 including snapshot capacity and rejection/reset cases. The 508-byte output still
 differs from retail's 512 bytes, so it is excluded from accepted matching sources.
-Those tests do not execute the consumer of the pending request or enter a level.
+Those preflight-only tests do not execute the consumer or enter a level.
+
+## Pending-request consumer draft
+
+`nonmatching/0047EFA8.c` reconstructs the resident consumer. Its two jump tables
+at `003D0E80` and `003D0ED0` each contain 17 entries, recovered from the resident
+image rather than an overlay. The first table routes cleanup by the previous
+state; the second routes setup by the pending request. Calls may change globals,
+so the draft reloads the pending request after cleanup.
+
+The consumer records the previous state even when no request is pending. A
+positive counter at `0021F2E4` decrements and postpones cleanup/setup. Normal
+completion sets the optional byte, installs the pending state, resets the request
+to `-2` and clears its completion pointer. Request two can instead remain pending
+while a finite float progresses toward `1.1`, leaving the current state untouched.
+An additional `0021EDC8` gate can retain the request even at that threshold.
+
+The native consumer fixture exercises these transitions with the actual queue,
+preflight draft and matching progression helper. Unrecovered effects are captured
+at their call boundaries, so the test is not a runnable game loop. The consumer's
+PS2 output is 1,460 bytes against 1,416 in retail and remains outside accepted
+coverage. Its decimal immediate adaptation is explicit in the source's assembler
+flags; no literal-pool relocation is hidden from the comparator.
+
+For Dreadzone the corresponding consumer is L01 `005A9030`, and its preflight
+is `005A9608`. These normalized copies still require independent L01 bindings.
+The first-frame dependency audit is in
+[`DREADZONE_DEPENDENCIES.md`](DREADZONE_DEPENDENCIES.md).
 
 ## Campaign entry draft and level bindings
 

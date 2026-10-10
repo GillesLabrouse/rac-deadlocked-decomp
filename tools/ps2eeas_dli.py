@@ -26,13 +26,22 @@ GS-register shapes), every one exact:
 This rewrites each `dli` line into explicit instructions before the first
 assembly, so tools/ps2eeas_nops.py measures the real code.
 
-usage: python tools/ps2eeas_dli.py IN.s OUT.s
+The optional --float-immediates mode also expands compiler `li.s` constants
+whose low 16 bits are nonzero to lui/ori/mtc1. GNU as otherwise creates a
+literal pool; the recovered request consumer instead uses immediate bits.
+The mode is explicit because matching functions already using literal pools
+must not be changed. Constants with a zero low half remain GNU as macros.
+
+usage: python tools/ps2eeas_dli.py IN.s OUT.s [--float-immediates]
 """
+import argparse
+import math
 import re
-import sys
+import struct
 
 M64 = (1 << 64) - 1
 DLI = re.compile(r"^(\s*)dli\s+(\$\w+)\s*,\s*(-?(?:0x[0-9A-Fa-f]+|\d+))\s*(#.*)?$")
+FLOAT = re.compile(r"^(\s*)li\.s\s+(\$f(?:[12]?\d|3[01]))\s*,\s*([^#]+?)(\s*#.*)?$")
 
 
 def _shift(r, n, out, op="dsll"):
@@ -91,19 +100,61 @@ def expand(c: int, r: str) -> list[str]:
         pos = new
 
 
-def main() -> None:
-    src, dst = sys.argv[1:3]
-    out, n = [], 0
-    for line in open(src):
+def float_bits(literal: str) -> int:
+    """The compiler's decimal binary32 constant, without host endianness."""
+    value = float(literal)
+    if not math.isfinite(value):
+        raise ValueError("nonfinite li.s constant is unsupported: " + literal)
+    return struct.unpack("<I", struct.pack("<f", value))[0]
+
+
+def expand_float(bits: int, reg: str) -> list[str]:
+    """Immediate-bit sequence observed for nonzero-low-half retail floats."""
+    return [f"lui\t$at,{bits >> 16:#x}",
+            f"ori\t$at,$at,{bits & 0xFFFF:#x}",
+            f"mtc1\t$at,{reg}"]
+
+
+def rewrite(lines, float_immediates=False):
+    """Return rewritten lines and the numbers of integer/float expansions."""
+    out, n, floats, at_enabled = [], 0, 0, True
+    for line in lines:
+        state = re.fullmatch(r"\s*\.set\s+(noat|at)\s*", line)
+        if state:
+            at_enabled = state.group(1) == "at"
         m = DLI.match(line.rstrip("\n"))
         if m:
             indent, reg, value = m.group(1), m.group(2), int(m.group(3), 0)
             out += [f"{indent}{ins}\n" for ins in expand(value, reg)]
             n += 1
+        elif float_immediates and (m := FLOAT.match(line.rstrip("\n"))):
+            bits = float_bits(m.group(3).strip())
+            if bits & 0xFFFF:
+                instructions = expand_float(bits, m.group(2))
+                if m.group(4):
+                    instructions[0] += m.group(4)
+                if at_enabled:
+                    instructions = [".set\tnoat", *instructions, ".set\tat"]
+                out += [f"{m.group(1)}{ins}\n" for ins in instructions]
+                floats += 1
+            else:
+                out.append(line)
         else:
             out.append(line)
+    return out, n, floats
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("src")
+    parser.add_argument("dst")
+    parser.add_argument("--float-immediates", action="store_true")
+    args = parser.parse_args()
+    src, dst = args.src, args.dst
+    with open(src) as stream:
+        out, n, floats = rewrite(stream, args.float_immediates)
     open(dst, "w").writelines(out)
-    print(f"ps2eeas_dli: {n} dli expanded {src} -> {dst}")
+    print(f"ps2eeas_dli: {n} dli, {floats} li.s expanded {src} -> {dst}")
 
 
 if __name__ == "__main__":

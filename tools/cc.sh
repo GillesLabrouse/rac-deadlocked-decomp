@@ -13,9 +13,18 @@ CC=toolchain/sn-prodg-3.01/usr/local/sce/ee/gcc/bin/ee-gcc2953.exe
 source tools/toolchain.sh
 mkdir -p build/tmp
 tmp=build/tmp/$(basename "${out%.o}")
+# Optional source-local assembler adaptations remain explicit in the manifest.
+# Read only the initial comment block; never execute the contents as shell code.
+asflags=()
+while IFS= read -r line; do
+    if [[ "$line" =~ /\*[[:space:]]asflags:[[:space:]](.*)[[:space:]]\*/ ]]; then
+        read -r -a asflags <<< "${BASH_REMATCH[1]}"
+        break
+    fi
+done < <(head -n 3 "$src")
 "${TC_RUN[@]}" "$CC" -O2 -G8 -fopt-stack -mno-check-zero-division "$@" -Iinclude -S "$src" -o "$tmp.s"
-"$PYTHON" tools/ps2eeas_dli.py "$tmp.s" "$tmp.s"
+"$PYTHON" tools/ps2eeas_dli.py "$tmp.s" "$tmp.s" "${asflags[@]}"
 "${TC_RUN[@]}" "$CC" -c "$tmp.s" -o "${tmp}_first.o"
 "$PYTHON" tools/ps2eeas_nops.py "$tmp.s" "${tmp}_first.o" "${tmp}_fixed.s"
 "${TC_RUN[@]}" "$CC" -c "${tmp}_fixed.s" -o "$out"
-"$PYTHON" tools/record_build.py "$src" "$out" "$@"
+"$PYTHON" tools/record_build.py "$src" "$out" "$@" "${asflags[@]}"
