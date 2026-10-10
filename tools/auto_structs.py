@@ -30,6 +30,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import retail as mp  # noqa: E402
+from reloc_compare import relocated_equal, function_relocations  # noqa: E402
 from elftools.elf.elffile import ELFFile  # noqa: E402
 
 ROOT = mp.ROOT
@@ -302,7 +303,8 @@ def check(cls):
             pad = size - len(code)
             if 0 < pad <= 12 and not any(r[len(code):]):
                 r = r[:len(code)]
-            if len(code) == len(r) and mp.normalise(code) == mp.normalise(r):
+            relocs = function_relocations(elf, s)
+            if len(code) == len(r) and relocated_equal(code, r, relocs):
                 exact.setdefault(name, []).append(variant)
     out = AUTO / "exact"
     out.mkdir(exist_ok=True)

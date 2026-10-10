@@ -6,7 +6,8 @@ Reads build/obj/*.o (tools/build.sh) and compares each `func_XXXXXXXX` with
 the retail bytes at that address (and each `func_L<level>_<address>` with the bytes
 in that level's overlay, found in $OVERLAYS or private/overlays). Fields a linker would fill in (jump
 targets, the immediates of lui and of address arithmetic and loads/stores)
-are masked: this is NOT a link-time comparison, so a function that calls or
+are masked only where the object has an ELF relocation. Ordinary constant
+immediates remain significant. This is NOT a link-time comparison, so a function that calls or
 reads the wrong symbol can still count. Writes build/matches.json.
 
 Usage: venv/bin/python tools/audit_matches.py
@@ -20,6 +21,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import retail as mp  # noqa: E402
+from reloc_compare import relocated_equal  # noqa: E402
 from elftools.elf.elffile import ELFFile  # noqa: E402
 
 ROOT = mp.ROOT
@@ -69,6 +71,11 @@ def main() -> int:
         elf = ELFFile(open(path, "rb"))
         text = elf.get_section_by_name(".text")
         data = text.data() if text else b""
+        relocations = []
+        text_index = elf.get_section_index(".text")
+        for section in elf.iter_sections():
+            if section["sh_type"] == "SHT_REL" and section["sh_info"] == text_index:
+                relocations.extend((r["r_offset"], r["r_info_type"]) for r in section.iter_relocations())
         for s in elf.get_section_by_name(".symtab").iter_symbols():
             if s["st_info"]["type"] != "STT_FUNC":
                 continue
@@ -98,7 +105,9 @@ def main() -> int:
             if 0 < pad <= 12 and not any(retail[len(code):]):
                 retail = retail[:len(code)]
                 size = len(code)
-            if len(code) == size and mp.normalise(code) == mp.normalise(retail):
+            relocs = [(offset - s["st_value"], kind) for offset, kind in relocations
+                      if s["st_value"] <= offset < s["st_value"] + s["st_size"]]
+            if len(code) == size and relocated_equal(code, retail, relocs):
                 exact.append(name)
             else:
                 bad.append((s.name, "size %d vs retail %d" % (len(code), size)
@@ -108,7 +117,7 @@ def main() -> int:
     print("%d exact, %d not exact" % (len(exact), len(bad)))
     for n, why in bad:
         print("  %s: %s" % (n, why))
-    return 0
+    return 1 if bad or not exact else 0
 
 
 if __name__ == "__main__":

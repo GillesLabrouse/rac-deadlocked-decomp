@@ -12,6 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import retail as mp  # noqa: E402
+from reloc_compare import relocated_equal, function_relocations  # noqa: E402
 import rabbitizer  # noqa: E402
 from elftools.elf.elffile import ELFFile  # noqa: E402
 
@@ -40,18 +41,21 @@ def main() -> int:
         secs = mp.sections(ELFFile(f))
     retail = mp.read(secs, addr, size)
     code = b""
+    relocations = []
     for path in glob.glob(str(ROOT / "build" / "obj" / "*.o")):
         elf = ELFFile(open(path, "rb"))
         for s in elf.get_section_by_name(".symtab").iter_symbols():
             if s.name == name and s["st_info"]["type"] == "STT_FUNC":
                 code = elf.get_section_by_name(".text").data()[s["st_value"]: s["st_value"] + s["st_size"]]
+                relocations = function_relocations(elf, s)
     dis = lambda w: rabbitizer.Instruction(w, 0, category=rabbitizer.InstrCategory.R5900).disassemble()
     n = max(len(code), len(retail)) // 4
-    rn, cn = mp.normalise(retail), mp.normalise(code)
     for i in range(n):
         a = struct.unpack_from("<I", code, i * 4)[0] if i * 4 < len(code) else None
         b = struct.unpack_from("<I", retail, i * 4)[0] if i * 4 < len(retail) else None
-        eq = i < len(cn) and i < len(rn) and cn[i] == rn[i]
+        relocs = [(0, kind) for offset, kind in relocations if offset == i * 4]
+        eq = a is not None and b is not None and relocated_equal(
+            struct.pack("<I", a), struct.pack("<I", b), relocs)
         print("%s %-40s | %s" % ("=" if eq else "!", dis(a) if a is not None else "", dis(b) if b is not None else ""))
     return 0
 
