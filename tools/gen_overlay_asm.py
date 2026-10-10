@@ -116,6 +116,9 @@ def main() -> int:
         path = overlays[i]
         e = ELFFile(open(path, "rb"))
         work = OUT / i
+        # Regenerate only this overlay's generated workspace, including on Windows.
+        if not OUT.resolve().is_relative_to(ROOT.resolve()) or work.resolve().parent != OUT.resolve():
+            raise ValueError("Overlay output escapes the repository workspace: " + str(work))
         shutil.rmtree(work, ignore_errors=True)
         work.mkdir(parents=True)
         # symbol file: canonical names for this overlay's functions + resident functions
@@ -172,8 +175,12 @@ segments:
   - [0x%X]
 """ % (i, i, path, ROOT, i, i, i, i, "\n".join(seg), end)
         (work / "splat.yaml").write_text(yaml)
-        r = subprocess.run([str(ROOT / "venv" / "bin" / "python"), "-m", "splat", "split", str(work / "splat.yaml")],
+        r = subprocess.run([sys.executable, "-m", "splat", "split", str(work / "splat.yaml")],
                            capture_output=True, text=True, cwd=ROOT)
+        (work / "splat.log").write_text(r.stdout + r.stderr, encoding="utf-8")
+        if r.returncode:
+            print("%s: splat failed; see %s" % (i, work / "splat.log"), file=sys.stderr)
+            return r.returncode
         # keep only the functions that belong to this overlay (the others are
         # disassembled where they occur first)
         removed = kept = 0
@@ -184,8 +191,8 @@ segments:
             else:                           # earlier overlay's function, or a duplicate in this one
                 p.unlink()
                 removed += 1
-        print("%s: %d functions kept, %d left out (earlier overlay or duplicate)%s" % (
-            i, kept, removed, "" if r.returncode == 0 else "  (splat exit %d)" % r.returncode))
+        print("%s: %d functions kept, %d left out (earlier overlay or duplicate)" % (
+            i, kept, removed))
     return 0
 
 

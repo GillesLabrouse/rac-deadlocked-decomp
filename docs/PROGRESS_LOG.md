@@ -268,3 +268,26 @@ prove a later one. Emulator tests are optional reference checks.
 - This is a runnable native development prototype, not a playable game. The
   recovered startup/update chain, Ratchet, missions, collision and audio remain
   unimplemented. Documented the controls and capture command in `NATIVE_PORT.md`.
+
+## 2026-10-10 — Compilable Dreadzone entry draft
+
+- Recovered a typed C draft of Dreadzone's actual `00528098` entry in
+  `nonmatching/L01_00528098.c`. Verified its local branch/table extent and
+  independently resolved 150 direct call sites, 105 distinct callees, and 250
+  constant-address reference sites. There are 87 data bindings, of which 32
+  change from the L00 overlay. Positional agreement does not establish callee
+  semantics or native compatibility.
+- Corrected decompiler errors in byte strides, argument-register aliases, mixed
+  integer/float arguments and a 32-byte stack payload. Verified guest record
+  sizes and relevant field offsets during compilation. Preserved the payload's
+  unspecified bytes rather than inventing initialization.
+- The saved draft compiles with SN GCC, but produces 4,452 bytes versus 4,584 in
+  retail and fails relocation-aware comparison. It remains excluded from
+  accepted sources, progress coverage, image reconstruction and native builds.
+  No campaign boot or playable behavior was added by this draft.
+- Fixed overlay disassembly regeneration on Windows by using the running Python
+  executable, recording splat output and stopping on subprocess failure. Verified
+  L00 regeneration: 2,949 canonical functions retained. Generated assembly and
+  experimental analysis remain ignored/local.
+- The matching checkpoint remains 273 audited functions / 222 exactly linked
+  game functions. Work stays on the local fork; nothing has been pushed.
