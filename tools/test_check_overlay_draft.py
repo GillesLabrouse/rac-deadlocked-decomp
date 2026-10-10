@@ -45,6 +45,58 @@ class OverlayDraftTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "no game functions"):
                 draft.check_local_symbols(self.symbols("D_001DFA70"), {}, "L01")
 
+    def test_verified_span_preserves_other_entries(self):
+        sizes = {"func_L01_00500000": (0x500000, 8), "func_L01_00500008": (0x500008, 8)}
+        reference = [(0x500000, 64, ".text", bytes(64))]
+        result = draft.verified_spans(sizes, reference, "L01", ["00500000:20"])
+        self.assertEqual(result["func_L01_00500000"], (0x500000, 32))
+        self.assertEqual(result["func_L01_00500008"], sizes["func_L01_00500008"])
+        self.assertEqual(sizes["func_L01_00500000"], (0x500000, 8))
+
+    def test_invalid_extent_specs_are_rejected(self):
+        sizes = {"func_L01_00500000": (0x500000, 8)}
+        reference = [(0x500000, 64, ".text", bytes(64))]
+        for span in ("bad", "500000:-4", "500000:0", "500000:A", "500000:100", "500004:8"):
+            with self.assertRaises(ValueError):
+                draft.verified_spans(sizes, reference, "L01", [span])
+
+    def test_duplicate_verified_spans_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, "unique known entry"):
+            draft.verified_spans({"func_L01_00500000": (0x500000, 8)},
+                                 [(0x500000, 64, ".text", bytes(64))],
+                                 "L01", ["500000:10", "500000:20"])
+
+    def test_extent_cannot_use_data_section(self):
+        with self.assertRaisesRegex(ValueError, "outside overlay text"):
+            draft.verified_spans({"func_L01_00500000": (0x500000, 8)},
+                                 [(0x500000, 64, ".data", bytes(64))], "L01", ["500000:10"])
+
+    def test_explicit_unlisted_entry_is_draft_only(self):
+        sizes = {"func_L01_00500000": (0x500000, 8)}
+        result = draft.verified_spans(sizes, [(0x500000, 64, ".text", bytes(64))],
+                                      "L01", ["500010:10"], new_entries=True)
+        self.assertEqual(result["func_L01_00500010"], (0x500010, 16))
+        self.assertNotIn("func_L01_00500010", sizes)
+        with patch.object(draft.link_objects, "functions", return_value={"func_L01_00500010": None}):
+            draft.check_local_symbols(self.symbols("D_002208A8"), result, "L01")
+
+    def test_unlisted_entry_must_not_replace_known_boundaries(self):
+        with self.assertRaisesRegex(ValueError, "unique unlisted entry"):
+            draft.verified_spans({"func_L01_00500000": (0x500000, 8)},
+                                 [(0x500000, 64, ".text", bytes(64))],
+                                 "L01", ["500000:10"], new_entries=True)
+
+    def test_unlisted_entry_rejects_invalid_extent(self):
+        reference = [(0x500000, 64, ".text", bytes(64))]
+        for span in ("500001:10", "500010:3", "500030:20", "600000:10"):
+            with self.assertRaises(ValueError):
+                draft.verified_spans({}, reference, "L01", [span], new_entries=True)
+
+    def test_unlisted_entry_rejects_duplicate_declarations(self):
+        with self.assertRaisesRegex(ValueError, "unique unlisted entry"):
+            draft.verified_spans({}, [(0x500000, 64, ".text", bytes(64))],
+                                 "L01", ["500010:10", "500010:20"], new_entries=True)
+
 
 if __name__ == "__main__":
     unittest.main()

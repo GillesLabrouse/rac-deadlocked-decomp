@@ -62,15 +62,32 @@ bash tools/cc.sh nonmatching/L01_00628020.c build/drafts/L01-00628020.o
 venv/Scripts/python.exe tools/check_overlay_draft.py L01 build/drafts/L01-00628020.o
 ```
 
-The checker derives actual function extents from the locally extracted overlay
+The checker derives retail splitter extents from the locally extracted overlay
 and resolves every relocation through the original linker. It verifies source
-provenance and rejects foreign-overlay symbols and unknown entry boundaries.
+provenance and rejects foreign-overlay symbols and undeclared entry boundaries.
 Reports are written under `build/drafts/linked`, never `build/linked/report.json`
 or matching coverage. A nonmatch exits with status one and records the differing
 byte offsets; an exact draft still needs canonical source naming and the full
 accepted build checks before being added to `src/`. Use explicit local symbols
 after independently checking their calls and data, rather than treating an
 overlay grouping identity as proof of equivalent bindings.
+
+The splitter can truncate routines with early returns. After independently
+checking the full entry, branches and end in the local retail image, supply
+`--span HEX_ADDRESS:HEX_SIZE` to compare that complete range. Both values are
+hexadecimal; the entry must be known, the size must be instruction-aligned,
+and the range must stay inside overlay text. Explicit spans appear in the
+draft report and never modify accepted function metadata. Unsupported allocated
+sections, including emitted switch tables, remain an error. A failed check
+replaces any previous draft report with an explicit failure record.
+
+Pointer-only callbacks can be absent from the splitter's entry list. For an
+entry independently established from its actual pointer producer, prologue,
+branches and exits, use `--entry HEX_ADDRESS:HEX_SIZE`. It accepts only an
+unlisted instruction-aligned range inside overlay text. It records the supplied
+entry in the draft report without changing accepted boundaries or coverage.
+The checker validates placement and bytes; it does not prove a supplied entry
+is a genuine function. Keep that evidence in the draft's documentation.
 
 On Linux/macOS, use the container wrapper for the build scripts and
 `python tools/link_objects.py --overlays`; use `venv/bin/python` for the other

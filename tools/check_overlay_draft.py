@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Link one explicitly addressed overlay draft without changing accepted reports.
 
-Derive function extents from the supplied local retail overlay. Only actual
+Derive splitter extents from the supplied local retail overlay. Only actual
 local-address names are supported; normalized cross-overlay identities must be
 resolved independently before using this diagnostic. All relocation fields are
 resolved by the real linker and compared without masking.
+Use --span for a separately verified complete range when early returns make
+the retail splitter truncate a function. This never changes accepted metadata.
+Use --entry only for an independently established pointer-only entry omitted
+by the splitter; supplying an entry does not verify that boundary automatically.
 """
 import argparse
 import io
@@ -44,16 +48,44 @@ def check_local_symbols(elf, sizes, context):
             raise ValueError("draft needs an independently resolved local symbol: " + symbol.name)
 
 
+def verified_spans(sizes, reference, context, spans, new_entries=False):
+    result = dict(sizes)
+    seen = set()
+    for span in spans:
+        if not re.fullmatch(r"(?:0x)?[0-9A-Fa-f]+:(?:0x)?[0-9A-Fa-f]+", span):
+            raise ValueError("span must be HEX_ADDRESS:HEX_SIZE")
+        address, size = (int(value, 16) for value in span.split(":"))
+        name = "func_%s_%08X" % (context, address)
+        if address in seen or (name in sizes if new_entries else name not in sizes):
+            requirement = "unlisted" if new_entries else "known"
+            raise ValueError("span needs a unique " + requirement + " entry: " + span)
+        if size < 8 or size % 4 or address % 4:
+            raise ValueError("span needs a positive instruction-aligned extent: " + span)
+        if not any(section_name == ".text" and start <= address and
+                   address + size <= start + len(data)
+                   for start, _, section_name, data in reference):
+            raise ValueError("span extends outside overlay text: " + span)
+        result[name] = address, size
+        seen.add(address)
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("context", help="actual overlay context, e.g. L01")
     parser.add_argument("object", type=Path, help="one object below build/drafts")
+    parser.add_argument("--span", action="append", default=[], metavar="HEX_ADDRESS:HEX_SIZE",
+                        help="independently verified complete range; never updates accepted metadata")
+    parser.add_argument("--entry", action="append", default=[], metavar="HEX_ADDRESS:HEX_SIZE",
+                        help="independently verified entry omitted by the splitter; draft-only")
     args = parser.parse_args()
     root = retail.ROOT
     path = args.object.resolve()
     output = root / "build/drafts/linked" / path.stem
+    local_input = False
     try:
         path.relative_to(root / "build/drafts")
+        local_input = True
         directories = {}
         for line in (root / "config/overlays.tsv").read_text().splitlines():
             if line and not line.startswith("#"):
@@ -62,15 +94,24 @@ def main():
         overlay_root = Path(os.environ.get("OVERLAYS") or root / "private/overlays")
         with (overlay_root / "levels" / directories[args.context] / "overlay.elf").open("rb") as stream:
             reference = retail.sections(ELFFile(stream))
-        sizes = draft_sizes(reference, args.context)
+        sizes = verified_spans(draft_sizes(reference, args.context), reference,
+                               args.context, args.span)
+        sizes = verified_spans(sizes, reference, args.context, args.entry, new_entries=True)
         check_local_symbols(ELFFile(io.BytesIO(path.read_bytes())), sizes, args.context)
         gp = struct.unpack_from("<I", (root / "baserom/sections/00_reginfo.bin").read_bytes(), 20)[0]
         output.mkdir(parents=True, exist_ok=True)
         records = link_objects.link_object(path, sizes, reference, gp, output, context=args.context)
     except (OSError, ValueError, KeyError) as error:
+        if local_input:
+            output.mkdir(parents=True, exist_ok=True)
+            (output / "report.json").write_text(json.dumps({
+                "kind": "overlay-draft", "status": "failed", "context": args.context,
+                "functions": [], "failure": str(error)
+            }, indent=2) + "\n", encoding="utf-8")
         print("Draft check failed: %s" % error)
         return 1
-    report = {"kind": "overlay-draft", "context": args.context,
+    report = {"kind": "overlay-draft", "status": "compared", "context": args.context,
+              "verified_spans": args.span, "verified_entries": args.entry,
               "functions": records, "gp": gp}
     report_path = output / "report.json"
     report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
