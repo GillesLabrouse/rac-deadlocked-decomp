@@ -681,7 +681,7 @@ Y/X/Z lookup with actual root-relative offsets and delay-slot overflow checks.
 Root's fresh DLL agrees across1,027 fixtures,19,059 original EE instructions,
 8,413,184 table bytes,106 nonzero leaves and27 overflow refusals.25 native
 assertions pass. A returned leaf is collision data, not an established contact
-with the ground; triangle contact and the movement caller still need recovery.
+with the ground; the full contact probe and movement caller still need recovery.
 Root also rereads the compressed assets directly from ISO and checks every
 one of the8,249 actual nonempty terrain cells against original0053DBD0:
 313,462 integer instructions, unchanged backing and guards. This verifies

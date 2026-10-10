@@ -303,7 +303,8 @@ class RetailIntegerCPU:
                     result |= (31 - bits.bit_length()) << (i * 32)
                 self._put(rd, result)
             elif op == 28 and (word & 63, shift) in (
-                    (8, 26), (8, 22), (8, 18), (8, 25), (8, 3),
+                    (8, 26), (8, 22), (8, 18), (8, 25), (8, 3), (8, 1),
+                    (8, 23), (40, 3),
                     (9, 14), (9, 31), (41, 14), (41, 18)):
                 left, right = self.registers[rs], self.registers[rt]
                 function = word & 63
@@ -317,6 +318,20 @@ class RetailIntegerCPU:
                     result = sum((max(-128, min(127, signed(left >> (lane * 8), 8)
                                                - signed(right >> (lane * 8), 8))) & 255)
                                  << (lane * 8) for lane in range(16))
+                elif function == 8 and shift == 1:
+                    # PSUBW wraps each word independently, without saturation.
+                    result = sum((((left >> (lane * 32)) - (right >> (lane * 32)))
+                                  & MASK32) << (lane * 32) for lane in range(4))
+                elif function == 8 and shift == 23:
+                    # PPACH retains the low halfword of each word: rt, then rs.
+                    result = sum(((source >> (lane * 32)) & 65535)
+                                 << ((lane + group * 4) * 16)
+                                 for group, source in enumerate((right, left))
+                                 for lane in range(4))
+                elif function == 40:
+                    result = sum((min(signed(left >> (lane * 32), 32),
+                                      signed(right >> (lane * 32), 32)) & MASK32)
+                                 << (lane * 32) for lane in range(4))
                 elif function == 8:
                     result = sum((max(signed(left >> (lane * 32), 32),
                                       signed(right >> (lane * 32), 32)) & MASK32)

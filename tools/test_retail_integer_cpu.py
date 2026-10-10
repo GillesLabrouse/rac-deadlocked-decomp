@@ -430,6 +430,56 @@ class IntegerCPUTests(unittest.TestCase):
                                   {1: int.from_bytes(raw, 'little')})
             self.assertEqual(cpu.registers[1], int.from_bytes(expected, 'little'))
 
+    def test_psubw_wraps_each_word_without_saturation_or_lane_borrow(self):
+        pack = lambda values: sum((word & 0xFFFFFFFF) << (lane * 32)
+                                  for lane, word in enumerate(values))
+        left = (0, 0x80000000, 0x7FFFFFFF, 0xFFFFFFFF)
+        right = (1, 1, 0xFFFFFFFF, 0x80000000)
+        expected = pack((0xFFFFFFFF, 0x7FFFFFFF, 0x80000000, 0x7FFFFFFF))
+        for destination in (0, 1, 2, 3):
+            cpu, _ = self.execute([(28 << 26) | r(8, 1, 2, destination, 1),
+                                   r(8, 31), 0], {1: pack(left), 2: pack(right)})
+            self.assertEqual(cpu.registers[destination], expected if destination else 0)
+        for source in (0, 1):
+            cpu, _ = self.execute([(28 << 26) | r(8, source, source, 1, 1),
+                                   r(8, 31), 0], {1: pack(left)})
+            self.assertEqual(cpu.registers[1], 0)
+        cpu, _ = self.execute([(28 << 26) | r(8, 0, 1, 1, 1), r(8, 31), 0],
+                              {1: pack((1, 2, 3, 4))})
+        self.assertEqual(cpu.registers[1], pack((-1, -2, -3, -4)))
+
+    def test_ppach_keeps_even_halfwords_and_snapshots_aliased_sources(self):
+        for bit in range(128):
+            for rs, rt in ((1, 2), (1, 1), (0, 2), (1, 0), (0, 0)):
+                values = {0: bytes(16), 1: (1 << bit).to_bytes(16, 'little'),
+                          2: ((1 << 128) - 1).to_bytes(16, 'little')}
+                expected = b''.join(values[source][offset:offset + 2]
+                                    for source in (rt, rs) for offset in (0, 4, 8, 12))
+                for destination in (0, 1, 2, 3):
+                    cpu, _ = self.execute([(28 << 26) | r(8, rs, rt, destination, 23),
+                                           r(8, 31), 0],
+                                          {1: int.from_bytes(values[1], 'little'),
+                                           2: int.from_bytes(values[2], 'little')})
+                    self.assertEqual(cpu.registers[destination],
+                                     int.from_bytes(expected, 'little') if destination else 0)
+
+    def test_pminw_compares_signed_words_with_ties_aliases_and_zero(self):
+        pack = lambda values: sum((word & 0xFFFFFFFF) << (lane * 32)
+                                  for lane, word in enumerate(values))
+        boundary = (-2147483648, -2147483647, -1, 0, 1, 2147483646, 2147483647)
+        for a in boundary:
+            for b in boundary:
+                left = (a, b, a, 0)
+                right = (b, a, a, b)
+                for rs, rt in ((1, 2), (1, 1), (0, 2), (1, 0), (0, 0)):
+                    sources = {0: (0, 0, 0, 0), 1: left, 2: right}
+                    expected = pack(tuple(x if x < y else y
+                                          for x, y in zip(sources[rs], sources[rt])))
+                    for destination in (0, 1, 2, 3):
+                        cpu, _ = self.execute([(28 << 26) | r(40, rs, rt, destination, 3),
+                                               r(8, 31), 0], {1: pack(left), 2: pack(right)})
+                        self.assertEqual(cpu.registers[destination], expected if destination else 0)
+
     def test_prot3w_raw_word_rotation_aliases_zero_and_ignored_rs(self):
         lanes = (0x80000000, 0x7FC12345, 0x01234567, 0xFEDCBA98)
         pack = lambda values: sum(word << (lane * 32) for lane, word in enumerate(values))

@@ -1349,3 +1349,15 @@ prove a later one. Emulator tests are optional reference checks.
   Grid traversal, packed face/quad iteration, cache, dynamic actors, final
   units, DMA and a player frame remain outside this adapter. No accepted
   matching coverage changes, retail bytes or remote push are introduced.
+
+## 2026-10-11 — Extend instruction validation for real grid traversal
+
+- Added scoped PSUBW, PPACH and PMINW execution to the shared integer oracle.
+  Word subtraction wraps independently; packing retains the low halfwords of
+  each word in rt-then-rs order; minimum compares signed words. All operations
+  snapshot both 128-bit sources before writing an aliased destination.
+- Checked semantics against the primary PCSX2 MMI implementation. Synthetic
+  cases exercise signed boundaries, wrap without lane borrow, ties, all128
+  single-bit packing positions, zero registers and aliased destinations.
+  All153 Python tests pass. This enables the original collision-grid replay;
+  it is validation tooling, not native collision or a playable frame.
