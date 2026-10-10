@@ -23,6 +23,7 @@ options:
   generate_asm_macros_files: True
   symbol_addrs_path:
     - config/symbol_addrs.txt
+    - config/core_symbols.txt
 
 # The ELF holds the 17 sections back to back, with no padding, and every
 # section has its own address (config/sections.txt), so each section is its
