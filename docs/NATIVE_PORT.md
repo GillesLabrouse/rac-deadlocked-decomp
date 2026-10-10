@@ -451,6 +451,15 @@ reads aliasing the destination are rejected before mutation. The supported
 memory domain agrees across 2,048 original-instruction cases. Snapshot capture
 is a preparation dependency; the constructor and frame update remain absent.
 
+The separate `deadlocked_native_texture_transfer_packets` library executes the
+complete CPU builders `00138E08` and `00138FF0`. They prepare numeric 96-byte
+upload and 112-byte readback packets with the real signed16 argument truncation
+and return values. The native fixture checks 11,659 byte/guard and error cases;
+1,594 successful original-instruction cases agree. Unsupported host storage and
+oversized uploads are refused before mutation; the latter omits the original
+PS2 diagnostic printer. The library performs no transfer or pixel conversion.
+Both PS2 sources remain nonmatching and add no accepted coverage.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

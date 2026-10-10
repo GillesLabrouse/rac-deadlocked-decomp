@@ -123,8 +123,15 @@ target_compile_definitions(deadlocked_native_dreadzone_actor_parameters PRIVATE 
 target_include_directories(deadlocked_native_dreadzone_actor_parameters PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_actor_parameters PUBLIC c_std_11)
 
+# Numeric transfer packets only; execution requires a recovered host graphics path.
+add_library(deadlocked_native_texture_transfer_packets STATIC
+    ../nonmatching/00138E08.c ../nonmatching/00138FF0.c)
+target_compile_definitions(deadlocked_native_texture_transfer_packets PRIVATE DEADLOCKED_NATIVE=1)
+target_include_directories(deadlocked_native_texture_transfer_packets PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_texture_transfer_packets PUBLIC c_std_11)
 if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_actor_parameters PRIVATE /W4 /WX /fp:precise)
+    target_compile_options(deadlocked_native_texture_transfer_packets PRIVATE /W4 /WX)
 endif()
 
 add_library(deadlocked_native_scene STATIC scene.cpp)
@@ -275,8 +282,12 @@ if(BUILD_TESTING)
     add_executable(deadlocked_native_dreadzone_actor_parameters_tests tests/dreadzone_actor_parameters_tests.c)
     target_link_libraries(deadlocked_native_dreadzone_actor_parameters_tests PRIVATE deadlocked_native_dreadzone_actor_parameters)
     add_test(NAME native_dreadzone_actor_parameters COMMAND deadlocked_native_dreadzone_actor_parameters_tests)
+    add_executable(deadlocked_native_texture_transfer_packets_tests tests/texture_transfer_packets_tests.c)
+    target_link_libraries(deadlocked_native_texture_transfer_packets_tests PRIVATE deadlocked_native_texture_transfer_packets)
+    add_test(NAME native_texture_transfer_packets COMMAND deadlocked_native_texture_transfer_packets_tests)
     if(MSVC)
         target_compile_options(deadlocked_native_dreadzone_actor_parameters_tests PRIVATE /W4 /WX /fp:precise)
+        target_compile_options(deadlocked_native_texture_transfer_packets_tests PRIVATE /W4 /WX)
     endif()
     add_executable(deadlocked_native_scene_tests tests/scene_tests.cpp)
     target_link_libraries(deadlocked_native_scene_tests PRIVATE deadlocked_native_scene)

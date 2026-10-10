@@ -673,3 +673,21 @@ prove a later one. Emulator tests are optional reference checks.
   PS2 source: 732 compiled versus 784 original bytes, still nonmatching.
 - This initializes parameters only. Actor construction, update, rendering and
   campaign launch remain incomplete; no matching coverage was added.
+
+## 2026-10-10 — Complete CPU texture transfer packet preparation
+
+- Integrated the numeric upload and readback builders `00138E08` and
+  `00138FF0` as a separate native library. They preserve actual signed16
+  truncation, format branches, packet words and return values without storing
+  extracted tables, instructions or game data in the repository.
+- All 11,659 native checks pass. A separate instruction diagnostic compares
+  1,594 successful original executions: 144,156 instructions and 219,972 bytes
+  agree. Oversized uploads are tested for atomic refusal separately; their PS2
+  diagnostic printer is not executed or captured in the host implementation.
+- Root independently compiled and linked both PS2 drafts at their actual
+  resident addresses and GP. Upload is 416/484 bytes and readback196/320;
+  both remain nonmatching, outside accepted coverage.
+- All thirty native CTest checks pass together, including both new libraries.
+  All 118 Python tests also pass. Pixel conversion, DMA execution, a complete
+  actor constructor and the recovered frame loop remain outstanding. The viewer
+  is still an interactive scene inspection tool, not a playable game.
