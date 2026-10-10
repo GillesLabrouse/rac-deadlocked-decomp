@@ -752,3 +752,22 @@ prove a later one. Emulator tests are optional reference checks.
   positive-count PIF uploads are not fully validated. Source remains outside
   accepted coverage and native CMake. No complete native texture load or
   playable campaign frame is claimed.
+
+## 2026-10-10 — Composed CPU texture layout preparation
+
+- Reconstructed the complete PS2 control flow of `00575180`, retaining all
+  eight real packet/syscall/upload/readback/completion calls, ignored format
+  argument and signed truncations. Root's strict linked comparison remains
+  nonmatching at304/304 bytes; no hardware callee is replaced by a capture.
+- Added a separate native adapter composing real packet construction and the
+  verified pixel permutation. It copies request descriptors, preflights all
+  host/guest spans and aliases, prepares both packets locally, transforms the
+  pixel backing, then publishes packet bytes. Failure is atomic.
+- All443,998 native checks pass, including request descriptors placed in
+  scratch, packet output and pixels. An independent actual-PIF check passes
+  eight cases and658,048 bytes: original instructions validate packet bytes;
+  a separate public GS-address oracle validates pixels. Its368 instruction
+  count covers packet builders only, not the hardware wrapper.
+- Result `CPU_EFFECT_PREPARED` is distinct from the PS2 return0. No DMA, FIFO,
+  synchronization or Direct3D upload has executed, and no complete texture load
+  or playable frame is claimed. All work remains local and coverage unchanged.

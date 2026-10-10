@@ -489,6 +489,15 @@ Its 256 complete CPU return paths agree with linked SN instructions; two real
 PIF prefixes agree up to the first conversion call, which is not executed in
 that diagnostic. Positive-count texture loading is still unvalidated end to end.
 
+`texture_layout_prepare_cpu_effect` composes the actual packet builders and
+pixel permutation. It exposes both packets and mutates the indexed backing
+only after validating all four disjoint host buffers and three guest ranges.
+Borrowed request descriptors are copied before mutation, including when stored
+inside an output buffer. Its result `CPU_EFFECT_PREPARED` explicitly covers CPU
+preparation; it differs from the original `00575180` hardware return value.
+The complete PS2 wrapper preserves all eight real calls but remains nonmatching.
+The native adapter does not execute those calls or mark a class texture loaded.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
