@@ -5,8 +5,9 @@ Compare compiler variants against retail functions.
   venv/bin/python tools/compare_variants.py SPEC.tsv
 SPEC.tsv: lines `name<TAB>retail_addr_hex` (function names in the compiled .o
 must equal `name`). Reads build/variants/*.o (tools/compile_variants.sh) and
-the retail ELF. Prints, per variant, how many functions match exactly after
-masking relocatable fields, and the total bytes that differ in size.
+the retail ELF. Prints, per variant, how many functions match after masking only
+actual ELF relocations, and how many have the expected size. These are object
+comparisons, not exact linked comparisons.
 """
 import glob
 import sys
@@ -14,6 +15,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import retail as mp  # noqa: E402
+from reloc_compare import relocated_equal, function_relocations  # noqa: E402
 from elftools.elf.elffile import ELFFile  # noqa: E402
 
 ROOT = mp.ROOT
@@ -50,12 +52,18 @@ def main() -> int:
             rc = mp.read(secs, a, sizes.get(a, size))
             if rc is None:
                 continue
+            pad = len(rc) - len(code)
+            if 0 < pad <= 12 and not any(rc[len(code):]):
+                rc = rc[:len(code)]
             if len(code) == len(rc):
                 size_same += 1
-            if mp.normalise(code) == mp.normalise(rc):
+            relocs = function_relocations(elf, s)
+            if len(code) == len(rc) and relocated_equal(code, rc, relocs):
                 same += 1
             else:
-                eq = sum(1 for x, y in zip(mp.normalise(code), mp.normalise(rc)) if x == y)
+                eq = sum(relocated_equal(code[offset:offset + 4], rc[offset:offset + 4],
+                                         [(0, kind) for pos, kind in relocs if pos == offset])
+                         for offset in range(0, min(len(code), len(rc)), 4))
                 detail.append("%s:%d/%d w" % (name, eq, len(rc) // 4))
         results.append((same, size_same, Path(path).stem, detail))
     for same, size_same, tag, detail in sorted(results, reverse=True):
