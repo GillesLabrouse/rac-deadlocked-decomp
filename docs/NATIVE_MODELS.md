@@ -1,5 +1,67 @@
 # Native model inspection
 
+## Original animated body diagnostic
+
+`run-model-animation.cmd` opens the latest local animation diagnostic. The
+native preparation evaluates original animation index 0: 30 frames and their
+half-frame samples, 107 joints, 46 selected packets and 3,326 triangles. This
+produces an articulated body rather than the previous static outstretched pose.
+The small motion is shown at an explicit diagnostic presentation rate; the
+animation has no inferred state name and no recovered actor clock. There are
+no character controls, world placement, collision or gameplay in this viewer.
+
+From the repository root, double-click the launcher or run:
+
+```powershell
+.\run-model-animation.cmd
+.\run-model-animation.cmd --software --pose-frame 30 --capture build/native-assets/animation-frame15.png
+```
+
+`--pose-frame` freezes a **sample index**, so 30 selects original frame15 at
+fraction 0. Without that option, the viewer loops 60 samples at 60 samples/second.
+W/A/S/D, Q/E and arrows operate the inspection camera. No emulator or BIOS is
+used in preparation or playback. The GIF in `build/native-assets` contains
+actual software captures of every sample, not an inferred animation.
+
+To regenerate using the current local direct-ISO validation inputs and PNG:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/check-native.ps1
+venv/Scripts/python.exe tools/prepare_native_animation.py `
+  build/drafts/root-animation-original-armor-container.bin `
+  build/drafts/root-animation-original-ratchet-animation-class.bin `
+  --texture private/overlays/globals/armor/armors/0/0.png `
+  -o build/native-assets/armor-0-native-animation.dlscene
+```
+
+The recovered native stages initialize the real skeleton16 records through
+589368, decode the real fixed/current/next banks through 5894F0 and VU 160/250,
+generate matrices through 589950 and VU 738/858, apply the real bind 48 records
+through 589B60 and A40/AA8, then execute selected vertex blend and GS FIFO
+topology. Host arithmetic remains an ordered binary32 approximation of VU
+arithmetic. The preparation selects explicit banks/fractions; it does not run
+the DMA loader, actor update, secondary blending or original rendering clock.
+
+An authored cache-write dependency proof ensures that every inherited unknown
+word reaches only ignored scale.w/translation.w lanes. Quaternion, XYZ and
+skeleton parent fields are independent of any invented initial VU image.
+Independent original EE/VU replay of the entire matrix chain agrees with all
+60 prepared samples: 497,400 EE instructions, 394,440 VU pairs and 410,880 matrix
+bytes, with zero differences. The replay models only the bounded bind-copy
+memory effect of actual DMA registers, not hardware timing. Original MPG words
+are verified against local resident data. Native decoder, blend and topology
+have separate original-instruction differential validation.
+
+The separate local `.dlposes` file carries evaluated positions, linked to the
+base scene's complete ordered vertex bytes by FNV-1a. Its 64-byte little-endian
+header contains magic `DLPOSE01`, version 1, sample/vertex counts, presentation
+rate, fingerprint, six bounds and a zero reserved 64 word. Payload is sample
+order, vertex order, three binary32 positions. The loader limits files to 256 MiB,
+requires one identity instance, finite bounded positions and exact extents, and
+preserves UV/color/topology while updating a mutable Direct3D vertex buffer.
+The viewer performs no host joint interpolation. All packages, disc-derived
+inputs, reports and captures remain local and ignored.
+
 ## Original packet and computed vertex diagnostic
 
 `run-model-topology.cmd` opens the latest native selected-body diagnostic.

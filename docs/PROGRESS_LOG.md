@@ -1484,3 +1484,37 @@ prove a later one. Emulator tests are optional reference checks.
 - This enables validation of the original packed terrain stage. It does not
   implement a DMA backend, complete contact probe or playable frame. The
   terrain composition remains in progress. Nothing is pushed.
+
+## 2026-10-11 — Display the original animation through native stages
+
+- Integrated genuine normal 589950/VU 738/858 matrix effects and 589368 local
+  skeleton initialization. Root's fresh /W4 /WX /fp:precise DLL agrees with
+  original complete EE/VU replay on 297 matrix cases (570,810 EE instructions,
+  637,815 VU pairs, 4,866,048 scratch bytes) plus 129 initializations (83,998 EE
+  instructions, 2,113,536 bytes). All 26,077 focused native assertions pass.
+  Three complete PS2 drafts 589368/58A258/589950 compile and strictly link as
+  NONMATCHING against 88/224/528-byte retail spans; they stay outside `src`.
+- Added local native preparation for original animation0's 30 frames and their
+  half-frame samples. Actual skeleton, fixed/current/next streams, normal
+  matrices, bind 48 records, selected vertices and original FIFO topology
+  produce 107 joints, 4,238 computed vertices and 3,326 triangles. No editor
+  skeleton, host quaternion interpolation or invented joint mapping is used.
+  An authored dependency proof finds 16 inherited unknown output words, all
+  ignored scale.w/translation.w, with no influence on visible matrices.
+- Original EE 589368→5894F0→589950→589B60 and verified original microprograms
+  agree exactly with all 60 prepared matrix hashes: 497,400 EE instructions,
+  394,440 VU pairs, 410,880 matrix bytes. Actual bind DMA registers supply a
+  bounded memory-copy model, not hardware timing or captured callee success.
+- Added a bounded sampled-position file linked to ordered base vertices,
+  explicit presentation-rate playback, deterministic sample captures and
+  mutable Direct3D geometry.168 loader/time checks and an actual WARP test
+  moving the same geometry between two captures pass. All 57 native tests pass
+  in 3.63 seconds; 166 Python tests pass in 2.323 seconds, including five new
+  packaging/dependency tests and the independently reviewed PEXTUW addition.
+- `run-model-animation.cmd` opens the new articulated, animated body. Software
+  samples 0/30 show 123,204/122,549 non-background pixels and were visually
+  inspected; all 60 native captures form a local GIF. Code/docs remain English,
+  generated disc assets stay ignored and nothing is pushed. Playback rate is
+  explicitly diagnostic; no actor clock/state label, live player movement,
+  terrain response, campaign frame or playable game is claimed. Terrain/contact
+  and genuine velocity integration remain the next work.

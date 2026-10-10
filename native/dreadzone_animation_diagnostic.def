@@ -1,0 +1,5 @@
+EXPORTS
+    dreadzone_local_pose_initialize
+    dreadzone_variable_pose_decode
+    dreadzone_general_matrices_prepare
+    dreadzone_bind_pose_prepare

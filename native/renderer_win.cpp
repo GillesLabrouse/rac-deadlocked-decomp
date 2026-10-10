@@ -7,6 +7,7 @@
 #include <wrl/client.h>
 
 #include "scene.h"
+#include "pose_sequence.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -15,6 +16,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -103,6 +105,8 @@ class Renderer {
     std::vector<DrawBatch> batches;
     unsigned width, height;
     bool software;
+    bool mutable_geometry;
+    std::size_t vertex_count;
 
     ComPtr<ID3DBlob> compile(const char* entry, const char* profile) {
         ComPtr<ID3DBlob> bytecode, errors;
@@ -148,8 +152,9 @@ class Renderer {
     }
 
 public:
-    Renderer(const Scene& scene, unsigned w, unsigned h, bool use_software, HWND window=nullptr)
-        : batches(scene.batches), width(w), height(h), software(use_software) {
+    Renderer(const Scene& scene, unsigned w, unsigned h, bool use_software, HWND window=nullptr, bool animated=false)
+        : batches(scene.batches), width(w), height(h), software(use_software),
+          mutable_geometry(animated), vertex_count(scene.vertices.size()) {
         checked(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
                                  IID_PPV_ARGS(&imaging)), "Create image codec factory");
         const D3D_FEATURE_LEVEL level = D3D_FEATURE_LEVEL_11_0;
@@ -208,10 +213,12 @@ public:
         checked(device->CreateInputLayout(elements, 8, vs->GetBufferPointer(), vs->GetBufferSize(), &layout), "Create scene vertex layout");
         D3D11_BUFFER_DESC buffer{};
         buffer.ByteWidth=static_cast<UINT>(scene.vertices.size()*sizeof(Vertex));
-        buffer.Usage=D3D11_USAGE_IMMUTABLE; buffer.BindFlags=D3D11_BIND_VERTEX_BUFFER;
+        buffer.Usage=animated ? D3D11_USAGE_DEFAULT : D3D11_USAGE_IMMUTABLE;
+        buffer.BindFlags=D3D11_BIND_VERTEX_BUFFER;
         D3D11_SUBRESOURCE_DATA data{scene.vertices.data(), 0, 0};
         checked(device->CreateBuffer(&buffer, &data, &geometry), "Upload scene vertices");
         buffer.ByteWidth=static_cast<UINT>(scene.instances.size()*sizeof(Instance));
+        buffer.Usage=D3D11_USAGE_IMMUTABLE;
         data.pSysMem=scene.instances.data();
         checked(device->CreateBuffer(&buffer, &data, &instance_buffer), "Upload scene instances");
         buffer.ByteWidth=sizeof(XMFLOAT4X4); buffer.Usage=D3D11_USAGE_DEFAULT; buffer.BindFlags=D3D11_BIND_CONSTANT_BUFFER;
@@ -227,6 +234,12 @@ public:
         checked(device->CreateRasterizerState(&raster, &rasterizer), "Create rasterization state");
         textures.push_back(upload_texture({}));
         for (const auto& png : scene.pngs) textures.push_back(upload_texture(png));
+    }
+
+    void update_positions(const Scene& scene) {
+        if (!mutable_geometry || scene.vertices.size()!=vertex_count)
+            throw std::runtime_error("Invalid animated geometry update");
+        context->UpdateSubresource(geometry.Get(),0,nullptr,scene.vertices.data(),0,0);
     }
 
     void render(const Camera& camera) {
@@ -335,8 +348,9 @@ Scene test_triangle() {
 
 int wmain(int argc,wchar_t** argv) {
     try {
-        std::filesystem::path input, output;
-        bool software=false, self_test=false, explicit_camera=false;
+        std::filesystem::path input, output, pose_path;
+        bool software=false, self_test=false, pose_self_test=false, explicit_camera=false;
+        std::optional<std::uint32_t> fixed_pose_frame;
         unsigned width=1280,height=720;
         Camera camera{};
         for (int i=1;i<argc;i++) {
@@ -344,12 +358,22 @@ int wmain(int argc,wchar_t** argv) {
             if (arg==L"--capture" && i+1<argc) output=argv[++i];
             else if (arg==L"--software") software=true;
             else if (arg==L"--self-test") self_test=true;
+            else if (arg==L"--pose-self-test") { self_test=true; pose_self_test=true; }
+            else if (arg==L"--poses" && i+1<argc) pose_path=argv[++i];
+            else if (arg==L"--pose-frame" && i+1<argc) {
+                const std::wstring value=argv[++i]; std::size_t consumed=0;
+                const auto frame=std::stoull(value,&consumed);
+                if (value.empty() || value[0]==L'-' || consumed!=value.size() || frame>UINT32_MAX)
+                    throw std::runtime_error("Invalid pose frame index");
+                fixed_pose_frame=static_cast<std::uint32_t>(frame);
+            }
             else if (arg==L"--camera" && i+5<argc) {
                 camera.position.x=std::stof(argv[++i]); camera.position.y=std::stof(argv[++i]); camera.position.z=std::stof(argv[++i]);
                 camera.yaw=std::stof(argv[++i]); camera.pitch=std::stof(argv[++i]); explicit_camera=true;
             } else if (arg==L"--help") {
                 std::cout << "Usage: deadlocked_native_scene_viewer scene.dlscene [--capture frame.png] [--software]\n"
                              "       [--camera x y z yaw_radians pitch_radians]\n"
+                             "       [--poses samples.dlposes] [--pose-frame sample_index]\n"
                              "Controls: WASD move, Q/E vertical, arrows look, Shift faster, Esc exit.\n"
                              "This renders extracted scenery; game logic and campaign are not implemented.\n";
                 return 0;
@@ -358,7 +382,20 @@ int wmain(int argc,wchar_t** argv) {
         }
         if (!self_test && input.empty()) throw std::runtime_error("Supply a prepared scene file; use --help");
         if (self_test && output.empty()) throw std::runtime_error("Render self-test requires --capture");
+        if (self_test && (!pose_path.empty() || fixed_pose_frame)) throw std::runtime_error("Self-test does not accept pose assets");
+        if (fixed_pose_frame && pose_path.empty()) throw std::runtime_error("--pose-frame requires --poses");
         auto scene=self_test ? test_triangle() : load_scene(input);
+        std::optional<PoseSequence> poses;
+        std::uint32_t pose_frame=fixed_pose_frame.value_or(0);
+        if (!pose_path.empty()) poses=load_pose_sequence(pose_path,scene);
+        if (pose_self_test) {
+            scene.instances.resize(1); scene.instances[0].transform[12]=0; scene.batches[0].instance_count=1;
+            PoseSequence test{2,3,2,{-1.7f,0,-0.7f,1.7f,0,0.7f},{}};
+            for (float shift:{-1.f,1.f}) for (const auto& vertex:scene.vertices)
+                test.positions.push_back({vertex.position[0]+shift,vertex.position[1],vertex.position[2]});
+            poses=std::move(test);
+        }
+        if (poses) apply_pose_frame(*poses,pose_frame,scene);
         if (!explicit_camera) camera=self_test ? Camera{{0,-5,0},XM_PIDIV2,0} : frame_camera(scene);
         if (!std::isfinite(camera.position.x) || !std::isfinite(camera.position.y) || !std::isfinite(camera.position.z) ||
             !std::isfinite(camera.yaw) || !std::isfinite(camera.pitch) || std::abs(camera.pitch)>=XM_PIDIV2)
@@ -378,7 +415,7 @@ int wmain(int argc,wchar_t** argv) {
             if (!window) throw std::runtime_error("Cannot create native scene window");
             ShowWindow(window,SW_SHOW);
         }
-        Renderer renderer(scene,width,height,software,window);
+        Renderer renderer(scene,width,height,software,window,poses.has_value());
         std::uint64_t submitted_triangles=0;
         for (const auto& batch:scene.batches) submitted_triangles+=std::uint64_t(batch.count/3)*batch.instance_count;
         std::cout << "Native scene: " << scene.vertices.size()/3 << " prototype triangles, " << scene.instances.size()
@@ -386,10 +423,19 @@ int wmain(int argc,wchar_t** argv) {
                   << " textures, " << scene.batches.size() << " draw batches; "
                   << (renderer.uses_software() ? "WARP" : "hardware") << " Direct3D 11.\n";
         if (!output.empty()) {
+            if (pose_self_test) {
+                renderer.render(camera);
+                const auto left=renderer.capture(output.wstring()+L".first.png");
+                pose_frame=1; apply_pose_frame(*poses,pose_frame,scene); renderer.update_positions(scene);
+                renderer.render(camera); const auto right=renderer.capture(output);
+                if (left.red<10000 || right.red<10000 ||
+                    double(right.red_x)/right.red-double(left.red_x)/left.red<100)
+                    throw std::runtime_error("Pose render self-test did not move the geometry on the GPU");
+            }
             renderer.render(camera);
             const auto pixels=renderer.capture(output);
             std::cout << "Captured " << pixels.drawn << " non-background pixels.\n";
-            if (self_test && (pixels.red < 10000 || pixels.green < 10000 ||
+            if (self_test && !pose_self_test && (pixels.red < 10000 || pixels.green < 10000 ||
                              double(pixels.red_x)/pixels.red >= double(pixels.green_x)/pixels.green))
                 throw std::runtime_error("Render self-test did not place the red and green instances correctly");
             std::ofstream report(output.wstring()+L".json");
@@ -398,12 +444,15 @@ int wmain(int argc,wchar_t** argv) {
                    << ",\n  \"instances\": " << scene.instances.size() << ",\n  \"submitted_triangles\": " << submitted_triangles
                    << ",\n  \"non_background_pixels\": " << pixels.drawn << ",\n  \"software_renderer\": "
                    << (renderer.uses_software()?"true":"false") << ",\n  \"game_logic_running\": false,\n"
+                   << "  \"pose_sequence_frames\": " << (poses ? poses->frame_count : 0)
+                   << ",\n  \"pose_sample\": " << pose_frame << ",\n"
                    << "  \"camera\": [" << camera.position.x << ',' << camera.position.y << ',' << camera.position.z
                    << ',' << camera.yaw << ',' << camera.pitch << "]\n}\n";
             if (!report) throw std::runtime_error("Cannot save capture report");
             return 0;
         }
-        auto previous=std::chrono::steady_clock::now();
+        const auto animation_start=std::chrono::steady_clock::now();
+        auto previous=animation_start;
         bool running=true;
         while (running) {
             MSG event;
@@ -413,6 +462,12 @@ int wmain(int argc,wchar_t** argv) {
             }
             if (!running) break;
             auto now=std::chrono::steady_clock::now();
+            if (poses && !fixed_pose_frame) {
+                const auto sample=sample_pose_frame(*poses,std::chrono::duration<double>(now-animation_start).count());
+                if (sample!=pose_frame) {
+                    pose_frame=sample; apply_pose_frame(*poses,pose_frame,scene); renderer.update_positions(scene);
+                }
+            }
             const float dt=std::min(std::chrono::duration<float>(now-previous).count(),0.1f); previous=now;
             if (GetForegroundWindow()==window) {
                 auto key=[](int code) { return (GetAsyncKeyState(code)&0x8000)!=0; };

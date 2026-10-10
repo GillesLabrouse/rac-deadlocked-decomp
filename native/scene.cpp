@@ -115,8 +115,8 @@ Scene decode_scene(const std::vector<std::uint8_t>& bytes) {
                     local[axis+3]=std::max(local[axis+3],scene.vertices[v].position[axis]);
                 }
             }
-            for (std::uint32_t i=batch.first_instance;i<batch.first_instance+batch.instance_count;i++) {
-                const auto& m=scene.instances[i].transform;
+            for (std::uint32_t instance_index=batch.first_instance;instance_index<batch.first_instance+batch.instance_count;instance_index++) {
+                const auto& m=scene.instances[instance_index].transform;
                 for (unsigned corner=0;corner<8;corner++) {
                     const float x=local[(corner&1)?3:0], y=local[(corner&2)?4:1], z=local[(corner&4)?5:2];
                     for (unsigned axis=0;axis<3;axis++) {

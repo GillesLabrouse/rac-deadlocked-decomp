@@ -35,9 +35,12 @@ Use `-TestRegex dreadzone` for the Dreadzone checks during a focused iteration.
 It requires neither the PS2 compiler nor disc assets. This runs algorithm and
 renderer fixtures; use `run-native.cmd` for the interactive scene viewer.
 
-`run-model-preview.cmd` opens a separately prepared armor editor-mesh package.
-See [native model inspection](NATIVE_MODELS.md) for preparation, verified captures
-and the missing parts/animation. It is separate from initialized actor rendering.
+`run-model-animation.cmd` opens the latest original animation0 diagnostic:
+the complete selected body, articulated by recovered native decoder, matrix,
+binding and vertex stages. Its sampled playback has no character controls or
+actor/game frame. `run-model-topology.cmd` retains the static native comparison;
+`run-model-preview.cmd` retains the older incomplete editor-mesh comparison.
+See [native model inspection](NATIVE_MODELS.md) for preparation and validation.
 
 `run-controller-probe.cmd` runs the Windows XInput diagnostic through the
 recovered controller poll, callback and decoder. It preserves button history
