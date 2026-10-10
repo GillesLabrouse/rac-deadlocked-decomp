@@ -11,6 +11,15 @@ Distinguish these milestones: function compilation, masked comparison, exact
 comparison after relocation, complete image reconstruction, emulator boot,
 and campaign play. A passing earlier milestone does not prove a later one.
 
+## Current verified checkpoint
+
+- 261 matching functions, 0.533% of counted code, including open-source libraries.
+- 210 game functions pass exact linking: 133 resident and 77 overlay functions.
+- Resident reconstruction replaces 9,216 bytes with exact compiled C. The whole
+  section stream still equals retail. Remaining code and assets use local fallback.
+- Nineteen synthetic regression tests pass. Runtime boot and campaign play are
+  unverified. Work remains on the local branch; nothing has been pushed.
+
 ## 2026-10-10 — Environment and priorities
 
 - Created the user's fork: https://github.com/silverspy/rac-deadlocked-decomp.
@@ -76,6 +85,30 @@ and campaign play. A passing earlier milestone does not prove a later one.
   compilation. Small local commits preserve the fixes and one progress snapshot
   per newly adopted function. No branch or commit has been pushed.
 - Emulator/BIOS paths were requested; runtime remains unverified.
+
+## 2026-10-10 — Resident command helpers
+
+- Added fourteen exact resident functions: result polling at `00158198`, result
+  buffer setup at `00158240`, and twelve command wrappers from `00158598` through
+  `001589A8`. These cover single values, a value pair, optional 24-byte payloads,
+  six-value payloads, and callback/context forwarding. Numeric command identities
+  remain address-derived or unnamed until their purpose is established.
+- Every new function passes the actual-relocation audit and unmasked comparison
+  after linking. Each has a small local commit and a corresponding progress
+  snapshot. The resident reconstruction now contains 133 functions, up from 119.
+- Fixed `try_variants.py` and `compare_variants.py` to use actual relocations,
+  rather than ignoring ordinary immediate constants. A deliberately wrong
+  command code now reports 11/12 matching words and is rejected. The correct
+  wrapper reports 12/12. `try_variants.py` now uses the shared compile pipeline
+  on Windows and checks compiler failure before reading any previous object.
+- Kept section-loader and startup-parameter formatter drafts outside `src`.
+  Compiler scheduling, packed-field stores, and register allocation still differ;
+  they do not contribute to coverage. The optional m2c helper was cloned locally
+  at `708d2d2cb2698f091a92492b328f73b24209f72d`.
+- Found resident boundary issues near startup: some splat functions include a
+  later real entry point, and some start in padding made of stack adjustments.
+  Investigate those boundaries before adopting the affected functions; do not
+  reproduce the padding as if it were a C function.
 
 ## Next milestones
 
