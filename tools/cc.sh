@@ -10,11 +10,12 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 src=$1; out=$2; shift 2
 CC=toolchain/sn-prodg-3.01/usr/local/sce/ee/gcc/bin/ee-gcc2953.exe
-export WINEDEBUG=-all
+source tools/toolchain.sh
 mkdir -p build/tmp
 tmp=build/tmp/$(basename "${out%.o}")
-wine "$CC" -O2 -G8 -fopt-stack -mno-check-zero-division "$@" -Iinclude -S "$src" -o "$tmp.s"
-python tools/ps2eeas_dli.py "$tmp.s" "$tmp.s"
-wine "$CC" -c "$tmp.s" -o "${tmp}_first.o"
-python tools/ps2eeas_nops.py "$tmp.s" "${tmp}_first.o" "${tmp}_fixed.s"
-wine "$CC" -c "${tmp}_fixed.s" -o "$out"
+"${TC_RUN[@]}" "$CC" -O2 -G8 -fopt-stack -mno-check-zero-division "$@" -Iinclude -S "$src" -o "$tmp.s"
+"$PYTHON" tools/ps2eeas_dli.py "$tmp.s" "$tmp.s"
+"${TC_RUN[@]}" "$CC" -c "$tmp.s" -o "${tmp}_first.o"
+"$PYTHON" tools/ps2eeas_nops.py "$tmp.s" "${tmp}_first.o" "${tmp}_fixed.s"
+"${TC_RUN[@]}" "$CC" -c "${tmp}_fixed.s" -o "$out"
+"$PYTHON" tools/record_build.py "$src" "$out" "$@"

@@ -5,7 +5,7 @@
 #   bash tools/docker/run.sh bash tools/build_libm.sh [extra flags]
 set -u
 cd "$(dirname "$0")/.."
-export WINEDEBUG=-all
+source tools/toolchain.sh
 CC=toolchain/sn-prodg-24/local/sce/ee/gcc/bin/ee-gcc.exe
 SRC=${LIBM_SRC:-src/libm}
 INC="-I$SRC -Iprivate/include -I${LIBM_INC:-private/newlib/newlib/libc/include}"
@@ -15,7 +15,7 @@ n=0
 for m in $(grep -v '^#' config/libm.tsv | cut -f1 | sort -u); do
   stem=${m%.o}
   [ -f "$SRC/$stem.c" ] || continue
-  wine $CC $FLAGS -c $INC "$SRC/$stem.c" -o build/libm/$stem.o >/dev/null 2>build/libm/$stem.err || true
+  "${TC_RUN[@]}" "$CC" $FLAGS -c $INC "$SRC/$stem.c" -o build/libm/$stem.o >/dev/null 2>build/libm/$stem.err || { cat build/libm/$stem.err >&2; exit 1; }
   n=$((n+1))
 done
 echo "compiled $n files"
