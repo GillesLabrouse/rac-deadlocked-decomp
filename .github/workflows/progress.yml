@@ -22,6 +22,18 @@ permissions:
   contents: read
 
 jobs:
+  native:
+    runs-on: windows-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Configure native core tests
+        run: cmake -S native -B build/native -A x64
+      - name: Build native core tests
+        run: cmake --build build/native --config Release
+      - name: Execute recovered functions on the host
+        run: ctest --test-dir build/native -C Release --output-on-failure
+
   report:
     runs-on: ubuntu-latest
     steps:

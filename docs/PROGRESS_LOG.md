@@ -2,23 +2,28 @@
 
 ## Objective and validation
 
-Work toward a launchable PS2 build and the beginning of the campaign. Keep all
+Work toward a native PC application and the beginning of the campaign, initially
+on Windows x64. Retain the PS2 matching build to validate recovered source. Keep all
 changes local until the user approves a push. Source and documentation are in
 English. Follow CONTRIBUTING.md and LEGAL.md: retail inputs, generated assembly,
 SDK binaries, and reference material stay in ignored local directories.
 
 Distinguish these milestones: function compilation, masked comparison, exact
-comparison after relocation, complete image reconstruction, emulator boot,
-and campaign play. A passing earlier milestone does not prove a later one.
+comparison after relocation, PS2 image reconstruction, native function tests,
+native scene rendering, and campaign play. A passing earlier milestone does not
+prove a later one. Emulator tests are optional reference checks.
 
 ## Current verified checkpoint
 
-- 261 matching functions, 0.533% of counted code, including open-source libraries.
-- 210 game functions pass exact linking: 133 resident and 77 overlay functions.
-- Resident reconstruction replaces 9,216 bytes with exact compiled C. The whole
+- 267 matching functions, 0.539% of counted code, including open-source libraries.
+- 216 game functions pass exact linking: 139 resident and 77 overlay functions.
+- Resident reconstruction replaces 9,528 bytes with exact compiled C. The whole
   section stream still equals retail. Remaining code and assets use local fallback.
-- Nineteen synthetic regression tests pass. Runtime boot and campaign play are
-  unverified. Work remains on the local branch; nothing has been pushed.
+- Nineteen synthetic regression tests and the native ABI/command test pass.
+- Seven recovered functions compile and execute in a Windows x64 test target.
+  A capture transport replaces the command driver for these tests. No native
+  game scene, game boot, or campaign play has been verified.
+- Work remains on the local branch; nothing has been pushed.
 
 ## 2026-10-10 — Environment and priorities
 
@@ -112,9 +117,30 @@ and campaign play. A passing earlier milestone does not prove a later one.
 
 ## Next milestones
 
-1. Test boot and the first playable Dreadzone segment when emulator and BIOS
-   paths are available; record actual observations rather than inferred success.
-2. Continue resident startup/loading code and first-level helpers with exact
-   linking as the acceptance check. Keep failed drafts outside src.
-3. Extend exact linking to the open-source runtime libraries and ultimately
-   rebuild more sections and overlays from source rather than retail fallback.
+1. Map startup and first-scene platform dependencies for the native target.
+2. Implement host asset loading, then the recovered scene/update path and host
+   rendering/input backends; use explicit guest-address conversion.
+3. Continue recovering startup and first-level code with exact linking as the
+   matching acceptance check. Keep failed matching drafts outside src.
+
+## 2026-10-10 — Startup boundaries and native target clarification
+
+- Pinned seven genuine resident entry points that splat had grouped into earlier
+  functions. Generated metadata changes are confined to those startup ranges.
+  Added six wrappers after exact object and linked comparisons: `00158568`,
+  `001586F0`, `00158780`, `001587E0`, `00158838`, and `00158988`. Each has its own
+  local commit and progress snapshot. The changed function denominator reflects
+  corrected boundaries, not additional recovered code.
+- Kept the separated startup loop at `00157C58` as a nonmatching draft. Its
+  global address materialization and compiler scheduling still differ.
+- The user clarified that the intended outcome is native execution. Earlier
+  PS2 reconstruction work remains useful validation but is not that deliverable.
+  PCSX2 v2.8.2 was downloaded locally and its configuration check passed; no BIOS
+  is present and no game boot was tested. Emulator preparation is now deferred.
+- Added a separate CMake native target, a fixed-width host type header, and an
+  ABI/command forwarding test using seven recovered source functions unchanged.
+  MSVC 19.38 compiled and executed it on Windows x64. The test exercises 64-bit
+  callback values, signed payload boundaries, record sizes and optional payload
+  handling; it has no game, BIOS, emulator or original-toolchain dependency.
+- Documented the remaining native startup, asset, overlay and platform work in
+  `docs/NATIVE_PORT.md`. The test executable is not a game runtime.
