@@ -8,6 +8,7 @@
 
 #include "scene.h"
 #include "pose_sequence.h"
+#include "pose_clock.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -348,9 +349,10 @@ Scene test_triangle() {
 
 int wmain(int argc,wchar_t** argv) {
     try {
-        std::filesystem::path input, output, pose_path;
+        std::filesystem::path input, output, pose_path, pose_clock_path;
         bool software=false, self_test=false, pose_self_test=false, explicit_camera=false;
         std::optional<std::uint32_t> fixed_pose_frame;
+        std::optional<std::uint32_t> fixed_clock_ticks;
         unsigned width=1280,height=720;
         Camera camera{};
         for (int i=1;i<argc;i++) {
@@ -360,6 +362,14 @@ int wmain(int argc,wchar_t** argv) {
             else if (arg==L"--self-test") self_test=true;
             else if (arg==L"--pose-self-test") { self_test=true; pose_self_test=true; }
             else if (arg==L"--poses" && i+1<argc) pose_path=argv[++i];
+            else if (arg==L"--pose-clock" && i+1<argc) pose_clock_path=argv[++i];
+            else if (arg==L"--pose-clock-ticks" && i+1<argc) {
+                const std::wstring value=argv[++i];std::size_t consumed=0;
+                const auto ticks=std::stoull(value,&consumed);
+                if (value.empty() || value[0]==L'-' || consumed!=value.size() || ticks>4096)
+                    throw std::runtime_error("Invalid bounded pose clock tick count");
+                fixed_clock_ticks=static_cast<std::uint32_t>(ticks);
+            }
             else if (arg==L"--pose-frame" && i+1<argc) {
                 const std::wstring value=argv[++i]; std::size_t consumed=0;
                 const auto frame=std::stoull(value,&consumed);
@@ -374,6 +384,7 @@ int wmain(int argc,wchar_t** argv) {
                 std::cout << "Usage: deadlocked_native_scene_viewer scene.dlscene [--capture frame.png] [--software]\n"
                              "       [--camera x y z yaw_radians pitch_radians]\n"
                              "       [--poses samples.dlposes] [--pose-frame sample_index]\n"
+                             "       [--pose-clock metadata.dlclock] [--pose-clock-ticks tick_count]\n"
                              "Controls: WASD move, Q/E vertical, arrows look, Shift faster, Esc exit.\n"
                              "This renders extracted scenery; game logic and campaign are not implemented.\n";
                 return 0;
@@ -382,12 +393,22 @@ int wmain(int argc,wchar_t** argv) {
         }
         if (!self_test && input.empty()) throw std::runtime_error("Supply a prepared scene file; use --help");
         if (self_test && output.empty()) throw std::runtime_error("Render self-test requires --capture");
-        if (self_test && (!pose_path.empty() || fixed_pose_frame)) throw std::runtime_error("Self-test does not accept pose assets");
+        if (self_test && (!pose_path.empty() || fixed_pose_frame || !pose_clock_path.empty() || fixed_clock_ticks))
+            throw std::runtime_error("Self-test does not accept pose assets");
         if (fixed_pose_frame && pose_path.empty()) throw std::runtime_error("--pose-frame requires --poses");
+        if (!pose_clock_path.empty() && (pose_path.empty() || fixed_pose_frame))
+            throw std::runtime_error("--pose-clock requires --poses and excludes --pose-frame");
+        if (fixed_clock_ticks && (pose_clock_path.empty() || output.empty()))
+            throw std::runtime_error("--pose-clock-ticks requires --pose-clock and --capture");
         auto scene=self_test ? test_triangle() : load_scene(input);
         std::optional<PoseSequence> poses;
+        std::optional<PoseClock> pose_clock;
         std::uint32_t pose_frame=fixed_pose_frame.value_or(0);
         if (!pose_path.empty()) poses=load_pose_sequence(pose_path,scene);
+        if (!pose_clock_path.empty()) {
+            pose_clock=load_pose_clock(pose_clock_path,scene,*poses);
+            pose_frame=advance_pose_clock(*pose_clock,fixed_clock_ticks.value_or(0));
+        }
         if (pose_self_test) {
             scene.instances.resize(1); scene.instances[0].transform[12]=0; scene.batches[0].instance_count=1;
             PoseSequence test{2,3,2,{-1.7f,0,-0.7f,1.7f,0,0.7f},{}};
@@ -422,6 +443,8 @@ int wmain(int argc,wchar_t** argv) {
                   << " instances, " << submitted_triangles << " submitted triangles, " << scene.pngs.size()
                   << " textures, " << scene.batches.size() << " draw batches; "
                   << (renderer.uses_software() ? "WARP" : "hardware") << " Direct3D 11.\n";
+        if (pose_clock) std::cout << "Recovered primary clock: delta1 per presentation tick, " << pose_clock->tick_rate
+                                  << " ticks/second; no asserted PS2 frequency or player frame.\n";
         if (!output.empty()) {
             if (pose_self_test) {
                 renderer.render(camera);
@@ -446,6 +469,11 @@ int wmain(int argc,wchar_t** argv) {
                    << (renderer.uses_software()?"true":"false") << ",\n  \"game_logic_running\": false,\n"
                    << "  \"pose_sequence_frames\": " << (poses ? poses->frame_count : 0)
                    << ",\n  \"pose_sample\": " << pose_frame << ",\n"
+                   << "  \"recovered_primary_clock\": " << (pose_clock ? "true" : "false")
+                   << ",\n  \"clock_ticks\": " << (pose_clock ? pose_clock->completed_ticks : 0)
+                   << ",\n  \"clock_tick_rate\": " << (pose_clock ? pose_clock->tick_rate : 0)
+                   << ",\n  \"clock_delta_per_tick\": " << (pose_clock ? 1 : 0)
+                   << ",\n  \"clock_tick_rate_is_presentation_only\": true,\n"
                    << "  \"camera\": [" << camera.position.x << ',' << camera.position.y << ',' << camera.position.z
                    << ',' << camera.yaw << ',' << camera.pitch << "]\n}\n";
             if (!report) throw std::runtime_error("Cannot save capture report");
@@ -453,6 +481,8 @@ int wmain(int argc,wchar_t** argv) {
         }
         const auto animation_start=std::chrono::steady_clock::now();
         auto previous=animation_start;
+        auto clock_previous=animation_start;
+        double pending_clock_ticks=0;
         bool running=true;
         while (running) {
             MSG event;
@@ -463,7 +493,14 @@ int wmain(int argc,wchar_t** argv) {
             if (!running) break;
             auto now=std::chrono::steady_clock::now();
             if (poses && !fixed_pose_frame) {
-                const auto sample=sample_pose_frame(*poses,std::chrono::duration<double>(now-animation_start).count());
+                std::uint32_t sample;
+                if (pose_clock) {
+                    pending_clock_ticks+=std::chrono::duration<double>(now-clock_previous).count()*pose_clock->tick_rate;
+                    clock_previous=now;
+                    // Preserve backlog; bound each call without dropping ticks.
+                    const auto ticks=static_cast<std::uint32_t>(std::min(std::floor(pending_clock_ticks),4096.0));
+                    sample=advance_pose_clock(*pose_clock,ticks);pending_clock_ticks-=ticks;
+                } else sample=sample_pose_frame(*poses,std::chrono::duration<double>(now-animation_start).count());
                 if (sample!=pose_frame) {
                     pose_frame=sample; apply_pose_frame(*poses,pose_frame,scene); renderer.update_positions(scene);
                 }

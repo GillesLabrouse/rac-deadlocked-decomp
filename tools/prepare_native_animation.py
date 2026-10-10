@@ -6,8 +6,10 @@ The normal single-animation path initializes actual skeleton records, decodes
 explicit fixed/current/next banks, generates matrices, applies original binding
 records and executes selected vertex/topology stages. No retail instructions,
 editor skeleton, host quaternion interpolation or invented joint mapping run.
-Sample rate is a presentation choice, not the game's actor clock. All generated
-assets must remain local. This does not execute an actor or gameplay frame.
+Samples retain exact frame labels and original duration records for the
+recovered primary clock attachment. Presentation tick scheduling is a choice,
+not a recovered PS2 frequency. All generated assets must remain local.
+This does not execute a player wrapper or gameplay frame.
 """
 import argparse
 import ctypes as C
@@ -22,6 +24,7 @@ from prepare_native_topology import prepare as prepare_mesh
 
 U8, U32 = C.c_uint8, C.c_uint32
 POSE_HEADER = struct.Struct("<8sIIIfQ6fQ")
+CLOCK_HEADER = struct.Struct("<8sIIIIfIQQIIII")
 
 
 class Init(C.Structure):
@@ -163,9 +166,14 @@ def fingerprint(data):
     return value
 
 
-def prepare(armor_path, animation_path, textures, animation_library, model_library, output, sample_rate=60):
+def prepare(armor_path, animation_path, textures, animation_library, model_library, output, sample_rate=60,
+            clock_tick_rate=60, clock_flags=0):
     if not math.isfinite(sample_rate) or not 1 <= sample_rate <= 240:
         raise ValueError("Presentation sample rate must be between 1 and 240")
+    if not math.isfinite(clock_tick_rate) or not 1 <= clock_tick_rate <= 240:
+        raise ValueError("Presentation clock tick rate must be between 1 and 240")
+    if not isinstance(clock_flags, int) or not 0 <= clock_flags <= 255 or clock_flags & 4:
+        raise ValueError("Explicit clock flags must select the supported normal primary pose path")
     output = Path(output).resolve()
     if output.suffix.lower() != ".dlscene":
         raise ValueError("Output must use the .dlscene suffix")
@@ -179,6 +187,11 @@ def prepare(armor_path, animation_path, textures, animation_library, model_libra
     bind_offset = word(armor, 0x14)
     region(armor, bind_offset, joints * 48)
     fixed, frames = animation_layout(raw, joints)
+    definition_offset = word(raw, 0x48)
+    clock_metadata = region(raw, definition_offset, 0x20 + len(frames) * 4)
+    durations = [struct.unpack_from("<H", clock_metadata, 0x20 + i * 4)[0] for i in range(len(frames))]
+    if any(not 1 <= duration <= 32767 for duration in durations):
+        raise ValueError("Original clock duration is outside the supported finite domain")
     dependency = prove_matrix_independence(fixed, joints)
     dll = C.CDLL(str(Path(animation_library).resolve()))
     for name, request in (("dreadzone_local_pose_initialize", Init), ("dreadzone_variable_pose_decode", Decode),
@@ -239,10 +252,28 @@ def prepare(armor_path, animation_path, textures, animation_library, model_libra
         raise ValueError("Animation diagnostic exceeds the native sequence limit")
     output.write_bytes(first_scene)
     pose_path.write_bytes(payload)
+    # Bind all decoded pose dimensions, bounds and position bits, plus the
+    # scene's vertex ordering/attributes. This is a consistency fingerprint.
+    pose_fingerprint = fingerprint(payload[12:24] + payload[32:56] + payload[64:])
+    clock_payload = CLOCK_HEADER.pack(b"DLCLK001", 1, len(samples), len(clock_metadata), clock_flags,
+                                      clock_tick_rate, 0x3F800000, fingerprint(first_geometry),
+                                      pose_fingerprint, 0, durations[0], 0, 0)
+    clock_payload += clock_metadata
+    clock_payload += b"".join(struct.pack("<f", sample["frame"] + sample["fraction"]) for sample in samples)
+    output.with_suffix(".dlclock").write_bytes(clock_payload)
     dependencies = [Path(armor_path), Path(animation_path), Path(animation_library), Path(model_library), *map(Path, textures)]
     report = {"kind": "native-original-animation0-diagnostic", "animation_index": 0,
               "animation_state_label": None, "original_frames": len(frames), "samples": samples,
               "sample_rate": sample_rate, "sample_rate_is_presentation_only": True,
+              "clock_tick_rate": clock_tick_rate, "clock_tick_rate_is_presentation_only": True,
+              "clock_effective_rate_per_tick": 1, "clock_original_durations": durations,
+              "clock_metadata_offset": definition_offset, "clock_metadata_bytes": len(clock_metadata),
+              "clock_metadata_sha256": hashlib.sha256(clock_metadata).hexdigest(),
+              "clock_sha256": hashlib.sha256(clock_payload).hexdigest(), "clock_flags_explicit": clock_flags,
+              "clock_flags_source": "Explicit diagnostic input; reset688FE0 preserves actor55",
+              "clock_initial_selection_source": "Constructor668070 calls reset688FE0(player,0,0); later player state is excluded",
+              "clock_lookup": "Exact actor44 binary32 label; no interpolation or nearest pose",
+              "clock_stages": ["primary589CE0"], "PS2_clock_frequency_proven": False,
               "joint_count": joints, "vertices": count, "triangles": base_report["prototype_triangles"],
               "packet_count": base_report["packet_count"], "explicit_actor_mask": "0x1002",
               "poses_sha256": hashlib.sha256(payload).hexdigest(), "scene_sha256": hashlib.sha256(first_scene).hexdigest(),
@@ -251,7 +282,7 @@ def prepare(armor_path, animation_path, textures, animation_library, model_libra
                                 "selected vertex blend", "GS FIFO topology"],
               "source_inputs": [{"path": str(p.resolve()), "sha256": hashlib.sha256(p.read_bytes()).hexdigest()} for p in dependencies],
               "game_logic_running": False, "actor_frame_running": False, "arithmetic": "approximate host binary32",
-              "excluded_systems": ["actor clock/update", "secondary animation blending", "input", "movement", "collision",
+              "excluded_systems": ["player clock wrapper/events/scheduler", "secondary animation blending", "input", "movement", "collision",
                                    "actor/world/view", "original lighting", "DMA", "VU state publication", "gameplay"]}
     output.with_suffix(".json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return report
@@ -266,15 +297,20 @@ def main():
     parser.add_argument("--animation-library", type=Path, default=libraries / "deadlocked_native_animation_diagnostic.dll")
     parser.add_argument("--model-library", type=Path, default=libraries / "deadlocked_native_model_diagnostic.dll")
     parser.add_argument("--sample-rate", type=float, default=60)
+    parser.add_argument("--clock-tick-rate", type=float, default=60,
+                        help="Presentation calls per second; not an asserted PS2 frequency")
+    parser.add_argument("--clock-flags", type=lambda x: int(x, 0), default=0,
+                        help="Explicit diagnostic incoming actor55; reset688FE0 does not assign it")
     parser.add_argument("-o", "--output", type=Path, required=True)
     args = parser.parse_args()
     try:
         result = prepare(args.armor, args.animation_class, args.texture, args.animation_library,
-                         args.model_library, args.output, args.sample_rate)
+                         args.model_library, args.output, args.sample_rate, args.clock_tick_rate, args.clock_flags)
     except (ValueError, OSError) as error:
         parser.exit(1, f"Native animation diagnostic failed: {error}\n")
     print(f"Native animation0: {len(result['samples'])} samples, {result['joint_count']} joints, "
-          f"{result['triangles']} triangles. Presentation playback only; no actor/game frame.")
+          f"{result['triangles']} triangles. Original primary clock metadata included; "
+          "presentation ticks only, no player/game frame.")
 
 
 if __name__ == "__main__":

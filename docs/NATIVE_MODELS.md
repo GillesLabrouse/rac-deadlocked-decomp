@@ -6,30 +6,36 @@
 native preparation evaluates original animation index 0: 30 frames and their
 half-frame samples, 107 joints, 46 selected packets and 3,326 triangles. This
 produces an articulated body rather than the previous static outstretched pose.
-The small motion is shown at an explicit diagnostic presentation rate; the
-animation has no inferred state name and no recovered actor clock. There are
+The small motion now follows the recovered primary 589CE0 clock, with original
+per-frame duration records and exact labels for the prepared poses. The animation
+has no inferred state name. Calls are scheduled at an explicit diagnostic
+presentation rate, without asserting a PS2 update frequency. There are
 no character controls, world placement, collision or gameplay in this viewer.
 
 From the repository root, double-click the launcher or run:
 
 ```powershell
 .\run-model-animation.cmd
-.\run-model-animation.cmd --software --pose-frame 30 --capture build/native-assets/animation-frame15.png
+.\run-model-animation.cmd --software --pose-clock-ticks 30 --capture build/native-assets/animation-frame15.png
 ```
 
-`--pose-frame` freezes a **sample index**, so 30 selects original frame 15 at
-fraction 0. Without that option, the viewer loops 60 samples at 60 samples/second.
+`--pose-clock-ticks` captures after a bounded number of genuine clock calls, so
+30 reaches original frame 15 at fraction 0 with this clip's duration 2/rate 1.
+Without a capture option, each presentation tick invokes the clock and selects
+the exactly labelled result; no nearest pose or interpolation is substituted.
+The default is 60 presentation ticks/second. This remains a diagnostic setting.
 W/A/S/D, Q/E and arrows operate the inspection camera. No emulator or BIOS is
 used in preparation or playback. The GIF in `build/native-assets` contains
-actual software captures of every sample, not an inferred animation.
+actual software captures. `armor-0-native-clock-animation.gif` records all 60
+states through the integrated clock; the previous sampled GIF remains available.
 
 To regenerate using the current local direct-ISO validation inputs and PNG:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/check-native.ps1
 venv/Scripts/python.exe tools/prepare_native_animation.py `
-  build/drafts/root-animation-original-armor-container.bin `
-  build/drafts/root-animation-original-ratchet-animation-class.bin `
+  build/drafts/startup-agent-original-armor-container.bin `
+  build/drafts/startup-agent-original-ratchet-animation-class.bin `
   --texture private/overlays/globals/armor/armors/0/0.png `
   -o build/native-assets/armor-0-native-animation.dlscene
 ```
@@ -40,7 +46,8 @@ generate matrices through 589950 and VU 738/858, apply the real bind 48 records
 through 589B60 and A40/AA8, then execute selected vertex blend and GS FIFO
 topology. Host arithmetic remains an ordered binary32 approximation of VU
 arithmetic. The preparation selects explicit banks/fractions; it does not run
-the DMA loader, actor update, secondary blending or original rendering clock.
+the DMA loader, player update or secondary blending. Runtime primary clock
+advancement is handled by the separate recovered CPU component.
 
 An authored cache-write dependency proof ensures that every inherited unknown
 word reaches only ignored scale.w/translation.w lanes. Quaternion, XYZ and
@@ -59,6 +66,24 @@ rate, fingerprint, six bounds and a zero reserved 64-bit word. Payload is sample
 order, vertex order, three binary32 positions. The loader limits files to 256 MiB,
 requires one identity instance, finite bounded positions and exact extents, and
 preserves UV/color/topology while updating a mutable Direct3D vertex buffer.
+The additional `.dlclock` sidecar carries the original 152-byte clip metadata,
+60 exact frame labels, explicit incoming flags and fingerprints binding both
+the scene and all pose dimensions/bounds/position bits. The loader rejects
+inconsistent assets and advance leaves its state intact when a result has no
+exact pose label. The effective rate is 1 per call; `--clock-tick-rate` controls
+presentation scheduling and `--clock-flags` supplies explicit diagnostic flags.
+Clip 0/frame 0/rate 1/first-duration follow the original 668070→688FE0 reset;
+flags 55 remain an explicit input since that reset does not initialize them.
+The final player-state/equipment clip selection is outside this preview.
+
+Root's production scene/clock libraries agree with original 589CE0 on 120 calls:
+9,364 instructions, 121 states/10,406 actor bytes and zero differences, with all
+60 labels selected exactly. All 394 authored attachment checks and 122 checks
+using the actual prepared package pass;
+all 64 native tests and 171 Python tests pass after integration. Physical EE
+rounding remains approximate; events, scheduler, live pose decoding and a
+complete player frame are excluded. Geometry still uses prepared native poses.
+
 The viewer performs no host joint interpolation. All packages, disc-derived
 inputs, reports and captures remain local and ignored.
 

@@ -1677,3 +1677,26 @@ prove a later one. Emulator tests are optional reference checks.
 - The preceding static-body integration proof finished before this oracle
   change and retains its recorded input hashes. The new capsule replay uses
   the new frozen oracle. Nothing is pushed.
+
+## 2026-10-11 — Show recovered primary clock in the native preview
+
+- Added a bounded C++ clock attachment and local `.dlclock` packaging with
+  original clip0 durations/metadata, exact pose labels, explicit flags and
+  fingerprints of scene and complete pose data. Each presentation tick calls
+  the recovered primary 589CE0 component and requires an exact pose result;
+  unsupported states refuse atomically without interpolation or nearest labels.
+- Root rebuilt the production libraries and regenerated the direct-ISO package.
+  Their isolated validation bridge agrees with original instructions on 120
+  calls/121 states: 9,364 instructions, 10,406 actor bytes and zero differences.
+  All 60 pose labels are reached; 394 authored and 122 actual-package attachment
+  checks pass.
+- The main launcher is switched only after build, package, original replay and
+  actual WARP captures succeed. Tick 0/tick 16 captures contain 123,204/122,623
+  non-background pixels and are inspected. Presentation tick rate remains an
+  explicit diagnostic setting; no PS2 update frequency is inferred. Poses stay
+  precomputed; player controls, secondary blending, events and gameplay are absent.
+- Recorded a new local GIF from 60 distinct actual integrated-clock captures.
+  Its 60 encoded frames retain a one-second presentation loop using the GIF
+  format's 10ms timestamp units. The prior sampled GIF remains available.
+- All 64 registered native tests pass in 3.93 seconds; all 171 Python tests pass
+  in 2.359 seconds. The playable objective remains active; nothing is pushed.

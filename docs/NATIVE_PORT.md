@@ -883,8 +883,8 @@ EE adder alignment behavior not established by the finite chopped-float model.
 Root's fresh original/SN/native replays compare 911 dyadic cases and 893 extra
 mixed-duration cases (including durations3/5/7/31/255/32767) with zero byte
 differences. The two runs compare 461,824 actor bytes; unsupported cases are
-reported separately. All 16,335 focused checks pass. The current visible viewer
-still plays prepared pose samples; this clock is not yet wired into that loop.
+reported separately. All 16,335 focused checks pass. The visible viewer now
+uses this primary clock to select exact prepared pose labels as described below.
 
 `dreadzone_animation_0058ACB8` now cleans the complete secondary-layer list
 through real 0058A8D8 release effects. The next link is captured before clearing
@@ -941,7 +941,18 @@ on 460 supported scenarios (128 with original class 23F7 clip metadata), includi
 clip selection, display cadence and DMA remain outside this API.
 
 All 63 registered native tests pass in 3.96 seconds after these integrations.
-The visible model remains a sampled animation preview with no player controls.
+The visible model remains an animation preview with no player controls.
+
+The preview's optional `pose_clock` attachment invokes the recovered primary
+clock for each presentation tick and requires an exact prepared frame label.
+Its sidecar binds the original definition/durations and explicit diagnostic
+flags to both scene and pose data. Root's integrated production libraries agree
+with original 589CE0 on 120 calls/121 states: 9,364 instructions, 10,406 actor bytes
+and zero differences. All 394 authored and 122 actual-package attachment checks
+pass. The main launcher
+now uses this attachment; 60 ticks/second schedules presentation and is not a
+claim about PS2 update frequency. No event wrapper, live pose decoding, secondary
+blend or player frame is added. All 64 registered native tests pass in 3.93 seconds.
 
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
