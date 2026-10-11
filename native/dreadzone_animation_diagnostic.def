@@ -1,4 +1,5 @@
 EXPORTS
+    dreadzone_payload_relocate
     dreadzone_player_record_transform
     dreadzone_player_volume_update
     dreadzone_placed_actors_load

@@ -1,5 +1,46 @@
 # Local development progress
 
+## 2026-10-12 — Integrate complete supported serialized payload relocation
+
+- Publish native/dreadzone_payload_relocation.{c,h}, supported full240-byte
+  actual0057BDC8 with the genuine56-byte0055D470 paired-quad copy. Preserve
+  global bounds read before supplied overrides, signed actor class/index gates,
+  mutable descriptor/cursor loads, descriptor offset publication and final64
+  cursor alignment. Aligned positive copies retain actual rounded32 source
+  footprints; finite arena/copy/index limits and below2GiB domains are explicit.
+  Borrowed descriptors and all late failures use atomic host RAM publication.
+- Central production DLL passes20 wholeRAM comparisons/121112EE/880 real copy
+  calls/209715200bytes. Four cases use all342 original mission records as
+  explicit diagnostic actor class/AC fields; all219 nonnegative indices are
+  unique and their actual serialized descriptors/payloads execute. Remaining
+  cases cover the isolated original record142, skipped actors and empty range,
+  supplied/global bounds. The real source+F0 quad read for an F0 copy is traced.
+- Twelve independent alias/borrowed-request comparisons plus four atomic
+  refusals pass against the final DLL. Source aliases actor AC; copy can change
+  cursor/descriptor or the next actor gate. Complete maintained integer original
+  callee execution verifies these loads and delays;22 register-state variations
+  also pass. Strong review477s finds no supported-domain blocker. Native39-check
+  regression/all101 tests pass6.61s; exactaudit316/zero failures/progresscheck.
+- Another12 final-DLL wholeRAM/SPR comparisons chain actual57B788 then57BDC8:
+  93012EE/62604VU/126025728bytes. The unchanged originalISO9207 placement record,
+  genuine published class resources and actual serialized F0 payload are used.
+  Raw actorAC22 becomes the real diagnostic cursor pointer. Only the isolated
+  header count, published pool/upload inputs and arena addresses are supplied;
+  this is not a selected whole-mission startup or completed player constructor.
+- Preserve mission42's mistaken no-overread sentence and its separate
+  correction. Memory54's three SN copy variants and memory55's three getter
+  variants all fail exact comparison and remain nonmatching;zero accepted/hour
+  in their recorded242s/260.828s windows. Stop further variants. Getter666140
+  has a36-byte complete body despite fragmented inventory;no accepted count is
+  added. Root prioritizes constructor closure over more unusable drafts.
+- Constructor43 confirms genuine phase-zero668070 arguments: null supplied
+  actor, record+A0/B0 pointers and index, actual writable-data vtable3B10C0.
+  Virtual reset6A6598 clears31F0 and calls the genuine filler/base initializer.
+  Do not invent a prior actor after reset. Strong original constructor replay
+  now audits the next reached dependencies. Integration timing/source/proof
+  hashes: private/root-payload-relocation-final-receipt.json. One native boundary,
+  zero exact functions, zero playable features; no viewer change or push.
+
 ## 2026-10-12 — Integrate player record transformation and collision volumes
 
 - Publish native/dreadzone_player_record_transform.{c,h} and player_volume

@@ -1,6 +1,29 @@
 # Resume checkpoint — active development, 2026-10-11
 
-Latest native checkpoint: complete supported0066E580 player record transform
+Latest native checkpoint: native/dreadzone_payload_relocation.{c,h} implements
+supported full0057BDC8 + real0055D470 copy. Central20 wholeRAM cases pass
+121112EE/880copycalls/209715200B, including four diagnostic all342 original
+class/AC tables with219 real unique serialized payloads.12 independent alias
+comparisons/four atomic refusals and22 register-state variations pass. Twelve
+placed-actor+payload original chains also pass93012EE/62604VU/126025728B;
+genuine9207 resource actorAC22 now relocates to its copied originalF0 payload.
+Explicit original mission descriptors, diagnostic pools/cursor/header count,
+aligned copy spans and bounded index/length/RAM/2GiB domains remain required.
+No runtime mission selection, complete constructor, repeated frame or viewer
+change.39 focused checks/all101 native tests pass6.61s;316exact/0/progresscheck.
+Preserve root-payload-relocation-*, root-placed-payload-chain-* and strong
+sol-payload-relocation-review-* frozen proofs/receipt. Mission42 overread
+correction is separate;F0 copy really reads100B, notF0. Memory54/55 both0exact
+in their bounded3variant lots; do not continue compiler variants blindly.
+Root integration receipt captures timing/hashes. No push.
+Next: original ctor668070 authenticnullA1 path. Actualcaller6A8420 record
+368F60+index31F0,vtable3B10C0, A2record+A0/A3record+B0/T0index. Virtualreset
+6A6598 clears31F0then6A93A0; pointers/indexsurvive, oldactor2EF0doesnot.
+Commandsconstructor43 report/raw.data vtable verification is preserved; strong
+sol-constructor-entry-review currently traces real original dependencies with
+no mocked callee or fabricated postreset actor. Root owns native integration.
+
+Earlier native checkpoint: complete supported0066E580 player record transform
 and00587188 volume update are integrated in native/dreadzone_player_* files.
 Central68 wholeRAM/SPR matches33550EE/2956VU/714145792bytes; eight atomic
 record refusals. Volume58 independent whole-memory matches and six atomic

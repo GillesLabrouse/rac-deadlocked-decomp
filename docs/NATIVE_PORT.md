@@ -1687,3 +1687,20 @@ refusals and58 volume comparisons plus six atomic refusals. All100 native
 regressions pass. These entries add neither exact matching coverage nor a
 controllable player. Serialized reference relocation, authentic construction,
 repeated input/movement/collision and live pose/camera remain integration work.
+
+## Serialized actor payload relocation (2026-10-12)
+
+`dreadzone_payload_relocate` supplies the supported complete L01 0057BDC8
+RAM boundary and actual 0055D470 forward paired-quad copy. Global actor bounds
+are read before optional supplied overrides. Actor class/negative-index skips,
+cursor reloads, descriptor mutation and final64 alignment preserve original
+order and aliases. The F0 copy reads100 bytes; source footprints are preflighted.
+See the header for arena, index, length, alignment and2GiB limits. Original
+external stack/register ABI and runtime mission selection are excluded.
+
+The central DLL passes32 original/native wholeRAM comparisons and four atomic
+refusals, plus12 full original actor-loading/payload RAM/SPR chains. Original
+mission class/AC fields cover342 diagnostic actors and219 genuine serialized
+payloads; no synthetic payload contents are substituted. The focused39 checks
+and all101 native tests pass. Authentic initialization and repeated gameplay
+remain outstanding; the scene viewer still has no controllable player.
