@@ -1,5 +1,22 @@
 # Resume checkpoint — active development, 2026-10-11
 
+Latest exact integration: src/game/00511310.c, complete eight-byte raw record
+backlink store, also actualL01 667050. No relocations; fresh and production C
+objects pass full unmasked real links at resident and47 independently located
+overlay references. Actual668070 caller flow supplies record and record+2EF0's
+actor; original-only maintained oracle checks1024 inputs/2048EE. Incremental
+production build1compile/259reuse; audit315exact/0failures; generated progress
+andcheck pass. Native97tests remain latest; no new viewer/player behavior.
+Preserve private/root-player-backlink-* proofs and first splitter API error;
+memory48 initial wrong missing-ELF report and correction are separate artifacts.
+
+Current stronger worker traces the authentic first occupied-actor producer;
+lighter workers HOLD. Root continues startup/player/frame/input/collision/
+rendering. No push; no complete player construction or controllable Ratchet.
+Read latest PROGRESS_LOG and root private receipts before older checkpoints.
+
+Previous native allocation checkpoint follows.
+
 Latest integration: native/dreadzone_guest_actor_pool.{c,h}, supported complete
 5869E0 allocation via real58D538, fresh586B10/model/compaction and payload clear.
 Explicit cloned RAM/SPR/VU, atomic refusal/result backing guards, complete mapped

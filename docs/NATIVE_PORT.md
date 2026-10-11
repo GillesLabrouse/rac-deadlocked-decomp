@@ -1,5 +1,16 @@
 # Native PC development
 
+## Exact constructor backlink leaf
+
+Resident `src/game/00511310.c` now recovers the complete raw record -> actor+90
+store, shared with actual L01 00667050. Fresh and final production objects have
+no relocations and match all eight bytes after genuine linking at resident and
+47 independently located overlay references. The complete constructor caller
+flow validates the pointer roles. This adds one distinct exact function;
+production audit passes 315/zero failures and generated progress agrees.
+It is not newly linked into the native viewer and supplies no constructor,
+player or repeated frame by itself. Latest native suite remains 97 tests.
+
 ## Guest actor allocation boundary
 
 `dreadzone_guest_actor_allocate` implements supported complete L01 005869E0

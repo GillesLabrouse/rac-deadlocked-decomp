@@ -1,5 +1,35 @@
 # Local development progress
 
+## 2026-10-11 — Accept the exact player-record backlink leaf
+
+- Confirm the actual full eight-byte L01 00667050 entry and resident canonical
+  00511310 alias with identical raw bytes. Complete constructor argument flow
+  retains incoming record in S1, restores it to A0, and supplies record+2EF0's
+  actor in the real JAL delay slot. The recovered C stores the raw record link
+  at actor+90. Normalized grouping alone is not used as identity proof.
+- Lightweight correction lot uses one C variant and established SN compilation;
+  its first built-in linker-script parse failure is preserved. Root independently
+  recompiles, checks genuine ELF relocations (none) and links all eight bytes
+  unmasked at resident and 47 independently located actual overlay addresses.
+  Private and production objects pass every reference, including L01. Maintained
+  original integer execution checks 1,024 arbitrary inputs and 2,048 instructions.
+- Root's first cross-level checker calls the splitter with a path instead of
+  its required section bytes/address, failing before any overlay claim. Preserve
+  failed checker and use each real ELF text section. Complete rerun passes.
+  Production incremental build compiles one source and reuses 259; complete
+  audit is 315 exact/zero failures, resolved resident link passes, generated
+  progress and its check agree. Count one function, not 47 copies.
+- Memory48 initial erroneous path report takes 112s; correction takes 250s.
+  Total active worker time is 362s for one accepted function (9.94 functions/hour
+  for this lot only), with 401s elapsed including dispatch gap. Preserve the
+  initial false missing-ELF report and explicit correction. Exact wrapper lot37
+  remains nonmatching and held; no further variants are integrated.
+- Native suite remains 97 passing tests from the guest-actor checkpoint; this
+  leaf is not newly linked into the viewer. No playable feature is added.
+  Root receipt records separate measured public integration time, source/build/
+  proof hashes and failures. Continue authentic first occupied-actor producer,
+  full constructor and repeated frame. Work stays local without push.
+
 ## 2026-10-11 — Compose complete supported guest actor allocation
 
 - Independently recover actual 5869E0..586B10/304-byte and

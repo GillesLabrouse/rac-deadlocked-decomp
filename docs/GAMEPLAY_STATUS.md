@@ -2,7 +2,7 @@
 
 Current checkpoint: 2026-10-11. The Windows executable displays Dreadzone scenery
 and a separate prepared animation diagnostic. It does not run a controllable
-Ratchet or a complete gameplay frame. Matching coverage is 314 functions of
+Ratchet or a complete gameplay frame. Matching coverage is 315 functions of
 15,766 (0.559% code); this percentage does not measure playable readiness.
 
 | Required gate | Verified pieces | Remaining integration |
@@ -77,6 +77,14 @@ original allocator never explicitly advances that boundary. Reached debug
 exhaustion callbacks are unsupported. Complete player construction remains open.
 
 ## Latest startup component
+
+Record backlink `src/game/00511310.c` is now exact C. Its complete eight-byte
+store matches resident and 47 independently located overlay copies after real
+linking, including actual L01 00667050. The constructor's raw argument flow
+confirms record -> actor+90. Original-only execution checks 1,024 arbitrary
+register/memory inputs. The production audit passes 315 exact/zero failures and
+generated progress agrees. This is one distinct function and does not execute
+the constructor or create a playable actor.
 
 Packed environment leaf `src/game/00470090.c` is now exact C: unmasked64-bit
 shift/OR packing, actor+38 store and64-bit return. Fixed register declarations
