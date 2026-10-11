@@ -2178,3 +2178,23 @@ prove a later one. Emulator tests are optional reference checks.
 - The full PS2 wall draft stays NONMATCHING; native masks do not increase the
   289 exact-function count. Ground composition and67D6E8 response validation
   continue separately. No playable-character or visible-control claim. No push.
+
+## 2026-10-11 — Accept the adjacent startup setter
+
+- Root freshly compiles0015EEF8, verifies its complete eight-byte resident
+  boundary and genuine GPREL16/global address, then checks unmasked exact
+  linking. Its actual L01 initialization callers are independently located.
+  The production object links exactly, the shared audit passes290 with zero
+  mismatches, and generated progress check passes. One source compiles,233
+  are reused. Memory batch7 takes84s with no compile/object/link failures.
+- At11:39:55 UTC, ten accepted since10:19:14 across4841.66s gives7.44/hour,
+  including main native work. The measured183.81s root integration wall window
+  includes concurrent native fixture review and excludes later report/commit
+  authoring. Fifteen distinct recovery candidates have been attempted and
+  five remain unaccepted. The command worker switches to an independent
+  read-only review of ground composition; memory recovery uses one small
+  candidate at a time. No third new recovery worker is added.
+- Native whole-ground comparisons now exercise genuine mandatory side calls,
+  with finite VF W, actual prior caller-stack W and affine translation. This
+  is an explicit contact fixture, not constructor or playable-frame evidence.
+  Exact matching and native functionality remain separate; nothing is pushed.
