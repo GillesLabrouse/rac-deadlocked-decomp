@@ -2102,3 +2102,32 @@ prove a later one. Emulator tests are optional reference checks.
 - Keep two Luna recovery workers, with exclusive draft/intermediate names.
   No third new recovery worker is added. Native collisions/frame composition
   continue; this acceptance adds no visible controls or playable character.
+
+## 2026-10-11 — Close caller-vector and ground-contact helper interfaces
+
+- Added the native wall entry accepting the two genuine caller-local quads.
+  Both full inputs are captured before persistent writes, including RAM,
+  output and partial input aliases. The existing mapped-vector interface
+  remains available. Ignored endpoint W words are not substituted geometry.
+- Root production-library replay executes full original and isolated SN wall
+  code with real caller-owned stack quads above SP. All750 authentic rays
+  (146 hits/604 misses),12 output aliases, three RAM aliases and one overlapping
+  input pair pass. Six refusal cases preserve RAM/output. All4,050,068,736
+  compared bytes agree:13,055,722 EE instructions,67,408 VU pairs,155.23s;
+  every bound input remains unchanged, with zero captured calls.
+- Integrated complete surface542FF8 and inclination68AFF8 native helpers.
+  Inclination retains all actual modes, raw terrain normals and affine W.
+  Root freshly compiles/strict-links their full L01 drafts (44/48 and196/216
+  bytes, NONMATCHING) and independently replays the production libraries.
+  All408 surface and979 inclination cases pass, including146 real normals,
+  2,094 aliases,22 genuine numeric boundaries and one separately classified
+  conservative W-subnormal refusal.48,139,392 bytes agree, no captured calls.
+- The wall fixture has74 checks and helpers321; all77 central tests pass in
+  4.13s. One private bridge's empty-translation-unit warning was corrected
+  before the production-library replay. Finite host floating/VU/Q arithmetic
+  remains an explicit approximation, not physical timing validation.
+- The collision agent audits the true masks2/24/4/22, actual callers and
+  primitive/model gates before extending the supported ordinary terrain path.
+  Root owns ground/frame composition. Model and eligible primitive geometry
+  remain atomic refusals; no complete player frame or playable Ratchet yet.
+  Matching remains287; nothing is pushed.

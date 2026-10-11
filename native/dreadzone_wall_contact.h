@@ -41,4 +41,16 @@ enum { DREADZONE_WALL_INVALID=-1,DREADZONE_WALL_UNSUPPORTED=-2 };
  * effects. Exclusive access is required during the snapshot transaction.
  */
 int dreadzone_wall_contact(const DreadzoneWallRequest *request,DreadzoneWallInfo *info);
+/* Same complete bounded probe, using two actual caller-local quads. Both
+ * 16-byte inputs are captured before the first persistent write. start_guest
+ * and end_guest are unused; no temporary guest mapping is manufactured.
+ * Inputs may overlap each other, request fields, backing RAM or the output
+ * info, subject to the existing info/request/backing disjointness contract.
+ * W words are read as part of each quad and genuinely cleared in the original
+ * endpoint registers, so they do not enter geometry or mutate input quads.
+ * Caller must provide readable nonwrapping host spans with exclusive access.
+ * Failure preserves backing and info. Masks/cache/numeric bounds are unchanged.
+ */
+int dreadzone_wall_contact_vectors(const DreadzoneWallRequest *request,
+    const u32 start_words[4],const u32 end_words[4],DreadzoneWallInfo *info);
 #endif

@@ -1264,8 +1264,23 @@ production64-bit bounds implementation. The final agent recipe and root's
 production-library replay select `native/include/common.h`, and include high
 address/wrap refusal checks. The historical evidence is retained separately.
 
-Caller masks0x24/4/0x22, actual caller-local endpoint captures, surface and
-inclination helpers, full67D6E8 wall response and ground/frame composition
+The vectors entry now captures the two actual caller-local quads before any
+persistent writes. A root production-library comparison passes750 authentic
+rays and16 output/RAM/input-overlap cases against whole original and SN code
+using genuine caller-owned stack quads. All4,050,068,736 RAM bytes agree over
+13,055,722 EE instructions and67,408 VU pairs; six explicit invalid or
+unsupported inputs preserve RAM/output. Every bound input stays unchanged.
+
+`dreadzone_wall_helpers` supplies complete542FF8 surface classification and
+68AFF8 inclination, including all mode bytes and genuine affine input W.
+Root freshly compiles the complete NONMATCHING PS2 drafts and links its native
+replay DLL to the central production libraries. All408 surface/979 inclination
+cases pass, including146 raw terrain normals and2,094 aliases. Twenty-two
+original numeric boundaries and one conservative W-subnormal source refusal
+remain separately classified. The helpers do not normalize terrain inputs.
+The wall fixture passes74 checks, helpers321; all77 native tests pass in4.13s.
+
+Caller masks0x24/4/0x22, full67D6E8 wall response and ground/frame composition
 remain work. Current numeric/VU/Q semantics remain a declared finite host
 approximation, with no physical DMA/timing or playable-character claim.
 

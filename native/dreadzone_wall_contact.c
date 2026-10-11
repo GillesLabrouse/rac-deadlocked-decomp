@@ -12,6 +12,8 @@ typedef struct WallWork {
     DreadzoneWallInfo info;
     u8 *memory;
     int failed;
+    u32 endpoint_words[2][4];
+    int endpoints_local;
 } WallWork;
 static u32 wall_bits(float value){u32 word;memcpy(&word,&value,4);return word;}
 static float wall_float(u32 word){float value;memcpy(&value,&word,4);return value;}
@@ -115,8 +117,12 @@ static int wall_calculate(WallWork *p){
     DreadzoneTerrainContactRequest terrain;DreadzoneTerrainContactInfo terrain_info;
     DreadzoneCollisionTriangleContact contact;u32 i,j,generation,root;int result;
     if(p->r.caller_flags!=2U||p->r.cache_guest)return DREADZONE_WALL_UNSUPPORTED;
-    if(!wall_range(p,p->r.start_guest,16,16)||!wall_range(p,p->r.end_guest,16,16)||!wall_range(p,p->r.packet_guest,128,16))return p->failed;
-    for(i=0;i<3;i++){start[i]=wall_load(p,p->r.start_guest+4*i);end[i]=wall_load(p,p->r.end_guest+4*i);}
+    if(!p->endpoints_local&&(!wall_range(p,p->r.start_guest,16,16)||!wall_range(p,p->r.end_guest,16,16)))return p->failed;
+    if(!wall_range(p,p->r.packet_guest,128,16))return p->failed;
+    for(i=0;i<3;i++){
+        start[i]=p->endpoints_local?wall_check(p,wall_float(p->endpoint_words[0][i])):wall_load(p,p->r.start_guest+4*i);
+        end[i]=p->endpoints_local?wall_check(p,wall_float(p->endpoint_words[1][i])):wall_load(p,p->r.end_guest+4*i);
+    }
     generation=wall_read(p,p->r.packet_guest+16,4);if((s32)generation<0)return 0;
     if(generation==0x7FFFFFFFU)return DREADZONE_WALL_UNSUPPORTED;
     generation++;wall_store(p,p->r.packet_guest+16,generation);
@@ -157,12 +163,17 @@ static int wall_calculate(WallWork *p){
     }
     return p->failed?p->failed:result;
 }
-int dreadzone_wall_contact(const DreadzoneWallRequest *request,DreadzoneWallInfo *info){
+static int wall_execute(const DreadzoneWallRequest *request,const u32 *start_words,const u32 *end_words,DreadzoneWallInfo *info){
     WallWork p;uintptr_t a,b,c;int result;
     if(!request||!info)return DREADZONE_WALL_INVALID;
     a=(uintptr_t)request;b=(uintptr_t)info;
     if(a>UINTPTR_MAX-sizeof(*request)||b>UINTPTR_MAX-sizeof(*info)||(a<b+sizeof(*info)&&b<a+sizeof(*request)))return DREADZONE_WALL_INVALID;
     memset(&p,0,sizeof(p));memcpy(&p.r,request,sizeof(p.r));c=(uintptr_t)p.r.storage;
+    if(start_words){
+        uintptr_t first=(uintptr_t)start_words,second=(uintptr_t)end_words;
+        if(!end_words||first>UINTPTR_MAX-16U||second>UINTPTR_MAX-16U)return DREADZONE_WALL_INVALID;
+        memcpy(p.endpoint_words[0],start_words,16);memcpy(p.endpoint_words[1],end_words,16);p.endpoints_local=1;
+    }
     if(!p.r.storage||!p.r.storage_bytes||c>UINTPTR_MAX-p.r.storage_bytes||(u64)p.r.guest_base+p.r.storage_bytes>0x80000000ULL||
        (p.r.guest_base<=0x70003FFFU&&(u64)p.r.guest_base+p.r.storage_bytes>0x70000000ULL)||
        (b<c+p.r.storage_bytes&&c<b+sizeof(*info))||!p.r.actor_pool_count||p.r.actor_pool_count>65536U||!p.r.grid_block_count||p.r.grid_block_count>3072U)return DREADZONE_WALL_INVALID;
@@ -170,4 +181,11 @@ int dreadzone_wall_contact(const DreadzoneWallRequest *request,DreadzoneWallInfo
     memcpy(p.memory,p.r.storage,p.r.storage_bytes);result=wall_calculate(&p);if(p.failed)result=p.failed;
     if(result>=0){memcpy(p.r.storage,p.memory,p.r.storage_bytes);memcpy(info,&p.info,sizeof(*info));}
     free(p.memory);return result;
+}
+int dreadzone_wall_contact(const DreadzoneWallRequest *request,DreadzoneWallInfo *info){
+    return wall_execute(request,NULL,NULL,info);
+}
+int dreadzone_wall_contact_vectors(const DreadzoneWallRequest *request,const u32 start_words[4],const u32 end_words[4],DreadzoneWallInfo *info){
+    if(!start_words||!end_words)return DREADZONE_WALL_INVALID;
+    return wall_execute(request,start_words,end_words,info);
 }

@@ -28,6 +28,51 @@ static void unchanged(DreadzoneWallRequest *r,DreadzoneWallInfo *info,int expect
     u8 *before=(u8 *)malloc(r->storage_bytes);DreadzoneWallInfo old;memcpy(before,r->storage,r->storage_bytes);memset(info,0x7C,sizeof(*info));old=*info;
     CHECK(dreadzone_wall_contact(r,info)==expected);CHECK(memcmp(before,r->storage,r->storage_bytes)==0);CHECK(memcmp(&old,info,sizeof(old))==0);free(before);
 }
+static void vector_tests(void){
+    u8 *p=(u8 *)malloc(0x30000),*reference=(u8 *)malloc(0x30000),*before=(u8 *)malloc(0x30000);
+    DreadzoneWallRequest r,other;DreadzoneWallInfo info,expected,old;u32 start[4],end[4],saved[8];int result;
+    if(!p||!reference||!before){CHECK(0);free(p);free(reference);free(before);return;}
+    fixture(p,&r);memcpy(start,p+0x100,16);memcpy(end,p+0x110,16);
+    /* Endpoint W is cleared by the genuine entry, including non-finite bits. */
+    start[3]=0x7FC01234U;end[3]=0xFF800000U;memcpy(saved,start,16);memcpy(saved+4,end,16);
+    memcpy(reference,p,0x30000);other=r;other.storage=reference;
+    result=dreadzone_wall_contact(&other,&expected);r.start_guest=0xFFFFFFFFU;r.end_guest=1;
+    CHECK(dreadzone_wall_contact_vectors(&r,start,end,&info)==result);
+    CHECK(memcmp(p,reference,0x30000)==0&&memcmp(&info,&expected,sizeof(info))==0);
+    CHECK(memcmp(start,saved,16)==0&&memcmp(end,saved+4,16)==0);
+    /* Both source quads are captured before the aliased output is published. */
+    fixture(p,&r);memcpy(reference,p,0x30000);other=r;other.storage=reference;
+    result=dreadzone_wall_contact(&other,&expected);
+    memcpy(&info,p+0x100,16);memcpy((u8 *)&info+16,p+0x110,16);
+    CHECK(dreadzone_wall_contact_vectors(&r,(const u32 *)&info,(const u32 *)((const u8 *)&info+16),&info)==result);
+    CHECK(memcmp(p,reference,0x30000)==0&&memcmp(&info,&expected,sizeof(info))==0);
+    /* The first persistent generation write aliases the original start quad. */
+    fixture(p,&r);memcpy(p+0x210,p+0x100,16);r.start_guest=r.packet_guest+16;
+    memcpy(reference,p,0x30000);other=r;other.storage=reference;
+    result=dreadzone_wall_contact(&other,&expected);
+    CHECK(dreadzone_wall_contact_vectors(&r,(const u32 *)(p+0x210),(const u32 *)(p+0x110),&info)==result);
+    CHECK(result==1&&get(p+0x210)==0x41200001U);
+    CHECK(memcmp(p,reference,0x30000)==0&&memcmp(&info,&expected,sizeof(info))==0);
+    /* Partially overlapping source spans still retain both original quads. */
+    fixture(p,&r);memcpy(saved,start,16);memcpy(saved+1,end,16);
+    memcpy(p+0x100,saved,16);memcpy(p+0x110,saved+1,16);
+    memcpy(reference,p,0x30000);other=r;other.storage=reference;
+    result=dreadzone_wall_contact(&other,&expected);
+    CHECK(dreadzone_wall_contact_vectors(&r,saved,saved+1,&info)==result);
+    CHECK(memcmp(p,reference,0x30000)==0&&memcmp(&info,&expected,sizeof(info))==0);
+    fixture(p,&r);memcpy(start,p+0x100,16);memcpy(end,p+0x110,16);
+    memcpy(before,p,0x30000);memset(&info,0xC7,sizeof(info));old=info;start[0]=0x7FC00000U;
+    CHECK(dreadzone_wall_contact_vectors(&r,start,end,&info)==DREADZONE_WALL_UNSUPPORTED);
+    CHECK(memcmp(before,p,0x30000)==0&&memcmp(&info,&old,sizeof(info))==0);
+    CHECK(dreadzone_wall_contact_vectors(&r,NULL,end,&info)==DREADZONE_WALL_INVALID);
+    CHECK(dreadzone_wall_contact_vectors(&r,start,NULL,&info)==DREADZONE_WALL_INVALID);
+    CHECK(dreadzone_wall_contact_vectors(&r,(const u32 *)(UINTPTR_MAX-3U),end,&info)==DREADZONE_WALL_INVALID);
+    CHECK(memcmp(before,p,0x30000)==0&&memcmp(&info,&old,sizeof(info))==0);
+    memcpy(start,p+0x100,16);r.packet_guest=0x42FFF0;
+    CHECK(dreadzone_wall_contact_vectors(&r,start,end,&info)==DREADZONE_WALL_INVALID);
+    CHECK(memcmp(before,p,0x30000)==0&&memcmp(&info,&old,sizeof(info))==0);
+    free(before);free(reference);free(p);
+}
 int main(void){
     u8 *allocation=(u8 *)malloc(0x30002),*p;DreadzoneWallRequest r;DreadzoneWallInfo info;u32 i;
     if(!allocation)return 1;p=allocation+1;allocation[0]=0xC8;allocation[0x30001]=0x9B;
@@ -78,5 +123,5 @@ int main(void){
     fixture(p,&r);r.guest_base=0x80000000U;unchanged(&r,&info,DREADZONE_WALL_INVALID);
     fixture(p,&r);r.guest_base=0xFFFF0000U;unchanged(&r,&info,DREADZONE_WALL_INVALID);
     CHECK(dreadzone_wall_contact(NULL,&info)==DREADZONE_WALL_INVALID);CHECK(dreadzone_wall_contact(&r,NULL)==DREADZONE_WALL_INVALID);
-    free(allocation);printf("%u checks, %u failures\n",checks,failures);return failures?1:0;
+    vector_tests();free(allocation);printf("%u checks, %u failures\n",checks,failures);return failures?1:0;
 }
