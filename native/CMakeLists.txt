@@ -3,6 +3,13 @@ project(deadlocked_native LANGUAGES C CXX)
 
 include(CTest)
 
+add_library(deadlocked_native_dreadzone_collision_publish STATIC dreadzone_collision_publish.c)
+target_include_directories(deadlocked_native_dreadzone_collision_publish PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_collision_publish PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_collision_publish PRIVATE /W4 /WX)
+endif()
+
 # Explicitly selected portable functions; never link retail machine code.
 add_library(deadlocked_native_core STATIC
     ../src/core/00139A58.c
@@ -1094,6 +1101,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_actor_position_step_tests PRIVATE /W4 /WX /fp:strict)
     endif()
     add_test(NAME native_actor_position_step_validation COMMAND deadlocked_native_actor_position_step_tests)
+    add_executable(deadlocked_native_collision_publish_tests tests/dreadzone_collision_publish_tests.c)
+    target_link_libraries(deadlocked_native_collision_publish_tests PRIVATE deadlocked_native_dreadzone_collision_publish)
+    if(MSVC)
+        target_compile_options(deadlocked_native_collision_publish_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_collision_publish_validation COMMAND deadlocked_native_collision_publish_tests)
     add_executable(deadlocked_native_pose_masks_tests tests/dreadzone_pose_masks_tests.c)
     target_link_libraries(deadlocked_native_pose_masks_tests PRIVATE deadlocked_native_dreadzone_pose_masks)
     if(MSVC)

@@ -2774,3 +2774,35 @@ prove a later one. Emulator tests are optional reference checks.
   gain27 at14:39:38UTC gives6.22 accepted/hour. No final validation failure.
   Hold further recovery batches while the private collision-state and actual
   table-loader work proceeds. Native stays82 passing tests; no playable frame.
+
+## 2026-10-11 — Verify collision table publication and prepare user-requested pause
+
+- Recover complete actual L01 integer publisher577C70..577D6C (252B,63 reachable
+  words, two return-delay exits, no calls) through fresh CFG/disassembly/m2c.
+  Add a bounded native module that publishes the genuine tree/main/alternative
+  globals and relocates descriptor payload words with actual live pointer/count
+  reloads. Zero tree offset preserves242340; zero table offsets clear globals.
+- Private and final production archive bridges each pass146 complete original
+  RAM comparisons: three authentic container placements and143 explicitly
+  authored offset/count/alias cases. Final proof covers325320704 bytes and
+  12407EE instructions, zero captures/differences, unchanged inputs. The genuine
+  container has twelve main and three alternative records. Guest placements are
+  diagnostic inputs, not a claim that the full level loader has run.
+- Two global-target aliases actually make the original read unmapped memory;
+  native refuses atomically, separately from accepted comparisons. Preserve the
+  first proof script's unclassified boundary failure, then explicitly classify
+  and repeat. Three additional invalid/late-fault refusals are atomic. All83
+  central tests pass in5.30s;36 focused publication checks. Integration134.63s
+  from its checkpoint; no final compile/comparison failures, zero exact credit.
+- Specialist freezes a private additive capsule-state candidate:48 complete
+  original/native RAM/five-W/high64 comparisons,36 whole-original atomic
+  refusals and six API aliases. Includes nine genuine16-attempt retry chains;
+  1436187EE/44880VU,306 contacts and144 history restores, no captured callee.
+  It is not public/accepted and needs independent root review and composition
+  with the now-verified actual table publisher before adoption. Final VF1.W,
+  dynamic VF4, sphere/tilt and other unrecovered paths remain refused.
+- User requests interruption preparation. All workers HOLD, no new batches;
+  save validated code in local commits and retain all private/untracked drafts.
+  Exact307; latest exact throughput receipt6.22/hour at14:39:38UTC, baseline
+  gain27. No complete native player frame or playable Ratchet, no push.
+  Resume from docs/RESUME.md; retain the explicit native/byte-exact distinction.
