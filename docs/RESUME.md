@@ -4,7 +4,19 @@ The user explicitly resumed development after the saved pause. Work is active;
 continue until the user stops it. No push is authorized. Read the latest
 PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 
-Latest integration: native/dreadzone_fresh_class.{c,h}, supported fresh586B10
+Latest exact source: src/game/00470090.c, complete32B packed environment leaf
+shared with actualL01 58D468 and47 independently locatedoverlay references.
+Root C uses only shifts/OR/store, fixedregister declarations and empty scheduling
+barriers; no handwritten instructionbody is adopted. V1 reorders an OR before
+the finalshift; V2 with a thirdbarrier matches. Fresh/private and finalproduction
+objects pass actualrelocation and complete resolvedresident checks, zero relocs.
+Originalstockinteger execution4099 cases/32792EE validates fullRAM/return and
+upper64 preservation. Final audit314exact/0failures; progresscheck314 passes.
+Preserve firstrelative-link-path error and initialmultiline-signature source
+scannerfailure privately. Signature is nowonone line; generator unchanged.
+Native95tests remain latestpassing suite; no newviewer/playable behavior.
+
+Latest native integration: native/dreadzone_fresh_class.{c,h}, supported fresh586B10
 RAM/SPR effects through real filler/env/defaults, guest model allocation with
 compaction, fixed-only initial model update, finalflags. Cleanup mustnotreach;
 explicit diagnosticpublishedtables/relocatedassets are inputs, notprovenance.

@@ -3542,3 +3542,31 @@ prove a later one. Emulator tests are optional reference checks.
   independently enumerated overlayentries. Root is testing C operations with
   empty compilerbarriers instead of adopting that assembly-only arithmetic.
   AllworkersHOLD; furtheragentexpansion is deferred while rootvalidates.
+
+## 2026-10-11 — Recover the environment packing operation as exact C
+
+- Accept resident src/game/00470090.c, actual complete32-byte leaf also located
+  at L01 0058D468 and independently in47 overlays. Semantics are unmasked64-bit
+  component shifts/OR, store8bytes atactor+38, and64-bit return. Root retains
+  C arithmetic with fixedregister declarations and empty compilerbarriers.
+  No instruction strings implement the operation; worker's handwritten assembly
+  remainsprivate. FirstrootC variant still reorders one OR; thirdemptybarrier in
+  V2 retains the actualordering. OriginalSN compiler/assembler pipeline applies
+  no adaptations and produces all8 original instructions, including JR delay.
+- Candidateguard forresident470090 is available. Original split boundary and
+  actualrawreturn/store verify extent32 withno padding. Private and final
+  production objects have zero relocations, pass actualrelocation comparison
+  and full resolvedresident linking. Originalmaintainedinteger oracle executes
+  4099 arbitrary64/fullGPR128 cases,32792EE, comparing complete mappedRAM,
+  return64 and destinationupper64 preservation. Eachoverlay's entry/body is
+  located independently in its own ELF; no crossleveladdress is assumed.
+  This adds one distinct function, not48 copies.
+- Preserve firstlink-helper failure requiring absoluteoutput paths; correct
+  only the root harness. Firstprogresscheck cannot enumerate a multiline
+  signature; put it onone line, preserve oldsource/evidence, rebuild and repeat
+  final exact proof/audit. No parser/config changes. Finalaudit314exact/0failures,
+  progress314/15766 and0.559%code checkpass. Native95passing tests are unchanged
+  because this is originalcompiler source; no new nativefeature/viewer change.
+- Private/root-environment-final-receipt.json records source/object/reference/
+  proof hashes, rootlot elapsed, integration time and acceptedfunctions/hour
+  from the linked workerwindow. No push.

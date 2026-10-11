@@ -2,7 +2,7 @@
 
 Current checkpoint: 2026-10-11. The Windows executable displays Dreadzone scenery
 and a separate prepared animation diagnostic. It does not run a controllable
-Ratchet or a complete gameplay frame. Matching coverage is 313 functions of
+Ratchet or a complete gameplay frame. Matching coverage is 314 functions of
 15,766 (0.559% code); this percentage does not measure playable readiness.
 
 | Required gate | Verified pieces | Remaining integration |
@@ -44,6 +44,16 @@ unsupported. All 95 native tests pass in 29.71 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 ## Latest startup component
+
+Packed environment leaf `src/game/00470090.c` is now exact C: unmasked64-bit
+shift/OR packing, actor+38 store and64-bit return. Fixed register declarations
+and empty scheduling barriers retain compiler ordering; no instruction strings
+implement the arithmetic. Final production object passes complete32-byte
+resolved resident comparison and47 independently located exact overlay
+references, including actual L01 0058D468. The original maintained integer
+oracle passes4,099 arbitrary64/fullGPR128 cases and32,792 actual instructions.
+This adds one distinct exact function; current audit314exact/0failures and
+progresscheck pass. It initializes no actor or player.
 
 Exact leaf `src/overlays/L01/0047FBF0.c` is newly accepted. Its complete 48-byte
 reference includes four trailing padding bytes; both fresh and production
