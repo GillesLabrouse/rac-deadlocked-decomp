@@ -39,12 +39,15 @@ enum DreadzonePositionStepResult {
  * Caller VF25..29 W and both prior ground side-local W words are explicit.
  * Capsule/static preserves the five W values; ground publishes its actual
  * outgoing state. After the first settling call, original EA88 67EBEC
- * publishes A0.word3 into a0.word3. A3F8 transports this real high GPR lane
+ * publishes A0.word3 into a0.word3 when half2FE==0. Otherwise the definite
+ * reached ground publisher supplies that word; a scheduled ground preserves
+ * unknown capsule residue and refuses. A3F8 transports this real high GPR lane
  * into C60, which writes VF28.W through its actual W polynomial tail.
  * Its input is finite normal/zero, |W|<=pi and nonzero |W|>=2^-40; W=1 is
- * supported. The actual active secondary-position branch and EA88's
- * nonzero half2FE producer-bypass branch refuse atomically: their inherited
- * high GPR provenance is not recovered. No caller residue is manufactured.
+ * supported. The actual active secondary-position branch and the scheduled
+ * ground/nonzero-half settling path refuse atomically: their inherited capsule
+ * high GPR provenance is not recovered. Unknown internal bookkeeping is never
+ * consumed by C60 or published as recovered caller state.
  * This adapter follows original W effects; the current SN draft differs in
  * register allocation and is independently nonmatching for these W effects.
  * Other VF/ACC/Q state, hardware exception flags and timing are not claimed.

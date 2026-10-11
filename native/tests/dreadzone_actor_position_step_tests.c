@@ -48,8 +48,8 @@ int main(void) {
     {u32 flags;memcpy(&flags,b+r+0x364-0x21D000,4);CHECK(flags==0xFFFFFFFCU);}
     fixture(b,size);scalar(b,r+0xAC,0.f);status=dreadzone_actor_position_step_0067F5E8(&q,&info);
     CHECK(status==1);CHECK(info.outgoing_vf25_29_w[3]==0);
-    /* A genuine terrain miss bypasses EA88's full-width A0 producer.
-     * Verify the ground path separately, then the whole transaction rollback. */
+    /* A genuine terrain miss bypasses EA88's full-width A0 producer. Its
+     * definite earlier ground publisher closes the C60 W input instead. */
     {
         DreadzoneGroundRequest ground={0};DreadzoneGroundInfo observed;u16 timer;
         fixture(b,size);scalar(b,r+0xA0,100.f);scalar(b,r+0xA4,100.f);
@@ -60,9 +60,29 @@ int main(void) {
         CHECK(dreadzone_actor_ground_step(&ground,&observed)==1);
         memcpy(&timer,before+r+0x2FE-0x21D000,2);
         CHECK(observed.probe_calls!=0&&timer!=0);CHECK(observed.ground_contacts==0);
+        CHECK(dreadzone_actor_position_step_0067F5E8(&q,&info)==1);
+        CHECK(info.ground_calls==1 && info.settle_calls==1 && info.ground_contacts==0);
+        CHECK(info.outgoing_vf25_29_w[3]==0);
+        CHECK(info.position_changed==1);
+
+        /* A clipped terminal ray preserves actual endpoint W1 rather than
+         * clearing it based on its miss result. */
+        fixture(b,size);scalar(b,r+0xA0,100.f);scalar(b,r+0xA4,100.f);scalar(b,r+0xA8,1.f);
+        for(i=0;i<32;++i)memcpy(b+r+0x26F0+16*i-0x21D000,b+r+0xA0-0x21D000,16);
+        b[r+0x266D-0x21D000]=1;
+        CHECK(dreadzone_actor_position_step_0067F5E8(&q,&info)==1);
+        CHECK(info.ground_calls==1 && info.ground_contacts==0 && info.settle_calls==1);
+        CHECK(info.outgoing_vf25_29_w[3]==0x3C055360U);
+
+        /* A scheduled miss has no definite ground publisher. Nonzero half2FE
+         * cannot consume unknown capsule state even when all RAM effects fit. */
+        fixture(b,size);scalar(b,r+0xA0,100.f);scalar(b,r+0xA4,100.f);
+        scalar(b,r+0x2D4,.25f);scalar(b,r+0x2E08,.75f);word(b,r+0x2F10,1);short_word(b,r+0x2FE,2);
+        b[r+0x266D-0x21D000]=1;
+        for(i=0;i<32;++i)memcpy(b+r+0x26F0+16*i-0x21D000,b+r+0xA0-0x21D000,16);
         memset(&info,0xA5,sizeof(info));old=info;memcpy(before,b,size);
         CHECK(dreadzone_actor_position_step_0067F5E8(&q,&info)==DREADZONE_POSITION_STEP_UNSUPPORTED_PATH);
-        CHECK(!memcmp(b,before,size));CHECK(!memcmp(&info,&old,sizeof(info)));
+        CHECK(!memcmp(b,before,size) && !memcmp(&info,&old,sizeof(info)));
     }
     for(i=0;i<7;++i) {
         fixture(b,size);memset(&info,0xA5,sizeof(info));old=info;

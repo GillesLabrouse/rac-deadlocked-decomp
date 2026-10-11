@@ -18,6 +18,7 @@ typedef struct PositionWork {
     u8 *copy;
     int failed;
     u32 approximate_q_bits;
+    DreadzoneProbeRegisters ground_registers;
 } PositionWork;
 typedef struct PositionVector { f32 lane[4]; } PositionVector;
 
@@ -216,7 +217,11 @@ static int ground(PositionWork *w) {
     memcpy(q.incoming_vf25_29_w,w->info.outgoing_vf25_29_w,20);
     memcpy(q.incoming_side_output_w,w->request.incoming_ground_side_w,8);
     if(w->failed)return 0;
-    result=dreadzone_actor_ground_step(&q,&info);
+    /* The preceding capsule state is symbolic/unknown in this adapter.
+     * Poison bookkeeping is never fed into C60: only a definite reached
+     * ground producer or the original settling load may establish its W. */
+    {const u32 unknown[2]={0xFFFFFFFFU,0x7FC0BEEFU};
+     result=dreadzone_actor_ground_registers(&q,unknown,&w->ground_registers,&info);}
     if(!error_status(w,result))return 0;
     ++w->info.ground_calls;w->info.probe_calls+=info.probe_calls;
     w->info.ground_contacts+=info.ground_contacts;
@@ -336,10 +341,14 @@ static int body(PositionWork *w) {
         value=0.f;observed=difference(w,vector(w,b+0xA0),saved);store_vector(w,b+0x150,&observed);
         /* Mode0 + half2FE==0 executes original EA88 67EBEC QMFC2 a0=vf2
          * loaded from A0. All subsequent a0 writes before A3F8 C60 change
-         * only low64. A nonzero half bypasses that genuine full-width
-         * producer, so its caller residue is an unsupported boundary. */
-        if(half(w,b+0x2FE)!=0)return DREADZONE_POSITION_STEP_UNSUPPORTED_PATH;
-        position=vector(w,b+0xA0);headingW=position.lane[3];
+         * only low64. A nonzero half bypasses this producer: accept only a
+         * definite earlier ground publisher. The scheduled capsule residue
+         * remains symbolic and refuses before its W can be consumed. */
+        if(half(w,b+0x2FE)!=0) {
+            u32 word3;
+            if(!w->ground_registers.last_writer_pc)return DREADZONE_POSITION_STEP_UNSUPPORTED_PATH;
+            word3=w->ground_registers.high64[1];memcpy(&headingW,&word3,4);
+        }else {position=vector(w,b+0xA0);headingW=position.lane[3];}
         if(!helper(w,DREADZONE_POSITION_SETTLE,0,0,&value))return w->failed;
     } else headingW=0.f; /* Unreachable after the explicit boundary above. */
     observed=difference(w,vector(w,b+0xA0),saved);

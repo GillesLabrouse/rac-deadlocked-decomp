@@ -2705,3 +2705,33 @@ prove a later one. Emulator tests are optional reference checks.
   requires that capsule state. Actual second-phase67FD74 is PCPYUD, then a real
   second capsule changes the state again. Keep complete active140 refused until
   capsule transport is closed. No complete player frame/playable scene or push.
+
+## 2026-10-11 — Extend position settling through definite ground publishers
+
+- Extend complete inactive140 position execution to reached nonzero half2FE
+  settling only when the actual ground operation definitely publishes raw
+  register state. Preserve negative-axis endpoint W and actual special/surface
+  publishers. Scheduled ground preserves unknown capsule residue, so its
+  nonzero-half path still refuses atomically. Active140 remains unsupported.
+- Fresh isolated implementation and final production archive bridge each pass55
+  complete original RAM/five-W comparisons from65 actual player266D1 calls;
+  ten genuine scheduled/active140 atomic refusals, zero original boundaries.
+  Final proof compares146076480 RAM bytes, executes210958EE/9725VU pairs and
+  independently records the actual last full A0 writer before the first heading
+  call. Zero captures/differences; all proof/build inputs remain unchanged.
+- Internal unknown words are bookkeeping only and never consumed by C60. A
+  definite reached producer must replace them before nonzero-half settling;
+  this API makes no full-frame or complete raw-register transport claim.
+- All82 central tests pass in5.53s;51 focused position checks, six additional
+  checks. Production integration takes449.99s from its checkpoint, excluding
+  earlier private gates; zero compilation/comparison failures. Exact stays304,
+  zero native exact credit and no complete playable scene or push.
+- Independent capsule feasibility audit freezes39 complete original calls,
+  128832EE/36696VU pairs with no captured callee. VF1.W can contain nonzero
+  clipping flags. Only a last supplementary call actually executed with a
+  positive reloaded table count guarantees cleared high64; empty/omitted calls
+  preserve residue. Authentic table diagnostics do not prove runtime loader
+  publication. Keep this work private until the complete transport is verified.
+- Resume two bounded Luna recovery batches with exclusive source/object/output
+  prefixes. Hold additional batches until root validation and integration catch
+  up; shared reports/configuration and all acceptance remain root-owned.
