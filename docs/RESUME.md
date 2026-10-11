@@ -21,7 +21,8 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - 311 accepted exact functions of15766, approximately0.556% code. Last full
   audit:311 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All89 native tests passed in6.02s; record27 focused checks, orientation43,
+- All90 native tests passed in5.63s; environment-reader10 focused checks,
+  record27, orientation43,
   float timer30, counter20, visibility24,
   publication module36,
   position75, ground132 and capsule119. Latest additive entry is
@@ -46,6 +47,15 @@ nonmatching drafts and ignored private/baserom/build evidence.
   class/actor fixtures are diagnostics, not actual startup registration.
   Getter's full36-byte CFG and internal66615C return are respected; catalog
   split is unchanged and no matching-decompilation credit is awarded.
+- Complete L0158D4A0/resident4700C8 environment reader is public native code.
+  Final actual archive proof passes1176 complete original comparisons over588
+  fixtures from both independent references, including64 destination alias
+  combinations and an overwritten request in caller RAM. Eight original faults
+  are atomic host refusals (retail may retain earlier stores), six host guards;
+ 11760EE and1204224 RAM bytes, no captures/differences/hash changes. Two SN
+  variants fail whole40-byte/resolved comparisons; retain both privately and
+  award zero exact credit. Root's full669078 C/CFG remains private: mandatory
+  state0 virtual entry/snapshot and runtime resources still prevent startup.
 - Complete L01 visibility leaf5A8630 is now a public native RAM port. Final
   central-archive proof:673 complete comparisons, four original-fault atomic
   refusals,8065EE and44105728 bytes; no captures, unchanged inputs. Independent
@@ -139,6 +149,22 @@ nonmatching drafts and ignored private/baserom/build evidence.
   Startup audit: `private/luna-commands-resume26-startup-path.md`. Callback entry
   audit: `build/drafts/luna-memory-resume28-callback-entry-audit.md`. Workers HOLD
   after bounded138s/319s read-only lots; no exact variants or public edits.
+- Environment reader: `build/drafts/root-environment-read-production-proof.json`,
+  final build manifest and `private/root-environment-read-final-receipt.json`.
+  Worker review/addendum: `private/root-environment-read-worker-audit.md` and
+  `private/root-child-link-worker-t0-addendum.md`. An unused native t0 option is
+  not demonstrated to be a mismatch for target states0/1/2: its original use
+  requires live state118. Broad static CFG reachability is an overapproximation;
+  do not infer reached runtime state without all prior callee effects.
+  Actor-pool initializer owner640130..640C28 is now independently located with
+  six L01 callers; old640708/640A08 catalog pieces are internal. Asset descriptor
+  global243720 feeds583980, relative structure fields, registry and pool writes.
+  The complete owner remains private/unimplemented; no loader initialization
+  credit. Resume30's claim that m2c is absent is false: use the established
+  `tools/ext/m2c/m2c.py` through the venv; separate correction is pending/retained.
+  Reclass leaf actual591940 has a private exact L01 object; canonical resident
+ 4737F0 is available but needs root ABI/callee/resolved acceptance. Read agent
+  resume27's separate GP/timing/identity addendum; actual GP22597F, final568s.
 - Capsule candidate: `private/transition-agent-capsule-state-report.md`,
   `build/drafts/transition-agent-capsule-state-freeze.json`, SHA256
   `d03588913c23bc1db77f73a42b021119903ae2111fcf069ebe91195112eb16a0`.

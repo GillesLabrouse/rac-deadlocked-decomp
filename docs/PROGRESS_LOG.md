@@ -3154,3 +3154,54 @@ prove a later one. Emulator tests are optional reference checks.
   Continue startup and full frame closure instead of treating null paths as
   gameplay. The scenery/animation viewer remains unchanged: no controllable
   Ratchet or complete gameplay loop. No push; all drafts/evidence retained.
+
+## 2026-10-11 — Close the constructor's packed environment reader
+
+- Add complete native L0158D4A0/resident4700C8 ordered RAM effects: one LWU
+  captures actor+3C, then three SWs publish zero-extended byte0/1/2, last in the
+  JR delay slot. The actual669078 initializer passes record2E88/2E8C/2E90.
+  Preflight all aligned/mapped accesses before stores; caller request is
+  captured, allowing RAM/output/input/request aliases. Missing later outputs
+  cause atomic host refusals, while original faults retain preceding stores.
+  This distinction is explicit and is not a completed-original equivalence.
+- Private and final actual central-archive proofs each pass1176 full original
+  comparisons on588 fixtures from both separately loaded, unmasked-identical
+ 40-byte references. Include512 random words, ten signed/raw word edges, all64
+  destination alias combinations, request-in-RAM and request overwritten by
+  stores. Eight original mapping/alignment faults and six host guards refuse
+  atomically. Compare1204224 RAM bytes over11760 EE, no captures/differences;
+  all executed inputs remain hashed. Independent0.026s review adds fresh cases,
+  all64 aliases and checks all three output-fault positions separately.
+- All90 native tests pass in5.63s, including ten focused environment-reader
+  checks. Two bounded original-compiler variants produce40/48 bytes and both
+  fail full relocated and resolved40-byte equality. Keep the code/objects and
+  linked artifacts private, add no matching credit. A checker first references
+  a nonexistent manifest key, then an un-escalated legacy linker hits623;
+  correct the harness/invocation and preserve failures. Further variants are
+  held to prioritize actual startup closure. Exact count remains311/15766.
+- Recover complete669078408-byte CFG/m2c into private evidence. Its virtual
+  slot3C at3B10FC really targets699C70 with (record,0,1,0,1); snapshot66A2A0 is
+  already bounded native code. These callers' incoming fields and reached
+  resources still need real initialization. The static worker's t0 caveat is
+  narrowed in an addendum: original test69B688 is conditional on live state118;
+  states0/1/2 publish0/1/2, and the114 override takes a route bypassing it. Without
+  reached callee mutations, unused native t0 is not a demonstrated mismatch.
+  Branch-expanded CFG possibility is not an executed path or game state.
+- Two read-only actor-pool audits take128/237s. Complete callable owner is
+ 640130..640C28 (0xAF8), with six independently found L01 callers; descriptor
+  global243720 and583980 precede real relative-resource/table/class/pool setup.
+  Previous catalog slices640708/640A08 are internal. Actual writes initialize
+  selector/class tables and publish pool bounds, not just guessed BSS. The
+  worker initially claims m2c absent due an ignored-path search; root supplies
+  the existing tools/ext/m2c/m2c.py path and requests a separate correction and
+  full private recovery. No complete actor initialization is demonstrated.
+- Command reclass lot measures568s to final receipt (520s to earlier prose
+  freeze), three compile attempts including one header setup failure, two
+  objects and one failed comparison before a full exact120-byte L01 draft.
+  Its corrected offset is descriptor+48, actual entry591940; canonical resident
+ 4737F0 is identified after correcting a wrong L00 coincident-address lookup.
+  GP is22597F; frozen prose225F7F is a typo corrected separately. Root still
+  verifies canonical ABI/real callee and resolved link before adoption. No new
+  exact acceptance yet, zero accepted/hour for this completed worker batch.
+  Startup, full callback/secondary movement and complete player frame remain
+  outstanding. Viewer behavior is unchanged; no playable Ratchet or push.
