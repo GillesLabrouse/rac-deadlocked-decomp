@@ -1,7 +1,8 @@
-# Resume checkpoint — user-requested pause, 2026-10-11
+# Resume checkpoint — active development, 2026-10-11
 
-Work is paused at the user's request. Do not resume development, restart agents,
-or push until the user asks to resume. No background recovery task is running.
+The user explicitly resumed development after the saved pause. Work is active;
+continue until the user stops it. No push is authorized. Read the latest
+PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 
 ## Objective and constraints
 
@@ -17,12 +18,12 @@ nonmatching drafts and ignored private/baserom/build evidence.
 
 ## Saved state
 
-- 307 accepted exact functions of15766, approximately0.553% code. Last full
-  audit:307 exact, zero failures; generated progress/check passed. Native ports
+- 309 accepted exact functions of15766, approximately0.555% code. Last full
+  audit:309 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All83 native tests passed in5.30s; publication module36 focused checks,
-  position51 and ground132. Latest public native addition is
-  `native/dreadzone_collision_publish.{c,h}` for actual00577C70.
+- All83 native tests passed in12.60s; publication module36 focused checks,
+  position51, ground132 and capsule119. Latest public addition is
+  `dreadzone_actor_capsule_registers`, with verified actual00577C70 composition.
 - Validated position settling supports inactive140 and nonzero half2FE only
   after a definite reached ground register publisher. Scheduled nonzero-half
   capsule residue and complete active140 remain atomic refusals.
@@ -40,18 +41,16 @@ nonmatching drafts and ignored private/baserom/build evidence.
 
 ## First work after explicit resume
 
-1. Inspect git status and this checkpoint; preserve every draft. Verify frozen
-   hashes before using any receipt. Read PROGRESS_LOG.md's latest entries.
-2. Independently review the private capsule-state candidate and its original
-   register provenance. It only preserves genuine early exits or accepts a last
-   actually completed supplementary call with a positive reloaded count. Every
+1. Inspect git status and preserve every draft. Use the latest production proof
+   hashes rather than expecting historical pre-integration source hashes to
+   describe the new public headers. Read PROGRESS_LOG.md's latest entries.
+2. Capsule state has passed root independent/private and final production gates,
+   including actual table publication. It preserves genuine early exits or a
+   last completed supplementary call with a positive reloaded count. Every
    subsequent capsule invalidates that witness. No universal W=0 assumption.
-3. Compose the candidate with actual00577C70 publication of the authentic
-   container, replacing hand-relocated fixture tables. Preserve diagnostic
-   guest placement versus actual loader initialization distinction. Validate
-   complete original/native RAM, five W lanes and raw high64, including retries,
-   related+98/count/global aliases and refusals, before public adoption.
-4. Then revisit scheduled settling and active140 in the complete position entry.
+3. Preserve diagnostic guest placement versus complete loader initialization
+   distinction; the verified publisher alone does not initialize a whole actor.
+4. Revisit scheduled settling and active140 in the complete position entry.
    Root remains focused on startup, player movement, collisions and the first
    scene. Entire684EF0/67C010 frame still needs orientation, callbacks, timers,
    metadata/interaction and secondary motion; never substitute captured callees.
@@ -69,8 +68,13 @@ nonmatching drafts and ignored private/baserom/build evidence.
   Sources: `private/transition-agent-capsule-state-copy/{resolve.c,state.h}`.
   Build/proof/freeze scripts use the same `transition-agent-capsule-state-`
   prefix. DLL: `build/drafts/transition-agent-capsule-state-host/Release/capsule_state.dll`.
-  Frozen proof:48 complete matches,36 original-backed atomic refusals, six API
-  aliases;1436187EE/44880VU, zero captures. Root has not adopted this candidate.
+  Historical frozen proof:48 complete matches,36 original-backed atomic
+  refusals, six API aliases;1436187EE/44880VU, zero captures. Root independently
+  verified and adopted its bounded provenance in the additive public entry.
+  Latest proof: `build/drafts/root-capsule-production-proof.json` and
+  `build/drafts/root-capsule-loader-production-proof.json`; actual publication72
+  comparisons followed by48 complete capsule comparisons and24 refusals.
+  `private/root-resume-final-receipt.json` records hashes and integration metrics.
 - Capsule audit: `private/transition-agent-capsule-registers-report.md` and
   matching freeze. VF1.W can contain real nonzero clipping flags; dynamic VF4
   also needs explicit recovery. Corrected dynamic fixtures must use actual
@@ -90,6 +94,9 @@ nonmatching drafts and ignored private/baserom/build evidence.
   `private/root-noop18-production-acceptance.json`, metrics and preceding root
   acceptance receipts.126718 correctly returns signed64; its caller truncates32.
   1637F0 uses default flags, despite the misleading preserved agent draft hint.
+- Latest exact: `private/root-resume-wrapper-production-acceptance.json`.
+  Correct11C920 pointer/string ABI and121CF8 f64/soft-double ABI, explicit-G0.
+  Do not copy the incorrect integer prototypes from preserved agent drafts.
 - Orientation remains private: `private/root-orientation.{c,h}` and its proofs,
   plus `nonmatching/L01_00683310.c`.33 full matches/43 calls, ten original
   numerical boundaries. Do not adopt or count this as exact or a complete frame.

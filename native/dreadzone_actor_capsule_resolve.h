@@ -18,6 +18,11 @@ typedef struct DreadzoneCapsuleResolveInfo {
     u32 has_original_return,resolve_calls,capsule_calls,static_calls;
     u32 contact_iterations,history_restores;
 } DreadzoneCapsuleResolveInfo;
+
+typedef struct DreadzoneCapsuleResolveRegisters {
+    u32 high64[2]; /* Raw a0 words2/3, without floating interpretation. */
+    u32 last_positive_table,last_positive_count; /* Reached producer witness. */
+} DreadzoneCapsuleResolveRegisters;
 enum DreadzoneCapsuleResolveResult {
     DREADZONE_CAPSULE_RESOLVE_APPROXIMATE=1,
     DREADZONE_CAPSULE_RESOLVE_INVALID=-1,
@@ -56,4 +61,23 @@ enum DreadzoneCapsuleResolveResult {
  */
 int dreadzone_actor_capsule_resolve(const DreadzoneCapsuleResolveRequest *,
                                   DreadzoneCapsuleResolveInfo *);
+
+/* Additive selected EF00/F518 raw-register transport. Genuine mission/half3A0
+ * early exits preserve captured incoming high64. Every reached capsule call
+ * invalidates its provenance; only a final completed supplementary body call
+ * whose actual reloaded signed count is positive establishes cleared high64.
+ * Related98 suspension, visitation and every retry precede these real reloads.
+ * Final capsule VF1.W/dynamic VF4 residue domains refuse atomically. No probe,
+ * count, object or successful result is supplied to force a supported route.
+ * last_positive_* is diagnostic evidence, not a fixed last-writer PC or flag.
+ * Output/info are disjoint from request/backing and each other. Incoming words
+ * may alias output/backing and are captured before execution. All refusals
+ * preserve backing/info/output. Original request/info layouts are unchanged;
+ * the RAM-only entry retains its existing supported domain. Existing numerical
+ * and actual dependency restrictions apply; no full loader/player/frame claim.
+ */
+int dreadzone_actor_capsule_registers(const DreadzoneCapsuleResolveRequest *,
+                                    const u32 incoming_high64[2],
+                                    DreadzoneCapsuleResolveRegisters *,
+                                    DreadzoneCapsuleResolveInfo *);
 #endif

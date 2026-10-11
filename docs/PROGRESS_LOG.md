@@ -2806,3 +2806,43 @@ prove a later one. Emulator tests are optional reference checks.
   Exact307; latest exact throughput receipt6.22/hour at14:39:38UTC, baseline
   gain27. No complete native player frame or playable Ratchet, no push.
   Resume from docs/RESUME.md; retain the explicit native/byte-exact distinction.
+
+## 2026-10-11 — Resume, verify capsule provenance and correct two wrapper ABIs
+
+- User explicitly resumes autonomous development. Confirm checkpoint and full
+  audit307/progress check before edits; preserve every private/untracked draft.
+  Restart two Luna workers with exclusive prefixes and one candidate each.
+- Root verifies the frozen capsule candidate, compiles an independent copy and
+  composes it with actual577C70 publication of the complete authentic681772-byte
+  collision container. Two diagnostic guest placements retain the true twelve
+  main/three alternative records, real payload relocations and tree publication.
+  No full loader initialization or constructor input is manufactured.
+- Final production capsule-state bridge passes48 complete RAM/five-W/high64
+  comparisons,36 complete-original atomic refusals and six host aliases. Final
+  producer composition separately passes72 whole publisher comparisons and48
+  whole EF00/F518 comparisons;24 actual related pointer/count suspensions refuse
+  atomically. It compares318712320 RAM bytes,1003860EE/31152VU, zero captures or
+  differences, unchanged inputs. Every actual retry invalidates an earlier
+  positive-table witness; final capsule VF1.W/dynamic VF4 remain unsupported.
+- Add the verified raw-register entry without changing request/info ABI or the
+  existing RAM-only domain. All83 native tests pass in12.60s;119 focused capsule
+  checks. Integration430.91s from its checkpoint, excluding fresh gates. Preserve
+  one private proof syntax failure, then correct and repeat; no final failures.
+  This native composition earns zero exact credit and is not a playable frame.
+- Accept resident11C920/121CF8 only after independent fresh and production SN,
+  actual relocations and resolved unmasked44-byte links. Full audit309, zero
+  failures and regenerated progress/check pass. Root corrects both draft ABIs:
+  11C920 returns an actual initialized object pointer/null with path/mode strings;
+  121CF8 returns f64 through the soft-double ABI, not signed64. Verify full target
+  instructions and actual soft-double consumers; nonzero V0 or SD alone does not
+  establish C result semantics. Keep both incorrect drafts outside accepted src.
+- Actual L01 text scan finds no direct call to either wrapper; do not invent
+  opening-scene relevance. Agent dispatch times were not captured: whole batch
+  duration is unknown, estimated20minutes is not measured throughput. Root's
+  production integration91.45s; two accepted functions since the first recorded
+  post-dispatch15:00:21UTC clock yield10.13/hour at15:12:12UTC. This explicitly
+  excludes unmeasured pre-clock agent time. Hold more batches during integration.
+- Next: supply the now-verified capsule state to genuine scheduled settling and
+  secondary140 displacement, then orientation/full player update. Startup/class
+  initialization and actual update-to-animation/render composition still prevent
+  a gameplay loop. No complete player frame, playable Ratchet or push.

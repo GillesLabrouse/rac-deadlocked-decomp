@@ -115,6 +115,49 @@ int main(void) {
     r=setup();r.record_guest=BASE+SIZE+16;refused(&r,-1);
     r=setup();r.actor_pool_count=65537;refused(&r,-1);
     r=setup();CHECK(dreadzone_actor_capsule_resolve(&r,(DreadzoneCapsuleResolveInfo *)(bytes+0x1000))==-1);
+    {
+        DreadzoneCapsuleResolveRegisters output,saved_output;
+        DreadzoneCapsuleResolveInfo saved_info;
+        u32 incoming[2]={0x3F000000U,0x3E800000U};u8 *snapshot=(u8 *)malloc(SIZE);
+        CHECK(snapshot!=NULL);
+        r=setup();half(RECORD+0x3A0,1);
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,&output,&info)==1);
+        CHECK(output.high64[0]==incoming[0]&&output.high64[1]==incoming[1]);
+        CHECK(output.last_positive_table==0&&output.last_positive_count==0&&info.capsule_calls==0);
+        r=setup();word(0x21DE10,31);word(0x21DDB4,2);
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,&output,&info)==1);
+        CHECK(output.high64[0]==incoming[0]&&output.high64[1]==incoming[1]&&info.capsule_calls==0);
+        r=setup();static_triangle();
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,&output,&info)==1);
+        CHECK(output.high64[0]==0&&output.high64[1]==0);
+        CHECK(output.last_positive_table==0x260000&&output.last_positive_count==1&&info.static_calls>0);
+        /* No reached positive supplementary producer: RAM-only still works,
+         * raw-register entry refuses without publishing partial corrections. */
+        r=setup();memcpy(snapshot,bytes,SIZE);memset(&output,0xA5,sizeof(output));memset(&info,0xA5,sizeof(info));
+        saved_output=output;saved_info=info;
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,&output,&info)==-2);
+        CHECK(!memcmp(snapshot,bytes,SIZE)&&!memcmp(&output,&saved_output,sizeof(output))&&!memcmp(&info,&saved_info,sizeof(info)));
+        CHECK(dreadzone_actor_capsule_resolve(&r,&info)==1);
+        r=setup();static_triangle();half(RECORD+0x39E,1);memcpy(snapshot,bytes,SIZE);
+        saved_output=output;saved_info=info;
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,&output,&info)==-2);
+        CHECK(!memcmp(snapshot,bytes,SIZE)&&!memcmp(&output,&saved_output,sizeof(output))&&!memcmp(&info,&saved_info,sizeof(info)));
+        r=setup();half(RECORD+0x3A0,1);output.high64[0]=incoming[0];output.high64[1]=incoming[1];
+        CHECK(dreadzone_actor_capsule_registers(&r,output.high64,&output,&info)==1);
+        CHECK(output.high64[0]==incoming[0]&&output.high64[1]==incoming[1]);
+        r=setup();half(RECORD+0x3A0,1);word(0x230500,incoming[0]);word(0x230504,incoming[1]);
+        CHECK(dreadzone_actor_capsule_registers(&r,(const u32 *)(bytes+0x230500-BASE),&output,&info)==1);
+        CHECK(output.high64[0]==incoming[0]&&output.high64[1]==incoming[1]);
+        r=setup();half(RECORD+0x3A0,1);embedded=(DreadzoneCapsuleResolveRequest *)(bytes+0x1000);*embedded=r;
+        CHECK(dreadzone_actor_capsule_registers(embedded,incoming,&output,&info)==1);
+        CHECK(output.high64[0]==incoming[0]&&output.high64[1]==incoming[1]);
+        CHECK(dreadzone_actor_capsule_registers(&r,NULL,&output,&info)==-1);
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,NULL,&info)==-1);
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,(DreadzoneCapsuleResolveRegisters *)&r,&info)==-1);
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,(DreadzoneCapsuleResolveRegisters *)&info,&info)==-1);
+        CHECK(dreadzone_actor_capsule_registers(&r,incoming,(DreadzoneCapsuleResolveRegisters *)(bytes+0x1000),&info)==-1);
+        free(snapshot);
+    }
     for(i=0;i<16;++i)CHECK(allocation[i]==0xCD&&bytes[SIZE+i]==0xAB);
     free(allocation);printf("%u checks, %u failures\n",checks,failures);return failures?1:0;
 }

@@ -9,6 +9,8 @@ typedef struct ResolveRun {
     DreadzoneCapsuleResolveRequest request;
     DreadzoneCapsuleResolveInfo info;
     int status;
+    int track_registers,state_known;
+    DreadzoneCapsuleResolveRegisters registers;
 } ResolveRun;
 static int span(const void *p,uintptr_t n){return p && (uintptr_t)p<=UINTPTR_MAX-n;}
 static int overlap(const void *p,uintptr_t n,const void *q,uintptr_t m) {
@@ -56,19 +58,35 @@ static int capsule(ResolveRun *r,u32 flags,f32 height) {
     q.radius=number(r,b+0x204);q.height=height;
     memcpy(q.incoming_vf25_29_w,r->request.incoming_vf25_29_w,sizeof(q.incoming_vf25_29_w));
     if(r->status<0)return 0;
+    /* A later capsule invalidates every earlier supplementary witness. */
+    if(r->track_registers) {
+        r->state_known=0;
+        r->registers.last_positive_table=0;r->registers.last_positive_count=0;
+    }
     result=dreadzone_capsule_contact(&q,&info);r->info.capsule_calls++;
     if(result<0)fail(r,result==-1?DREADZONE_CAPSULE_RESOLVE_INVALID:DREADZONE_CAPSULE_RESOLVE_UNSUPPORTED_PATH);
     return result;
 }
 static int supplementary(ResolveRun *r) {
     DreadzoneStaticBodyRequest q;DreadzoneStaticBodyInfo info;int result;
+    s32 actual_count=0;
     u32 b=r->request.record_guest;memset(&q,0,sizeof(q));
     q.storage=r->request.storage;q.guest_base=r->request.guest_base;q.storage_bytes=r->request.storage_bytes;
     q.table_guest=word(r,0x222BE0);q.center_guest=b+0xA0;q.packet_guest=0x242340;
     q.radius=number(r,b+0x204);
     memcpy(q.incoming_vf25_29_w,r->request.incoming_vf25_29_w,sizeof(q.incoming_vf25_29_w));
     if(r->status<0)return 0;
+    /* This reload follows actual capsule visitation and item suspension. */
+    if(r->track_registers && q.table_guest)actual_count=integer(r,q.table_guest);
+    if(r->status<0)return 0;
     result=dreadzone_static_body_contact(&q,&info);r->info.static_calls++;
+    if(r->track_registers && result>=0 && actual_count>0) {
+        /* Full supported positive-count body paths execute actual high-half
+         * clearing operations. Scalar resolver/history code preserves them. */
+        r->state_known=1;r->registers.high64[0]=0;r->registers.high64[1]=0;
+        r->registers.last_positive_table=q.table_guest;
+        r->registers.last_positive_count=(u32)actual_count;
+    }
     if(result<0)fail(r,result==-1?DREADZONE_CAPSULE_RESOLVE_INVALID:DREADZONE_CAPSULE_RESOLVE_UNSUPPORTED_PATH);
     return result;
 }
@@ -148,11 +166,17 @@ static s32 resolve(ResolveRun *r,s32 attempt) {
     for(i=0;i<3;++i)saved[i]=bits(r,add(r,floating(r,saved[i]),delta[i]));
     write_quad(r,b+0xA0,saved);return -1;
 }
-int dreadzone_actor_capsule_resolve(const DreadzoneCapsuleResolveRequest *request,DreadzoneCapsuleResolveInfo *info) {
+static int capsule_execute(const DreadzoneCapsuleResolveRequest *request,DreadzoneCapsuleResolveInfo *info,
+                           int track,const u32 incoming_high64[2],DreadzoneCapsuleResolveRegisters *output) {
     ResolveRun r;u8 *shadow,*destination;u32 end,b;int status;u32 attempt,limit;s32 result,count,index;
     if(!span(request,sizeof(*request)) || !span(info,sizeof(*info)) ||
        overlap(request,sizeof(*request),info,sizeof(*info)))return DREADZONE_CAPSULE_RESOLVE_INVALID;
-    memset(&r,0,sizeof(r));r.request=*request;b=r.request.record_guest;
+    if(track && (!span(incoming_high64,8) || !span(output,sizeof(*output)) ||
+       overlap(output,sizeof(*output),request,sizeof(*request)) ||
+       overlap(output,sizeof(*output),info,sizeof(*info)) ||
+       overlap(output,sizeof(*output),request->storage,request->storage_bytes)))return DREADZONE_CAPSULE_RESOLVE_INVALID;
+    memset(&r,0,sizeof(r));r.request=*request;b=r.request.record_guest;r.track_registers=track;
+    if(track){memcpy(r.registers.high64,incoming_high64,8);r.state_known=1;}
     if(!r.request.storage_bytes || r.request.storage_bytes>64U*1024U*1024U ||
        !span(r.request.storage,r.request.storage_bytes) || r.request.guest_base>=0x80000000U ||
        r.request.storage_bytes>0x80000000U-r.request.guest_base || (b&15) ||
@@ -180,7 +204,16 @@ int dreadzone_actor_capsule_resolve(const DreadzoneCapsuleResolveRequest *reques
             ++r.info.history_restores;
         }
     }
+    if(track && r.status>0 && !r.state_known)fail(&r,DREADZONE_CAPSULE_RESOLVE_UNSUPPORTED_PATH);
     status=r.status;
-    if(status>0){memcpy(destination,shadow,r.request.storage_bytes);*info=r.info;}
+    if(status>0){memcpy(destination,shadow,r.request.storage_bytes);*info=r.info;if(track)*output=r.registers;}
     free(shadow);return status;
+}
+
+int dreadzone_actor_capsule_resolve(const DreadzoneCapsuleResolveRequest *request,DreadzoneCapsuleResolveInfo *info) {
+    return capsule_execute(request,info,0,NULL,NULL);
+}
+int dreadzone_actor_capsule_registers(const DreadzoneCapsuleResolveRequest *request,const u32 incoming_high64[2],
+                                    DreadzoneCapsuleResolveRegisters *output,DreadzoneCapsuleResolveInfo *info) {
+    return capsule_execute(request,info,1,incoming_high64,output);
 }
