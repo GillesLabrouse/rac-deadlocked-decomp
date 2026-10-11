@@ -1780,3 +1780,21 @@ prove a later one. Emulator tests are optional reference checks.
   grids are declared fixtures, not initialized gameplay. Wall/ground response
   and full player-frame composition remain active work. The animated native
   viewer is unchanged. No retail bytes/assets are tracked; nothing is pushed.
+
+## 2026-10-11 — Extend the bounded wall-validation integer oracle
+
+- Added the actual PSRAH instruction needed by original wall-grid indexing,
+  plus MTLO/MADD emitted by the fresh complete wall-probe SN recovery.
+  PSRAH snapshots all eight signed halfwords and masks its immediate to four
+  bits. MTLO preserves upper accumulator bits and copies low64 without word
+  extension. MADD wraps the assembled HI.low32/LO.low32 plus signed32 product,
+  sign-extends the two result words and preserves each upper64 half.
+- Independently checked these instruction facts against primary PCSX2
+  [MMI.cpp](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/MMI.cpp) and
+  [R5900OpcodeImpl.cpp](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/R5900OpcodeImpl.cpp).
+  No implementation was copied. Synthetic tests cover all 32 encoded PSRAH
+  counts, signed lanes, zero/aliased destinations, HI/LO preservation, MTLO
+  raw64 transport and MADD carry/wrap/signed products/zero-source/rd aliases.
+- All 174 Python tests pass in 2.432 seconds. This changes validation tooling,
+  not the native game loop. The capsule replay completed under its explicitly
+  hash-bound prior oracle before this extension. Nothing is pushed.

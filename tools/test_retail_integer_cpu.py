@@ -197,6 +197,33 @@ class IntegerCPUTests(unittest.TestCase):
                                                   {1: (1 << 128) - 1, 2: source, 3: 123})
                             self.assertEqual(cpu.registers[destination], expected if destination and rt else 0)
 
+    def test_psrah_all_counts_signed_lanes_aliases_zero_and_hilo(self):
+        lanes = (0, 1, 32767, -32768, -1, -3, 0x1234, -0x1234)
+        source = int.from_bytes(struct.pack('<8h', *lanes), 'little')
+        factors = int.from_bytes(struct.pack('<8h', *range(1, 9)), 'little')
+        signs = int.from_bytes(struct.pack('<8h', 1, -1, 1, -1, 1, -1, 1, -1), 'little')
+        expected_lo = int.from_bytes(struct.pack('<4i', 1, -2, 5, -6), 'little')
+        expected_hi = int.from_bytes(struct.pack('<4i', 3, -4, 7, -8), 'little')
+        for shift in range(32):
+            expected = int.from_bytes(b''.join(
+                ((value // (2 ** (shift % 16))) % 65536).to_bytes(2, 'little')
+                for value in lanes), 'little')
+            for rt in (0, 2):
+                for destination in (0, 1, 2, 3):
+                    with self.subTest(shift=shift, rt=rt, destination=destination):
+                        cpu, _ = self.execute([
+                            (28 << 26) | r(9, 4, 5, 0, 28),
+                            (28 << 26) | r(55, 1, rt, destination, shift),
+                            r(8, 31), 0],
+                            {1: (1 << 128) - 1, 2: source, 3: 123,
+                             4: factors, 5: signs})
+                        self.assertEqual(cpu.registers[destination],
+                                         expected if destination and rt else 0)
+                        self.assertEqual(cpu.registers[0], 0)
+                        self.assertEqual(cpu.registers[2],
+                                         (expected if rt else 0) if destination == 2 else source)
+                        self.assertEqual((cpu.hi, cpu.lo), (expected_hi, expected_lo))
+
     def test_quad_copy_aligns_down_and_scalar_writes_retain_upper_64_bits(self):
         payload = bytes(range(16)) + bytes([0xCD] * 16)
         cpu, _ = self.execute([i(30, 1, 2, 3), i(9, 0, 2, -1), i(31, 1, 2, 31), r(8, 31), 0],
@@ -284,6 +311,61 @@ class IntegerCPUTests(unittest.TestCase):
         cpu, _ = self.execute([(28 << 26) | r(9, 1, 2, 0, 28),
                                (28 << 26) | r(9, 0, 0, 0, 28), r(8, 31), 0], {1: left, 2: right})
         self.assertEqual((cpu.hi, cpu.lo), (0, 0))
+
+    def test_mtlo_copies_low_64_without_word_extension_and_preserves_hi(self):
+        factors = int.from_bytes(struct.pack('<8h', *range(1, 9)), 'little')
+        signs = int.from_bytes(struct.pack('<8h', 1, -1, 1, -1, 1, -1, 1, -1), 'little')
+        expected_lo = int.from_bytes(struct.pack('<4i', 1, -2, 5, -6), 'little')
+        expected_hi = int.from_bytes(struct.pack('<4i', 3, -4, 7, -8), 'little')
+        for source in (0, 1):
+            for value in (0, 0x80000000, 0x1234567887654321, MASK64, 1 << 63):
+                cpu, _ = self.execute([(28 << 26) | r(9, 4, 5, 0, 28),
+                                       r(19, source), r(8, 31), 0],
+                                      {1: (0xFEDCBA9876543210 << 64) | value,
+                                       4: factors, 5: signs})
+                self.assertEqual(cpu.lo, (expected_lo & (MASK64 << 64)) | (value if source else 0))
+                self.assertEqual(cpu.hi, expected_hi)
+                self.assertEqual(cpu.registers[1], (0xFEDCBA9876543210 << 64) | value)
+
+    def test_madd_wraps_signed_products_and_snapshots_aliased_sources(self):
+        # Initialize HI/LO at the first instruction fetch, after run's reset.
+        # No instruction implementation or expected-result helper is reused.
+        class InitialAccumulators(dict):
+            def __getitem__(words, address):
+                if address == 0x1000:
+                    words.cpu.hi, words.cpu.lo = words.initial_hi, words.initial_lo
+                return super().__getitem__(address)
+        cases = ((0, 0), (1, -1), (-1, -1), (-2147483648, -2147483648),
+                 (2147483647, 2147483647), (-2147483648, 2147483647),
+                 (123456789, -987654321), (17, 19))
+        for left, right in cases:
+            for accumulator in (0, (1 << 32) - 1, (1 << 63) - 1, MASK64):
+                for rs, rt in ((1, 2), (1, 1), (0, 2), (1, 0)):
+                    for destination in (0, 1, 2, 3):
+                        a = left if rs else 0
+                        b = right if rt == 2 else left if rt else 0
+                        total = (accumulator + a * b) % (1 << 64)
+                        low_word = total % (1 << 32)
+                        high_word = total // (1 << 32)
+                        low = (low_word if low_word < (1 << 31) else low_word - (1 << 32)) % (1 << 64)
+                        high = (high_word if high_word < (1 << 31) else high_word - (1 << 32)) % (1 << 64)
+                        # Irrelevant upper words in low64 must not feed the sum.
+                        initial_lo = (0xABCDEF0123456789 << 64) | (0x12345678 << 32) | (accumulator % (1 << 32))
+                        initial_hi = (0xFEDCBA9876543210 << 64) | (0x87654321 << 32) | (accumulator >> 32)
+                        words = InitialAccumulators({0x1000: (28 << 26) | r(0, rs, rt, destination),
+                                                     0x1004: r(8, 31), 0x1008: 0})
+                        words.initial_hi, words.initial_lo = initial_hi, initial_lo
+                        cpu = RetailIntegerCPU(words, IntegerMemory([]))
+                        # Constructor deliberately copies words; bind the fixture afterward.
+                        cpu.words = words; words.cpu = cpu
+                        top_left, top_right, top_other = 0x13579BDF << 64, 0x2468ACE0 << 64, 0xDEADBEEF << 64
+                        cpu.run(0x1000, initial_registers={1: top_left | (left % (1 << 64)),
+                                                         2: top_right | (right % (1 << 64)), 3: top_other})
+                        self.assertEqual(cpu.lo, (initial_lo & (MASK64 << 64)) | low)
+                        self.assertEqual(cpu.hi, (initial_hi & (MASK64 << 64)) | high)
+                        expected_top = {0: 0, 1: top_left, 2: top_right, 3: top_other}[destination]
+                        self.assertEqual(cpu.registers[destination], expected_top | low if destination else 0)
+                        self.assertEqual(cpu.registers[0], 0)
 
     def test_scalar_mult_and_div_preserve_packed_accumulator_upper_halves(self):
         halfwords = int.from_bytes(struct.pack('<8h', 1, 2, 3, 4, 5, 6, 7, 8), 'little')

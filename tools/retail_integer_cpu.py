@@ -184,6 +184,9 @@ class RetailIntegerCPU:
                         self._put(rd, a)
                 elif function == 16:
                     self._put(rd, self.hi)
+                elif function == 19:
+                    # MTLO replaces the low 64 bits, without word extension.
+                    self.lo = (self.lo & (MASK128 ^ MASK64)) | a
                 elif function == 20:
                     self._put(rd, b << (a & 63))
                 elif function == 22:
@@ -305,6 +308,13 @@ class RetailIntegerCPU:
                     self.float_bits[rt] = self.memory.read(address, 4)
                 else:
                     self.memory.write(address, self.float_bits[rt], 4)
+            elif op == 28 and (word & 63) == 0 and shift == 0:
+                # MADD uses the two low accumulator words as one wrapping u64.
+                accumulator = (self.lo & MASK32) | ((self.hi & MASK32) << 32)
+                total = (accumulator + signed(a, 32) * signed(b, 32)) & MASK64
+                self.lo = (self.lo & (MASK128 ^ MASK64)) | (signed(total, 32) & MASK64)
+                self.hi = (self.hi & (MASK128 ^ MASK64)) | (signed(total >> 32, 32) & MASK64)
+                self._put(rd, self.lo)
             elif op == 28 and (word & 63) == 4 and rt == 0 and shift == 0:
                 result = 0
                 for i in range(2):
@@ -313,6 +323,13 @@ class RetailIntegerCPU:
                         bits ^= MASK32
                     result |= (31 - bits.bit_length()) << (i * 32)
                 self._put(rd, result)
+            elif op == 28 and (word & 63) == 55:
+                # PSRAH shifts all eight signed halfwords; sa uses four bits.
+                source = self.registers[rt]
+                amount = shift & 15
+                result = sum((signed(source >> (lane * 16), 16) >> amount
+                              & 65535) << (lane * 16) for lane in range(8))
+                self._put_quad(rd, result)
             elif op == 28 and (word & 63) in (60, 62, 63):
                 # Word shifts operate on all four independent lanes of rt.
                 source = self.registers[rt]
