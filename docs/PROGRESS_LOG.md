@@ -1,5 +1,51 @@
 # Local development progress
 
+## 2026-10-11 — Compose complete supported guest actor allocation
+
+- Independently recover actual 5869E0..586B10/304-byte and
+  58D538..58D6A8/368-byte complete CFGs with established m2c tooling.
+  Native guest actor allocation composes real payload descriptors, fresh class,
+  initial fixed/variable model, optional model compaction, conditional FF
+  following-byte write, payload link/word-rounded clear and counter reload.
+  Reached debug exhaustion hooks remain unsupported; no helper is simulated.
+- Private and central final DLL each pass 66 complete RAM/SPR/return comparisons:
+  42 success, 24 ordinary exhaustion, 21 variable models and six real compactions;
+  1,388,256 EE, 122,787 VU pairs and 693,141,504 bytes. Four borrowed actor/SPR
+  request cases pass. A separate native-publication-to-allocation proof passes
+  16 publications and 16 allocations with both actual level resources:
+  120,832 EE, 46,776 VU pairs and 335,806,464 bytes. Explicit diagnostic pool,
+  texture/remap and VU inputs do not establish authentic player selection.
+- Maintained integer replay independently confirms the payload allocator's
+  reached descriptor-end lookahead read, including its original unmapped fault.
+  The new guest contract requires that word. Eleven atomic refusals and
+  independent missing lookahead/FF following-byte tests pass. Review adds
+  explicit pool/FF-footprint exclusions against controls, clock and debug flag.
+  Preserve prior source/DLL/proofs. Six delta probes prove outer guards without
+  relying on later fresh-class rejection; preserve the first confounded fixture.
+- First private build fails on a missing existing validator declaration;
+  corrected declaration compiles under W4/WX. Broader original replay stops
+  honestly at signed ADD after the earlier SLTU limitation. Separate preserved
+  extensions match 898 maintained-oracle ADD/SUB microcases, 225 overflows and
+  full GPR128/delay behavior. No original opcode is bypassed. All 97 native
+  tests pass 26.60s, including 96 focused guest-actor checks.
+- Independent constructor review takes 417.52s; signed-integer closure takes
+  156.77s; layout delta review takes 103s. Memory46 canonical audit takes
+  62.812s; memory47 payload review takes 183s. Command37 takes 459s: two
+  compilation failures and one relocation/resolved-link failure, zero accepted
+  functions. Resident wrapper loads method+0, actual L01 loads+4: normalized
+  grouping does not establish semantic equality. Keep the drafts excluded.
+- Memory48's initial missing-ELF statement was a path error; preserve its report
+  and a separate correction using the exact existing L01 ELF. That correction
+  finds a genuine exact resident backlink candidate; root verification and
+  matching integration are a separate lot. Light workers are bounded and held
+  during integration; native validation continues without concurrent generators.
+- This lot adds one validated native allocation boundary, zero exact functions
+  and zero playable features. Matching remains 314/0 failures. Private final
+  receipt records hashes, measured integration time and failure categories.
+  Spare allocation does not advance occupied boundary222D2C or establish the
+  first player's source. Continue startup/player construction and reached frame
+  dependencies. Nothing is pushed.
+
 ## 2026-10-11 — Initialize genuine variable model channels
 
 - Add the explicit-VU `dreadzone_model_transform_initial` memory adapter and use

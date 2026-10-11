@@ -1,5 +1,48 @@
 # Native PC development
 
+## Guest actor allocation boundary
+
+`dreadzone_guest_actor_allocate` implements supported complete L01 005869E0
+RAM/SPR effects. It scans spare slots, checks the unsigned age threshold,
+allocates payload through the recovered 0058D538 algorithm, conditionally writes
+the following free marker for FF, executes fresh 00586B10 with real models,
+stores the payload link, clears complete payload words and reloads/decrements
+the counter. Payload failure stops the search. Ordinary exhaustion returns zero
+without memory changes; reached nonzero debug hooks remain unsupported.
+
+The bounded API clones disjoint caller RAM/SPR and publishes only on supported
+completion. Result backing cannot alias RAM/SPR/VU; requests may be borrowed in
+actor or SPR backing. Pool/control/clock/debug exclusions are explicit, as are
+descriptor/payload separation, capacities and model support limits. The original
+payload cursor loop reads one word at descriptor end before checking the end;
+the mapping contract requires that lookahead even though the older array API
+does not perform it. FF success also requires its reached actor+120 byte.
+
+Private and final central DLL pass 66 whole RAM/SPR/return comparisons:
+42 allocations, 24 ordinary exhaustions, 21 variable-model allocations and six
+real model compactions. Every reached original helper executes: 1,388,256 EE
+instructions, 122,787 VU pairs and 693,141,504 compared bytes. Four borrowed
+requests pass separately. A further original comparison starts from native
+publication outputs: 16 publications plus 16 complete allocations with genuine
+4249/1099 and 9207/23F7 resources, 120,832 EE, 46,776 VU pairs and 335,806,464
+bytes. Texture/remap/pool/SPR/VU inputs remain explicit diagnostics. Eleven
+atomic refusals and independent missing-lookahead/following-byte/layout probes
+pass; all 97 native tests pass in 26.60 seconds, including 96 new focused checks.
+
+The private original reference first rejects SLTU, then signed ADD on a broader
+append path. Separate preserved extensions implement these reached operations;
+898 ADD/SUB microcases, including 225 overflow cases, independently match the
+maintained integer oracle's complete GPR128 values and delay behavior. No
+unsupported opcode or callee is skipped. Original stack/ABI, physical EE/VU
+rounding and DMA timing stay outside the host memory contract.
+
+The allocator does not supply the producer of occupied boundary222D2C. Its
+spare actor is not automatically the index-zero constructor's scan candidate.
+Complete 00668070, first-player selection, repeated frames and controls/rendering
+remain open. The viewer is unchanged; this native boundary earns zero exact
+credit. Private root-guest-actor-* and root-published-actor-* files retain
+baseline code/DLLs, failed attempts, full proofs, reviews and integration metrics.
+
 ## Genuine initial variable model channels
 
 `dreadzone_model_transform_initial` extends the explicit-VU frame-zero memory

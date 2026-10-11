@@ -1,5 +1,32 @@
 # Resume checkpoint — active development, 2026-10-11
 
+Latest integration: native/dreadzone_guest_actor_pool.{c,h}, supported complete
+5869E0 allocation via real58D538, fresh586B10/model/compaction and payload clear.
+Explicit cloned RAM/SPR/VU, atomic refusal/result backing guards, complete mapped
+descriptor lookahead and conditional FF following-byte footprint. Debug failure
+callbacks remain unsupported. Full spare-pool/control/clock/debug exclusions are
+enforced. This does not supply the occupied-pool producer or first player.
+Central final DLL passes66 whole RAM/SPR/return cases,42 allocations/24 ordinary
+exhaustions/21 variable models/six real compactions:1388256EE/122787VU/693141504B.
+Four borrowed requests and11 atomic refusals pass. Native publication outputs
+seed16 further whole allocations:16pub+16alloc,120832EE/46776VU/335806464B.
+All97 native tests pass26.60s; new focused test96checks. Frozen originals and
+before-layout source/DLL/checkers, signed ADD/SUB microproof898cases/225overflows,
+review/delta probes and central receipts stay under private/root-guest-actor-*.
+
+Matching remains314 at this native checkpoint. Root has independently compiled
+and exactly linked private backlink511310 at resident and47 actual overlay
+references, including actualL01 667050; acceptance/production build/audit is the
+next separate lot. Memory48's original missing-ELF claim was a path mistake;
+preserve first report and correction. Command37 failed its three allowed
+variants; resident+0 and L01+4 method slots are distinct despite normalization.
+No drafts or helper captures enter accepted sources or matching percentage.
+Main work continues: authentic first occupied actor producer, placed loader,
+full constructor/frame/input/collisions/live rendering. No controllable player.
+No push. Read the latest PROGRESS_LOG entry before older checkpoints below.
+
+Previous initial-model checkpoint follows.
+
 Latest integration: new initial-model memory adapter supports genuine variable
 channels at frame zero. Fresh class construction uses it; fixed-only API still
 refuses variable streams, and the reserved static entry is unchanged. Explicit

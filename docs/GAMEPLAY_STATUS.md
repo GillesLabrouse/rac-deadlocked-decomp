@@ -8,7 +8,7 @@ Ratchet or a complete gameplay frame. Matching coverage is 314 functions of
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
 | Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges. | Execute the allocation/layout and parser chain with its real cursor, globals, selected records and resources. |
-| Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation components, guest model pool and fresh initial-model class composition, including genuine variable channels. | Load placed actors through `0057B788` with genuine published tables; establish the first player's source, close `00668070` and actual child/backlink producers, and support reached cleanup/live animation paths. |
+| Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation, guest actor/payload/model pools and fresh initial-model class composition, including genuine variable channels. | Load placed actors through `0057B788` with genuine published tables; establish the first player's source, close `00668070` and actual child/backlink producers, and support reached cleanup/live animation paths. |
 | Repeated player update | Controller decoding and selected direction, walking, position and collision paths; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
 | Live visual output | Native terrain renderer, original body topology and validated prepared animation samples. | Bind the initialized actor's changing position, live animation and camera to the renderer across successive frames. |
 
@@ -40,7 +40,7 @@ final DLL proofs each pass 128 whole-RAM/SPR comparisons, including 32 real
 compactions, with an external original EE call stack excluded from the API.
 The tables/assets are explicit diagnostic inputs; authentic runtime selection and
 first-player provenance remain open. Cleanup and repeated live model updates
-are unsupported. All 96 native tests pass in 29.69 seconds; these checks
+are unsupported. All 97 native tests pass in 26.60 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 Class publication now passes 105 complete original/native RAM comparisons,
@@ -63,6 +63,18 @@ diagnostic variants. Every reached original EE/VU callee executes. The proof
 compares 671,612,928 bytes, 235,562 EE instructions and 93,552 VU pairs. Existing
 fixed-domain regression still passes all 128 cases. Resource selection, player
 construction and repeated frames remain outside this validated composition.
+
+Complete supported `dreadzone_guest_actor_allocate` now composes free-slot
+selection, payload allocation, fresh class/model initialization, payload link
+and word-rounded clear, and counter decrement. The final native DLL passes 66
+complete RAM/SPR/return comparisons, including 42 allocations, 24 ordinary
+exhaustions and six genuine model compactions. Four borrowed-request cases and
+11 atomic refusals pass separately. A further proof passes 16 native resource
+publications followed by 16 complete allocations, including variable models.
+This supplies the spare-actor allocation boundary. It does not establish how
+the initial player enters the occupied pool scanned by the constructor; the
+original allocator never explicitly advances that boundary. Reached debug
+exhaustion callbacks are unsupported. Complete player construction remains open.
 
 ## Latest startup component
 

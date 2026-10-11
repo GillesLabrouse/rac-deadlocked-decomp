@@ -585,6 +585,15 @@ if(MSVC)
 endif()
 
 add_library(deadlocked_native_dreadzone_initial_pool STATIC dreadzone_initial_pool.c)
+
+add_library(deadlocked_native_dreadzone_guest_actor_pool STATIC dreadzone_guest_actor_pool.c)
+target_include_directories(deadlocked_native_dreadzone_guest_actor_pool PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_guest_actor_pool PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_guest_actor_pool PUBLIC
+    deadlocked_native_dreadzone_fresh_class deadlocked_native_dreadzone_payload)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_guest_actor_pool PRIVATE /W4 /WX)
+endif()
 target_include_directories(deadlocked_native_dreadzone_initial_pool PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_initial_pool PUBLIC c_std_11)
 if(MSVC)
@@ -665,9 +674,11 @@ if(WIN32)
     add_library(deadlocked_native_animation_diagnostic SHARED
         dreadzone_general_matrices.c dreadzone_variable_pose.c dreadzone_bind_pose.c
         dreadzone_model_transform.c dreadzone_guest_model_pool.c dreadzone_fresh_class.c
+        dreadzone_guest_actor_pool.c
         dreadzone_animation_diagnostic.def)
     target_include_directories(deadlocked_native_animation_diagnostic PRIVATE include ${CMAKE_CURRENT_SOURCE_DIR})
     target_compile_features(deadlocked_native_animation_diagnostic PRIVATE c_std_11)
+    target_link_libraries(deadlocked_native_animation_diagnostic PRIVATE deadlocked_native_dreadzone_payload)
     if(MSVC)
         target_compile_options(deadlocked_native_animation_diagnostic PRIVATE /W4 /WX /fp:precise)
     endif()
@@ -1216,6 +1227,13 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_fresh_class_tests PRIVATE /W4 /WX)
     endif()
     add_test(NAME native_fresh_class_validation COMMAND deadlocked_native_fresh_class_tests)
+
+    add_executable(deadlocked_native_guest_actor_pool_tests tests/dreadzone_guest_actor_pool_tests.c)
+    target_link_libraries(deadlocked_native_guest_actor_pool_tests PRIVATE deadlocked_native_dreadzone_guest_actor_pool)
+    if(MSVC)
+        target_compile_options(deadlocked_native_guest_actor_pool_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_guest_actor_pool_validation COMMAND deadlocked_native_guest_actor_pool_tests)
 
     add_executable(deadlocked_native_initial_pool_tests tests/dreadzone_initial_pool_tests.c)
     target_link_libraries(deadlocked_native_initial_pool_tests PRIVATE deadlocked_native_dreadzone_initial_pool)
