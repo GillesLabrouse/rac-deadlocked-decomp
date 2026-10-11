@@ -1,4 +1,31 @@
-# Resume checkpoint — active development, 2026-10-11
+# Resume checkpoint — active development, 2026-10-12
+
+Current constructor checkpoint: original6A83B0/6A8420 reaches668070 with genuine
+null actor. Its full reset clears31F0, and its own occupied-pool scan selects
+the real placed/payload9207 actor; no postreset pointer repair. Strong continuation
+sol-constructor-entry-next-v7-api.py executes15174EE/85VU and refuses53DD28
+CFC2 MAC. Partial prefix explicitly ends before6689E0 collision JAL. Strong
+MAC addendum derives only consumed E0 sign bits, not complete flags/register ABI.
+Root's private orientation v2 region passes128 output-bit comparisons,
+1936000EE/8064VU/16384bytes, after preserving50 initial Q-rounding failures.
+No public constructor or repeated frame is accepted; exact316/native101 remain.
+
+Reuse existing native/dreadzone_collision_publish.{c,h}: actual577C70..577D6C,
+root store577C84, established146 complete comparisons. Raw container197000,
+length681772, root40/tablesA5700/A6470 and real12/3 payload relocations are already
+proved at diagnostic guest placements. Unknown is the selected runtime caller
+and placement. Direct original calls are5783F4 (A0=[S2+4] in delay) and578E38
+(A0=S5+[S3+14], delay publishes[S7+3734]). Root's --native-evidence navigation
+check prevents missing prior modules; it changes neither matching status nor
+coverage. Preserve geometry57/collision56 reports with separate corrections:
+26FF20 is the dynamic actor spatial grid, not the static terrain-root table.
+
+Strong sol-constructor-collision-next-* now continues genuine577C70 publication
+then constructor collision. Initial containerA00000 overlaps the old diagnostic
+model descriptor bank; preserve that fixture and inspect disjoint candidate
+930000 before later constructor/model work. No helper capture or fake miss.
+Memory scene58 and commands scene46 independently trace the two real callers,
+exclusive private outputs only. Root owns integration/config/reports/builds.
 
 Latest native checkpoint: native/dreadzone_payload_relocation.{c,h} implements
 supported full0057BDC8 + real0055D470 copy. Central20 wholeRAM cases pass

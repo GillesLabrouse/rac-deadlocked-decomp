@@ -1,5 +1,43 @@
 # Local development progress
 
+## 2026-10-12 - Reach authentic constructor collision and improve evidence reuse
+
+- Original6A83B0/6A8420 invokes668070 with null actor via actual3B10C0 vtable.
+  Full virtual reset clears31F0, base/identity initialization and669A20 execute,
+  and the constructor itself selects the original placed/payload9207 actor.
+  Explicit diagnostic occupied pool remains required; no postreset pointer repair.
+- Strong continuation15174EE/85VU reaches first collision53DC70, then refuses
+  MAC read53DD28. Preserve all opcode frontiers, original inputs and separate
+  corrections to the older linear-C60 path label, STATUS/MAC and packet-address
+  prose.256 maintained PROT3W comparisons,512 VF-transfer properties and256
+  finite Q properties pass; no physical VU or complete constructor ABI claim.
+- Private orientation v2 region passes128/128 output-bit comparisons against
+  real original prefix:1936000EE/8064VU/16384bytes. Preserve first78-pass/50-fail
+  draft/proof. Separately rounded binary32 sqrt/division fixes its Q-model
+  disagreement, supported by primary PCSX2 finite interpreter semantics. Region
+  ends before collision; no complete constructor/source acceptance is claimed.
+- Collision56/geometry57 audits require separate corrections:26FF20 is dynamic
+  actor spatial storage. Complete native577C70 already publishes packetroot
+  242340 at577C84, with146 earlier complete original comparisons. Reuse actual
+  681772-byte container197000 and12/3 genuine descriptor relocations. Runtime
+  selected placement/caller chain remains open. Subsequent exclusive lots trace
+  direct original callers5783F4 and578E38. Strong replay now composes publisher
+  then constructor; first diagnostic A00000 placement overlaps the model bank,
+  so preserve that fixture and inspect disjoint930000 before later model work.
+- Optional --native-evidence lists address mentions in accepted native headers
+  and implementations; default JSON, matching status, ownership and percentages
+  stay unchanged. Inspect actual level/domain/receipts before reuse. Direct
+  LUI/displaced-store searches catch writers missed by address-pair-only scans.
+  Navigation hints establish no function coverage or cross-level equivalence.
+- Animation45 distinguishes genuine688FE0 reset from later conditional selection
+  dependencies. New constructor evidence already supplies actor/class binding;
+  preserve its earlier hypothesis with a separate correction. Strong393s,
+  collision56 240.648s and animation153s report/174s final freeze are read-only
+  lot times, not exact throughput. Geometry57's25s is only its measured clock
+  window, not dispatch duration. Zero exact accepts, zero new accepted native
+  boundaries and zero playable features in these lots. Latest native101/101,
+  exact316; no viewer change or push. Workflow tool checks preserve statuses.
+
 ## 2026-10-12 — Integrate complete supported serialized payload relocation
 
 - Publish native/dreadzone_payload_relocation.{c,h}, supported full240-byte

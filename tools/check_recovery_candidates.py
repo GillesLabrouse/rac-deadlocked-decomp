@@ -7,11 +7,33 @@ Those checks still require the actual reference for the intended level.
 """
 import argparse
 import json
+import re
 
 import gen_progress_report as progress
 
 
-def inventory(names, owned=()):
+def native_mentions(name):
+    """Find address mentions, not a coverage or cross-level equivalence claim."""
+    suffix = re.search(r"([0-9A-Fa-f]{8})$", name)
+    if suffix is None:
+        return []
+    address = suffix.group(1).lstrip("0") or "0"
+    pattern = re.compile(r"(?<![0-9a-f])(?:0x)?0*" + address +
+                         r"(?![0-9a-f])", re.I)
+    mentions = []
+    for path in sorted((progress.ROOT / "native").glob("*")):
+        if path.suffix not in (".c", ".h"):
+            continue
+        matches = [{"line": number, "text": line.strip()[:240]}
+                   for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
+                   if pattern.search(line)]
+        if matches:
+            mentions.append({"path": path.relative_to(progress.ROOT).as_posix(),
+                             "matches": matches[:3]})
+    return mentions
+
+
+def inventory(names, owned=(), include_native=False):
     functions = progress.load_functions()
     sources = {}
     for path, symbols in progress.source_functions().items():
@@ -23,8 +45,10 @@ def inventory(names, owned=()):
         reason = ("unknown_canonical_name" if name not in functions else
                   "already_recovered" if name in sources else
                   "owned_by_another_batch" if name in reserved else "available")
-        result.append({"name": name, "status": reason,
-                       "sources": sources.get(name, [])})
+        item = {"name": name, "status": reason, "sources": sources.get(name, [])}
+        if include_native:
+            item["native_mentions"] = native_mentions(name)
+        result.append(item)
     return result
 
 
@@ -33,8 +57,10 @@ def main():
     parser.add_argument("names", nargs="+", help="canonical func_XXXXXXXX names")
     parser.add_argument("--owned", action="append", default=[],
                         help="canonical name reserved by another batch; repeatable")
+    parser.add_argument("--native-evidence", action="store_true",
+                        help="also list native address mentions; inspect their actual level and supported domain")
     args = parser.parse_args()
-    result = inventory(args.names, args.owned)
+    result = inventory(args.names, args.owned, args.native_evidence)
     print(json.dumps(result, indent=2))
     return int(any(item["status"] != "available" for item in result))
 

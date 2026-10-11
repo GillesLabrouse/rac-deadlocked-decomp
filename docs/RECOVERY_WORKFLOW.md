@@ -41,6 +41,15 @@ do not establish an exact match.
 
 ## Raw evidence before interpretation
 
+Before each new lot, run `tools/check_recovery_candidates.py --native-evidence`
+for its actual address names. Search accepted native headers, drafts and earlier
+receipts before recovering another copy or declaring a missing producer. The
+optional native mentions are navigation hints only: inspect the referenced
+level, ABI, supported domain and proof before reuse. They do not change matching
+availability, prove function coverage or establish shared overlay addresses.
+For global writers, also inspect direct LUI plus displaced stores; searching
+only LUI/ADDIU address formations misses normal global store sequences.
+
 Record branch opcode, signed displacement, computed target and executed delay
 slot directly from the reference word. Generate effective addresses from the
 actual base and sign-extended immediate; do not manually transcribe a decoded

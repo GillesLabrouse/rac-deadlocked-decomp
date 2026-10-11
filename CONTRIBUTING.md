@@ -159,7 +159,11 @@ addresses only, never a substitute for source).
    func_XXXXXXXX` (Windows: `venv/Scripts/python.exe`). It checks canonical
    source names and libgcc/libm aliases; `--owned func_XXXXXXXX` also excludes
    another agent's reserved candidate. Preserve its result with the batch
-   receipt. Archive mappings from `map_archive.py` are naming hypotheses:
+   receipt. Add `--native-evidence` before native dependency work to find existing
+   address mentions in public headers and implementations. These are navigation
+   hints, not matching coverage or proof of a supported path; inspect the actual
+   level, API domain and earlier validation receipts before reuse.
+   Archive mappings from `map_archive.py` are naming hypotheses:
    verify actual argument flow, callees and resolved addresses independently,
    especially for small wrappers with indistinguishable instruction shapes.
 2. **Get a starting point** with `venv/bin/python tools/ext/m2c/m2c.py -t
