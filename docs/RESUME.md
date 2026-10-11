@@ -18,8 +18,8 @@ nonmatching drafts and ignored private/baserom/build evidence.
 
 ## Saved state
 
-- 311 accepted exact functions of15766, approximately0.556% code. Last full
-  audit:311 exact, zero failures; generated progress/check passed. Native ports
+- 312 accepted exact functions of15766, approximately0.558% code. Last full
+  audit:312 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
 - All90 native tests passed in5.63s; environment-reader10 focused checks,
   record27, orientation43,
@@ -162,9 +162,19 @@ nonmatching drafts and ignored private/baserom/build evidence.
   The complete owner remains private/unimplemented; no loader initialization
   credit. Resume30's claim that m2c is absent is false: use the established
   `tools/ext/m2c/m2c.py` through the venv; separate correction is pending/retained.
-  Reclass leaf actual591940 has a private exact L01 object; canonical resident
- 4737F0 is available but needs root ABI/callee/resolved acceptance. Read agent
-  resume27's separate GP/timing/identity addendum; actual GP22597F, final568s.
+  Reclass leaf actual591940 is now accepted only as canonical resident4737F0.
+  Root independently resolves callee46F2B0 (resident) versus58AB20 (L01), with
+  the whole120-byte bodies differing only in that JAL. Fresh private and actual
+  production resident objects pass true relocation and unmasked resolved link;
+  a separately fresh correct-L01 counterpart also passes full link. No duplicate
+  overlay credit/native callable startup. Source carries explicit-G0, checked
+  actor24/55, class48 and descriptor10 offsets; trailing pointer table has no
+  guessed64-entry extent. Proof: `private/root-reclass-leaf-production-acceptance.json`.
+  Read worker resume27's GP/timing/identity addendum; actual GP22597F, final568s.
+  Complete pool owner draft: `private/luna-memory-resume31-owner-m2c.c`;36 EE/
+  VU errors and unclosed real callees prevent compilation/adoption. Read the
+  resume30 m2c/arithmetic correction and verify original descriptor loads;
+  fixed243700+20 supplies a value,583980 receives (value+400000,value).
 - Capsule candidate: `private/transition-agent-capsule-state-report.md`,
   `build/drafts/transition-agent-capsule-state-freeze.json`, SHA256
   `d03588913c23bc1db77f73a42b021119903ae2111fcf069ebe91195112eb16a0`.

@@ -3205,3 +3205,36 @@ prove a later one. Emulator tests are optional reference checks.
   exact acceptance yet, zero accepted/hour for this completed worker batch.
   Startup, full callback/secondary movement and complete player frame remain
   outstanding. Viewer behavior is unchanged; no playable Ratchet or push.
+
+## 2026-10-11 — Accept canonical reclassification leaf with correct references
+
+- Adopt resident `src/game/004737F0.c`, the complete120-byte reader/call/flag
+  leaf corresponding to actual L01591940. Root checks real pointer layout:
+  actor+24 class pointer, class+48 trailing pointer table, descriptor+10 byte,
+  actor+55 flag; replace the worker's guessed64-entry table size with a GNU
+  trailing table and compile-time offset checks. The ABI is actor/index/F12
+  float, and the callee gets actor/selected descriptor/index/A3zero/F12.
+  Resolve the actual resident JAL46F2B0 versus L0158AB20; the full original
+  bodies differ only at that one call word. Do not infer identity from L00
+  coincident addresses or broad normalization alone.
+- Fresh root canonical and local-L01 objects both pass complete120-byte true
+  relocation comparison (one R_MIPS26 at offset84) and unmasked actual resolved
+  link. Repeat for the accepted production resident object and separate L01
+  counterpart. Source-local-G0 is explicit and the manifest verifies it. No
+  duplicate L01 source or speculative catalog modification is adopted.
+- Incremental matching build compiles one source, reuses256 validated objects
+  and removes none. Full audit passes312 exact/zero failures; generated report
+  and check pass312/15766,0.558% code. This adds one exact function; native90
+  tests/5.63s are unchanged because this PS2-only source is outside native CMake.
+  No native behavior or playable frame is implied by matching this callee.
+  Worker batch568s plus40s metadata addendum produced one accepted function
+  after root integration; final receipt records full wall-clock throughput.
+- Pool-owner full2808-byte/702-word CFG and private m2c succeed; all36 unsupported
+  EE/MMI/COP2/VU expressions stay private, direct callees remain real/unclosed.
+  Read-only lot31 takes195s. Separate corrections preserve old reports: m2c
+  exists under tools/ext/m2c, and LUI0040 means400000, not40000000. Root verifies
+  the fixed structure243700+20 load and the exact583980 arguments from raw
+  words; an indirect-pointer type must not be inferred from report shorthand.
+  Next trace the asset descriptor producer/load/header path and model-aware
+  class initialization. Constructor, complete callback/secondary update and
+  repeated player frame are still outstanding. No playable Ratchet or push.
