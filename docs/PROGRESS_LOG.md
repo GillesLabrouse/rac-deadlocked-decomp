@@ -3005,3 +3005,39 @@ prove a later one. Emulator tests are optional reference checks.
   Next: close orientation's raw-vector model gap and genuine frame/initialization
   call graph. The executable remains a scenery/animation viewer, with no complete
   initialized native player frame, playable loop or push.
+
+## 2026-10-11 — Verify both floating timer returns and actual threshold binding
+
+- Add the complete L01 55D240 64-byte floating timer as native code, retaining
+  both original return/delay paths and the formerly omitted55D270 block. Read
+  threshold first from actual supplied GP-7B7B, then the timer word; preserve
+  their aliases. No fixed clock, invented GP or captured callee is supplied by
+  the implementation. Ordered comparison clears to positive zero and returns
+  -1 for rawzero/negative inputs, -2 for positive nonzero inputs; subtraction
+  returns0. NaN/subnormal/exceptional inputs are outside the supported domain.
+- Request/info/storage aliases retain atomic failure semantics. Selected inputs
+  are signed zero or normal abs>=2^-40, timer<=8192 and threshold<=16 in absolute
+  value; subtraction results must remain normal/zero. Approximate host binary32
+  operation order is explicit; no physical FPU rounding/flags, original full-GPR
+  ABI or actual runtime-GP distribution is claimed. The separately read resident
+  GP/global gives word3C888889 at21DE04; alternative clocks/GPs are diagnostics.
+- Root private and final central-archive proofs each pass2099 whole RAM/low64
+  scalar-return comparisons, including2048 random timers, actual clock boundaries,
+  signedzero, aliases and the actual player field36934C. Three genuine original
+  mapped-address faults and nine numerical-domain refusals leave RAM/info intact.
+  Final proof compares140836864 bytes/23070EE in0.309s, zero captures/differences
+  and unchanged bound inputs. All87 native tests pass in6.57s;30 focused checks.
+  No final compile/test/proof failures; one documentation patch context failed
+  before applying and was corrected. Exact count stays311/0.556%, zero native
+  byte-exact credit. Integration starts16:18:58UTC; final receipt records elapsed.
+- Independent callback audit establishes genuine list22:2A9C delivery through
+  full5490D8 tick and54A548 dispatcher, then actor66ACA0 callback and667008's
+  instance-dependent metadata+4 record getter. The callback is10680 bytes with
+  104 callsites/31 unique direct targets/six indirect calls. Static audit304s,
+  no native/exact acceptance; next resolve concrete metadata and getter binding.
+- Independent C60 gap audit finds initial poisoned y overwritten before use,
+  z retained in packed words, and no y/z path into consumed xy or five W lanes
+  within C60. Conditional emulator operand clamping is diagnostic, not a console
+  specification or adoption proof. Keep the current orientation draft private
+  while tracing all caller upper-word inputs and whole-chain consumers. Neither
+  timers nor static audits establish a complete initialized frame/playable loop.

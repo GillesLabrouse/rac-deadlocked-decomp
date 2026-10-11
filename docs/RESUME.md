@@ -21,7 +21,7 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - 311 accepted exact functions of15766, approximately0.556% code. Last full
   audit:311 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All86 native tests passed in6.13s; counter20 focused checks, visibility24,
+- All87 native tests passed in6.57s; float timer30 focused checks, counter20, visibility24,
   publication module36,
   position75, ground132 and capsule119. Latest additive entry is
   `dreadzone_actor_position_state_0067F5E8`, with explicit caller high64 input.
@@ -47,6 +47,13 @@ nonmatching drafts and ignored private/baserom/build evidence.
   helper equals the separately checked resident4534D0 body. The integer oracle
   already supports PMAXW's four signed32 lanes; no oracle extension was needed.
   Neither full-GPR ABI, exact credit nor a complete player frame is claimed.
+- Complete64-byte L01 floating timer55D240 is public native code in a bounded
+  approximate COP1 domain. The request supplies real incoming GP and RAM;
+  threshold is loaded from GP-7B7B, never manufactured. Final archive proof:
+  2099 whole RAM/low64-return matches, three original-fault atomic refusals and
+  nine numerical-domain refusals,23070EE/140836864 bytes, no captures/differences.
+  Runtime L01 GP distribution, physical FPU flags/rounding and full frame remain
+  unproven; explicit diagnostic clock/GP variations earn no runtime credit.
 - Public ground UPDATE has an additive raw high64 output. Actual special-height
   helper593478 was verified across600 original/native full RAM/return/register
   calls; genuine2237D8 lookup dependencies still refuse.
