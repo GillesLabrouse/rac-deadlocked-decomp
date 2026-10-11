@@ -1,6 +1,8 @@
 #include "dreadzone_wall_contact.h"
+
 #include "dreadzone_collision_grid.h"
 #include "dreadzone_terrain_contact.h"
+
 #include <float.h>
 #include <math.h>
 #include <stdint.h>
@@ -14,6 +16,7 @@ typedef struct WallWork {
     int failed;
     u32 endpoint_words[2][4];
     int endpoints_local;
+    DreadzoneProbeRegisters provenance;
 } WallWork;
 static u32 wall_bits(float value){u32 word;memcpy(&word,&value,4);return word;}
 static float wall_float(u32 word){float value;memcpy(&value,&word,4);return value;}
@@ -73,6 +76,9 @@ static int wall_dynamic(WallWork *p,const DreadzoneCollisionGridRecord *records,
     for(i=0;i<count;i++){
         u32 cell,x,y;
         if(records[i].fraction_bits==0x3F800000U)break;
+        /* First coarse cell uses v1, not a0. Actual next-record fraction
+         * at53E458 must be nonterminal to reach PEXTLB/PSRAH. */
+        if(i!=0){p->provenance.high64[0]=p->provenance.high64[1]=0;p->provenance.last_writer_pc=0x53E464U;}
         cell=records[i].packed_cell;x=(cell&255U)>>2;y=((cell>>8)&255U)>>2;
         cell=x|(y<<16);if(!n||coarse[n-1]!=cell)coarse[n++]=cell;
     }
@@ -171,7 +177,7 @@ static int wall_calculate(WallWork *p){
     p->info.grid_records=grid_info.record_count;
     memset(&terrain,0,sizeof(terrain));terrain.storage=p->memory;terrain.guest_base=p->r.guest_base;terrain.bytes=p->r.storage_bytes;terrain.root=root;terrain.caller_flags=p->r.caller_flags;
     memcpy(terrain.start_world,start,sizeof(start));memcpy(terrain.end_world,end,sizeof(end));
-    result=dreadzone_terrain_contact(&terrain,&contact,&terrain_info);if(result<0)return DREADZONE_WALL_UNSUPPORTED;
+    result=dreadzone_terrain_contact_tracked(&terrain,&contact,&terrain_info,&p->provenance);if(result<0)return DREADZONE_WALL_UNSUPPORTED;
     /* The original first tree lookup and leaf fetch precede this exit.
      * Even identical integer endpoints must validate that actual read. */
     if(!grid_info.has_integer_displacement)return 0;
@@ -188,9 +194,14 @@ static int wall_calculate(WallWork *p){
     }
     return p->failed?p->failed:result;
 }
-static int wall_execute(const DreadzoneWallRequest *request,const u32 *start_words,const u32 *end_words,DreadzoneWallInfo *info){
+int dreadzone_wall_contact_registers(const DreadzoneWallRequest *request,const u32 *start_words,const u32 *end_words,const u32 incoming_high64[2],DreadzoneProbeRegisters *output,DreadzoneWallInfo *info){
     WallWork p;uintptr_t a,b,c;int result;
-    if(!request||!info)return DREADZONE_WALL_INVALID;
+    u32 incoming[2];uintptr_t o,in;
+    if(!request||!info||!incoming_high64||!output)return DREADZONE_WALL_INVALID;
+    o=(uintptr_t)output;in=(uintptr_t)incoming_high64;
+    if(o>UINTPTR_MAX-sizeof(*output)||in>UINTPTR_MAX-sizeof(incoming))return DREADZONE_WALL_INVALID;
+    memcpy(incoming,incoming_high64,sizeof(incoming));
+    if((start_words==NULL)!=(end_words==NULL))return DREADZONE_WALL_INVALID;
     a=(uintptr_t)request;b=(uintptr_t)info;
     if(a>UINTPTR_MAX-sizeof(*request)||b>UINTPTR_MAX-sizeof(*info)||(a<b+sizeof(*info)&&b<a+sizeof(*request)))return DREADZONE_WALL_INVALID;
     memset(&p,0,sizeof(p));memcpy(&p.r,request,sizeof(p.r));c=(uintptr_t)p.r.storage;
@@ -202,15 +213,22 @@ static int wall_execute(const DreadzoneWallRequest *request,const u32 *start_wor
     if(!p.r.storage||!p.r.storage_bytes||c>UINTPTR_MAX-p.r.storage_bytes||(u64)p.r.guest_base+p.r.storage_bytes>0x80000000ULL||
        (p.r.guest_base<=0x70003FFFU&&(u64)p.r.guest_base+p.r.storage_bytes>0x70000000ULL)||
        (b<c+p.r.storage_bytes&&c<b+sizeof(*info))||!p.r.actor_pool_count||p.r.actor_pool_count>65536U||!p.r.grid_block_count||p.r.grid_block_count>3072U)return DREADZONE_WALL_INVALID;
+    if((o<a+sizeof(*request)&&a<o+sizeof(*output))||
+       (o<b+sizeof(*info)&&b<o+sizeof(*output))||
+       (o<c+p.r.storage_bytes&&c<o+sizeof(*output)))return DREADZONE_WALL_INVALID;
+    memcpy(p.provenance.high64,incoming,sizeof(incoming));
     p.memory=(u8 *)malloc(p.r.storage_bytes);if(!p.memory)return DREADZONE_WALL_UNSUPPORTED;
     memcpy(p.memory,p.r.storage,p.r.storage_bytes);result=wall_calculate(&p);if(p.failed)result=p.failed;
-    if(result>=0){memcpy(p.r.storage,p.memory,p.r.storage_bytes);memcpy(info,&p.info,sizeof(*info));}
+    if(result>=0){memcpy(p.r.storage,p.memory,p.r.storage_bytes);memcpy(info,&p.info,sizeof(*info));memcpy(output,&p.provenance,sizeof(*output));}
     free(p.memory);return result;
 }
+
 int dreadzone_wall_contact(const DreadzoneWallRequest *request,DreadzoneWallInfo *info){
-    return wall_execute(request,NULL,NULL,info);
+    const u32 incoming[2]={0,0};DreadzoneProbeRegisters output;
+    return dreadzone_wall_contact_registers(request,NULL,NULL,incoming,&output,info);
 }
 int dreadzone_wall_contact_vectors(const DreadzoneWallRequest *request,const u32 start_words[4],const u32 end_words[4],DreadzoneWallInfo *info){
+    const u32 incoming[2]={0,0};DreadzoneProbeRegisters output;
     if(!start_words||!end_words)return DREADZONE_WALL_INVALID;
-    return wall_execute(request,start_words,end_words,info);
+    return dreadzone_wall_contact_registers(request,start_words,end_words,incoming,&output,info);
 }

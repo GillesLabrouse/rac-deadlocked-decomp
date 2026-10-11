@@ -76,9 +76,10 @@ static int terrain_decode(const TerrainBlock *block,const DreadzoneCollisionGrid
     }
     return 1;
 }
-int dreadzone_terrain_contact(const DreadzoneTerrainContactRequest *request,
+int dreadzone_terrain_contact_tracked(const DreadzoneTerrainContactRequest *request,
                              DreadzoneCollisionTriangleContact *contact,
-                             DreadzoneTerrainContactInfo *info) {
+                             DreadzoneTerrainContactInfo *info,DreadzoneProbeRegisters *state) {
+    DreadzoneProbeRegisters tracked={{0,0},0};
     DreadzoneTerrainContactRequest r;DreadzoneTerrainContactInfo detail;
     DreadzoneCollisionGridRequest grid_request;DreadzoneCollisionGridInfo grid_info;
     DreadzoneCollisionGridRecord records[DREADZONE_COLLISION_GRID_MAX_RECORDS];
@@ -87,6 +88,12 @@ int dreadzone_terrain_contact(const DreadzoneTerrainContactRequest *request,
     u32 axis,record,current_buffer=0,start_cell=0;int have_contact=0;
     if(request==NULL||contact==NULL||info==NULL||
        (uintptr_t)request>UINTPTR_MAX-sizeof(r))return DREADZONE_TRIANGLE_INVALID;
+    if(state){
+        if(terrain_overlap(state,sizeof(*state),request,sizeof(r))||
+           terrain_overlap(state,sizeof(*state),contact,sizeof(*contact))||
+           terrain_overlap(state,sizeof(*state),info,sizeof(*info)))return DREADZONE_TRIANGLE_INVALID;
+        memcpy(&tracked,state,sizeof(tracked));
+    }
     memcpy(&r,request,sizeof(r));
     if(r.storage==NULL||r.bytes==0||r.guest_base>=0x80000000U||
        (unsigned long long)r.guest_base+r.bytes>0x80000000ULL||
@@ -94,6 +101,7 @@ int dreadzone_terrain_contact(const DreadzoneTerrainContactRequest *request,
        terrain_overlap(contact,sizeof(*contact),info,sizeof(*info))||
        terrain_overlap(contact,sizeof(*contact),r.storage,r.bytes)||
        terrain_overlap(info,sizeof(*info),r.storage,r.bytes))return DREADZONE_TRIANGLE_INVALID;
+    if(state&&terrain_overlap(state,sizeof(*state),r.storage,r.bytes))return DREADZONE_TRIANGLE_INVALID;
     if(r.caller_flags&1U)return DREADZONE_TRIANGLE_UNSUPPORTED;
     memset(&detail,0,sizeof(detail));
     /* Original0053DF80 initializes only the live closest fraction to1. */
@@ -129,6 +137,8 @@ int dreadzone_terrain_contact(const DreadzoneTerrainContactRequest *request,
         if(nq>nf||face_start+nf*4+nq>block->bytes)return DREADZONE_TRIANGLE_UNSUPPORTED;
         if(!terrain_decode(block,records+record,records+record+1,grid_request.start_scaled,
                            grid_request.end_scaled,direction,&triangle,vertices,clips))return DREADZONE_TRIANGLE_UNSUPPORTED;
+        /* Actual final packed vertex producer53E184, before eligibility. */
+        if(state){tracked.high64[0]=tracked.high64[1]=0;tracked.last_writer_pc=0x53E184U;}
         triangle.effective_flags=r.caller_flags^0x10U;triangle.source_guest=r.root;
         for(pass=0;pass<2;pass++) {
             u32 count=pass==0?nf:nq;
@@ -157,5 +167,12 @@ int dreadzone_terrain_contact(const DreadzoneTerrainContactRequest *request,
         }
     }
     if(have_contact)memcpy(contact,&candidate,sizeof(candidate));
+    if(state)memcpy(state,&tracked,sizeof(tracked));
     memcpy(info,&detail,sizeof(detail));return have_contact?1:0;
+}
+
+int dreadzone_terrain_contact(const DreadzoneTerrainContactRequest *request,
+                             DreadzoneCollisionTriangleContact *contact,
+                             DreadzoneTerrainContactInfo *info){
+    return dreadzone_terrain_contact_tracked(request,contact,info,NULL);
 }

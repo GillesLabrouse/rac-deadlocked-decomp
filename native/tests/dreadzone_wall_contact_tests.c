@@ -120,6 +120,53 @@ static void vector_tests(void){
     CHECK(memcmp(before,p,0x30000)==0&&memcmp(&info,&old,sizeof(info))==0);
     free(before);free(reference);free(p);
 }
+static void register_tests(void){
+    u8 *p=(u8 *)malloc(0x30000),*before=(u8 *)malloc(0x30000);
+    DreadzoneWallRequest r;DreadzoneWallInfo info,old_info;
+    DreadzoneProbeRegisters state,old_state;u32 incoming[2]={0x7FC12345U,0xDEADBEEFU};
+    if(!p||!before){CHECK(0);free(p);free(before);return;}
+    fixture(p,&r);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==1);
+    CHECK(state.high64[0]==0&&state.high64[1]==0&&state.last_writer_pc==0x53E184U);
+    /* Surface rejection still follows the actual packed vertex producer. */
+    fixture(p,&r);p[0x20000+128+19]=0x10;
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==0);
+    CHECK(state.high64[0]==0&&state.high64[1]==0);
+    /* A decoded block with vertices and no faces still reaches the producer. */
+    fixture(p,&r);p[0x20000+128]=0;
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==0);
+    CHECK(state.high64[0]==0&&state.high64[1]==0&&info.terrain_faces==0);
+    /* Same integer endpoints fetch the leaf but never decode its vertices. */
+    fixture(p,&r);memcpy(p+0x110,p+0x100,16);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==0);
+    CHECK(!memcmp(state.high64,incoming,8)&&state.last_writer_pc==0&&info.grid_records==1);
+    /* Two records ending immediately at fraction1 do not clear high64. */
+    fixture(p,&r);p[0x20000+128+2]=0;real(p+0x108,10.f);real(p+0x118,11.f);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==0);
+    CHECK(!memcmp(state.high64,incoming,8)&&state.last_writer_pc==0&&info.grid_records==2);
+    /* Genuine nonterminal traversal does clear, even without decoded vertices. */
+    fixture(p,&r);p[0x20000+128+2]=0;real(p+0x108,10.f);real(p+0x118,15.f);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==0);
+    CHECK(state.high64[0]==0&&state.high64[1]==0&&state.last_writer_pc==0x53E464U);
+    fixture(p,&r);put(p+0x210,0xFFFFFFFFU);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==0);
+    CHECK(!memcmp(state.high64,incoming,8)&&state.last_writer_pc==0);
+    fixture(p,&r);memcpy(before,p,0x30000);memset(&info,0x7C,sizeof(info));old_info=info;
+    memset(&state,0x6B,sizeof(state));old_state=state;r.caller_flags=1;
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,&state,&info)==DREADZONE_WALL_UNSUPPORTED);
+    CHECK(!memcmp(p,before,0x30000)&&!memcmp(&info,&old_info,sizeof(info))&&!memcmp(&state,&old_state,sizeof(state)));
+    r.caller_flags=2;
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,(const u32 *)(p+0x110),incoming,&state,&info)==DREADZONE_WALL_INVALID);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,(DreadzoneProbeRegisters *)&info,&info)==DREADZONE_WALL_INVALID);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,(DreadzoneProbeRegisters *)(p+0x100),&info)==DREADZONE_WALL_INVALID);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,incoming,(DreadzoneProbeRegisters *)&r,&info)==DREADZONE_WALL_INVALID);
+    CHECK(!memcmp(p,before,0x30000)&&!memcmp(&info,&old_info,sizeof(info))&&!memcmp(&state,&old_state,sizeof(state)));
+    /* Raw input may alias output; preservation snapshots both incoming words. */
+    fixture(p,&r);put(p+0x210,0xFFFFFFFFU);memcpy(state.high64,incoming,8);
+    CHECK(dreadzone_wall_contact_registers(&r,NULL,NULL,state.high64,&state,&info)==0);
+    CHECK(!memcmp(state.high64,incoming,8)&&state.last_writer_pc==0);
+    free(p);free(before);
+}
 int main(void){
     u8 *allocation=(u8 *)malloc(0x30002),*p;DreadzoneWallRequest r;DreadzoneWallInfo info;u32 i;
     if(!allocation)return 1;p=allocation+1;allocation[0]=0xC8;allocation[0x30001]=0x9B;
@@ -170,5 +217,5 @@ int main(void){
     fixture(p,&r);r.guest_base=0x80000000U;unchanged(&r,&info,DREADZONE_WALL_INVALID);
     fixture(p,&r);r.guest_base=0xFFFF0000U;unchanged(&r,&info,DREADZONE_WALL_INVALID);
     CHECK(dreadzone_wall_contact(NULL,&info)==DREADZONE_WALL_INVALID);CHECK(dreadzone_wall_contact(&r,NULL)==DREADZONE_WALL_INVALID);
-    vector_tests();mask_tests();free(allocation);printf("%u checks, %u failures\n",checks,failures);return failures?1:0;
+    register_tests();vector_tests();mask_tests();free(allocation);printf("%u checks, %u failures\n",checks,failures);return failures?1:0;
 }

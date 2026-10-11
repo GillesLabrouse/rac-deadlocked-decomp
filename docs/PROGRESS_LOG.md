@@ -2542,3 +2542,30 @@ prove a later one. Emulator tests are optional reference checks.
   comparisons and96 original calls including ground diagnostics; it still
   requires root production validation. Existing82 central tests remain the
   last native checkpoint. No complete player frame, playable scene or push.
+
+## 2026-10-11 — Transport actual collision-probe high-register state
+
+- Add a separate bounded probe entry publishing raw A0.high64 without changing
+  existing Request/Info layouts or entry contracts. Preserve incoming words
+  on short rays, empty terminal cells and genuine early exits. Clear only
+  after actual nonempty packed vertex decode or nonterminal dynamic traversal.
+  Eligible unrecovered model/primitive geometry still refuses atomically.
+  Terrain tracking publishes its local diagnostic only after full success.
+- Root fresh control-flow audit verifies the complete4120-byte/1030-word
+  L01 probe and all seven full-width A0 writers. Their branch/operand effects
+  agree with the specialist inventory; model LQ stays outside the domain.
+  Independent private build and final central archive bridge pass88 original
+  whole-probe high64/RAM comparisons, including8 real caller-local quads,
+  terminal/nonterminal empty paths and filtered actors.96 original calls
+  including ground diagnostics execute132940EE/4858VU pairs, zero captures
+  or final differences; hashed inputs remain unchanged.
+- Add24 focused preservation/clearing/alias/atomic-refusal checks;151 wall
+  checks and all82 central tests pass (6.66s). Production integration takes292.27s
+  from its recorded checkpoint, excluding earlier independent draft gates.
+  Preserve one private recipe rename compile failure, one recipe configure
+  failure and one strict production optional-local initialization warning;
+  correct all before final validation. No comparison failure is hidden.
+- Exact decomposition remains301; this additive native state transport earns
+  zero exact credit. Ground/position must still compose their own genuine
+  endpoint, side and scheduled-exit producers. No complete movement frame or
+  playable character/scene is claimed, and nothing is pushed.

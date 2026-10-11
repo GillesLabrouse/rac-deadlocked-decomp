@@ -1,6 +1,7 @@
 #ifndef DEADLOCKED_DREADZONE_WALL_CONTACT_H
 #define DEADLOCKED_DREADZONE_WALL_CONTACT_H
 #include "common.h"
+#include "dreadzone_probe_registers.h"
 
 typedef struct DreadzoneWallRequest {
     u8 *storage;
@@ -58,4 +59,16 @@ int dreadzone_wall_contact(const DreadzoneWallRequest *request,DreadzoneWallInfo
  */
 int dreadzone_wall_contact_vectors(const DreadzoneWallRequest *request,
     const u32 start_words[4],const u32 end_words[4],DreadzoneWallInfo *info);
+/* Same bounded probe plus actual a0.high64 transport. Both endpoint pointers
+ * NULL select mapped endpoints; otherwise both name readable captured quads.
+ * Incoming words are captured before writes and may alias the state output.
+ * Output is disjoint from request, info and backing; refusal preserves all
+ * outputs. A nonempty vertex decode and actual nonterminal traversal reach
+ * clearing producers; short/empty/filtered misses alone imply nothing.
+ * Eligible unrecovered geometry retains the existing atomic refusal. Only
+ * high64 is published, not low64, complete GPR/VF state or a player frame.
+ */
+int dreadzone_wall_contact_registers(const DreadzoneWallRequest *request,
+    const u32 *start_words,const u32 *end_words,const u32 incoming_high64[2],
+    DreadzoneProbeRegisters *output,DreadzoneWallInfo *info);
 #endif

@@ -1,6 +1,7 @@
 #ifndef DEADLOCKED_DREADZONE_TERRAIN_CONTACT_H
 #define DEADLOCKED_DREADZONE_TERRAIN_CONTACT_H
 #include "dreadzone_collision_triangle.h"
+#include "dreadzone_probe_registers.h"
 typedef struct DreadzoneTerrainContactRequest {
     const u8 *storage;
     u32 guest_base,bytes,root;
@@ -38,4 +39,12 @@ typedef struct DreadzoneTerrainContactInfo {
 int dreadzone_terrain_contact(const DreadzoneTerrainContactRequest *request,
                              DreadzoneCollisionTriangleContact *contact,
                              DreadzoneTerrainContactInfo *info);
+/* Internal probe composition: retain incoming high64 unless the genuine
+ * nonempty vertex decode reaches its final packed producer. A nonnull state
+ * is disjoint from request, contact, info and storage. All outputs publish
+ * only on success. This terrain stage omits the later dynamic producers.
+ */
+int dreadzone_terrain_contact_tracked(const DreadzoneTerrainContactRequest *,
+    DreadzoneCollisionTriangleContact *,DreadzoneTerrainContactInfo *,
+    DreadzoneProbeRegisters *);
 #endif
