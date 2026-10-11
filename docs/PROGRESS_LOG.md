@@ -2519,3 +2519,26 @@ prove a later one. Emulator tests are optional reference checks.
   existing public APIs and accepted native behavior remain unchanged pending
   root validation. All82 central native tests currently pass; no playable frame
   or push is claimed.
+
+## 2026-10-11 — Verify a resident word snapshot; audit the whole movement caller
+
+- Accept resident00142530, complete12-byte record+8 to record+C copy.
+  Independently verify resident1415E8: S1 names S2+118, genuine141798 assigns
+  A0=S1, and subsequent stores preserve it through the call. Delay1417B8
+  stores T3 at S2+1F4. Preserve the initial inaccurate agent description and
+  separate correction; one root manual assertion catches it before acceptance.
+  Fresh SN and final production relocation-aware and unmasked exact gates pass.
+  The complete audit passes301 with zero failures; progress/check pass. No
+  L01 dependency or playable feature is inferred from this resident helper.
+- Commands batch15 takes63s with one exact candidate and zero compilation or
+  comparison failures. At 2026-10-11T13:32:21.207661+00:00 the baseline gain is21 functions,
+  6.52 accepted/hour; root production integration takes32.67s from
+  its recorded checkpoint, excluding earlier independent ABI/recovery gates.
+- Fresh L01 control-flow recovery verifies complete67C0101372-byte/343-word
+  frame and684A60968-byte/242-word position wrapper, including actual indirect
+  calls and final return delay slots. The periodic modulo3/5 collision work
+  and reached virtual methods remain prerequisites, not simulated successes.
+- A private additive wall-probe draft reports88 actual high64 plus RAM
+  comparisons and96 original calls including ground diagnostics; it still
+  requires root production validation. Existing82 central tests remain the
+  last native checkpoint. No complete player frame, playable scene or push.
