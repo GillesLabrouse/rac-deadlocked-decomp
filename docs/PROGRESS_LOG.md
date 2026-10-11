@@ -2026,3 +2026,25 @@ prove a later one. Emulator tests are optional reference checks.
   Those candidates remain drafts and add no matching coverage.
 - No rendered controls or playable-character change is claimed. Native collision
   integration and selected frame composition remain the main work. No push.
+
+## 2026-10-11 — Accept one initializer and cap unresolved batches
+
+- Root independently rebuilds00127348 and verifies its complete20 bytes with
+  actual relocation-aware and unmasked resident linking. Shared audit passes
+  285 functions with zero failures and progress check passes. Incremental
+  compilation builds one source and reuses228; the root command pipeline
+  takes8.86s, excluding earlier review. Matching coverage becomes285.
+- Across two two-agent cycles, five of eight attempted distinct functions are
+  accepted; three remain saved drafts. Second-cycle agents take143s/150s, with
+  eleven object-form and eight exact-link mismatches, one postprocessing failure
+  and separately recorded native-process launch failures. Repeated variants
+  are attempts, never additional functions or matching coverage.
+- Measurement snapshot at10:37:48 UTC: five accepted since10:19:14, observed
+  16.15 functions/hour across1114.32s including root native work. The initial
+  22.58/hour window remains separately recorded. This is not a sustained rate.
+- No third recovery agent is added. Further small batches should prioritize
+  already verified scene prerequisites and use the authorized native SN launch
+  directly on this Windows host, avoiding repeated known sandbox startup errors.
+- The unresolved zeroing/queue/table helpers remain outside accepted sources;
+  their instruction scheduling and address-construction blockers are documented.
+  Native integration continues independently. Nothing is pushed.
