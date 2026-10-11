@@ -18,10 +18,10 @@ nonmatching drafts and ignored private/baserom/build evidence.
 
 ## Saved state
 
-- 310 accepted exact functions of15766, approximately0.555% code. Last full
-  audit:310 exact, zero failures; generated progress/check passed. Native ports
+- 311 accepted exact functions of15766, approximately0.556% code. Last full
+  audit:311 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All83 native tests passed in10.97s; publication module36 focused checks,
+- All84 native tests passed in5.57s; publication module36 focused checks,
   position75, ground132 and capsule119. Latest additive entry is
   `dreadzone_actor_position_state_0067F5E8`, with explicit caller high64 input.
 - The new position entry supports selected complete active140 and scheduled
@@ -30,6 +30,9 @@ nonmatching drafts and ignored private/baserom/build evidence.
   previous supported domain. Actual67FD74 PCPYUD duplicates140 words2/3 into
   both a0 halves, rather than clearing high64. Live upstream caller-state
   distribution and final full-GPR transport remain separate requirements.
+- Whole66ABD8/reached54A4E8 callback enqueue is public and verified through189
+  complete integer RAM comparisons, three original-fault atomic refusals and
+  27 focused checks. It does not execute callback66ACA0 or initialize its actor.
 - Public ground UPDATE has an additive raw high64 output. Actual special-height
   helper593478 was verified across600 original/native full RAM/return/register
   calls; genuine2237D8 lookup dependencies still refuse.
@@ -61,7 +64,7 @@ nonmatching drafts and ignored private/baserom/build evidence.
    and object basenames/output prefixes. Add a third worker only when root
    validation/integration keeps up. Hold after each batch; report accepted/hour,
    failed gates and integration seconds. Latest measured batch checkpoint is
-   3.89 accepted/hour at15:32:45UTC from15:17:19UTC dispatch, including root
+   3.61 accepted/hour at15:48:20UTC from15:31:42UTC dispatch, including root
    integration and concurrent native work. See the latest progress-log entry.
 
 ## Private evidence retained locally
@@ -110,6 +113,19 @@ nonmatching drafts and ignored private/baserom/build evidence.
   accepted1384E0's pointer ABI/full12-byte resolved link. Command resume21 failed
   three size gates and remains outside src. Luna workers resume19/22 are bounded;
   the third worker audits orientation register effects in exclusive private files.
+- Latest predicate: `private/root-predicate19-production-acceptance.json` binds
+  L01_003C9CD8 full16-byte exact link and all24 separately scanned physical copies.
+- Queue: `build/drafts/root-callback-enqueue-production-proof.json` and build
+  manifest, `private/root-callback-enqueue-final-receipt.json`. Preserve two prior
+  checker failures. New native CMake inputs naturally supersede old position/
+  capsule build manifests; historical proofs describe their saved checkpoints.
+- Orientation audit: `private/root-orientation-provenance-worker-report.md` and
+  `build/drafts/root-orientation-provenance-worker-audit.json`. Ten native-success
+  cases hit original numerical boundaries, so no public adoption. VF28.W/full
+  a0 transport depends on actual C60 lanes; never infer it from RAM-only output.
+- Workers memoryresume19/commandsresume22 and provenance are HOLD. Commands21/22
+  accepted zero in633 measured seconds; prioritize gameplay validation and avoid
+  expanding nonmatching lots. Timer metadata/sibling branches need full CFG review.
 - Orientation remains private: `private/root-orientation.{c,h}` and its proofs,
   plus `nonmatching/L01_00683310.c`.33 full matches/43 calls, ten original
   numerical boundaries. Do not adopt or count this as exact or a complete frame.

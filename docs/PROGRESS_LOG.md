@@ -2889,3 +2889,48 @@ prove a later one. Emulator tests are optional reference checks.
   timers/callbacks/metadata and the complete player call. The executable remains
   a scenery/animation viewer; no complete player frame, repeated gameplay loop,
   playable Ratchet or push has been demonstrated.
+
+## 2026-10-11 — Verify required callback enqueue and first-level field predicate
+
+- Recover actual whole L01 66ABD8..66AC18 (64B) and its reached integer leaf
+  54A4E8..54A544 (92B), including all branches/return delays, through independent
+  local CFG and m2c. Add a transactional native enqueue module for the actual
+  callback66ACA0, actor2EF0 argument, queue222AF4/241140 and list head222A9C.
+  Preserve signed capacity checks, original byte25C8 publication on a full
+  queue, guest32 negative-index behavior, and live reloads after linked aliases.
+  Callback execution, actor initialization and a whole player frame remain
+  separate: no callee/queued callback is captured or replaced by success.
+- Private and final central-archive proofs each pass189 complete original RAM
+  comparisons plus three original unmapped-access atomic refusals. Final proof
+  compares322043904 bytes/4660EE, takes15.31s, zero captures/differences, unchanged
+  bound source/archive/recipe inputs. Actual integer instructions also preserve
+  caller a0 high64; no outgoing low-GPR return or hardware timing is claimed.
+  All84 native tests pass in5.57s;27 focused queue checks. Native earns zero
+  exact credit. Preserve one private checker syntax failure and one tuple/list
+  receipt assertion failure; no final compile/test/original comparison failure.
+- Independently audit orientation:43 actual original calls,33 completions and
+  ten numerical oracle boundaries at596518. Its private RAM draft returns+1 on
+  all ten unclosed cases. Keep it private rather than treat these outputs as
+  verified. Actual MFC1/QMT/C60 transfers preserve previously written raw lanes;
+  five W lanes and full a0 outputs are not determined by its current RAM API.
+  No physical game failure or constant live caller state is inferred.
+- Accept only L01_003C9CD8's complete16-byte byte20==3 predicate after fresh and
+  production SN, actual relocation/full raw equality and resolved unmasked L01
+  link. Its actual caller tests V0 and returns float0/1. Independently scan all
+  24 listed physical overlay ELFs, verifying each full unmasked copy and its
+  own address/bounds; zero nonidentical discovery candidates. Only canonical
+  L01 source is adopted. Broad normalized grouping is discovery evidence,
+  never proof of another level's fields, constants, calls or addresses.
+- Full audit311 exact/zero failures, progress0.556% and check pass. Memory
+  batch19 takes322s; reject an interior12-byte block before drafting because its
+  true parent function is100B. Commands batch22 takes452s: two timer drafts fail
+  four resident/L01 relocation-size gates, no exact link attempted or credit.
+  Preserve all artifacts outside accepted sources. Commands batches21/22 have
+  zero accepted functions in633 measured worker-seconds; hold new command lots
+  and redirect capacity to bounded gameplay validation rather than more drafts.
+- Measured15:31:42UTC dispatch to15:48:20UTC checkpoint gives3.61 accepted/hour,
+  including root integration/concurrent native work. Post-edit callback checkpoint
+  15:43:57UTC to15:48:20UTC takes263.14s; full integration time was not captured.
+  Next: actual timer complete control flow, orientation register/numerical closure
+  and callback execution dependencies. Still no complete initialized native player
+  frame or playable loop. Local work only; no push.
