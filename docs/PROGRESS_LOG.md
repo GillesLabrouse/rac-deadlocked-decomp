@@ -2735,3 +2735,20 @@ prove a later one. Emulator tests are optional reference checks.
 - Resume two bounded Luna recovery batches with exclusive source/object/output
   prefixes. Hold additional batches until root validation and integration catch
   up; shared reports/configuration and all acceptance remain root-owned.
+
+## 2026-10-11 — Independently accept another complete resident no-op
+
+- Accept0011ECF0's real8-byte JR/return-delay no-op after root fresh compilation,
+  actual empty relocation comparison and full resolved unmasked resident link.
+  Repeat with the production object; full audit305, zero failures, regenerated
+  progress/check pass. No invented argument, side effect or return value.
+- Verify actual resident caller0011EDC8 at JAL0011EDF8, decoded0C047B3C;
+  delay0011EDFC is DADDU S6,A2,zero, decoded00C0B02D. The actual LW at0011EE04
+  replaces V0 from00163E7C before use. Raw displayed bytes are not decoded words.
+- Commands batch18 takes51s, zero compiler/object/exact mismatches and one
+  initial relative-output link setup failure, corrected with an absolute path.
+  Root has zero validation failures; production integration34.81s from its
+  checkpoint. At14:35:14UTC, baseline gain25 yields5.86 accepted/hour.
+- Native remains82 passing tests, no complete player frame/playable scene or
+  push. Third worker receives one bounded private capsule-state experiment;
+  separate outputs and proof hashes, root final validation required.
