@@ -2488,3 +2488,34 @@ prove a later one. Emulator tests are optional reference checks.
   batch14 freezes one exact resident transfer candidate in74s; memory batch14
   freezes four nonmatching forms in316s with an explicit link-launch failure.
   Their drafts remain outside accepted sources while root final gates proceed.
+
+## 2026-10-11 — Accept a registered transfer callback; reduce recovery backlog
+
+- Accept resident00129610's complete12-byte copy: source+10 to destination+8.
+  Registration129660 installs the actual callback at1A60C0. Independently audit
+  dispatcher129B98: the registered table at descriptor+0C is selected through
+  a negative encoded index, while nonnegative indices use the separate+14 table.
+  The actual delay slot129CB4 loads the destination pointer stored at entry+4;
+  it does not pass the address of that field. At129CB8 the dispatcher overwrites
+  incidental V0 before consuming it, supporting the void callback result.
+- Root verifies complete reference spans, corrects one erroneous manual opcode
+  assertion from actual bytes, and passes fresh SN plus final production
+  relocation-aware and unmasked exact gates. Audit passes300 with zero failures;
+  regenerated progress and check pass at0.551% code. No L01 scene dependency
+  or startup event is inferred from resident callback registration alone.
+- Commands batch14 takes74s, plus60s read-only return-ABI review. Preserve the
+  initial inaccurate argument/table description and its separate correction.
+  Memory batch14 takes316s with four compiled nonmatching forms, two frame or
+  scheduling mismatches, two relocation mismatches, one exact byte mismatch
+  and one link-launch failure. None is accepted. Temporarily keep one Luna
+  recovery worker plus a bounded provenance specialist while root integrates;
+  avoid accumulating unusable drafts. Native selector integration takes336.38s
+  from its recorded start, including documentation and validation, excluding
+  earlier movement investigation.
+- A frozen independent audit passes80 full original probe/ground calls with
+  matching native RAM across128,072 EE/4,154 VU pairs. It establishes actual
+  preserving/clearing high-register producers, including short/empty rays and
+  scheduled ground exits. A private additive probe-state draft is assigned;
+  existing public APIs and accepted native behavior remain unchanged pending
+  root validation. All82 central native tests currently pass; no playable frame
+  or push is claimed.
