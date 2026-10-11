@@ -1798,3 +1798,34 @@ prove a later one. Emulator tests are optional reference checks.
 - All 174 Python tests pass in 2.432 seconds. This changes validation tooling,
   not the native game loop. The capsule replay completed under its explicitly
   hash-bound prior oracle before this extension. Nothing is pushed.
+
+## 2026-10-11 — Integrate position helpers and genuine clip selection
+
+- Added complete selected mode-zero projection/offset/heading/settling,
+  scalar/vector progression and metadata-driven radius effects. Full 128-bit
+  heading arguments, raw W transport, actual C60, ordered aliases and real
+  progression remain intact. Seven complete PS2 drafts retain all modes and
+  stay NONMATCHING; the larger rebuilt heading leaf is replayed in isolation.
+- Root freshly rebuilt/strictly linked these drafts and compared current
+  central production libraries on 7,168 original/SN cases (1,236,192 EE and
+  257,880 actual C60 pairs), plus 3,584 native cases, 512 aliases, 128 edges
+  and eight atomic numeric refusals. Native maximum observed absolute float
+  difference is 2.3841858e-7; all other RAM and 2,878 signed-zero comparisons
+  agree. The native fixture passes 136 checks.
+- Added actual 00688C08 selection through true allocation, loop, weapon gates
+  and cleanup. Reached unsupported callbacks/releases refuse atomically;
+  metadata, pointers and selector/event counts are not changed to avoid them.
+  The fixture passes 10,306 checks.
+- Root's fresh central-production replay covers 662 completed original/SN/
+  native cases, all 112 original clips, 90 metadata aliases, 587 allocations,
+  18 actual exhausted pools and 58 separately checked dependency refusals.
+  All 10,222,804 RAM bytes agree. Another 128 real state-two selection blocks
+  reach true health/clip selection: clips 5/frame16 or 6/frame15 and blends
+  8/12; 2,036,736 bytes agree without capturing any helper return. These are
+  explicit caller/block fixtures, not full entry or initialized gameplay.
+- All source/oracle/asset/object/linked-code/production-library hashes remain
+  unchanged throughout the root replay. Allocator 58A850 and loop 688E60
+  compare exact locally; accepted matching progress remains 280 functions.
+  All 70 native tests pass in 4.92 seconds. Physical PS2 arithmetic, full
+  constructor/state entry, ground/position frame and live pose/blend rendering
+  remain unverified. The animated viewer is unchanged. Nothing is pushed.

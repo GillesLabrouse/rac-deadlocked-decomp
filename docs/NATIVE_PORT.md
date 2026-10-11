@@ -1045,6 +1045,46 @@ verified. All 49 focused checks and all 68 central native tests pass. Ground
 response, the distinct wall probe and frame composition remain prerequisites
 for a controllable character; the visible animation preview is unchanged.
 
+`dreadzone_actor_position_helper` now provides complete selected mode-zero
+projection, offset, heading, settling, scalar/vector progression and radius
+effects. Raw quad arguments include all 128 bits, ordered aliases can change
+the body heading before its C60 call, and radius comes from real actor metadata
+and progression. Borrowed guest views are copied and all selected writes commit
+only after supported completion. Other modes remain in seven complete PS2
+drafts. These helpers do not perform a position frame or ground contact.
+
+Root's fresh complete SN comparison agrees on 7,168 cases, 1,236,192 EE
+instructions and 257,880 actual C60 pairs. Central-production native replay
+covers 3,584 mode-zero cases, 512 ordered aliases, 128 edge cases and eight
+atomic numeric refusals. It executes 608,094 EE instructions; maximum observed
+absolute float difference is 2.3841858e-7 in the declared approximate domain.
+All other bytes agree; 2,878 exact signed-zero comparisons include 312 negative
+zeros. The 100-byte rebuilt heading helper is isolated from the next original
+entry because its genuine span is 92 bytes. All 136 focused checks pass.
+
+`dreadzone_actor_animation_select` now implements the real 00688C08 argument
+contract, first-free blend allocation 0058A850, loop predicate 00688E60,
+auxiliary-weapon gates 00688A60/00688B78 and cleanup 00675430. Real metadata,
+event selectors and weapon pointers are preserved. Reached unavailable
+auxiliary/effect/release/recursive calls refuse atomically, rather than changing
+the selected branches. Arithmetic retains its explicit chopped-binary32 domain.
+The adapter supports up to 64 shadowed views and 32 MiB of mapped RAM.
+
+The guarded central-production original/SN/native replay covers 662 complete
+cases, all 112 authentic class clips, 90 metadata aliases and 58 genuine reached
+dependency refusals. There are 587 allocations, 18 exhausted pools and 662
+nonnull-weapon fixtures. All 10,222,804 compared RAM bytes agree; the completed
+runs execute 233,236 original and 231,056 rebuilt instructions. The real
+688B78 leaf is checked independently on 128 cases. Another 128 actual state-two
+selection blocks call the genuine health helper and setter, producing clip five
+at frame 16 or clip six at frame 15 with blends eight/twelve; all 2,036,736 bytes
+agree. This observes genuine caller outputs without replacing any callee, but
+does not execute complete 699C70 entry or fresh construction. The allocation
+and loop drafts compare exact locally; they remain outside accepted coverage.
+All 10,306 focused checks and all 70 central tests pass (4.92 seconds).
+The visible preview still lacks player controls; full state entry/update,
+position/ground composition and live rendered pose/blend integration remain.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
