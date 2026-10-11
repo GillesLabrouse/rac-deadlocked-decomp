@@ -1119,6 +1119,37 @@ Observed local validation time falls from 362.66 to 7.34 seconds; coverage,
 true calls and explicit wall boundaries are retained. Original assets/code
 maps and diagnostic reports remain private. The visible viewer is unchanged.
 
+`dreadzone_actor_capsule_resolve` now executes the selected whole 0067EF00
+contact settlement and 0067F518 retry/history loop with the production capsule
+and supplementary static probes. Genuine radius/height, actor states, item
+suspension, packet aliases and contact limits select the actual branches.
+The real EF00 return -1 is distinct from adapter refusal; F518 can perform
+sixteen real retries and history restores. Reached sphere, recovery, transformed
+offset and unavailable probe/numeric paths refuse the complete transaction.
+Previous state17 selects the sphere on its first iteration and is refused.
+Caller VF25..29 W lanes retain their real lifetime through selected capsule
+and static publication mode, rather than being reinitialized each iteration.
+
+Root freshly compiled/strictly linked both complete PS2 drafts and linked a
+proof DLL to the central production libraries. Guarded full-memory replay agrees
+on 128 authentic cell cases, 30 contact cases and 245 contact iterations:
+2,239,640 EE and 78,848 actual bank microinstructions. Another 57 cases cover
+nonempty static geometry, ordered item/global and packet/actor aliases, true
+state masks, signed-zero inputs, genuine -1 returns and retry/history counts.
+They execute 981,394 EE and 42,592 microinstructions without RAM differences.
+Seven separate original/SN snapshots stop at genuine unavailable callees and
+compare actual RAM and ABI; no unavailable call is replaced or completed.
+All bound inputs stay unchanged through the 54.47-second central replay.
+
+EF00 rebuilds to 1304 entry bytes plus 160 local helper bytes within its
+1560-byte original span. F518 rebuilds to 212 bytes versus 204 and is isolated
+from the following entry. Both remain NONMATCHING. All 94 focused checks and
+all 72 central native tests pass (9.52 seconds for the latter). Ground DDD0,
+the F5E8 outer position update and complete construction/frame composition
+remain separate work. Ordered host scalar/VU arithmetic and existing probe-Q
+semantics are approximate; physical flags, exceptional corner behavior, DMA
+and timing are outside this evidence. The animated viewer remains unchanged.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

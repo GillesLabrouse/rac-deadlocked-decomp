@@ -1861,3 +1861,30 @@ prove a later one. Emulator tests are optional reference checks.
 - Actual wall/ground response, complete state entry/frame composition and
   live rendered pose/blend remain active work. No playable frame is claimed;
   the visible animation preview is unchanged. Nothing is pushed.
+
+## 2026-10-11 — Integrate capsule settlement and genuine position retries
+
+- Added the whole selected 0067EF00 contact settlement and 0067F518 retry/
+  history effects, calling the production capsule and supplementary static
+  probes. True radius/height, dot/state selection, item suspension, packet
+  aliases, contact limits and VF25..29 W lifetimes are retained. Previous17
+  genuinely selects the unavailable sphere immediately and refuses atomically.
+- Root verified the frozen five-file lot, freshly compiled/strictly linked
+  both complete PS2 drafts and built an independent central-production bridge.
+  Full guest-RAM comparison passes 128 actual cell cases/30 contact cases/
+  245 contact iterations: 2,239,640 EE and 78,848 bank microinstructions.
+- Another 57 whole-call cases exercise nonempty static geometry, ordered
+  item/global and packet/actor aliases, real state flags, signed-zero inputs,
+  genuine EF00 -1 returns and sixteen F518 retries/history counts1/2/32.
+  They execute 981,394 EE and 42,592 microinstructions with no RAM differences.
+  Seven real unavailable-callee snapshots agree on RAM/ABI and stop explicitly;
+  no captured return or successful replacement call is used.
+- All source/oracle/asset/object/linked-code/production-library hashes remain
+  unchanged throughout the 54.47-second integration replay. EF00 compiles to
+  1304 entry bytes plus 160 local helper bytes within the original1560; F518
+  is212 versus204 and replayed in isolation. Both remain NONMATCHING.
+- All 94 focused checks and all 72 central native tests pass (9.52 seconds).
+  Matching progress stays280 functions. Approximate scalar/VU/probe-Q arithmetic
+  does not establish physical flags/DMA/timing. Genuine wall/ground response,
+  outer position and whole player frames remain active work. No new visible
+  controls or playable frame are claimed; nothing is pushed.
