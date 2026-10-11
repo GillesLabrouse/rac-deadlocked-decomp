@@ -3464,3 +3464,37 @@ prove a later one. Emulator tests are optional reference checks.
   lot. Measure root integration from private integration-start receipt separately
   from recovery/review; final receipt records elapsed seconds. Next compose
   model-pool guest state and full class initializer. No push.
+
+## 2026-10-11 — Validate transactional guest-RAM model allocation and compaction
+
+- Integrate native/dreadzone_guest_model_pool.{c,h}, complete supported memory
+  effects of genuine L01 0058B148/0058B268/0058B338. Explicit caller RAM replaces
+  legacy host globals and borrowed bindings. Validate counters, contiguous
+  descriptors, complete banks, all live actors and definition prefixes, then
+  publish all RAM atomically. Release preserves actor+58. Real compaction moves
+  ordered overlapping matrices and updates every surviving actor pointer.
+  State/capacity refusals are documented host support limits, not retail errors.
+- Independent stronger-model oracle review takes439.73s and finds two legacy
+  limitations: upper64 loss and incomplete fragment-mapping footprints. Freeze
+  a private stock-oracle extension for actual LDL/LDR/SDL/SDR. Its2,100 synthetic
+  instruction/boundary cases and nine full original compactions pass. No public
+  oracle is modified; preserve the pinned stock hash and old failure evidence.
+- Read-only root-draft review identifies zero-count release's actual LW222D7C
+  branch-delay footprint. Correct it before compilation/proof. Both private
+  and final central DLL proofs pass147 wholeRAM comparisons,5828296 actualEE
+  instructions and608174592bytes, including32 allocations,58 releases and57
+  compactions. Seven allocations reach genuine compaction; arbitrary upper128
+  registers, threshold equality, all-released pools and borrowed requests pass.
+  One real original missing-map fault and six host-domain atomic refusals pass.
+  There are no captured/success-simulated callees in this integer proof.
+- All94native tests pass18.65s, focused68502checks. The final central-DLL proof
+  takes17.017s. Matching audit313exact/0failures and progress check pass. Source,
+  header, DLL, reference and oracle hashes are checked against final proof in
+  private/root-guest-model-pool-final-receipt.json. Root integration starts
+  19:22:51.577209UTC; receipt records final elapsed time separately. This native
+  lot accepts zero distinct exact functions (0exact/hour), one bounded RAM
+  adapter, and no playable/viewer change. Two failed documentation patch
+  attempts made no partial edits; corrected patches preserve earlier logs.
+- Resume two isolated lightweight exact lots, environment initializer00589210
+  and packed leaf0058D468. Root owns model-aware class construction, player
+  provenance, scene/frame and all shared validation. No push.

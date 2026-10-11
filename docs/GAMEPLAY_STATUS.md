@@ -30,7 +30,12 @@ explicit-VU fixed-model entry also passes 128 complete original-chain game-RAM/
 SPR comparisons. It supplies the initial-frame model update, with atomic
 publication and a bounded arithmetic domain. The model-aware class initializer
 and actual player construction still need composition proof.
-All 93 native tests pass after these changes in 6.14 seconds; these checks
+The guest-RAM model pool now implements allocation, release and real compaction
+without legacy host globals or bindings. The final DLL passes 147 whole-RAM
+comparisons, including seven allocations that reach original compaction. It
+updates every affected live actor's matrix pointer and publishes atomically.
+Model-aware class composition and first-player provenance remain open.
+All 94 native tests pass after these changes in 18.65 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 ## Latest startup component

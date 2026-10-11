@@ -1,4 +1,5 @@
 EXPORTS
+    dreadzone_guest_model_pool_apply
     dreadzone_local_pose_initialize
     dreadzone_variable_pose_decode
     dreadzone_general_matrices_prepare

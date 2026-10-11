@@ -5,6 +5,34 @@ Windows x64. Upstream Deadlocked and rac1 are matching PS2 decompilations. Their
 matching builds validate recovered source against the game; they do not produce
 a PC executable. Keep that validation while developing the host runtime.
 
+## Guest model-pool transactions
+
+`dreadzone_guest_model_pool_apply` implements the RAM effects of actual L01
+0058B148 allocation, 0058B268 release and 0058B338 compaction in one caller-owned
+RAM range. Ten guest state words, complete descriptor/matrix banks and all live
+actors are validated before publication. It has no persistent host globals or
+legacy view bindings. Compaction moves ordered matrix records and updates every
+surviving actor+58; release leaves that pointer intact. All host refusals are
+atomic. The disjoint valid-pool domain and capacity restrictions are explicit
+support limits, not original error returns. Stack/register ABI and timing are
+excluded. This is a native memory adapter with zero original matching credit.
+
+Private and final central-DLL proofs each pass 147 full-RAM comparisons:
+5,828,296 original instructions, 608,174,592 compared bytes, 32 allocation,
+58 release and 57 compaction cases. Seven allocations execute the genuine
+compactor. Arbitrary upper128 register inputs, threshold equality, overlapping
+matrix moves, all-released pools, borrowed request and early paths are checked.
+One original missing-map fault and six explicit host-domain refusals leave
+all native outputs unchanged. Synthetic regression passes 68,502 checks.
+
+The independently reviewed private integer-oracle extension executes actual
+LDL/LDR/SDL/SDR with full aligned-eight-byte accesses and retained upper64.
+Its 2,100 instruction/boundary cases and nine complete original compactions
+replace the legacy interpreter as this lot's reference. A zero-count release
+still reads222D7C in the original branch delay; the adapter preserves that
+required footprint. This component enables later class composition and does
+not construct a player or add a playable frame to the viewer.
+
 ## Try the current local prototype
 
 Once the Release viewer and local Dreadzone package are prepared, double-click

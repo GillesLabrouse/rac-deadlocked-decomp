@@ -4,7 +4,26 @@ The user explicitly resumed development after the saved pause. Work is active;
 continue until the user stops it. No push is authorized. Read the latest
 PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 
-Latest integration: new dreadzone_model_transform_fixed uses an explicit4KiB
+Latest integration: native/dreadzone_guest_model_pool.{c,h} implements complete
+supported allocation58B148/release58B268/compaction58B338 RAM effects, using a
+private clone of callerRAM and no legacy host globals/bindings. Full state/bank/
+liveactor/definition validation, real compaction with all survivor+58 updates,
+atomic publication and explicit host support limits. Final central DLL proof
+passes147 wholeRAM comparisons,5828296EE/608174592bytes; seven allocations reach
+originalcompaction. One actual originalfault and six host-domain atomic refusals.
+All94native tests pass18.65s; focused68502checks. Matching313 remains unchanged.
+Private root-guest-model-pool-* proof/receipt and sol-pool-unaligned-* evidence
+are frozen. Extension pins stockoracle SHA bd0797db; do not edit that dependency
+without preserving the frozen version. Legacycustomoracle losesupper64/haswrong
+fragmentmapping footprints; do not reuse it for fullcompaction acceptance.
+Zero-count release has an actual LW222D7C delay slot, fixed before proofs.
+Two lightweight exact lots now run independently: luna_memory_resume owns only
+00589210/luna-memory-environment42; luna_commands_resume owns0058D468/
+luna-commands-environment33. Exclusive private outputs, max3 variants, no shared
+edits/builds. Root still owns class/player/scene composition and finalacceptance.
+The viewer has no new playable feature; fullclass/player/frame remain open.
+
+Previous integration: new dreadzone_model_transform_fixed uses an explicit4KiB
 inheritedVU snapshot, original skeleton/fixed DMA memory copies, genuine589368/
 5894F0/589950 adapters and matrix publication/dirty clear. Domainframe44positive
 zero, no secondaryblend/override nodes, matching1..127 joints, fixed-onlystream.
