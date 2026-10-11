@@ -2431,3 +2431,31 @@ prove a later one. Emulator tests are optional reference checks.
   The specialist independently audits real684A60 caller/high-register producers
   for the remaining position branches; root alone owns integration and reports.
   Nothing is pushed. Matching remains295 at this native checkpoint.
+
+## 2026-10-11 — Accept four resident callbacks and word accessors
+
+- Independently recover0015DB08 reallocation and0015DAC8 allocation callbacks.
+  Both complete60-byte spans, final return delay slots, actual callees,40-byte
+  heap context and callback table registration are checked against resident
+  bytes. Root corrects DAC8's draft void signature: the actual allocator pointer
+  remains in V0 and must be returned. Use unsigned allocation sizes and unsigned
+  intermediate context addition to avoid signed overflow. Fresh root sources
+  still compile and link exactly; no altered ABI is hidden behind byte equality.
+- Accept0015B548/0015B558 store/load of actual word17241C. Both complete12-byte
+  spans and true HI16/LO16 relocations resolve exactly. Their resident callers
+  are established; no L01 direct-call or scene-startup claim is made.
+- Fresh independent SN objects and all four final production objects pass real
+  relocation comparisons and unmasked exact links. The whole production audit
+  passes299 exact with zero mismatches; regenerated progress and its check pass
+  at0.551% code. The native position draft remains outside this count.
+- Memory batch13: seven compiled forms in110s; one relocation/exact mismatch,
+  two frame mismatches, one register mismatch and one inadmissible uninitialized
+  form remain private. Commands batch13: two exact forms in136s, no byte or
+  compilation failures; two verifier file-handle errors were corrected. Root
+  preserves one erroneous manual getter-register assertion, fixes it from actual
+  V1/V0 bytes, then passes every final gate. Raw helper and allocator disassembly
+  spans are independently compared to the resident ELF.
+- Keep two lightweight recovery workers and one bounded caller-audit specialist;
+  four candidates accepted from the latest useful batches justify this capacity.
+  Root alone integrates sources, shared reports and native code. Current native
+  tests remain81 passing; there is no playable character frame and no push.
