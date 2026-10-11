@@ -15,6 +15,8 @@ sources=$("$PYTHON" tools/plan_build.py "$@")
 mkdir -p build/obj
 n=0
 while IFS= read -r f; do
+    # Native Windows Python emits CRLF; the shell must not treat CR as a path byte.
+    f=${f%$'\r'}
     [ -n "$f" ] || continue
     o=build/obj/$(echo "${f#src/}" | tr '/' '_' | sed 's/\.c$/.o/')
     # a file may add flags with a first-lines comment:  /* cflags: -mno-split-addresses */
