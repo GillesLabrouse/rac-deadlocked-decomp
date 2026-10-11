@@ -2369,3 +2369,25 @@ prove a later one. Emulator tests are optional reference checks.
   Specialist position evidence is frozen with
   genuine original/SN W divergences explicitly separated from RAM-only replay.
   Nothing is pushed. Code and documentation remain English.
+
+
+## 2026-10-11 — Accept resident identifier composition
+
+- Root confirms0015C6E8's complete44-byte extent and true HI16/LO16 accesses
+  to struct172160 counter+4 and mode+10. Actual L01 calls6A8674/6B55B4 and
+  resident15FB0C are checked independently. Use unsigned intermediate shifts
+  and increment before conversion to the original signed word type, avoiding
+  undefined signed bit shifts/overflow while retaining the original instructions.
+  Fresh root SN and final production objects both pass unmasked exact linking.
+  Audit passes295 with zero mismatches; progress check passes (0.548%).
+- Commands batch11 compiles four forms: two counter forms fail object and
+  exact comparisons, third is exact; syscall126880 differs and stops at an
+  unknown symbol. Three object mismatches, two strict byte failures and one
+  strict link error remain documented outside accepted sources. Batch elapsed
+  is unknown because its start was not recorded;20.6s measured command time
+  is not misrepresented as development time. Require start capture for new lots.
+- At12:53:59 UTC,15 new canonical functions since10:19:14 over9285.67s gives
+  5.82 accepted/hour. Root integration takes96.47 wall seconds,
+  excluding earlier draft work and later documentation/commit, with zero root
+  gate failures. Both Luna recovery workers wait while native position is
+  independently reviewed. No new third recovery worker or push is made.
