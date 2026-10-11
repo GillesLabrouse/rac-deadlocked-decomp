@@ -2072,3 +2072,33 @@ prove a later one. Emulator tests are optional reference checks.
   Additional ground masks, real caller-local endpoints, response67D6E8 and
   selected frame/live-pose composition remain required. Matching stays285;
   no new visual controls or playable Ratchet frame is claimed. No push.
+
+## 2026-10-11 — Accept two independently resolved resident helpers
+
+- Root freshly compiles and checks resident00512650 (248 bytes, selected clip
+  gateway) and00139AB8 (40 bytes, bounded table accessor). Actual relocations,
+  JAL targets, GP/global addresses and unmasked resident linking all pass.
+  Matching coverage becomes287; the shared audit has zero mismatches. Only
+  two sources compile,229 are reused, and both accepted objects link exactly.
+- The gateway's L01 entry669250 and its local dependencies were checked
+  separately. Canonical L00 exact linking remains unresolved: its ELF provides
+  no independent GP metadata and its supplied-GP load differs. One circular
+  GP inference was withdrawn and its exploratory binary excluded. Numeric
+  address overlap in an L00 range also never establishes L01 ownership.
+- Memory batch3 stops at the unproven canonical identity of68E320 (152s).
+  Command batch3 takes480s: two syntax failures, four exact-link mismatches,
+  zero object-form mismatches; resident and L01 final checks pass separately.
+  Memory batch4 recovers the earlier blocked139AB8 in116s after one object
+  mismatch and one isolated link-directory setup failure. Command batch4
+  saves127568 after three focused attempts (164s, three object and three
+  exact-link mismatches); no additional matching coverage is claimed.
+- At11:02:15 UTC, seven accepted since10:19:14 over2581.03s gives9.76/hour,
+  including concurrent root native work. Eleven distinct functions were
+  attempted, four remain unaccepted. Repeated variants and the recovered
+ 139AB8 identity are not double-counted. The new shared command pipeline takes
+  9.90s and private exact gate0.23s; these exclude review, and full integration
+  elapsed was not separately instrumented. Root corrected one pre-link path
+  and two wrong object-basename setup attempts before final successful checks.
+- Keep two Luna recovery workers, with exclusive draft/intermediate names.
+  No third new recovery worker is added. Native collisions/frame composition
+  continue; this acceptance adds no visible controls or playable character.
