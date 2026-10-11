@@ -21,7 +21,7 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - 311 accepted exact functions of15766, approximately0.556% code. Last full
   audit:311 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All88 native tests passed in5.75s; orientation43 focused checks,
+- All89 native tests passed in6.02s; record27 focused checks, orientation43,
   float timer30, counter20, visibility24,
   publication module36,
   position75, ground132 and capsule119. Latest additive entry is
@@ -35,6 +35,17 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - Whole66ABD8/reached54A4E8 callback enqueue is public and verified through189
   complete integer RAM comparisons, three original-fault atomic refusals and
   27 focused checks. It does not execute callback66ACA0 or initialize its actor.
+- Complete selected667008 ->5B5668 ->666140 record resolution is public native
+  code. Both private and central-archive proofs pass798 complete original-chain
+  RAM/low64-return matches,773 original-selector-only atomic refusals for other
+  actual methods, four original mapping/alignment faults and eight host guards.
+  Every selector/index is checked against actual instructions; initialized ELF
+  metadata method words are never patched in root's acceptance proof. Caller
+  RAM is16MiB at200000, with separate128-byte original stack at10002000; the
+  diagnostic address is not a physical-console memory map. Runtime selector/
+  class/actor fixtures are diagnostics, not actual startup registration.
+  Getter's full36-byte CFG and internal66615C return are respected; catalog
+  split is unchanged and no matching-decompilation credit is awarded.
 - Complete L01 visibility leaf5A8630 is now a public native RAM port. Final
   central-archive proof:673 complete comparisons, four original-fault atomic
   refusals,8065EE and44105728 bytes; no captures, unchanged inputs. Independent
@@ -96,9 +107,15 @@ nonmatching drafts and ignored private/baserom/build evidence.
    scene. Entire684EF0/67C010 frame still needs orientation, callbacks, timers,
    metadata/interaction and secondary motion; never substitute captured callees.
    The zero-final-tilt orientation domain is now validated; actual constructor
-   provenance and nonzero tilt remain separate. Native record-resolution draft
-   work uses actual667008/5B5668 and only real metadata+4==666140; supplied BSS
-   test fixtures are diagnostics, never runtime registration credit.
+   provenance and nonzero tilt remain separate. Native record resolution is
+   validated only for actual supplied metadata+4==666140; supplied BSS fixtures
+   remain diagnostics, never runtime registration credit. The full phase-zero
+   path6A8420 ->668070 still needs authentic actor selection/pool/class/global
+   producers and resources. Its reset6A6598 is already implemented; do not
+   redo it or infer final constructor C0/C4 from its initial zeros. Callback
+   66ACA0 first live unresolved indirect target is [record+14]+4C at66AD4C;
+   genuine null-record exit still executes GP-715B delay-slot load. Full live
+   callback, secondary movement and complete main frame remain outstanding.
 5. At most two bounded Luna exact-recovery batches use exclusive sources
    and object basenames/output prefixes. Add a third worker only when root
    validation/integration keeps up. Hold after each batch; report accepted/hour,
@@ -111,6 +128,17 @@ nonmatching drafts and ignored private/baserom/build evidence.
 
 ## Private evidence retained locally
 
+- Record resolver: `build/drafts/root-actor-record-production-proof.json`,
+  production build manifest and `private/root-actor-record-final-receipt.json`.
+  Keep agent resume27's private source/DLL and narrow six-CPU-case evidence;
+  its768 native-only/self-model checks are not full original-chain validation.
+  Independent worker audit is16 diagnostic completions plus guards. Its caller
+  RAM includes patched method entries; consult the separate addendum instead
+  of treating default/sentinel/other-row methods as initialized ELF values.
+  Root's production proof preserves those initialized method words unchanged.
+  Startup audit: `private/luna-commands-resume26-startup-path.md`. Callback entry
+  audit: `build/drafts/luna-memory-resume28-callback-entry-audit.md`. Workers HOLD
+  after bounded138s/319s read-only lots; no exact variants or public edits.
 - Capsule candidate: `private/transition-agent-capsule-state-report.md`,
   `build/drafts/transition-agent-capsule-state-freeze.json`, SHA256
   `d03588913c23bc1db77f73a42b021119903ae2111fcf069ebe91195112eb16a0`.

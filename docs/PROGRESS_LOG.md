@@ -3104,3 +3104,53 @@ prove a later one. Emulator tests are optional reference checks.
   movement dependencies. The executable remains a scenery/animation viewer;
   no controllable Ratchet, complete initialized frame or playable loop exists.
   All work stays local; no push.
+
+## 2026-10-11 — Validate complete selected native actor-record resolution
+
+- Add `dreadzone_actor_record_00667008`: actual null-actor exit or complete
+  667008 ->5B5668 ->666140 read-only RAM effects and signed64 return. Read
+  supplied runtime registry/selector/class tables, preserve normal-before-alt
+  priority and actual metadata+4 method, and support only666140. Unsupported
+  methods, misaligned/unmapped reached loads and host alias/span violations
+  refuse without publishing or changing caller RAM. A request may alias RAM;
+  output must remain disjoint. Unsigned16 equality is equivalent to comparing
+  two original signed LH values and avoids implementation-defined C narrowing.
+- Root private and actual central-archive proofs each pass798 complete-chain
+  comparisons,773 separately reported original-selector-only atomic refusals,
+  four original mapping/alignment faults and eight host precondition guards.
+  Check all256 selectors and all256 metadata indexes through both real table
+  branches, both-table priority, signed class/word edges, genuine null actor/
+  payload and request/payload aliases. Never patch initialized ELF metadata
+  methods or substitute callees. Runtime BSS/class/payload fixtures are explicit
+  diagnostics, not recovered initialization. Execute74596 EE steps and compare
+  39762001920 caller-RAM bytes including separate selector checks. The original
+ 128-byte stack is separate from16MiB caller RAM and retains actual prologue
+  stores; the first root harness wrongly expected only RA, ignoring saved
+  randomized S0 and the null-path prologue. Fix the expectation from original
+  words, preserve the failure, and repeat successfully with unchanged inputs.
+  Production proof takes30.278s, zero captures/differences; actual inputs hashed
+  before/after. The getter is its full36-byte CFG, not the catalog's partial28;
+  existing split/configuration is left unchanged. No exact credit.
+- All89 native tests pass in6.02s, including27 focused record contract checks.
+  Exact progress check remains311/15766 (0.556%). Agent resume27's private host
+  draft has768 native calls but only six actual whole-chain CPU comparisons;
+  root's broader validation closes the accepted table/index/sign/alias domain.
+  Preserve its build/setup failure history. Independent resolver review takes
+  0.395s with11 executed-input hashes unchanged and16 original-instruction
+  diagnostic completions. Fifteen patch a metadata method to666140; the other
+  is a null actor. Zero nonnull worker completions use unchanged ELF metadata.
+  These method-entry mutations are caller-RAM experiments, not recovered
+  initialized metadata; a separate addendum narrows
+  the frozen report. Root's acceptance proof uses unchanged ELF method words.
+- Two bounded read-only gameplay audits measure138s (phase-zero) and319s
+  (callback entry); zero exact accepted functions, zero compile attempts. The
+  callback scanner's first incoming map has an int/string key mismatch, fixed
+  before freeze. Full6A8420 ->668070 constructor still needs authentic actor
+  selection/pool/class/resources and child/backlink state. Reset6A6598 with its
+  real helpers is already public, but reset zeros do not establish final rates
+  or actor rotation. Callback66ACA0 has a10,680-byte actual whole span; genuine
+  null record reaches cleanup after GP-715B delay load. First live missing
+  virtual target is [record+14]+4C at66AD4C, after real record/global reads.
+  Continue startup and full frame closure instead of treating null paths as
+  gameplay. The scenery/animation viewer remains unchanged: no controllable
+  Ratchet or complete gameplay loop. No push; all drafts/evidence retained.
