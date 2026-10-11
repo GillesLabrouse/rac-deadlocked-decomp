@@ -2048,3 +2048,27 @@ prove a later one. Emulator tests are optional reference checks.
 - The unresolved zeroing/queue/table helpers remain outside accepted sources;
   their instruction scheduling and address-construction blockers are documented.
   Native integration continues independently. Nothing is pushed.
+
+## 2026-10-11 — Integrate the bounded complete wall-contact probe
+
+- Integrated frozen0053DC70 PS2 NONMATCHING source, native wall-contact library
+  and focused test. The real mask2/null-cache path retains tree/grid/packed
+  terrain, dynamic filtering/visitation and final packet effects, including
+  genuine zero-distance source fetches and finite signed-zero bounds.
+- Root rebuilds SN and links its actual L01 span, then builds a DLL from the
+  central production libraries. Guarded original/SN/native comparison passes
+  750 authentic rays (146 hits/604 misses), seven boundaries and12 dynamic/
+  alias cases;20 original/SN primitive/model/cache cases pass independently.
+- Sampled3,965,472,000 RAM bytes agree with zero differences/captures:
+  12,874,777 EE/66,000 VU pairs. All39 bound inputs remain unchanged throughout
+  156.48s. The56 focused checks and all76 native tests pass (4.30s).
+- Historical24,747-ray evidence retains its own saved CPU/source/DLL hashes.
+  Its private recipe selected a32-bit Windows unsigned-long typedef; it must
+  not be attributed to the final64-bit production bounds implementation. The
+  corrected final agent recipe and root production-library replay use the
+  proper native header and test high-address/wrap refusal paths.
+- Full PS2 source compiles2696 versus4120 original bytes and is NONMATCHING.
+  Native model geometry reached beyond the supported domain refuses atomically.
+  Additional ground masks, real caller-local endpoints, response67D6E8 and
+  selected frame/live-pose composition remain required. Matching stays285;
+  no new visual controls or playable Ratchet frame is claimed. No push.

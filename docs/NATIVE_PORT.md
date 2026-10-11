@@ -1230,12 +1230,44 @@ instructions and no captured calls. Three genuinely reached missing-read
 cases refuse atomically. All bound inputs remain unchanged for7.32 seconds.
 The focused fixture passes84 checks; all75 central tests pass in4.37 seconds.
 The complete PS2 draft compiles to388 versus256 original bytes, remains
-NONMATCHING and is replayed in isolation. [VISWR integer store semantics]
-(https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VUops.cpp) were cross-checked
+NONMATCHING and is replayed in isolation.
+[VISWR integer store semantics](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VUops.cpp) were cross-checked
 as facts against the primary implementation, without copying code. The adapter
 does not publish VU register state or establish physical scheduling/timing.
 Full589768 secondary decoding/blend330/620 and live rendering remain work;
 this producer alone does not add a visible pose or playable frame.
+
+The central `dreadzone_wall_contact` library now executes the complete bounded
+0053DC70 mask-two/null-cache probe: ordered grid/tree lookup, packed triangle
+and quad terrain, closest contact, dynamic broadphase/filter/visitation and
+packet publication. Genuine caller VF25..27 W words are explicit inputs.
+Generation and initial source reads still occur for coincident integer
+endpoints; finite signed-zero bounds use the actual VU word-order rule.
+Missing or eligible unrecovered model geometry refuses the whole transaction,
+preserving RAM/output. A cleared actor grid is an explicit diagnostic fixture,
+not proof that a real level was initialized with no eligible actors.
+
+Root independently compiles the full PS2 draft, strict-links its actual L01
+span and builds a diagnostic DLL from the central production static libraries.
+The56 focused checks and all76 central native tests pass (4.30 seconds).
+A guarded fresh original/SN/native proof passes750 sampled authentic terrain
+rays (146 hits/604 misses), seven boundaries and12 dynamic/filter/alias cases;
+20 additional original/SN cases exercise real primitive/model/cache branches.
+All3,965,472,000 sampled RAM bytes agree over12,874,777 EE instructions and
+66,000 VU pairs. All39 bound inputs remain unchanged during156.48 seconds.
+The complete draft is2696 versus4120 original bytes and remains NONMATCHING.
+
+The historical24,747-ray proof belongs to its saved earlier source/DLL and
+private CPU. Its private build selected the PS2 `unsigned long` header, which
+is32 bits under Windows MSVC; that receipt does not validate the final
+production64-bit bounds implementation. The final agent recipe and root's
+production-library replay select `native/include/common.h`, and include high
+address/wrap refusal checks. The historical evidence is retained separately.
+
+Caller masks0x24/4/0x22, actual caller-local endpoint captures, surface and
+inclination helpers, full67D6E8 wall response and ground/frame composition
+remain work. Current numeric/VU/Q semantics remain a declared finite host
+approximation, with no physical DMA/timing or playable-character claim.
 
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
