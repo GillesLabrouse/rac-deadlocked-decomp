@@ -293,7 +293,9 @@ static int class_definition_plan(ClassPlan *plan,u32 base,u32 textures,u32 remap
     }
     if (objectClass>=0) {
         if (objectClass>=10240 || !class_read(plan,0x0026B590+(u32)objectClass,1,&byte) || byte>=240) return 0;
-        for (i=0;i<4;i++) if (!class_read(plan,remap+i*4,4,&quad[i])) return 0;
+        /* The original LQ captures the aligned quad before SQ writes it.
+         * Byte remapping above and in geometry still uses the exact pointer. */
+        for (i=0;i<4;i++) if (!class_read(plan,(remap&~15U)+i*4,4,&quad[i])) return 0;
         for (i=0;i<4;i++) if (!class_write(plan,0x0026EFB0+byte*16+i*4,4,quad[i])) return 0;
     }
     if (!class_read(plan,base,4,&geometry)) return 0;

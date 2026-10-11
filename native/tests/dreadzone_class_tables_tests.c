@@ -101,6 +101,24 @@ static void relocation_checks(void) {
     REQUIRE(dreadzone_class_relocate_definition(&context,DATA,0,0,-1)==DREADZONE_TABLE_COMPLETED);
     REQUIRE(data[1+0x47]==0);
 }
+static void remap_quad_alignment_checks(void) {
+    u32 offset;
+    u8 before[0x10002];
+    for (offset=0;offset<16;offset++) {
+        fixture(); definition();
+        REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP+offset,9)==DREADZONE_TABLE_COMPLETED);
+        REQUIRE(memcmp(tables+1+0xEFB0,remap+1,16)==0);
+        /* The byte list uses the exact pointer, independently of LQ. */
+        REQUIRE(data[1+0x100]==(u8)(22+offset));
+        REQUIRE(data[1+0x101]==(u8)(20+offset));
+    }
+    fixture(); definition();
+    views[5].guest_base=REMAP+1; views[5].bytes=255; views[5].storage=remap+2;
+    memcpy(before,data,sizeof(data));
+    REQUIRE(dreadzone_class_publish_definition(&context,DATA,0,REMAP+1,9)==DREADZONE_TABLE_INVALID);
+    REQUIRE(memcmp(before,data,sizeof(data))==0);
+    REQUIRE(get32(globals+1+0x18)==0 && tables[1+0xB590+9]==0xA5);
+}
 static void geometry_publication_checks(void) {
     u8 *d=data+1,*packet;
     u64 first=0x0123456789ABCDEFULL,second=0xC,third=0xFEDCBA9876543210ULL;
@@ -188,7 +206,7 @@ static void reset_checks(void) {
     REQUIRE(get32(tables+1+0xB590)==0xA5A5A5A5U);
 }
 int main(void) {
-    publication_checks(); relocation_checks(); texture_checks(); reset_checks(); geometry_publication_checks(); auxiliary_reload_checks(); list_pointer_reload_checks();
+    publication_checks(); relocation_checks(); remap_quad_alignment_checks(); texture_checks(); reset_checks(); geometry_publication_checks(); auxiliary_reload_checks(); list_pointer_reload_checks();
     puts("Dreadzone actual class table publication and relocation checks passed.");
     return 0;
 }

@@ -28,8 +28,8 @@ The fixed-only decoder component now passes 160 complete original EE/VU scratch
 comparisons and three atomic refusals against the final native DLL. The new
 explicit-VU fixed-model entry also passes 128 complete original-chain game-RAM/
 SPR comparisons. It supplies the initial-frame model update, with atomic
-publication and a bounded arithmetic domain. The model-aware class initializer
-and actual player construction still need composition proof.
+publication and a bounded arithmetic domain. Fresh class composition is verified
+below; complete player construction remains outstanding.
 The guest-RAM model pool now implements allocation, release and real compaction
 without legacy host globals or bindings. The final DLL passes 147 whole-RAM
 comparisons, including seven allocations that reach original compaction. It
@@ -38,10 +38,22 @@ Fresh class initialization now composes the real filler, environment, defaults,
 model allocation/compaction and initial fixed-only model update. Private and
 final DLL proofs each pass 128 whole-RAM/SPR comparisons, including 32 real
 compactions, with an external original EE call stack excluded from the API.
-The tables/assets are explicit diagnostic inputs; authentic publication and
+The tables/assets are explicit diagnostic inputs; authentic runtime selection and
 first-player provenance remain open. Cleanup and variable model paths are
-unsupported. All 95 native tests pass in 29.71 seconds; these checks
+unsupported. All 95 native tests pass in 28.30 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
+
+Class publication now passes 105 complete original/native RAM comparisons,
+including 48 genuine Armor0 asset runs through all reached geometry helpers.
+The final proof links the central production archives. A remap-quad alignment
+error is corrected: original LQ reads the rounded-down 16-byte source while byte
+lookups retain the exact pointer. The unchanged implementation failed 45
+unaligned cases; the correction passes all 105. The reproducible public checker
+passes 531 synthetic original comparisons and eight atomic host refusals.
+This validates relocation and publication with explicit resource inputs; it
+does not establish which loader record selects the first player. Actual level
+resource 9207 also reaches variable animation channels at initialization, a
+remaining dependency of the current fixed-only model composition.
 
 ## Latest startup component
 

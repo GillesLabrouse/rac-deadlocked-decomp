@@ -1,5 +1,36 @@
 # Resume checkpoint — active development, 2026-10-11
 
+Latest integration: remap-quad publication now reproduces LQ source rounding in
+the native branch of nonmatching/L01_00576BC0.c. Exact byte lookups are unchanged.
+Preserve private/root-class-publication-before-* and the unchanged baseline DLL
+and proof (60 matches/45 differences). Corrected private and final central-archive
+proofs each pass 105 full game-RAM comparisons, 48 actual Armor0 runs, 368568 EE
+instructions and 1101004800 bytes. Every reached real geometry/dispatch callee
+executes, without captures. Original stack is external at10000000. Aligned source
+prefix must be mapped; all host refusals remain atomic. Public differential tool
+now has 531 original cases and eight refusals, including16 remap alignments.
+All95 native tests pass28.30s; exact audit314/0 failures and progresscheck pass.
+The remap extension's first checker wrongly required geometry for a deliberately
+zero-geometry fixture; preserved first-failed files distinguish this from native
+behavior. Temporary-directory oracle tests need escalation on this Windows
+sandbox. Private production bridge recipe/archives have a separate hash receipt.
+No player, runtime resource selection or playable frame is demonstrated.
+
+Startup35 freezes actual5B5668 full168B CFG and class1099 getter dispatch. The
+receiver is callback actorAC payload+98, not necessarily class1099; if it is1099,
+metadata+4 points to the real zero-return586938 leaf. This is not actor creation.
+Publication43 links local manifests to actual unsorted9207 and4249 core assets;
+Armor0 has no proved runtime identity mapping to either class. Publication44 and
+the independent true-resource class/model review are active in exclusive private
+files. Actual9207/23F7 initial stream has variableQWC5, blocked by fixed-only host
+transform. Actual4249/1099 is a fixed-only candidate. Root owns comparison and
+integration; do not adopt a runtime class/selection claim from manifest evidence.
+Root placed-loader raw CFG is57B788..57BABC (820B, excluding trailing padding),
+seven real calls including586B10/5928E0/58DF58/58FC50/586E80; its m2c draft has
+four VU errors and is not accepted. Primary next work is real model initial
+channels, loader cursor/player producer, construction, frame and live rendering.
+No push. Read the latest PROGRESS_LOG entry and private final receipt.
+
 The user explicitly resumed development after the saved pause. Work is active;
 continue until the user stops it. No push is authorized. Read the latest
 PROGRESS_LOG.md entry and preserve the earlier pause evidence.

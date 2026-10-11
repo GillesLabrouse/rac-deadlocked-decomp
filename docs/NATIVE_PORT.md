@@ -1,5 +1,30 @@
 # Native PC development
 
+## Class resource publication validation
+
+The native publisher/relocator now captures the remap quad from the source
+rounded down to16 bytes, matching original LQ. Byte remapping still uses the
+exact argument. The aligned source prefix must be mapped; host validation is
+atomic, unlike original partial writes on a fault. Class/slot capacity checks
+are bounded host table extents, not executed retail refusal conditions.
+
+The unchanged source-only DLL passes60 full-RAM cases and differs in45 unaligned
+ones. The correction and final bridge to central production archives each pass
+all105 cases:48 genuine Armor0 assets, three class IDs, normal/alternate slots,
+all16 remap offsets and arbitrary128 original registers. Original publisher,
+relocator, geometry walker, both packet packers and dispatch all execute real
+instructions. Game RAM and host guards compare in full; original call stack is
+external. There are368568 EE instructions and1101004800 compared bytes per proof.
+Asset/remap/texture inputs remain explicit diagnostics; player selection and
+hardware/GPU submission are outside this claim. Matching coverage stays314.
+
+`tools/check_native_class_differential.py` reproduces531 synthetic whole-original
+cases and eight atomic refusals with locally supplied L01 instruction words.
+All95 native tests pass28.30s, including exact byte-remap versus aligned quad
+regressions;71 integer-oracle tests pass. The executable viewer is unchanged.
+Private/root-class-publication-* files preserve baseline, failures, frozen
+reference, separate build receipts, final archive proof and integration metrics.
+
 The local fork's intended playable target is a native PC application, initially
 Windows x64. Upstream Deadlocked and rac1 are matching PS2 decompilations. Their
 matching builds validate recovered source against the game; they do not produce

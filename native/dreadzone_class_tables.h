@@ -21,11 +21,15 @@ enum DreadzoneTableResult {
 int dreadzone_class_reset_table_slice(const DreadzoneTableContext *);
 int dreadzone_class_publish_dispatch(const DreadzoneTableContext *,s32,s32);
 /* Actual 00576BC0 relocation and recovered geometry packing, bounded to 8192
- * writes per operation. NEEDS_GEOMETRY denotes missing mapped geometry inputs.
+ * writes per operation. The published remap quad uses the original LQ's
+ * 16-byte-aligned source; byte lookups use the exact remap pointer. Its aligned
+ * prefix must be mapped even when the remap argument itself is mapped.
+ * NEEDS_GEOMETRY denotes missing mapped geometry inputs.
  * The entire transaction is validated before mutation; packets are not sent
  * to a host GPU by these functions. */
 int dreadzone_class_relocate_definition(const DreadzoneTableContext *,u32,u32,u32,s32);
 /* Actual 00576EF8 publication and relocation, including dispatch selection.
- * 10240 classes, 240 normal slots, 128 alternative slots are retail limits. */
+ * The host supports 10240 classes, 240 normal slots and 128 alternative slots.
+ * These table-extent guards are host-domain bounds, not retail refusal paths. */
 int dreadzone_class_publish_definition(const DreadzoneTableContext *,u32,u32,u32,s32);
 #endif

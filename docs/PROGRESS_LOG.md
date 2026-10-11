@@ -1,5 +1,48 @@
 # Local development progress
 
+## 2026-10-11 — Validate real class assets and correct remap alignment
+
+- Independently close actual L01 publisher576EF8/128, relocator576BC0/338,
+  geometry576AA8/118, textured576348/308, table576650/168 and dispatch5B5598/D0.
+  The table packer's upstream splitter stops inside its real CFG; all reached
+  branches and returns are retained. Maintained integer oracle executes genuine
+  Armor0 geometry with explicit diagnostic inputs, no helper captures or stubs.
+- A fresh unchanged-source bridge passes60/105 full game-RAM cases and fails45
+  unaligned remaps. Original LQ rounds down16; journal copied exact-address words.
+  Correct only quad-source reads, retaining exact byte lookup and captured quad
+  ordering. Preserve old C/header, baseline DLL/proof and frozen reference SHA
+  412ad816c1976a95dd5090b20d1ace3293ff3e67fc1399b060953e9830d4633f.
+- Corrected bridge and final bridge linked to central production archives each
+  pass105 full RAM/guard comparisons,48 genuine Armor0 cases,368568 EE and
+  1101004800 bytes. Texture0/1, table packets, three class IDs, capacity-edge
+  slots and arbitrary128 registers are checked; stack is external10000000.
+  No game byte is excluded and no original callee is replaced. This does not
+  prove runtime texture/remap/Armor0 identity or first-player construction.
+- Public differential checker passes531 original cases and eight host refusals,
+  including16 alignments and missing aligned prefix. First extension fails
+  because it incorrectly requires geometry on its zero-geometry fixture;
+  preserve failure/source and require the fixture's actual branch instead.
+  Private finalization first uses an incorrect relative proof-hash key and
+  Windows CRLF reconstruction; restore exact checker bytes and validate receipt
+  before central proof. These tooling failures do not count as native success.
+- All95 central tests pass28.30s.71 oracle tests initially hit three sandbox
+  temporary-directory cleanup errors; authorized elevated rerun passes0.792s.
+  Exact audit314/0failures and generated progresscheck pass, with no new exact
+  source or percentage. Native unit tests distinguish exact byte-list remapping
+  from rounded quad capture and assert atomic refusal on an unmapped prefix.
+- Read-only worker lots: startup34 115s; startup35 353s; publication43 ~553s;
+  independent class review413.54s. All accept0exact functions (0exact/hour).
+  Startup35 proves only the conditional getter leaf for1099, not player creation.
+  Publication43 verifies actual manifest-bound9207/4249 resources and separate
+  Armor0 provenance. Further parallel lots are bounded to resource/model and
+  loader provenance while root integrates; no extra compiler draft flood.
+- Native publication correction adds one validated component correction,
+  zero exact functions and zero playable features. Private final receipt records
+  measured root integration time, failures and stable final input hashes.
+  Next use actual9207 variable initial channels and published resources before
+  placed-actor/player construction, repeated frame and live controls/rendering.
+  Work continues locally; nothing is pushed.
+
 ## Objective and validation
 
 Work toward a native PC application and the beginning of the campaign, initially

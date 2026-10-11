@@ -6,8 +6,8 @@ The default builds only the six recovered C sources and a small source bridge
 inside build/drafts/native-class-differential. --dll PATH reuses that bridge DLL
 only with its adjacent validated build-input manifest. Missing or stale receipts
 force a clean automatic rebuild. CMake is discovered from PATH or local vswhere;
---cmake PATH overrides discovery. Every run checks 515 synthetic fixtures
-against actual local instruction words, plus seven atomic host-domain refusals.
+--cmake PATH overrides discovery. Every run checks 531 synthetic fixtures
+against actual local instruction words, plus eight atomic host-domain refusals.
 Missing input, unsupported executed instructions, budget exhaustion, malformed
 memory, native rejection or a single differing byte causes a nonzero exit.
 
@@ -292,6 +292,20 @@ def reload_fixture(kind):
     return segments, arguments, textured
 
 
+def remap_alignment_fixture(offset):
+    """LQ rounds the quad down; byte-list reads retain the exact pointer."""
+    segments, arguments, _ = fixture(offset, "ordinary")
+    data = segments[3][1]
+    data[:0x200] = bytes(0x200)
+    data[0x2D] = data[0x47] = 255
+    put32(data, 0x20, 0x100)
+    data[0x100:0x103] = bytes([0, 2, 255])
+    put32(data, 0x10C, 0x80000000)
+    segments[4] = (REMAP, bytearray(range(256)))
+    arguments[1], arguments[2] = 0, REMAP + offset
+    return segments, arguments
+
+
 def host_backing(segments):
     arrays = [(ctypes.c_uint8 * (len(data) + 2)).from_buffer_copy(b"\xD3" + data + b"\x7C") for _, data in segments]
     views = (HostView * len(segments))(*[
@@ -315,7 +329,7 @@ def compare_backing(segments, arrays, memory, label):
     return compared
 
 
-def check_case(words, publish, segments, arguments, label, budget):
+def check_case(words, publish, segments, arguments, label, budget, expect_geometry=True):
     memory = IntegerMemory([*segments, (STACK, bytes(STACK_SIZE))])
     cpu = RetailIntegerCPU(words, memory)
     result = cpu.run(0x576EF8, arguments, gp=0x22597F, sp=STACK + STACK_SIZE, budget=budget)
@@ -324,15 +338,19 @@ def check_case(words, publish, segments, arguments, label, budget):
     if native != 1:
         raise DifferentialError(f"{label}: native rejected a mapped retail fixture (result {native})")
     compared = compare_backing(segments, arrays, memory, label)
-    if 0x576AA8 not in result.calls:
-        raise DifferentialError(f"{label}: geometry dispatch was not actually executed")
+    if (0x576AA8 in result.calls) != expect_geometry:
+        raise DifferentialError(f"{label}: original geometry dispatch disagrees with the fixture's expected branch")
     return result.steps, compared
 
 
 def check_refusals(publish):
-    modes = ("missing_packet", "missing_table", "missing_config", "bad_alignment", "overlap_guest", "overlap_host", "write_limit")
+    modes = ("missing_packet", "missing_table", "missing_config", "bad_alignment", "overlap_guest", "overlap_host", "write_limit", "missing_remap_quad_prefix")
     for mode in modes:
         segments, arguments, _ = fixture(1, "count1")
+        if mode == "missing_remap_quad_prefix":
+            segments, arguments = remap_alignment_fixture(1)
+            base, remap = segments[4]
+            segments[4] = (base + 1, remap[1:])
         data = segments[3][1]
         if mode == "missing_packet":
             put32(data, 0x800, 0x800000)
@@ -374,7 +392,8 @@ def verify(args):
     dll, publish = load_bridge(dll_path)  # Keep the loaded library alive during calls.
     stats = {"status": "passed", "cases": 0, "instructions": 0, "bytes_compared": 0,
              "textured": 0, "table": 0, "shared_packet": 0, "packet_headers_alias": 0,
-             "counter_reload": 0, "count1_aux2": 0, "reload_regressions": 0}
+             "counter_reload": 0, "count1_aux2": 0, "reload_regressions": 0,
+             "remap_alignment_cases": 0}
     categories = ("ordinary", "count1", "shared", "headers", "counter")
     for seed in range(512):
         kind = categories[seed % len(categories)]
@@ -390,6 +409,12 @@ def verify(args):
         steps, compared = check_case(words, publish, segments, arguments, kind, args.budget)
         stats["cases"] += 1; stats["instructions"] += steps; stats["bytes_compared"] += compared
         stats["textured" if textured else "table"] += 1; stats["reload_regressions"] += 1
+    for offset in range(16):
+        segments, arguments = remap_alignment_fixture(offset)
+        steps, compared = check_case(words, publish, segments, arguments,
+                                     f"remap offset {offset}", args.budget, expect_geometry=False)
+        stats["cases"] += 1; stats["instructions"] += steps; stats["bytes_compared"] += compared
+        stats["remap_alignment_cases"] += 1; stats["table"] += 1
     stats["atomic_refusals"] = check_refusals(publish)
     # Revalidate after execution so concurrent source/output changes cannot be
     # reported as provenance for the library that was originally loaded.
