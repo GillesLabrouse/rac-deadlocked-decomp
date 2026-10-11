@@ -125,10 +125,10 @@ void func_L01_0067DDD0(u8 *record,s32 force)
         ASFLOAT(record,0x2E0)=value;
         if(ASFLOAT(record,0xA8)<value && ASSWORD(record,0x2E8)<=0)
             ASSWORD(record,0x2E8)=1;
+        if(!func_L01_0053DC70((u8 *)&first,(u8 *)&second,0x24,ASACTOR(),0))
+            goto ground_done;
+        ASBYTE(record,0x43B)=(u8)func_L01_00543028();
     }
-    if(!func_L01_0053DC70((u8 *)&first,(u8 *)&second,0x24,ASACTOR(),0))
-        goto ground_done;
-    ASBYTE(record,0x43B)=(u8)func_L01_00543028();
     if(ASHALF(record,0x430)==13) {
         ASFLOAT(record,0x2E0)=ASFLOAT(vector,8);
         scalar.value=ASFLOAT(vector,8)-0.01f;
@@ -172,7 +172,7 @@ void func_L01_0067DDD0(u8 *record,s32 force)
         "vsqrt Q,$vf2x\n\tsqc2 $vf2,0(%2)\n\tvwaitq\n\t"
         "vaddq.x $vf1,$vf0,Q\n\tvmaxw.xyzw $vf2,$vf0,$vf0w\n\tqmfc2.ni %0,$vf1\n\t"
         "sqc2 $vf1,0(%3)\n\tsqc2 $vf2,0(%4)"
-        : "=r"(scalar.bits) : "r"(record),"r"(&temporary10),
+        : "=&r"(scalar.bits) : "r"(record),"r"(&temporary10),
           "r"(&temporary20),"r"(&ones) : "memory");
     ASFLOAT(record,0x2CC)=scalar.value;
     ASWORD(record,0x2EC)=ASWORD(packet,0x18);
@@ -180,7 +180,7 @@ void func_L01_0067DDD0(u8 *record,s32 force)
         "vadday.x ACC,$vf3,$vf3y\n\tvmaddz.x $vf2,$vf2,$vf3z\n\t"
         "sqc2 $vf1,0(%2)\n\tqmfc2.ni %0,$vf2\n\tsqc2 $vf2,0(%3)\n\t"
         "nop\n\tnop\n\tvrsqrt Q,$vf0w,$vf2x"
-        : "=r"(predicate) : "r"(packet),"r"(&normal),"r"(&temporary0) : "memory");
+        : "=&r"(predicate) : "r"(packet),"r"(&normal),"r"(&temporary0) : "memory");
     if(predicate!=0) {
         __asm__ volatile("vwaitq\n\tlqc2 $vf1,0(%0)\n\tvmulq.xyz $vf1,$vf1,Q\n\t"
             "sqc2 $vf1,0(%0)" : : "r"(&normal) : "memory");
@@ -196,11 +196,11 @@ void func_L01_0067DDD0(u8 *record,s32 force)
         "vmul.xyzw $vf1,$vf1,$vf2\n\tvadday.x ACC,$vf1,$vf1y\n\t"
         "lqc2 $vf2,0(%2)\n\tvmaddz.x $vf1,$vf2,$vf1z\n\t"
         "qmfc2.ni %0,$vf1\n\tsqc2 $vf1,0(%3)"
-        : "=r"(scalar.bits) : "r"(record),"r"(&ones),"r"(&temporary0) : "memory");
+        : "=&r"(scalar.bits) : "r"(record),"r"(&ones),"r"(&temporary0) : "memory");
     if(scalar.value>0.0f) ASFLOAT(record,0x2CC)=-ASFLOAT(record,0x2CC);
     if(ASFLOAT(record,0x2CC)<0.02f) {
         ASHALF(record,0x2FC)=0;
-        if(!(ASFLOAT(record,0x2D0)<=0.872664630413055419921875f) &&
+        if(ASFLOAT(record,0x2D0)<=0.872664630413055419921875f ||
             ASBYTE(record,0x2659)!=0) {
             ASHALF(record,0x2FE)=0;
             ASWORD(record,0x630)=ASWORD(packet,0x18);
@@ -224,11 +224,11 @@ ground_done:
     __asm__ volatile("qmtc2.ni $0,$vf1\n\tsqc2 $vf1,0x270(%0)"
         : : "r"(record) : "memory");
     state=ASBYTE(record,0x2659);
-    if(state==1) {
+    if(state==0) {
         scalar.bits=0xBF800000U;
         __asm__ volatile("qmtc2.ni %1,$vf2\n\tvaddx.z $vf1,$vf0,$vf2x\n\t"
             "sqc2 $vf1,0x270(%0)" : : "r"(record),"r"(scalar.bits) : "memory");
-    } else if(state==0) {
+    } else if(state==1) {
         if(ASFLOAT(record,0x2AC)==0.0f) {
             scalar.bits=0xBF800000U;
             __asm__ volatile("lqc2 $vf1,0x250(%0)\n\tqmtc2.ni %1,$vf2\n\t"
@@ -250,7 +250,7 @@ ground_done:
             "vmul.xyzw $vf1,$vf5,$vf5\n\tvadday.x ACC,$vf1,$vf1y\n\t"
             "vmaddz.x $vf2,$vf2,$vf1z\n\tnop\n\tnop\n\t"
             "vrsqrt Q,$vf4x,$vf2x\n\tqmfc2.ni %0,$vf2\n\tsqc2 $vf2,0(%3)"
-            : "=r"(predicate) : "r"(record),"r"(scalar.bits),"r"(&temporary0) : "memory");
+            : "=&r"(predicate) : "r"(record),"r"(scalar.bits),"r"(&temporary0) : "memory");
         if(predicate!=0) {
             __asm__ volatile("vwaitq\n\tvmove.xyzw $vf5,$vf6\n\t"
                 "vmulq.xyz $vf5,$vf5,Q\n\tsqc2 $vf5,0x270(%0)"
@@ -293,7 +293,7 @@ ground_done:
                 "vadday.x ACC,$vf2,$vf2y\n\tsqc2 $vf1,0(%2)\n\t"
                 "lqc2 $vf1,0(%3)\n\tvmaddz.x $vf2,$vf1,$vf2z\n\t"
                 "qmfc2.ni %0,$vf2\n\tsqc2 $vf2,0(%4)\n\tnop\n\tnop\n\t"
-                "vrsqrt Q,$vf0w,$vf2x" : "=r"(predicate) : "r"(packet),
+                "vrsqrt Q,$vf0w,$vf2x" : "=&r"(predicate) : "r"(packet),
                 "r"(&sideNormal),"r"(&ones),"r"(&temporary30) : "memory");
             if(predicate!=0) {
                 __asm__ volatile("vwaitq\n\tlqc2 $vf1,0(%0)\n\tvmulq.xyz $vf1,$vf1,Q\n\t"

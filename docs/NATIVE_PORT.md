@@ -1305,3 +1305,32 @@ Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
 fallback reconstruction must never be counted as a native game build.
+
+`dreadzone_actor_ground_step` supplies the complete selected mode-zero67DDD0
+ground update and its recovered CPU helpers. Genuine scheduling, contact
+surface/packet history, gravity direction, counters and required side probes
+execute on a transactional shadow of caller RAM. Actual prior side-local W and
+five caller VF W words are explicit; the second side iteration retains the
+first transform's output. Reached unrecovered modes, objects or overrides
+refuse atomically. The runtime does not manufacture radius, state, clock,
+empty actors or contacts.
+
+Root independently compiles the full NONMATCHING PS2 main and seven complete
+auxiliaries at their genuine L01 addresses. The final central-production
+bridge passes169 complete native/original/authored-SN comparisons from189
+complete original/SN cases;20 native cases refuse numerically without writes.
+This includes ordinary real terrain,204 mandatory native side probes, actual
+caller-stack W/affine translation and five explicit contact/tag fixtures.
+All897,706,368 compared RAM bytes agree over2,218,935 EE/99,000 VU pairs with
+zero captured calls. The101 focused checks and all78 central tests pass.
+
+The final private decoder retains SA across MTSAB/QFSRV; a separately saved
+earlier single-word bridge did not, and its low-height diagnostic failed.
+Genuine C60 micro instructions retain the full caller VF state. Overflowing
+unconsumed lanes are conditioned in the explicit host approximation; the
+standard overflow-clamping facts were checked against the primary
+[PCSX2 VU implementation](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VUops.cpp).
+This does not establish physical ACC precision, flags or timing. Fixture
+constructor/body/clock/grid/prior-stack values do not prove a player frame;
+wall response, position/state/frame and live rendering composition remain
+separate work. The existing animated viewer still provides camera controls.

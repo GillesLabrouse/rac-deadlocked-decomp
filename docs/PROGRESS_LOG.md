@@ -2198,3 +2198,43 @@ prove a later one. Emulator tests are optional reference checks.
   with finite VF W, actual prior caller-stack W and affine translation. This
   is an explicit contact fixture, not constructor or playable-frame evidence.
   Exact matching and native functionality remain separate; nothing is pushed.
+
+## 2026-10-11 — Compose the complete selected native ground update
+
+- Integrate native67DDD0 mode-zero ground update, genuine scheduling, actual
+  caller-local endpoints, contact history/counters, surface gates and both
+  mandatory side probes. Reached spherical/dynamic/override paths refuse
+  atomically. No previous-state2, cleared grid or synthetic contact result is
+  inserted into the runtime. Caller/body/clock/grid/prior-stack inputs in the
+  replay are explicit fixtures, not actor/level constructor evidence.
+- Whole original/SN replay catches and root corrects four unfinished draft
+  defects: reversed mode0/mode1 gravity branches, unsafe integer asm output
+  constraints needing early clobber, unconditional mask24 second probe, and
+  reversed contact timer-reset predicate. Previous source/object/report
+  versions remain saved separately. Full PS2 main is3396/3256 bytes and stays
+  NONMATCHING. Seven complete auxiliaries are freshly compiled and strict-linked
+  against their actual L01 spans; all remain outside accepted matching sources.
+- Final central-production DLL comparisons execute189 complete original/SN
+  calls and169 complete native calls, with20 atomic numeric refusals. They
+  cover64 ordinary authentic rays,120 near-contact side fixtures with real
+  prior W/affine translation, and five explicit surface-tag regressions.
+  All897,706,368 compared RAM bytes agree, with2,218,935 EE instructions,
+  99,000 VU pairs,204 native side probes and zero captures/differences.
+  Frozen proof inputs remain unchanged during40.53s of combined replay.
+- A low-height regression exposes a private oracle defect: its single-word
+  bridge dropped SA between MTSAB and QFSRV. Root creates a separately saved
+  oracle retaining actual SA, repeats the affected comparisons and preserves
+  failed/historical versions. Shared integer CPU is unchanged. Genuine C60
+  runs with full incoming VF state; overflowing unused lanes use an explicitly
+  approximate saturation model, not a fabricated sin/cos return or hardware
+  precision/flags/timing claim.
+- Independent Luna review checks actual L01 words and suggests boundary and
+  refusal tests. Final focused fixture passes101 checks, including history
+  equality, required surface-zero second probe, mode0 non-read of NaN2AC,
+  timer reset, actual side calls and atomic selected numeric refusal. All78
+  central tests pass (4.49s). Only focused test source gains these last checks
+  after the frozen differential proofs; runtime sources/archives are identical.
+- Matching remains290. The complete native wall response is separately frozen
+  for root integration. Whole idle/walking/position and constructor/live pose
+  composition remain required; the viewer's controls still move the camera,
+  and no playable Ratchet frame is claimed. Nothing is pushed.
