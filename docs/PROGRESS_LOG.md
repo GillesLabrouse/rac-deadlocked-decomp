@@ -1928,3 +1928,23 @@ prove a later one. Emulator tests are optional reference checks.
   replay is isolated rather than claiming an in-place replacement.
 - Matching progress remains280 functions. No new rendered controls, ground
   query, full frame or playable character is claimed; nothing is pushed.
+
+## 2026-10-11 — Integrate real initial/idle/walking state entry
+
+- Added the frozen native699C70 selected states0/1/2 with common prologue
+  and suffix, genuine histories/input/animation ownership and whole-memory
+  atomic refusal. It uses the real entry ABI, not an internal dispatch label.
+- Root independently rebuilt ten complete PS2 prerequisites, linked a DLL to
+  central production libraries and repeated complete original/native and
+  fresh original/SN proofs. All bound inputs remained unchanged for11.99s.
+- Complete replay passes1,536 transitions,128 real retail gate rejections and
+  160 actual reached-dependency refusals, including768 ordered client fields
+  aliasing history/handles. All1,444,634,880 compared bytes agree over1,225,684
+  original instructions using genuine112-clip Ratchet metadata; zero captures.
+- Fresh prerequisites pass8,256 original/SN cases. Two compare locally exact,
+  but accepted matching coverage remains280. All16,764 focused native checks
+  and all74 central tests pass (4.67 seconds for the latter).
+- Prioritized genuine00690F18 scheduling and the ordinary selected frame
+  closure over further all154-state dispatcher expansion. Full construction,
+  wall/ground closure, outer position and live pose/blend remain work; the
+  existing preview remains camera-controlled. Nothing is pushed.

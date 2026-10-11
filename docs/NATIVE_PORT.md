@@ -1172,6 +1172,36 @@ checks. SN compiles408 entry bytes plus208 helper bytes versus the original
 508-byte span, so the whole draft is NONMATCHING and replayed in isolation.
 This response does not query ground, integrate position or create a frame.
 
+`dreadzone_player_state_entry` now provides complete selected699C70 states
+0/1/2, including the common prologue, real history/input changes, animation
+selection, ownership/release paths and suffix. It enters at the actual699C70
+ABI rather than its internal69A4F0 label. Actual guard rejection returns0
+with unchanged RAM; unsupported reached dependencies refuse the whole RAM/
+output transaction. Ordinary state2 genuinely selects clip5/frame16 or
+clip6/frame15 after the prologue's real substate clear. Other states remain
+outside native support, and the complete154-state PS2 draft is separate.
+
+Root verified the frozen13-file lot, freshly compiled/strictly linked all
+ten complete prerequisites and linked an independent DLL to the central
+production libraries. Guarded replay passes1,536 original complete entries,
+128 genuine guard rejections and160 atomic reached-dependency refusals.
+It uses authentic112-clip Ratchet metadata and actual blend/scheduler ownership
+with768 ordered client/history/handle aliases. All1,444,634,880 compared
+bytes agree across1,225,684 original instructions, without captured returns.
+The ten fresh isolated SN prerequisites pass8,256 original/SN cases. Two
+compare locally exact; matching coverage is unchanged because acceptance is
+separate. Source/asset/oracle/object/library hashes remain unchanged throughout
+the11.99-second root integration replay. Earlier284 branch-block checks
+corroborate the selected common gates but are not whole-entry evidence.
+
+The focused fixture passes16,764 checks; all74 central tests pass in4.67
+seconds. Explicit fixture histories and authentic metadata do not establish
+a full constructor or frame. Finite EE/VU arithmetic remains approximate;
+reached unrecovered cleanup, metadata, ground and transport dependencies remain
+explicit refusals. Actual frame scheduling, idle/walking composition, collision
+response, live pose/blend and rendered controls remain active work. The
+existing animated viewer is unchanged.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
