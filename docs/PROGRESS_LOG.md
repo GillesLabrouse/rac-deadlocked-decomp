@@ -1,5 +1,43 @@
 # Local development progress
 
+## 2026-10-11 — Accept the exact startup scalar return and recover mission bytes
+
+- Accept src/overlays/L00/005D2B10.c, the complete eight-byte scalar return,
+  independently located at actual L01 0057B6B0. It returns argument two;
+  the caller's separate 0057B748 store publishes the count at0021EAD8.
+  Fresh and production SN objects have no relocations and pass full unmasked
+  real links at47 independently located level addresses. Count one function.
+  Original maintained integer execution checks4096 full-register cases/8192EE.
+  Incremental build compiles one source/reuses260; audit316/zero failures and
+  generated progresscheck pass. Native suite remains98 from the last native
+  integration; this exact leaf adds no playable behavior or viewer change.
+- Memory49 takes230s for one accepted function (15.65 functions/hour for this
+  bounded lot only). Preserve its initial stream/tool errors and incorrect
+  count-address prose with the separate correction addendum. Startup50's39s
+  read-only audit establishes direct count/offset references but no runtime
+  producer of21EAD4; a narrow scan's empty result is not an absence claim.
+  Root integration timing/hashes are in private/root-startup-count-return-*.
+- Recover the verbatim uncompressed mission body from the original ISO sector
+  130056 and its342-record placement list. Every class/UID/mission/scale and
+  position/rotation field agrees with the extracted mission0 text, including
+  record142 class9207/UID2726. Its text index543 follows the separately observed
+  401 base text records; this does not prove occupied-pool or player identity.
+  Preserve sol-mission-placement-provenance evidence, failed extraction attempts
+  and412-second receipt. Runtime selection and installation remain unproved.
+- Correct the old publication44 address interpretation: actual6535A8 reads
+  mission pointer24375C. Both6535D0/6535DC ADDIU operations write A1 from
+  unchanged S5=170000, each yielding1711A8. Control byte/slots are1711C2/
+  1711C4/1711C8, never cumulative172350. The prior claim that incoming mission
+  resource A1 is preserved into57E880 is withdrawn; S4's resource pointer has
+  separate provenance. Root independently rereads actual ELF words before use.
+- The private complete supported placed-loader adapter passes36 complete
+  diagnostic RAM/SPR comparisons through real fresh class, variable model and
+  actor transformation:227832EE/142584VU/378077184bytes. No-height payload is
+  record+50, not skipped+4C. Independent guard/alias review and original-record
+  diagnostics remain pending. Whole342-record loading is not established.
+  No new native production boundary or playable feature in this exact lot.
+  Main work continues through loading, constructor and repeated frame. No push.
+
 ## 2026-10-11 — Integrate supported complete actor transformation
 
 - Publish native/dreadzone_actor_transform.{c,h} and its48-check regression
@@ -179,7 +217,11 @@
 - The actual-resource review takes 431.92s; independent initial-model review
   takes 325.65s. Lightweight startup/resource lots accept zero exact functions.
   Correct earlier worker provenance explicitly: both S5 ADDIU operations are
-  required (170000 -> 1711A8 -> 172350), list/base comes from caller state,
+  were previously misdecoded as cumulative S5 updates. That address claim and
+  its publication44 correction are withdrawn by the later original-ISO/raw-ELF
+  audit: both operations write A1=1711A8 from unchanged S5=170000. The mission
+  pointer is24375C; preserved incoming A1 is not established. List/base provenance
+  requires the corrected caller trace,
   and the 401 placed-moby blocks are distinct from 2,972 mixed class fields.
   Preserve original reports and correction addenda. Do not infer runtime
   resource order or player identity from asset membership.

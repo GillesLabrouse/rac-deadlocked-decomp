@@ -1,5 +1,29 @@
 # Resume checkpoint — active development, 2026-10-11
 
+Latest exact checkpoint: complete src/overlays/L00/005D2B10.c returns its second
+scalar; actualL01 57B6B0, caller57B748 independently stores21EAD8. Fresh and
+production SN objects pass47 actual resolved full eight-byte references, no
+relocations;4096 original full-register cases/8192EE. Audit316/0failures and
+progresscheck pass. Latest native suite remains98; no new playable behavior.
+Private root-startup-count-return-* preserves proofs and integration receipt;
+memory49 correction is separate from its original incorrect address prose.
+
+Original ISO mission body/list is now recovered and all342 records agree with
+mission0 text. Record142 is class9207/UID2726; text543 is numbering evidence,
+not first-player identity. See sol-mission-placement-provenance artifacts.
+Actual6535A8 reads RAM24375C. Both6535D0/6535DC write A1=1711A8 from unchanged
+S5=170000; old cumulative172350 and preserved-A1 claims are withdrawn.
+Control selector/list/old-list are1711C2/1711C4/1711C8. Runtime pointer producer
+and mission selection remain unproved; no whole342-record loader execution.
+
+Private root-placed-actor-loader.{c,h} passes36 full diagnostic RAM/SPR cases,
+227832EE/142584VU/378077184bytes. Payload is record50 on the no-height path;
+record4C is skipped. Root next tests verbatim original records in explicitly
+isolated diagnostic headers; those modified counts/published tables are not a
+selected mission replay. Strong worker reviews guards/aliases independently.
+Lighter startup50/mission39 lots are bounded read-only provenance work.
+Keep all private failures/drafts. Root alone integrates. Viewer unchanged.
+
 Latest native integration: supported complete0058DF58 RAM/SPR transform in
 native/dreadzone_actor_transform.{c,h}. Actual basis/spatial/initial-model paths
 are composed, without helper capture. Computed actorFC positivezero, no blend

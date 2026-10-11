@@ -2,12 +2,12 @@
 
 Current checkpoint: 2026-10-11. The Windows executable displays Dreadzone scenery
 and a separate prepared animation diagnostic. It does not run a controllable
-Ratchet or a complete gameplay frame. Matching coverage is 315 functions of
-15,766 (0.559% code); this percentage does not measure playable readiness.
+Ratchet or a complete gameplay frame. Matching coverage is 316 functions of
+15,766 (0.560% code); this percentage does not measure playable readiness.
 
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
-| Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges. | Execute the allocation/layout and parser chain with its real cursor, globals, selected records and resources. |
+| Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges; original mission0 binary placement list with all342 text records crossvalidated. | Execute the allocation/layout and parser chain with its real cursor, globals, runtime selected records and resources; close the producer of mission pointer24375C. |
 | Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation, guest actor/payload/model pools, fresh initial-model class composition and supported complete actor transformation/spatial registration. | Load placed actors through `0057B788` with genuine published tables and selected serialized mission records; close `00668070` and actual child/backlink producers, and support reached cleanup/live animation paths. |
 | Repeated player update | Controller decoding and selected direction, walking, position and collision paths; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
 | Live visual output | Native terrain renderer, original body topology and validated prepared animation samples. | Bind the initialized actor's changing position, live animation and camera to the renderer across successive frames. |
