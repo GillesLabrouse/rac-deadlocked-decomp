@@ -1,5 +1,33 @@
 # Resume checkpoint — active development, 2026-10-12
 
+Private root-constructor-prefix-draft.c and prefix-v3.dll compose ordinary
+null/index-zero constructor REGION ending BEFORE67DDD0.32 complete10MiB RAM
+comparisons pass335544320bytes/730778EE/6848VU; six atomic refusals pass.
+Preserve root-constructor-prefix-* receipts/scripts/failures; no accepted full
+constructor entry or matching percentage change. Strong ground continuation
+has since reached original67DDD0 return,66E580 and688FE0, then58FF50 JAL163408
+resident mapping frontier; its next freeze supplies authentic ground boundaries.
+Scene47 masked header pointers are6CF000/6C7000 (separate correction), actual
+24370C/243720 producers known but selected data unproved. Scene59 conditional
+alignment gate: selector0 or signed>=28 skips, otherwise nonzero signed<28
+reaches copy/alignment, subject to outer gate. Root's earlier zero-selector
+shorthand is withdrawn. Light agents HOLD; main owns integration.316/101/no push.
+
+Current frontier: genuine original constructor completes BOTH53DC70 probes,
+four real53DBD0 traversals and667050, then reaches ground67DDD0/raw CVT.W.S
+67E004. Root observes two complete10MiB call boundaries: integrated native wall
+vectors and established independent original vector reference both return hit1
+and agree byte-for-byte (41,943,040 compared bytes across four checks).
+Preserve root-constructor-collision-boundary-v3-* final proofs/receipt, earlier
+missing-export failure and v2 CRT warnings; v3 /MD+link/WX builds cleanly.
+No new accepted source/function/module or playable feature;316exact/101native.
+Collision container930000 is diagnostic and excludes later arena allocations.
+Strong sol-constructor-ground-next-* continues actual ground helper and later
+constructor; no helper capture. Scene59 separately corrects269944 writer578E58,
+inside578940..579FE8, and selector29/3D-only JAL578258. Runtime descriptor/
+selected scene remains unproved. Scene47 traces header/cursor. Root owns all
+shared source/report/build integration. No push.
+
 Current constructor checkpoint: original6A83B0/6A8420 reaches668070 with genuine
 null actor. Its full reset clears31F0, and its own occupied-pool scan selects
 the real placed/payload9207 actor; no postreset pointer repair. Strong continuation

@@ -1,5 +1,67 @@
 # Local development progress
 
+## 2026-10-12 - Compose private native constructor prefix
+
+- Private root-constructor-prefix-draft.c composes genuine reset, parameters,
+  occupied-pool class scan, visibility, finite orientation, two full wall probes,
+  actor90 backlink and definition-derived scale. Ordinary null/index-zero region
+  ends before67DDD0; it is not an accepted complete native constructor.
+-32 whole10MiB RAM comparisons against the original dispatcher/initializer and
+  reached constructor instructions pass335,544,320bytes/730,778EE/6,848VU. Real
+  resource/collision geometry and original base record are observed, not helper
+  captures. Rotation cases include genuine ISO angle, signed zero and finite
+  random rotations. Six unsupported paths, including late invalid collision
+  backing, preserve all RAM rather than publishing partial reset/basis writes.
+- Preserve first two private link failures: unrelated pool globals in the shared
+  word-fill object, then an extraction mistakenly selecting the declaration.
+  V3 isolates the unchanged existing word-fill definition; /MD,/W4,/WX and
+  linker/WX build cleanly. No fabricated dependency behavior or public edits.
+  Native32 comparisons have zero failures; two build setup failures are recorded.
+- Scene47 finds direct24370C/243720 writers5744B8/574524. Separate correction:
+  zero1723B8 path is masked to6CF000, alternate to6C7000; selected RAM bytes still
+  unknown. Scene59 arithmetic addendum corrects span16A8, conditional cursor
+  alignment. Root also withdraws its own zero-selector branch shorthand:
+ 21DE10 zero or signed>=28 skips that copy/alignment block; other nonzero signed
+  values reach it, subject to the loader's outer gate. Negative selector values
+  have not been established at runtime. Preserve all earlier reports unchanged.
+- Light audits produced useful writer edges but needed independent corrections;
+  keep them on HOLD until integration/validation has capacity. Strong recovery
+  continues genuine ground/transform/animation, root owns native composition.
+  Exact316/native101 remain unchanged; zero new accepted functions/hour, no
+  full constructor/frame, no controllable character or viewer change, no push.
+
+## 2026-10-12 - Validate authentic constructor terrain boundaries
+
+- Strong original continuation completes both actual53DC70 constructor probes,
+  four53DBD0 tree traversals, genuine667050, and enters67DDD0. Reached20,017EE/
+  214VU then refuses raw CVT.W.S67E004; preserve the full original frontier.
+  Packed vertex integers pass2,816 maintained full128 cases with51 genuine
+  DSUB overflow refusals. No captured callee or fabricated collision result.
+- Root independently observes both real call boundaries without replacing any
+  original instruction. Integrated native wall vectors returns hit1 for each,
+  with two complete10MiB RAM images equal:20,971,520bytes and zero differences.
+  Established independent original vector replay also matches both entire
+  images, two tree calls/two geometry DMA copies per probe. Total comparisons
+  across native and independent checks41,943,040bytes. Packet242360 is genuine.
+  Explicit diagnostic occupied actor pool and collision930000 placement remain;
+  unused model-arena capacity and later allocations are not proved disjoint.
+  Complete registers, flags, SPR, VU state and hardware timing are excluded.
+- Keep private/root-constructor-collision-boundary-* scripts, full images and
+  frozen receipt. Initial central DLL export lookup fails; private v2 bridge
+  passes comparisons with CRT linker warnings. Separate v3 uses /MD and linker
+  /WX with no warnings and passes the same checks. No accepted source changed.
+- Scene59 corrects scene58 separately: loader578940..579FE8 stores269944 at
+  578E58 after real577C70; its delay slot executes regardless of mode branch.
+  It is the same pointer as243734. S5 is subsequently based on a runtime
+  descriptor and alignment, not simply initial243720. Selector21DE10 invokes
+  578258 only for29/3D; other values skip that JAL. Preserve earlier mistaken
+  chronology prose and separate corrections. Runtime selected header remains open.
+- Exact acceptance remains316, zero new exact functions/hour in this recovery
+  lot. Scene59 read-only elapsed230s; it adds no accepted function. Native suite
+  remains101/101 from the last source checkpoint. Zero new accepted native
+  modules, no integration timing claimed, zero playable features and no push.
+  Next: original complete ground step and remaining constructor/scene binding.
+
 ## 2026-10-12 - Reach authentic constructor collision and improve evidence reuse
 
 - Original6A83B0/6A8420 invokes668070 with null actor via actual3B10C0 vtable.
