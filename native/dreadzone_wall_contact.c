@@ -41,6 +41,29 @@ static float wall_load(WallWork *p,u32 address){return wall_check(p,wall_float(w
 static void wall_quad(WallWork *p,u32 address,const float xyz[3],u32 w){u32 i;if(!wall_range(p,address,16,16))return;for(i=0;i<3;i++)wall_store(p,address+4*i,wall_bits(xyz[i]));wall_store(p,address+12,w);}
 static int wall_add_address(WallWork *p,u32 base,u32 offset,u32 *result){u64 value=(u64)base+offset;if(value>0x7FFFFFFFULL){p->failed=DREADZONE_WALL_UNSUPPORTED;return 0;}*result=(u32)value;return 1;}
 
+/* Complete reached noneligible primitive-header path0053E760..E79C.
+ * Definition+4 is only a nonzero gate, not a record count. The previous
+ * signed flag terminates on the next iteration; a selected current negative
+ * flag still reaches real geometry and must refuse. No shape miss is invented.
+ */
+static int wall_primitive_headers(WallWork *p,u32 definition,u32 actor,u32 flags){
+    u32 cursor,disabled,previous=0,headers=0,category=(flags&4U)?1U:2U;
+    if(!wall_add_address(p,definition,16,&cursor))return 0;
+    disabled=wall_read(p,actor+0x9C,4);if(p->failed)return 0;
+    while(!(previous&0x8000U)){
+        u32 field,next,kind,current,skip;
+        if(headers++>=DREADZONE_WALL_MAX_PRIMITIVE_HEADERS){p->failed=DREADZONE_WALL_UNSUPPORTED;return 0;}
+        skip=disabled&1U;disabled>>=1;
+        if(!wall_add_address(p,cursor,2,&field))return 0;
+        current=wall_read(p,field,2);kind=wall_read(p,cursor,1);(void)kind;
+        if(p->failed||!wall_add_address(p,cursor,32,&next))return 0;
+        cursor=next;previous=current;
+        if(skip||!(current&category))continue;
+        p->failed=DREADZONE_WALL_UNSUPPORTED;return 0;
+    }
+    return 1;
+}
+
 static int wall_dynamic(WallWork *p,const DreadzoneCollisionGridRecord *records,u32 count,
                         const float start[3],const float direction[3],float best,u32 generation){
     u32 coarse[DREADZONE_COLLISION_GRID_MAX_RECORDS],n=0,i,j,flags=p->r.caller_flags^16U,pool;
@@ -104,6 +127,8 @@ static int wall_dynamic(WallWork *p,const DreadzoneCollisionGridRecord *records,
                 if(!wall_add_address(p,definition,4,&check))return 0;
                 type=wall_read(p,check,4);
                 if((flags&2U)||!type){p->info.actors_filtered++;continue;}
+                if(!wall_primitive_headers(p,definition,actor,flags))return 0;
+                p->info.actors_filtered++;continue;
             }
             p->failed=DREADZONE_WALL_UNSUPPORTED;return 0;
         }
@@ -116,7 +141,7 @@ static int wall_calculate(WallWork *p){
     DreadzoneCollisionGridRecord records[DREADZONE_COLLISION_GRID_MAX_RECORDS];
     DreadzoneTerrainContactRequest terrain;DreadzoneTerrainContactInfo terrain_info;
     DreadzoneCollisionTriangleContact contact;u32 i,j,generation,root;int result;
-    if(p->r.caller_flags!=2U||p->r.cache_guest)return DREADZONE_WALL_UNSUPPORTED;
+    if((p->r.caller_flags!=2U&&p->r.caller_flags!=0x24U&&p->r.caller_flags!=4U&&p->r.caller_flags!=0x22U)||p->r.cache_guest)return DREADZONE_WALL_UNSUPPORTED;
     if(!p->endpoints_local&&(!wall_range(p,p->r.start_guest,16,16)||!wall_range(p,p->r.end_guest,16,16)))return p->failed;
     if(!wall_range(p,p->r.packet_guest,128,16))return p->failed;
     for(i=0;i<3;i++){

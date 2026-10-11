@@ -2156,3 +2156,25 @@ prove a later one. Emulator tests are optional reference checks.
   worker waits during integration, and the collision specialist continues a
   genuine frame prerequisite. No third new recovery worker is added. These
   exact setters do not add a rendered player or playable frame. No push.
+
+## 2026-10-11 — Integrate the genuine ground and side wall masks
+
+- Extend the complete wall probe to caller masks2/24/4/22 with null cache.
+  Actual primitive-definition count is a nonzero gate, not a header count;
+  each previous signed flag terminates the next iteration. Current eligible
+  negative headers still refuse. Genuine disabled/category filtering remains
+  ordered; a1024-header budget bounds malformed/unterminated selected lists.
+- Root independently rebuilds SN against the complete actual L01 span and
+  replays the central production libraries:618 complete cases,218 hits and
+  400 misses, including416 authentic rays,20 explicit surface-tag fixtures,
+  42 dynamic filters,128 aliases and eight signed-zero cases. Twenty atomic
+  refusals cover16 eligible primitive/model paths, two budget limits and two
+  reached missing headers; ten eligible paths hit in genuine original/SN code.
+- All3,050,876,928 RAM bytes agree across10,887,484 EE instructions and55,704
+  VU pairs with zero captures/differences. All bound inputs stay unchanged for
+  129.36s. The128 wall checks and all77 central tests pass (4.15s). Genuine
+  terrain audit covers37,227 faces and finds no low-tag-zero face; its required
+  bit0x20 filtering is independently tested with diagnostic tags.
+- The full PS2 wall draft stays NONMATCHING; native masks do not increase the
+  289 exact-function count. Ground composition and67D6E8 response validation
+  continue separately. No playable-character or visible-control claim. No push.

@@ -1280,8 +1280,25 @@ original numeric boundaries and one conservative W-subnormal source refusal
 remain separately classified. The helpers do not normalize terrain inputs.
 The wall fixture passes74 checks, helpers321; all77 native tests pass in4.13s.
 
-Caller masks0x24/4/0x22, full67D6E8 wall response and ground/frame composition
-remain work. Current numeric/VU/Q semantics remain a declared finite host
+The wall entry now also supports the genuine caller masks0x24/4/0x22.
+Primitive definitions use the actual nonzero count gate and signed-header
+termination order; count is not a header-walk length. Disabled and category
+filters execute before the next header. Reached eligible primitive/model
+geometry refuses atomically, including a qualifying negative final header.
+An explicit1024-header native budget bounds unterminated walks.
+
+Root production-library replay passes618 complete original/SN/native cases:
+416 authentic rays,20 explicit diagnostic surface tags,42 dynamic filters,
+128 aliases and eight signed-zero cases (218 hits/400 misses). Twenty refusals
+retain RAM/output, including16 eligible geometry cases and two each for walk
+budget and reached missing headers. Ten eligible geometry refusals correspond
+to genuine original/SN contacts. All3,050,876,928 compared bytes agree over
+10,887,484 EE instructions/55,704 VU pairs, with no captured calls; every bound
+input remains unchanged throughout129.36s. The128 focused checks and all77
+central tests pass (4.15s). Genuine audited terrain contains no low-tag-zero
+face; the bit0x20 filter is still retained and tested with explicit diagnostic
+tags. Full67D6E8 response and ground/frame composition remain work.
+Current numeric/VU/Q semantics remain a declared finite host
 approximation, with no physical DMA/timing or playable-character claim.
 
 Keep matching progress and native functionality separate. A function compiling

@@ -28,6 +28,53 @@ static void unchanged(DreadzoneWallRequest *r,DreadzoneWallInfo *info,int expect
     u8 *before=(u8 *)malloc(r->storage_bytes);DreadzoneWallInfo old;memcpy(before,r->storage,r->storage_bytes);memset(info,0x7C,sizeof(*info));old=*info;
     CHECK(dreadzone_wall_contact(r,info)==expected);CHECK(memcmp(before,r->storage,r->storage_bytes)==0);CHECK(memcmp(&old,info,sizeof(old))==0);free(before);
 }
+static void mask_tests(void){
+    static const u32 masks[4]={2,0x24,4,0x22};
+    u8 *p=(u8 *)malloc(0x30000),*reference=(u8 *)malloc(0x30000);
+    DreadzoneWallRequest r,other;DreadzoneWallInfo info,expected;u32 k,i,start[4],end[4];
+    if(!p||!reference){CHECK(0);free(p);free(reference);return;}
+    for(k=0;k<4;k++){
+        fixture(p,&r);r.caller_flags=masks[k];
+        CHECK(dreadzone_wall_contact(&r,&info)==((masks[k]&0x20U)?0:1));
+        CHECK(get(p+0x210)==1&&get(p+0x21C)==((masks[k]&0x20U)?0xA5A5A5A5U:0x1000U));
+        fixture(p,&r);r.caller_flags=masks[k];p[0x20000+128+19]=4;
+        memcpy(reference,p,0x30000);other=r;other.storage=reference;
+        CHECK(dreadzone_wall_contact(&other,&expected)==1);
+        memcpy(start,p+0x100,16);memcpy(end,p+0x110,16);
+        CHECK(dreadzone_wall_contact_vectors(&r,start,end,&info)==1);
+        CHECK(!memcmp(p,reference,0x30000)&&!memcmp(&info,&expected,sizeof(info)));
+        fixture(p,&r);r.caller_flags=masks[k];p[0x20000+128+19]=0x10;
+        CHECK(dreadzone_wall_contact(&r,&info)==0&&get(p+0x21C)==0xA5A5A5A5U);
+        fixture(p,&r);r.caller_flags=masks[k];real(p+0x100,-0.f);real(p+0x110,0.f);put(p+0x200,0x430000);
+        CHECK(dreadzone_wall_contact(&r,&info)==0&&get(p+0x210)==1);
+        fixture(p,&r);actor(p);r.caller_flags=masks[k];p[0x20000+128+19]=4;
+        put(p+0x1F00C,0);put(p+0x1F004,0);
+        CHECK(dreadzone_wall_contact(&r,&info)==1&&get(p+0x1E0A0)==1);
+    }
+    for(k=0;k<2;k++){
+        u32 mask=k?0x24U:4U;
+        /* Header-count word enables traversal; it is not a record bound. */
+        fixture(p,&r);actor(p);r.caller_flags=mask;p[0x20000+128+19]=4;
+        put(p+0x1F00C,0);put(p+0x1E09C,0);put(p+0x1F004,1);
+        put(p+0x1F010,0x00020001U);put(p+0x1F030,0x00020001U);put(p+0x1F050,0x80000000U);
+        CHECK(dreadzone_wall_contact(&r,&info)==1&&info.actors_filtered==1);
+        /* Negative current flags are selected before next-iteration stop. */
+        fixture(p,&r);actor(p);r.caller_flags=mask;p[0x20000+128+19]=4;
+        put(p+0x1F00C,0);put(p+0x1E09C,0);put(p+0x1F010,0x80010001U);
+        unchanged(&r,&info,DREADZONE_WALL_UNSUPPORTED);
+        fixture(p,&r);actor(p);r.caller_flags=mask;p[0x20000+128+19]=4;
+        put(p+0x1F00C,0);put(p+0x1E09C,1);put(p+0x1F010,0x80010001U);
+        CHECK(dreadzone_wall_contact(&r,&info)==1&&info.actors_filtered==1);
+        fixture(p,&r);actor(p);r.caller_flags=mask;p[0x20000+128+19]=4;
+        put(p+0x1F00C,0);put(p+0x1E09C,0);put(p+0x1F010,0x00010001U);
+        unchanged(&r,&info,DREADZONE_WALL_UNSUPPORTED);
+        fixture(p,&r);actor(p);r.caller_flags=mask;p[0x20000+128+19]=4;
+        put(p+0x1F00C,0);put(p+0x1E09C,0);
+        for(i=0;i<=DREADZONE_WALL_MAX_PRIMITIVE_HEADERS;i++)put(p+0x1F010+i*32,0x00020001U);
+        unchanged(&r,&info,DREADZONE_WALL_UNSUPPORTED);
+    }
+    free(p);free(reference);
+}
 static void vector_tests(void){
     u8 *p=(u8 *)malloc(0x30000),*reference=(u8 *)malloc(0x30000),*before=(u8 *)malloc(0x30000);
     DreadzoneWallRequest r,other;DreadzoneWallInfo info,expected,old;u32 start[4],end[4],saved[8];int result;
@@ -123,5 +170,5 @@ int main(void){
     fixture(p,&r);r.guest_base=0x80000000U;unchanged(&r,&info,DREADZONE_WALL_INVALID);
     fixture(p,&r);r.guest_base=0xFFFF0000U;unchanged(&r,&info,DREADZONE_WALL_INVALID);
     CHECK(dreadzone_wall_contact(NULL,&info)==DREADZONE_WALL_INVALID);CHECK(dreadzone_wall_contact(&r,NULL)==DREADZONE_WALL_INVALID);
-    vector_tests();free(allocation);printf("%u checks, %u failures\n",checks,failures);return failures?1:0;
+    vector_tests();mask_tests();free(allocation);printf("%u checks, %u failures\n",checks,failures);return failures?1:0;
 }
