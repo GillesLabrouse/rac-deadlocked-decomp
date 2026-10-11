@@ -2569,3 +2569,25 @@ prove a later one. Emulator tests are optional reference checks.
   zero exact credit. Ground/position must still compose their own genuine
   endpoint, side and scheduled-exit producers. No complete movement frame or
   playable character/scene is claimed, and nothing is pushed.
+
+## 2026-10-11 — Verify resident word restoration; recover orientation dependencies
+
+- Accept distinct resident00142540, complete12-byte record+C to record+8 copy.
+  Root independently checks actual caller140338:1403F8 establishes S1=S2+118,
+  140408 sets A0=S1, JAL140410 has SRL S0 delay140414. Preserve a separate
+  correction for the agent receipt's two inaccurate callsite descriptions.
+  Following call42550 replaces V0 before any consumption. Fresh and production
+  relocation-aware and unmasked resolved exact gates pass; full audit302,
+  zero failures, progress/check pass at0.552% code. No L01 caller is inferred.
+- Commands batch16 takes98s, zero compile/relocation/exact failures. At2026-10-11T13:42:39.055230+00:00
+  baseline gain22 gives6.49 accepted/hour. Root production integration phase
+  takes32.30s, including adjacent orientation audit, excluding earlier fresh gates.
+  Recovery holds while root handles the native integration queue.
+- Fresh independent m2c/CFG recovery covers683310436B,67CBC0820B and596470492B
+  through each real JR return delay, excluding final alignment padding. This
+  necessary orientation chain runs for actual player266D1; no state is forced
+  inactive to avoid it. Complete684EF0 additionally needs real class metadata,
+  timers, input/callback scheduling and686420 secondary movement.
+- The ground-state specialist now works privately on actual producer transport
+  using the accepted additive probe API. Native remains82 passing central
+  tests and zero validated complete player frames. Nothing is pushed.
