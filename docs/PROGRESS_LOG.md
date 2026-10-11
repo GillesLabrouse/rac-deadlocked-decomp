@@ -1998,3 +1998,31 @@ prove a later one. Emulator tests are optional reference checks.
   instructions,9.20 seconds. No callee result or contact was substituted.
 - Matching coverage remains280. This source correction does not expose native
   walking controls, a complete frame or a playable character. Nothing is pushed.
+
+## 2026-10-11 — Accept the first Luna recovery batches
+
+- Root independently recompiles, checks actual ELF relocations and exact-links
+  resident0011C9C0,00127020,00127DF0 and00127E30 against the resident reference.
+  All four pass, including real returns/delay slots and verified structures.
+  Their180 bytes enter accepted core sources:280 ->284 matching functions.
+- Shared validation passes284 relocation-aware comparisons,233 exact-linked
+  game functions, zero mismatches/object failures and the regenerated progress
+  check. The32 build-planner/provenance tests also pass.
+- Fixed `build.sh` handling of native Windows Python CRLF source lists after
+  one failed shared build launch. The genuine226-source rebuild then succeeds;
+  the next batch builds only two new sources, and a final incremental run
+  reuses all228 sources with zero recompilations/removals.
+- First acceptance window:10:19:14..10:29:51 UTC,637.70s, four accepted functions,
+  observed22.58 functions/hour. Shared integration elapsed467.73s includes the
+  one-time header-provenance rebuild, full exact linking and concurrent native
+  work; it is not root active CPU time or a sustained-rate prediction.
+- Agents delivered their first two-function batches in92s and159s. Four total
+  initial object-form comparisons failed, then all four final exact checks
+  passed. The memory agent also recorded two sandbox launch failures and one
+  linker launch failure, resolved by the authorized native toolchain launch.
+- Keep two small recovery agents; a third new recovery worker is deferred
+  while integration catches up. The next command batch saved two unresolved
+  helpers after three attempts each: six object and six exact-link mismatches.
+  Those candidates remain drafts and add no matching coverage.
+- No rendered controls or playable-character change is claimed. Native collision
+  integration and selected frame composition remain the main work. No push.
