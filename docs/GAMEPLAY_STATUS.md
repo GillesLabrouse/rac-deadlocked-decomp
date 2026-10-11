@@ -8,7 +8,7 @@ Ratchet or a complete gameplay frame. Matching coverage is 312 functions of
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
 | Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges. | Execute the allocation/layout and parser chain with its real cursor, globals, selected records and resources. |
-| Actor and player construction | Full initial pool memory effects, reset, inventory, parameters, class publication/relocation and model allocation components. | Load the placed actors through `0057B788`; close model-aware class initialization, `00668070` and the actual child/backlink producers. |
+| Actor and player construction | Full initial pool memory effects and allocation bounds/table setup, reset, inventory, parameters, class publication/relocation and model allocation components. | Load the placed actors through `0057B788`; establish the first player's source, close model-aware class initialization, `00668070` and the actual child/backlink producers. |
 | Repeated player update | Controller decoding and selected direction, walking, position and collision paths; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
 | Live visual output | Native terrain renderer, original body topology and validated prepared animation samples. | Bind the initialized actor's changing position, live animation and camera to the renderer across successive frames. |
 
@@ -19,6 +19,25 @@ mesh or isolated diagnostic RAM comparisons do not satisfy that milestone.
 There is no measured schedule for closing the remaining dependencies yet.
 
 ## Latest startup component
+
+`native/dreadzone_pool_bounds.c` implements complete L01 `0057BAC0` RAM effects
+through genuine `00578928`, `00586F78` and `0055D2A8`. It publishes ordered pool
+boundaries and the free marker, advances the supplied cursor, creates and clears
+the allocation descriptor table, and preserves all observable reloads/aliases.
+The final central-library proof passes 205 whole-RAM comparisons, 15 actual
+original-fault atomic refusals, 32,024 original instructions and 859,832,320
+compared bytes. No callee is simulated. Its 68 focused checks and all 92 native
+tests pass; the full suite takes 6.05 seconds. Original stack/register ABI and
+fault partial writes are outside this host transaction contract. It adds zero
+matching credit and does not initialize a player or alter the viewer.
+
+An independent source walk finds the actual settings parser writes `0x169` to
+`21EAC4` from core offset `3C0`. `21EAD4` starts at zero in L01 and resident
+images, but its live value remains unproved. The 401 rows reached through core
+`+30` have no `171C`/`23F7` class word. This is a bounded table result, not absence
+from other data or later loaders. Constructor `00668070` scans the pool for
+these classes when the first player receives a null actor; that actor's producer
+still requires tracing, including the later core `+34` loader.
 
 `native/dreadzone_initial_pool.c` implements complete memory effects of actual
 L01 `0057B6B8` with the real `0055D2A8` filler and `0057B6B0` identity-return

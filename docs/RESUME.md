@@ -4,6 +4,21 @@ The user explicitly resumed development after the saved pause. Work is active;
 continue until the user stops it. No push is authorized. Read the latest
 PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 
+Latest component: complete `native/dreadzone_pool_bounds.{c,h}` /0057BAC0 through
+actual578928,586F78,55D2A8. Central archive proof205 whole-RAM matches/15 original
+fault atomic refusals,32024EE/859832320 bytes,zero captured callees/input changes;
+68 focused checks,all92 native tests pass in6.05s. Exact coverage stays312.
+Read the latest PROGRESS_LOG entry for private receipts and original inputs.
+Source walk establishes21EAC4=169 from actual core3C0; live21EAD4 and allocation
+cursor remain unproved. The401 +30 rows contain no171C/23F7 class, but later
++34/57BF78 path has not been excluded. Trace this before declaring the player
+entirely dynamic. Constructor668070 scans those classes for index0, allocator
+5869E0 only handles other indices there. ADDIU never traps: retain independent
+review36's addendum correcting the initial report; only filler ADDI traps here.
+Current agents: commandsresume32 investigates+34, memoryresume39 retries one
+proper exact586F78 compile after two infrastructure failures. No shared edits
+are delegated; position reviewer is HOLD. No playable frame or visual change.
+
 ## Objective and constraints
 
 Advance the local silverspy fork toward a native Windows x64 playable beginning

@@ -3280,3 +3280,45 @@ prove a later one. Emulator tests are optional reference checks.
   and rendering gates. Next close57B788/57BAC0 and model-aware actor setup.
   Scenery and prepared animation viewers remain unchanged; there is no playable
   Ratchet, complete initialized constructor or repeated player frame. No push.
+
+## 2026-10-11 — Prepare authentic actor-pool bounds and allocation table
+
+- Add complete native L01 `0057BAC0` memory effects with actual `00578928`,
+  `00586F78` and `0055D2A8`. Independently inspect full328/24/104/40-byte bodies,
+  call delays and GP22597F. The alignment helper consumes A1=1 and returns a
+  wrapping cursor/span sum here; it is not an allocator. Publish boundaries,
+  free marker and descriptor table with all ordered reloads retained, including
+  cursor/global/marker/table/request aliases. Explicit caller-owned RAM, GP
+  and cursor are required; original stack/register ABI is not supplied.
+- Preserve private first196/13 proof and extended205/15 proof. Repeat205 complete
+  comparisons/15 actual original-fault atomic refusals against the final central
+  archive:32024EE,859832320 RAM bytes,zero simulated/captured calls or changed
+  inputs. Final production proof takes1.095s. The native transaction refuses
+  missing mappings and actual ADDI faults atomically; original faults can retain
+  earlier writes. ADDIU arithmetic wraps and never traps. Preserve review36's
+  initial opcode error and separate raw-word correction/source-review addendum.
+  The review's0.013s receipt interval is not a full audit-duration metric.
+- All92 native tests pass in6.05s; new68 focused checks cover actual boundaries,
+  descriptor/table aliases, zero count's unconditional word store and atomic
+  fault/host guards. Production bridge links the real central archive, not a
+  copied source. Matching coverage remains312/15766,0.558%; no native-port
+  matching credit and no viewer/gameplay behavior change are claimed.
+- Read-only settings lots36/37 measure88/119s. The actual core parser at57B038
+  walks core90 -> count1 -> count41 -> core3BC, then loads core3C0=169 and stores
+ 21EAC4. Both resident/L01 initial images have zero21EAD4; bounded resident and
+  overlay scans find no producer, which does not prove an unchanged runtime
+  value. Core3D4 count4 copies four words elsewhere and is not a substitute.
+- Read-only commands lots30/31 measure288/174s. Complete824-byte57B788 loader
+  receives core+1FE730 and walks401 rows ending2096B0; none has171C/23F7 class
+  word. Constructor6A8420 actually passes a null actor to real vtable668070;
+  index0 scans pool classes171C/23F7 and can reclassify171C. This does not identify
+  their producer or exclude the later core+34/57BF78 loader. Trace that next.
+- Exact helper lot38 retains two infrastructure compilation failures (missing
+  old-toolchain header and malformed literal newlines), zero usable objects,
+  zero matching acceptances. Do not count them as relocation-validation failures.
+  One corrected, isolated compile is dispatched after reading actual toolchain
+  usage. Corrected lot39 takes83s: one valid SN compile112B vs104B fails both
+  true-relocation and resolved L01 comparisons; zero exact accepted/hour.
+  A byte-identical L21 overlay copy has no proved resident counterpart and
+  earns no duplicate credit. Preserve the source/object/manifest privately.
+  Root retains integration/configuration/central-output ownership.
