@@ -11,6 +11,8 @@ typedef struct GroundRun {
     DreadzoneGroundRequest request;
     DreadzoneGroundInfo info;
     int status;
+    DreadzoneProbeRegisters registers;
+    int track_registers;
 } GroundRun;
 static int span(const void *p,uintptr_t n){return p && (uintptr_t)p<=UINTPTR_MAX-n;}
 static int overlap(const void *p,uintptr_t n,const void *q,uintptr_t m){
@@ -162,9 +164,12 @@ static f32 height(GroundRun *r,const u32 input[4],u32 output){
         quad(r,0x2237C0,special);
         z=bounded(r,input[2],8192.f,0x1p-40f);delta=sub(r,z,bounded(r,special[2],8192.f,0x1p-40f));
         if(fabsf(delta)<.5f){
+            /* This producer is not reached by verified L01 terrain fixtures.
+             * Preserve the existing RAM-only helper; state composition refuses. */
+            if(r->track_registers){fail(r,DREADZONE_GROUND_UNSUPPORTED_PATH);return 0.f;}
             dx=sub(r,bounded(r,input[0],8192.f,0x1p-40f),bounded(r,special[0],8192.f,0x1p-40f));
             dy=sub(r,bounded(r,input[1],8192.f,0x1p-40f),bounded(r,special[1],8192.f,0x1p-40f));
-            mul(r,delta,delta);mul(r,floating(r,input[3]),floating(r,input[3]));
+            r->registers.high64[0]=bits(r,mul(r,delta,delta));r->registers.high64[1]=bits(r,mul(r,floating(r,input[3]),floating(r,input[3])));r->registers.last_writer_pc=0x593548;
             radius=number(r,0x2237CC,8192.f);
             if(root(r,add(r,add(r,mul(r,dx,dx),mul(r,dy,dy)),0.f))<radius){
                 if(output)write_quad(r,output,up);
@@ -210,6 +215,8 @@ static void surface_euler(GroundRun *r,const u32 input[4],u32 output,f32 local[2
         acc=mul(r,col[i][0],v[0]);for(j=1;j<3;++j)acc=add(r,acc,mul(r,col[i][j],v[j]));
         out[i]=add(r,acc,mul(r,0.f,v[3]));
     }
+    /* Actual PEXTLW 682630 then PCPYUD 682648: a1.word1 is column2.Y. */
+    r->registers.high64[0]=bits(r,col[2][1]);r->registers.high64[1]=0;r->registers.last_writer_pc=0x682648;
     magnitude=root(r,add(r,mul(r,out[0],out[0]),mul(r,out[2],out[2])));
     pitch=angle(r,magnitude,out[1]);
     if(local)local[0]=pitch;else write_float(r,output,pitch);
@@ -236,13 +243,16 @@ static void normalize(GroundRun *r,u32 raw[4]){
 }
 static void local_clip(GroundRun *r,const u32 first[4],u32 second[4]){
     u32 i,j;f32 delta[3],scale;
+    r->registers.high64[0]=second[2];r->registers.high64[1]=second[3];r->registers.last_writer_pc=0x5963AC;
     for(i=0;i<3 && r->status>0;++i){
         if(floating(r,second[i])<0.f){
             for(j=0;j<3;++j)delta[j]=sub(r,floating(r,second[j]),floating(r,first[j]));
+            r->registers.high64[0]=bits(r,delta[2]);r->registers.high64[1]=second[3];r->registers.last_writer_pc=0x59640C;
             scale=fabsf(divide(r,sub(r,floating(r,first[i]),0.100000001490116119384765625f),delta[i]));
             for(j=0;j<3;++j)second[j]=bits(r,add(r,floating(r,first[j]),mul(r,delta[j],scale)));
             second[3]=first[3];
         }
+        if(i<2){r->registers.high64[0]=second[2];r->registers.high64[1]=second[3];r->registers.last_writer_pc=0x596464;}
     }
 }
 static void local_endpoints(GroundRun *r,u32 first[4],u32 second[4],f32 d12,f32 d13){
@@ -283,7 +293,7 @@ static int probe(GroundRun *r,const u32 first[4],const u32 second[4],u32 flags,i
     q.ignored_actor_guest=word(r,r->request.record_guest+0x2EF0);q.caller_flags=flags;q.cache_guest=0;
     memcpy(q.incoming_vf25_27_w,r->info.outgoing_vf25_29_w,12);
     if(r->status<0)return 0;
-    status=dreadzone_wall_contact_vectors(&q,first,second,&info);
+    {u32 prior_writer=r->registers.last_writer_pc;status=dreadzone_wall_contact_registers(&q,first,second,r->registers.high64,&r->registers,&info);if(status>=0 && !r->registers.last_writer_pc)r->registers.last_writer_pc=prior_writer;}
     if(status<0){fail(r,status==DREADZONE_WALL_INVALID?DREADZONE_GROUND_INVALID:DREADZONE_GROUND_UNSUPPORTED_PATH);return 0;}
     r->info.probe_calls++;r->info.side_probe_calls+=side!=0;
     r->info.outgoing_vf25_29_w[3]=r->info.outgoing_vf25_29_w[4]=0;
@@ -329,7 +339,7 @@ static void ground_update(GroundRun *r){
     write_byte(r,b+0x43B,(u8)packet_flags(r));if(word(r,0x242358)!=0)write_byte(r,b+0x43B,0);
     write_half(r,b+0x430,(s16)surface(r));
     if(half(r,b+0x430)==0){
-        quad(r,0x242360,raw);value=height(r,raw,b+0x260);write_float(r,b+0x2E0,value);
+        quad(r,0x242360,raw);r->registers.high64[0]=raw[2];r->registers.high64[1]=raw[3];r->registers.last_writer_pc=0x67E144;value=height(r,raw,b+0x260);write_float(r,b+0x2E0,value);
         if(number(r,b+0xA8,8192.f)<value && integer(r,b+0x2E8)<=0)write_word(r,b+0x2E8,1);
         if(!probe(r,first,second,0x24,0))goto ground_done;
         write_byte(r,b+0x43B,(u8)packet_flags(r));
@@ -410,16 +420,23 @@ ground_done:
     }
 }
 
-int dreadzone_actor_ground_step(const DreadzoneGroundRequest *request,DreadzoneGroundInfo *info){
+static int ground_execute(const DreadzoneGroundRequest *request,const u32 incoming[2],DreadzoneProbeRegisters *output,DreadzoneGroundInfo *info,int tracked){
     GroundRun r;u8 *shadow,*destination;u32 b,end,input[4];int status;
     if(!span(request,sizeof(*request)) || !span(info,sizeof(*info)) ||
        overlap(request,sizeof(*request),info,sizeof(*info)))return DREADZONE_GROUND_INVALID;
-    memset(&r,0,sizeof(r));r.request=*request;b=r.request.record_guest;
+    if(tracked && (!span(incoming,8) || !span(output,sizeof(*output)) ||
+       request->operation!=DREADZONE_GROUND_UPDATE ||
+       overlap(output,sizeof(*output),request,sizeof(*request)) ||
+       overlap(output,sizeof(*output),info,sizeof(*info))))return DREADZONE_GROUND_INVALID;
+    memset(&r,0,sizeof(r));memcpy(&r.request,request,sizeof(r.request));b=r.request.record_guest;
+    r.track_registers=tracked;
+    if(tracked)memcpy(r.registers.high64,incoming,8);
     if(!r.request.storage_bytes || r.request.storage_bytes>64U*1024U*1024U ||
        !span(r.request.storage,r.request.storage_bytes) || r.request.guest_base>=0x80000000U ||
        r.request.storage_bytes>0x80000000U-r.request.guest_base || (b&15) ||
        r.request.operation>7 || r.request.actor_pool_count>65536 ||
        overlap(info,sizeof(*info),r.request.storage,r.request.storage_bytes))return DREADZONE_GROUND_INVALID;
+    if(tracked && overlap(output,sizeof(*output),r.request.storage,r.request.storage_bytes))return DREADZONE_GROUND_INVALID;
     end=r.request.guest_base+r.request.storage_bytes;
     if(b<r.request.guest_base || b>end || end-b<0x31F0 ||
        (r.request.guest_base<0x70004000U && end>0x70000000U))return DREADZONE_GROUND_INVALID;
@@ -445,6 +462,13 @@ int dreadzone_actor_ground_step(const DreadzoneGroundRequest *request,DreadzoneG
                 bounded(&r,bits(&r,r.request.scalar[1]),3.1415927410125732421875f,0x1p-40f),
                 bounded(&r,bits(&r,r.request.scalar[2]),8192.f,0x1p-40f));break;
     }
-    status=r.status;if(status>0){memcpy(destination,shadow,r.request.storage_bytes);*info=r.info;}
+    status=r.status;if(status>0){memcpy(destination,shadow,r.request.storage_bytes);memcpy(info,&r.info,sizeof(*info));if(tracked)memcpy(output,&r.registers,sizeof(*output));}
     free(shadow);return status;
+}
+
+int dreadzone_actor_ground_step(const DreadzoneGroundRequest *request,DreadzoneGroundInfo *info){
+    return ground_execute(request,NULL,NULL,info,0);
+}
+int dreadzone_actor_ground_registers(const DreadzoneGroundRequest *request,const u32 incoming[2],DreadzoneProbeRegisters *output,DreadzoneGroundInfo *info){
+    return ground_execute(request,incoming,output,info,1);
 }

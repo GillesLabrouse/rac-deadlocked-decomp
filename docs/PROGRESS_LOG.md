@@ -2617,4 +2617,38 @@ prove a later one. Emulator tests are optional reference checks.
 - Ground register transport is still a frozen private draft awaiting independent
   root adoption. Actual8249-cell L01 surface inventory never reaches the special
   height producer; do not infer coverage from synthetic contacts. Native remains
- 82 passing central tests; zero playable character/scene and nothing pushed.
+  82 passing central tests; zero playable character/scene and nothing pushed.
+
+## 2026-10-11 — Compose ground collision register state through complete calls
+
+- Add UPDATE-only ground state transport beside the existing Request/Info ABI.
+  Capture incoming high64 before writes, preserve scheduled exits, and compose
+  actual endpoint clipping, packet loads, surface Euler packing and real probe
+  publishers in order. Output aliases with incoming are captured; output overlap
+  with request/info/backing refuses atomically. Existing RAM-only operations
+  retain their bounded behavior. Special-height593548 remains a reached atomic
+  boundary until root independently checks native helper state composition.
+- Fresh root CFG/m2c recovery verifies all reachable words through real return
+  delays: DDD03256B/814words,596390224B/56,6824E8508B/127,593478332B/83.
+  Ground m2c retains an unsupported instruction diagnostic; it is not a claimed
+  SN recovery. All full-width A0 publishers are audited, including reached
+  overrides outside the selected mode-zero domain.
+- Fresh private and final production archive bridges pass46 complete original
+  RAM/five-VF-W/high64 comparisons:40 actual-level and6 explicit authored
+  contract fixtures.52 original calls execute143200EE/4190VU pairs; six real
+  numerical oracle boundaries are separated, native refusals remain atomic.
+  Zero captured callees, final differences or changed hashed inputs. The8249-cell
+  authentic terrain inventory contains no surface-zero tag; four special-global
+  diagnostic cases preserve actual paths without injecting geometry/results.
+- Add27 focused checks, now128 ground checks; all82 central tests pass in5.29s.
+  Root integration takes315.61s from its recorded checkpoint, excluding earlier
+  fresh gates. Preserve two initial test expectation failures (nonterminal
+  probe writer and actual clipped delta), verify both with complete original
+  calls, and fix the expectations. Preserve one private bridge missing recipe
+  input path failure before correction. No final compile/behavior failure.
+- A separate frozen specialist standalone audit reports600 full original height
+  calls,180 actual593548 publishers and60 inside-radius results, including output
+  aliases. It remains pending root native helper verification; genuine2237D8
+  lookup dependencies remain unsupported. Exact stays303, no native exact credit,
+  complete player frame, playable scene or push. Recovery queue holds one exact
+  resident memory candidate while root finishes native integration.

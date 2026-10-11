@@ -57,6 +57,7 @@ static void ground_fixture(u8 *b){
 }
 int main(void){
     u8 *b=(u8 *)malloc(SIZE),*snapshot=(u8 *)malloc(SIZE);DreadzoneGroundRequest q;DreadzoneGroundInfo info,old_info;
+    DreadzoneProbeRegisters registers,old_registers;u32 incoming[2]={0x3F000000U,0xBF800000U};
     u32 i;int status;
     CHECK(b && snapshot);fixture(b);q=request(b,DREADZONE_GROUND_PACKET_FLAGS);
     for(i=0;i<4;++i){word(b,0x24235C,i<<5);CHECK(dreadzone_actor_ground_step(&q,&info)==1);CHECK(info.has_integer_return && info.original_integer==(s32)i);CHECK(!info.has_float_return);}
@@ -157,5 +158,63 @@ int main(void){
     b[RECORD+0x2659-BASE]=0;word(b,0x21E824,1);memcpy(snapshot,b,SIZE);
     CHECK(dreadzone_actor_ground_step(&q,&info)==DREADZONE_GROUND_UNSUPPORTED_PATH);
     CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)));
+    /* Genuine scheduled exit preserves arbitrary raw state without consuming it. */
+    ground_fixture(b);q=request(b,DREADZONE_GROUND_UPDATE);word(b,RECORD+0x2F10,1);
+    incoming[0]=0x7FC0BEEFU;incoming[1]=0x80000000U;memcpy(snapshot,b,SIZE);
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==1);
+    CHECK(!memcmp(b,snapshot,SIZE) && !info.probe_calls);
+    CHECK(!memcmp(registers.high64,incoming,8) && registers.last_writer_pc==0);
+
+    ground_fixture(b);q=request(b,DREADZONE_GROUND_UPDATE);q.integer0=1;
+    q.actor_pool_count=1;q.grid_block_count=3072;
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==1);
+    CHECK(info.ground_contacts==1 && info.probe_calls==1);
+    CHECK(registers.high64[0]==0 && registers.high64[1]==0 && registers.last_writer_pc==0x53E464);
+
+    /* Empty, out-of-grid clipped ray retains the final Z delta and raw W;
+     * a failed contact alone never implies a cleared high register. */
+    ground_fixture(b);q=request(b,DREADZONE_GROUND_UPDATE);q.integer0=1;
+    q.actor_pool_count=1;q.grid_block_count=3072;
+    vector(b,RECORD+0xA0,100.f,100.f,1.f,0x3F800000U);
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==1);
+    CHECK(info.probe_calls==1 && !info.ground_contacts);
+    CHECK(registers.high64[0]==0xC246999AU && registers.high64[1]==0x3F800000U);
+    CHECK(registers.last_writer_pc==0x59640C);
+
+    /* Input/output snapshot alias is allowed on the preserving path. */
+    ground_fixture(b);q=request(b,DREADZONE_GROUND_UPDATE);word(b,RECORD+0x2F10,1);
+    registers.high64[0]=0xDEADBEEFU;registers.high64[1]=0x7FC01234U;registers.last_writer_pc=0xAAAAAAAAU;
+    CHECK(dreadzone_actor_ground_registers(&q,registers.high64,&registers,&info)==1);
+    CHECK(registers.high64[0]==0xDEADBEEFU && registers.high64[1]==0x7FC01234U && !registers.last_writer_pc);
+
+    /* Publication destinations cannot overwrite inputs or persistent backing. */
+    memcpy(snapshot,b,SIZE);old_info=info;old_registers=registers;
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,(DreadzoneProbeRegisters *)&q,&info)==DREADZONE_GROUND_INVALID);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)));
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,(DreadzoneProbeRegisters *)&info,&info)==DREADZONE_GROUND_INVALID);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)));
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,(DreadzoneProbeRegisters *)b,&info)==DREADZONE_GROUND_INVALID);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)));
+    CHECK(dreadzone_actor_ground_registers(&q,NULL,&registers,&info)==DREADZONE_GROUND_INVALID);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&registers,&old_registers,sizeof(registers)));
+    q.operation=DREADZONE_GROUND_HEIGHT;
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==DREADZONE_GROUND_INVALID);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)) && !memcmp(&registers,&old_registers,sizeof(registers)));
+
+    ground_fixture(b);q=request(b,DREADZONE_GROUND_UPDATE);q.integer0=1;
+    q.actor_pool_count=1;q.grid_block_count=3072;word(b,RECORD+0xA0,0x7FC0BEEFU);
+    memcpy(snapshot,b,SIZE);old_info=info;old_registers=registers;
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==DREADZONE_GROUND_UNSUPPORTED_FLOAT);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)) && !memcmp(&registers,&old_registers,sizeof(registers)));
+
+    /* Synthetic surface-zero input exercises a boundary, not original-level
+     * coverage. The new entry refuses the unverified special height producer. */
+    ground_fixture(b);b[0x3A0093-BASE]=0;word(b,0x2237DC,1);
+    vector(b,0x2237C0,10.f,10.f,9.75f,0x40000000U);
+    q=request(b,DREADZONE_GROUND_UPDATE);q.integer0=1;q.actor_pool_count=1;q.grid_block_count=3072;
+    memcpy(snapshot,b,SIZE);old_info=info;old_registers=registers;
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==DREADZONE_GROUND_UNSUPPORTED_PATH);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)) && !memcmp(&registers,&old_registers,sizeof(registers)));
+    CHECK(dreadzone_actor_ground_step(&q,&info)==1);
     free(snapshot);free(b);printf("Ground CPU helpers and whole update: %u checks passed.\n",checks);return 0;
 }

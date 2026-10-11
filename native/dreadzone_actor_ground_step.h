@@ -1,6 +1,7 @@
 #ifndef DEADLOCKED_DREADZONE_ACTOR_GROUND_STEP_H
 #define DEADLOCKED_DREADZONE_ACTOR_GROUND_STEP_H
 #include "common.h"
+#include "dreadzone_probe_registers.h"
 
 enum DreadzoneGroundOperation {
     DREADZONE_GROUND_UPDATE=0, /* 0067DDD0; integer0 is genuine force. */
@@ -68,4 +69,15 @@ enum DreadzoneGroundResult {
  * void DDD0 never invents a success return from the original game.
  */
 int dreadzone_actor_ground_step(const DreadzoneGroundRequest *,DreadzoneGroundInfo *);
+
+/* UPDATE-only composition of actual A0.word2/word3 with the above RAM/VF effects.
+ * Capture the caller's incoming words before writes; incoming may alias output
+ * or backing. Output is disjoint from request, info and backing, and publishes
+ * only after the full transaction succeeds. Refusals preserve all three outputs.
+ * Diagnostic last_writer_pc is zero for preserved state, otherwise the actual
+ * reached producer PC. This transport does not model the other GPR/VF lanes.
+ * The special593548 height producer refuses pending independent verification;
+ * the established RAM-only operations retain their original bounded behavior. */
+int dreadzone_actor_ground_registers(const DreadzoneGroundRequest *,const u32 incoming_high64[2],
+    DreadzoneProbeRegisters *,DreadzoneGroundInfo *);
 #endif
