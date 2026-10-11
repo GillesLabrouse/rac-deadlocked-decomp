@@ -123,8 +123,8 @@ int dreadzone_fresh_class_initialize(const DreadzoneFreshClass *request){
         }
         if(r32(actor+0x58)){
             DreadzoneModelView view={w.q.guest_base,w.q.bytes,w.ram};
-            DreadzoneFixedModelTransform model={{&view,1,w.q.actor,scratch,sizeof(scratch)},inherited,sizeof(inherited)};
-            status=dreadzone_model_transform_fixed(&model);if(status!=DREADZONE_TRANSFORM_APPROXIMATE){status=-3;goto finish;}
+            DreadzoneInitialModelTransform model={{&view,1,w.q.actor,scratch,sizeof(scratch)},inherited,sizeof(inherited)};
+            status=dreadzone_model_transform_initial(&model);if(status!=DREADZONE_TRANSFORM_APPROXIMATE){status=-3;goto finish;}
         }
         flags=r16(actor+0x36)|definition[0x47];w16(actor+0x36,flags);
     }

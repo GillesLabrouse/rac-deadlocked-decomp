@@ -43,7 +43,9 @@ typedef struct DreadzoneFixedModelTransform {
  * Inherited VU data4096 bytes are explicit input; no zero-state assumption.
  * Only APPROXIMATE host binary32 memory effects are supplied. Hardware DMA
  * registers/timing, VU state and original stack/register ABI are excluded.
- * Complete actor100 and referenced assets must be mapped; matrices may not
+ * Actor, definition and animation addresses must be4-byte aligned; skeleton,
+ * stream and matrix addresses must be16-byte aligned. Complete actor100 and
+ * referenced assets must be mapped; matrices may not
  * overlap actor or referenced assets. Guest and host views are disjoint, and
  * neither scratch nor VU backing may overlap any view or each other.
  * Request/view descriptors are captured before writes, including borrowed
@@ -52,4 +54,17 @@ typedef struct DreadzoneFixedModelTransform {
  * and actor55 dirty-bit clear together. No class/actor construction occurs.
  */
 int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request);
+
+typedef DreadzoneFixedModelTransform DreadzoneInitialModelTransform;
+/* Same bounded frame-zero contract, with actual current/next variable transfers
+ * before the normal decoder. Requires1..128 fixed and0..128 variable quads and
+ * nonzero animation frame count. Current frame is0; next is1, wrapping to0 when
+ * frame count is1. The complete reached stream span must fit one mapped view
+ * and be disjoint from actor and output. Skeleton initialization precedes all
+ * animation transfers. Decoder/parent/numeric guards still apply; variable
+ * length alone is not a success guarantee. Atomicity and explicit VU inputs
+ * match the fixed entry. General matrices writes parent127 identity atSPR3FC0,
+ * even when a128-quad next transfer filled that location. This is initial
+ * pose construction, without repeated animation updates or player creation. */
+int dreadzone_model_transform_initial(const DreadzoneInitialModelTransform *request);
 #endif

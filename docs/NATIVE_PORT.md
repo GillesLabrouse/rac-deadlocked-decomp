@@ -1,5 +1,44 @@
 # Native PC development
 
+## Genuine initial variable model channels
+
+`dreadzone_model_transform_initial` extends the explicit-VU frame-zero memory
+adapter to supported variable streams. Fresh class initialization now uses it.
+The fixed-only API retains its variable-stream refusal; the reserved static
+entry remains unchanged. The new entry copies the original skeleton and fixed
+banks, current variable bank to SPR3000 and next bank to SPR3800, then executes
+the recovered decoder and matrix adapters. A one-frame animation wraps next to
+zero. The entire required fixed/current/next source span must resolve in one
+view and remain disjoint from writes. Actor, definition and animation pointers
+must be four-byte aligned; DMA sources and outputs retain sixteen-byte alignment.
+General matrix construction writes parent identity at SPR3FC0 even when the
+maximum-size next bank initially fills that address. All refusals are atomic.
+
+Private and final central-DLL proofs each pass 32 complete publications followed
+by 32 fresh-class RAM/SPR comparisons using manifest-bound level resources
+9207/23F7 and 4249/1099. The former has five variable quads; the latter is fixed.
+Sixteen variable cases include two explicitly modified one-frame animations and
+two maximum-bank diagnostic variants. All reached original publication,
+relocation, geometry, dispatch and model EE/VU callees execute without captured
+outputs. Native publication results seed the fresh-class native and reference
+inputs. Each proof compares 671,612,928 bytes, executes 235,562 original EE
+instructions and 93,552 VU pairs, with zero refusals or differences.
+
+The unchanged prior DLL passed only 16 of the fresh cases and atomically refused
+the 16 variable ones. Fixed-domain regression on the new DLL still passes all
+128 cases, including 32 genuine compactions. The generated initial-model test
+passes 57,006 checks; all 96 native tests pass in 29.69 seconds. An initial
+synthetic fixture used invalid fixed descriptors and overlooked the parent
+identity write; its 17 failed assertions are preserved privately and corrected.
+Genuine opcode24/48 coverage comes from the actual 9207 stream.
+
+These are memory-contract comparisons with explicit resource, remap, texture,
+pool and inherited VU inputs. Binary32 arithmetic, VU state and immediate DMA
+completion remain approximate host assumptions. This does not prove runtime
+resource selection, complete player construction, repeated model updates or a
+playable frame. No new exact-decompilation credit is claimed. Frozen evidence
+and source/build hashes remain in ignored `private/root-initial-*` files.
+
 ## Class resource publication validation
 
 The native publisher/relocator now captures the remap quad from the source
@@ -35,7 +74,7 @@ a PC executable. Keep that validation while developing the host runtime.
 `dreadzone_fresh_class_initialize` composes supported original L01 00586B10
 memory effects: actual fixed-size filler, environment initialization/packing,
 defaults, class mismatch or definition metadata, genuine guest model allocation
-and optional compaction, fixed-only initial model update and final flags. Cleanup
+and optional compaction, supported initial model update and final flags. Cleanup
 must not be reached. The caller supplies real published tables and relocated
 assets, one disjoint RAM range, SPR and explicit inherited VU data. Read inputs
 cannot alias actor/pool/live-actor write footprints; the header states the full
@@ -54,7 +93,8 @@ The reference uses diagnostic class23F7/Armor0 tables with only reached pointers
 relocated. This does not prove authentic live class publication or the first
 player's source. Synthetic native fixtures also exercise0/1/2/107/127 joints,
 unchanged inputs, output limits and atomic refusals. No actor allocation, player
-construction, variable animation or gameplay frame is supplied by this adapter.
+construction or gameplay frame is supplied by this adapter. The newer genuine
+resource proof above covers variable channels at frame zero only.
 Matching credit remains zero for this native composition.
 
 ## Guest model-pool transactions

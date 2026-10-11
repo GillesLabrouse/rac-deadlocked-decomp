@@ -1,5 +1,54 @@
 # Local development progress
 
+## 2026-10-11 — Initialize genuine variable model channels
+
+- Add the explicit-VU `dreadzone_model_transform_initial` memory adapter and use
+  it from fresh class construction. Preserve fixed-only API refusal and the
+  reserved legacy static entry. Reproduce initial skeleton/fixed/current/next
+  transfers, one-frame next wrap, decoder, general matrices, output DMA and
+  dirty-flag clear. Require a complete mapped source span, pointer alignment
+  and disjoint backing; every refusal leaves caller RAM, SPR and VU unchanged.
+- Actual manifest-bound 9207/23F7 has five variable quads and reaches opcode24/48;
+  4249/1099 is fixed-only. Baseline production proof passes 32 publications but
+  only 16 fresh cases, atomically refusing all 16 variable cases. Corrected
+  private and final central DLL each pass 32 publications and 32 complete
+  fresh-class RAM/SPR comparisons, zero refusals or differences: 235,562 EE
+  instructions, 93,552 VU pairs and 671,612,928 compared bytes. Native publication
+  outputs seed both fresh sides. Every reached original callee executes without
+  captured outputs; the original stack is external to game RAM.
+- Sixteen variable cases include two explicitly modified one-frame animations
+  and two maximum-bank diagnostic variants. Keep those variants distinct from
+  unmodified genuine assets. Existing fixed-domain regression on the final DLL
+  passes all 128 cases, including 32 genuine model compactions: 6,836,959 EE,
+  317,440 VU pairs and 1,210,056,704 compared bytes.
+- Initial generated fixtures fail 17 assertions: invalid fixed descriptors were
+  used as success cases and the next-bank assertion overlooked the genuine
+  SPR3FC0 parent identity write. Preserve first-failed source, correct fixtures
+  to test actual supported branches and assert invalid-descriptor refusal.
+  Final generated test passes 57,006 checks; all 96 native tests pass 29.69s.
+  Independent original-only review passes six genuine-resource cases and
+  preserves the unaligned animation LW fault; new alignment guards reject it.
+- The actual-resource review takes 431.92s; independent initial-model review
+  takes 325.65s. Lightweight startup/resource lots accept zero exact functions.
+  Correct earlier worker provenance explicitly: both S5 ADDIU operations are
+  required (170000 -> 1711A8 -> 172350), list/base comes from caller state,
+  and the 401 placed-moby blocks are distinct from 2,972 mixed class fields.
+  Preserve original reports and correction addenda. Do not infer runtime
+  resource order or player identity from asset membership.
+- Command36 takes 196s and stops before drafting on an unresolved canonical
+  alias; memory45 confirms an 80-byte virtual reset but stops on a containing
+  splitter-window ambiguity, with no reliable start timestamp. Neither compiles
+  or gains exact credit. Root routes the wrapper through its existing resident
+  canonical inventory and requests a bounded independent reset identity audit.
+  Exclusive outputs remain mandatory; root alone integrates and validates.
+- Matching remains 314 exact functions, 0.559% counted code. This lot adds one
+  validated native initial-model domain extension, zero exact functions and
+  zero playable features. Final source/build/proof hashes and measured root
+  integration time are recorded in `private/root-initial-model-final-receipt.json`.
+  The executable still has no controllable player. Next close authentic first
+  actor provenance, player construction, repeated updates and live rendering.
+  Work continues locally; nothing is pushed.
+
 ## 2026-10-11 — Validate real class assets and correct remap alignment
 
 - Independently close actual L01 publisher576EF8/128, relocator576BC0/338,

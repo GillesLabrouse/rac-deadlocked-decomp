@@ -1,5 +1,40 @@
 # Resume checkpoint — active development, 2026-10-11
 
+Latest integration: new initial-model memory adapter supports genuine variable
+channels at frame zero. Fresh class construction uses it; fixed-only API still
+refuses variable streams, and the reserved static entry is unchanged. Explicit
+VU input, positive-zero frame, no blends/override nodes, complete mapped source
+span and alignment/disjointness guards remain required. Parent identity writes
+SPR3FC0 even after a maximum-size next bank transfer. No repeated live animation,
+cleanup, complete player construction or playable frame is supplied.
+
+Private and central production proofs each pass 32 publications and 32 full
+fresh-class RAM/SPR comparisons using actual manifest-bound 9207/23F7 and
+4249/1099: 235,562 EE instructions, 93,552 VU pairs and 671,612,928 bytes. Native
+published assets seed both fresh sides. Sixteen variable cases include two
+explicit one-frame and two V128 diagnostic variants. All reached original
+callees execute; stack is external. Baseline DLL refuses all 16 variable cases.
+The unchanged fixed-domain regression passes all 128 cases and 32 compactions.
+All 96 native tests pass in 29.69s, including 57,006 initial-model checks.
+Preserve the first generated source with 17 failed fixture assertions, corrected
+private checker snapshots, production proof and final receipt under
+private/root-initial-*. Genuine opcode24/48 proof uses the actual 9207 stream.
+Frozen original-resource API SHA is
+cebd35b8e999b15dd7c6c0f305757d7eb7efb51140dc3d7eccefd24811ca56c0.
+Matching remains 314 exact/0 failures with no new percentage or playable feature.
+
+Current bounded workers: command37 recovers existing resident canonical510DE0
+with independent actual L01 references, after command36 stopped on canonical
+ambiguity; memory46 independently audits the genuine reset6598's canonical
+identity after memory45 found a splitter window beginning6590. Both own only
+exclusive private/nonmatching/build outputs; root owns accepted files/config.
+The stronger reviewer audits the smallest next player-construction dependency.
+Root next closes construction/producers and frame/input/collision/rendering.
+Read the latest PROGRESS_LOG entry before using older checkpoints below.
+No push is authorized. Work remains active until the user stops it.
+
+Previous checkpoint follows.
+
 Latest integration: remap-quad publication now reproduces LQ source rounding in
 the native branch of nonmatching/L01_00576BC0.c. Exact byte lookups are unchanged.
 Preserve private/root-class-publication-before-* and the unchanged baseline DLL

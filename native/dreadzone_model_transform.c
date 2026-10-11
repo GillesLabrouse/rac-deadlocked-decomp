@@ -59,7 +59,7 @@ int dreadzone_model_transform_static(const DreadzoneModelTransform *request) {
 }
 
 /* Bounded initial-frame model memory effects; see the public API contract. */
-int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request) {
+static int transform_initial(const DreadzoneFixedModelTransform *request, int variable_enabled) {
     DreadzoneFixedModelTransform input;
     DreadzoneModelView views[16];
     DreadzoneLocalPoseInit initialize;
@@ -67,7 +67,7 @@ int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request)
     DreadzoneGeneralMatrices generate;
     u8 work[0x4000], inherited[0x1000];
     u8 *actor, *definition, *animation, *skeleton, *stream, *matrices;
-    u32 i, j, count, fixed_bytes, definition_address, animation_address;
+    u32 i, j, count, fixed_bytes, variable_bytes, stream_bytes, definition_address, animation_address;
     u32 skeleton_address, stream_address, output_address;
     if (!request || (uintptr_t)request > UINTPTR_MAX - (sizeof(*request)-1))
         return DREADZONE_TRANSFORM_INVALID;
@@ -95,6 +95,7 @@ int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request)
                 overlap((uintptr_t)views[i].storage,views[i].bytes,(uintptr_t)views[j].storage,views[j].bytes))
                 return DREADZONE_TRANSFORM_INVALID;
     }
+    if (input.model.actor&3) return DREADZONE_TRANSFORM_INVALID;
     actor=resolve(views,input.model.view_count,input.model.actor,0x100);
     if (!actor) return DREADZONE_TRANSFORM_UNMAPPED;
     output_address=read32(actor+0x58);
@@ -102,6 +103,7 @@ int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request)
     if ((actor[0x55]&4) || read32(actor+0x50) || read32(actor+0x5C) || read32(actor+0x44))
         return DREADZONE_TRANSFORM_UNSUPPORTED;
     definition_address=read32(actor+0x24); animation_address=read32(actor+0x40);
+    if ((definition_address&3) || (animation_address&3)) return DREADZONE_TRANSFORM_INVALID;
     definition=resolve(views,input.model.view_count,definition_address,0x4C);
     animation=resolve(views,input.model.view_count,animation_address,0x20);
     if (!definition || !animation) return DREADZONE_TRANSFORM_UNMAPPED;
@@ -111,9 +113,11 @@ int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request)
     skeleton_address=read32(definition+0x18); stream_address=read32(animation+0x1C);
     stream=resolve(views,input.model.view_count,stream_address,16);
     if (!stream) return DREADZONE_TRANSFORM_UNMAPPED;
-    if (stream[2] || !stream[1] || stream[1]>128) return DREADZONE_TRANSFORM_UNSUPPORTED;
+    if ((!variable_enabled && stream[2]) || stream[2]>128 || !stream[1] || stream[1]>128) return DREADZONE_TRANSFORM_UNSUPPORTED;
     fixed_bytes=(u32)stream[1]*16;
-    stream=resolve(views,input.model.view_count,stream_address,fixed_bytes);
+    variable_bytes=(u32)stream[2]*16;
+    stream_bytes=fixed_bytes+variable_bytes*(animation[0x10]==1 ? 1U : 2U);
+    stream=resolve(views,input.model.view_count,stream_address,stream_bytes);
     skeleton=resolve(views,input.model.view_count,skeleton_address,count*16);
     matrices=resolve(views,input.model.view_count,output_address,count*64);
     if (!stream || !skeleton || !matrices) return DREADZONE_TRANSFORM_UNMAPPED;
@@ -122,11 +126,11 @@ int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request)
         overlap(output_address,count*64,definition_address,0x4C) ||
         overlap(output_address,count*64,animation_address,0x20) ||
         overlap(output_address,count*64,skeleton_address,count*16) ||
-        overlap(output_address,count*64,stream_address,fixed_bytes) ||
+        overlap(output_address,count*64,stream_address,stream_bytes) ||
         overlap(input.model.actor,0x100,definition_address,0x4C) ||
         overlap(input.model.actor,0x100,animation_address,0x20) ||
         overlap(input.model.actor,0x100,skeleton_address,count*16) ||
-        overlap(input.model.actor,0x100,stream_address,fixed_bytes))
+        overlap(input.model.actor,0x100,stream_address,stream_bytes))
         return DREADZONE_TRANSFORM_INVALID;
     memcpy(work,input.model.scratch,sizeof(work));
     memcpy(inherited,input.vu_data,sizeof(inherited));
@@ -138,6 +142,11 @@ int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request)
         return DREADZONE_TRANSFORM_UNSUPPORTED;
     /* Actual0058A258 fixed DMA and unconditional005894F0, even with V==0. */
     memcpy(work+0x2000,stream,fixed_bytes);
+    /* Positive-zero frame selects current0 and wraps next1 to0 for one frame. */
+    if (variable_bytes) {
+        memcpy(work+0x3000,stream+fixed_bytes,variable_bytes);
+        memcpy(work+0x3800,stream+fixed_bytes+(animation[0x10]==1 ? 0 : variable_bytes),variable_bytes);
+    }
     decode.scratch=work;decode.bytes=sizeof(work);decode.fraction=0.f;
     decode.vu_data=inherited;decode.vu_data_bytes=sizeof(inherited);
     if (dreadzone_variable_pose_decode(&decode)!=DREADZONE_VARIABLE_POSE_APPROXIMATE)
@@ -151,4 +160,11 @@ int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request)
     memcpy(input.model.scratch,work,sizeof(work));
     actor[0x55]&=0xDF;
     return DREADZONE_TRANSFORM_APPROXIMATE;
+}
+
+int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request) {
+    return transform_initial(request,0);
+}
+int dreadzone_model_transform_initial(const DreadzoneInitialModelTransform *request) {
+    return transform_initial(request,1);
 }

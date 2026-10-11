@@ -6,3 +6,4 @@ EXPORTS
     dreadzone_general_matrices_prepare
     dreadzone_bind_pose_prepare
     dreadzone_model_transform_fixed
+    dreadzone_model_transform_initial

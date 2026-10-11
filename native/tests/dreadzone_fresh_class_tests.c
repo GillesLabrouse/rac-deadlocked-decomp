@@ -67,7 +67,8 @@ int main(void){
     setup(0);ram[0x26B2B0+14-BASE]=0;CHECK(dreadzone_fresh_class_initialize(&q)==1&&get(ACT+0x24)==0&&get(ACT+0xA8)==0x12345678);
     setup(2);put(ACT+0x58,1);refuse(-3);
     setup(128);refuse(-3);
-    setup(2);ram[STREAM+2-BASE]=1;refuse(-3);
+    setup(2);ram[STREAM+2-BASE]=129;refuse(-3);
+    setup(2);put(DEF+0x48,ANIM+1);refuse(-3);
     setup(2);put(DEF+0x1C,BASE+SIZE);refuse(-2);
     setup(2);put(DEF+0x10,ACT);refuse(-3);
     setup(2);put(0x222C50,ACT);refuse(-3);

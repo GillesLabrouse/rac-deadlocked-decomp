@@ -52,6 +52,9 @@ int main(void) {
     }
     setup(3);put32(ram+0x44,0x3F800000);refuse(-2);
     setup(3);ram[0x202]=1;refuse(-2);
+    setup(3);request.model.actor++;refuse(-1);
+    setup(3);put32(ram+0x24,0x400101);refuse(-1);
+    setup(3);put32(ram+0x40,0x400141);refuse(-1);
     setup(3);ram[0x260]=24;refuse(-2);
     setup(3);ram[0x260]=48;refuse(-2);
     setup(3);put32(ram+0x58,0x400000);refuse(-1);

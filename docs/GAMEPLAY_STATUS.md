@@ -8,7 +8,7 @@ Ratchet or a complete gameplay frame. Matching coverage is 314 functions of
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
 | Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges. | Execute the allocation/layout and parser chain with its real cursor, globals, selected records and resources. |
-| Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation components, guest model pool and fresh fixed-model class composition. | Load placed actors through `0057B788` with genuine published tables; establish the first player's source, close `00668070` and actual child/backlink producers, and support reached cleanup/animation paths. |
+| Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation components, guest model pool and fresh initial-model class composition, including genuine variable channels. | Load placed actors through `0057B788` with genuine published tables; establish the first player's source, close `00668070` and actual child/backlink producers, and support reached cleanup/live animation paths. |
 | Repeated player update | Controller decoding and selected direction, walking, position and collision paths; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
 | Live visual output | Native terrain renderer, original body topology and validated prepared animation samples. | Bind the initialized actor's changing position, live animation and camera to the renderer across successive frames. |
 
@@ -21,9 +21,9 @@ There is no measured schedule for closing the remaining dependencies yet.
 The latest model review withdrew `dreadzone_model_transform_static`'s complete
 static-pose claim. Zero variable qwords still reach the original compressed
 decoder, which the old implementation omitted. The entry now refuses all
-nonempty models without writes. Fixed-channel decoding, full class initializer
-composition and transaction-safe model-pool state are immediate construction
-dependencies. The prepared animation diagnostic uses a separate path.
+nonempty models without writes. The replacement initial-model entry, fresh
+class initializer composition and transaction-safe model-pool state are
+validated below. The prepared animation diagnostic uses a separate path.
 The fixed-only decoder component now passes 160 complete original EE/VU scratch
 comparisons and three atomic refusals against the final native DLL. The new
 explicit-VU fixed-model entry also passes 128 complete original-chain game-RAM/
@@ -35,12 +35,12 @@ without legacy host globals or bindings. The final DLL passes 147 whole-RAM
 comparisons, including seven allocations that reach original compaction. It
 updates every affected live actor's matrix pointer and publishes atomically.
 Fresh class initialization now composes the real filler, environment, defaults,
-model allocation/compaction and initial fixed-only model update. Private and
+model allocation/compaction and initial model update. Private and
 final DLL proofs each pass 128 whole-RAM/SPR comparisons, including 32 real
 compactions, with an external original EE call stack excluded from the API.
 The tables/assets are explicit diagnostic inputs; authentic runtime selection and
-first-player provenance remain open. Cleanup and variable model paths are
-unsupported. All 95 native tests pass in 28.30 seconds; these checks
+first-player provenance remain open. Cleanup and repeated live model updates
+are unsupported. All 96 native tests pass in 29.69 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 Class publication now passes 105 complete original/native RAM comparisons,
@@ -51,9 +51,18 @@ lookups retain the exact pointer. The unchanged implementation failed 45
 unaligned cases; the correction passes all 105. The reproducible public checker
 passes 531 synthetic original comparisons and eight atomic host refusals.
 This validates relocation and publication with explicit resource inputs; it
-does not establish which loader record selects the first player. Actual level
-resource 9207 also reaches variable animation channels at initialization, a
-remaining dependency of the current fixed-only model composition.
+does not establish which loader record selects the first player.
+
+The new `dreadzone_model_transform_initial` also handles supported variable
+channels at frame zero. Fresh class construction uses this entry; the older
+fixed-only API still refuses variable streams. Both private and production
+proofs pass 32 publication comparisons followed by 32 full fresh-class RAM/SPR
+comparisons with actual level resources 9207/23F7 and 4249/1099. Sixteen cases
+exercise variable channels, including explicit one-frame wrap and maximum-bank
+diagnostic variants. Every reached original EE/VU callee executes. The proof
+compares 671,612,928 bytes, 235,562 EE instructions and 93,552 VU pairs. Existing
+fixed-domain regression still passes all 128 cases. Resource selection, player
+construction and repeated frames remain outside this validated composition.
 
 ## Latest startup component
 

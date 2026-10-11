@@ -11,7 +11,7 @@ typedef struct DreadzoneFreshClass {
 } DreadzoneFreshClass;
 /* Complete supported fresh L01 00586B10 RAM/SPR effects: real filler,
  * environmental packing, class/definition defaults, genuine model allocation
- * with optional compaction, initial fixed-only model update, and final flags.
+ * with optional compaction, initial fixed/variable model update, and final flags.
  * Requires skip_cleanup!=0 or original actor+58==0; cleanup is unsupported.
  * Caller supplies published class tables and relocated model assets in one
  * <=16MiB RAM view below2GiB excluding SPR, GP0022597F, a16-aligned100B actor,
@@ -19,8 +19,9 @@ typedef struct DreadzoneFreshClass {
  * Class IDs are0..FFFF, with the original signed-half/full-class comparison.
  * Cached table/definition/auxiliary/environment inputs must be disjoint from
  * actor and every model-pool write footprint, including all live100B actors.
- * Mismatch/zero-joint paths and fixed-only1..127 joints are supported; reached
- * model paths require valid guest pool state and the fixed-model API domain.
+ * Mismatch/zero-joint paths and1..127 joints are supported; reached model paths
+ * require valid guest pool state and the initial-model API domain, including
+ * aligned animation pointers and bounded current/next variable streams.
  * Explicit16KiB SPR and4KiB inherited VU backing are disjoint from RAM and
  * each other. Request may alias RAM/SPR; it is captured before writes.
  * Success=1 (host binary32 approximation when model code is reached);
