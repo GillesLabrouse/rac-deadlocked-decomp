@@ -2652,3 +2652,23 @@ prove a later one. Emulator tests are optional reference checks.
   lookup dependencies remain unsupported. Exact stays303, no native exact credit,
   complete player frame, playable scene or push. Recovery queue holds one exact
   resident memory candidate while root finishes native integration.
+
+## 2026-10-11 — Verify a resident no-op actually called by the first level
+
+- Accept resident159120's complete8-byte JR/return-delay no-op. Root verifies
+  fresh SN, actual empty relocations and full resolved unmasked exact bytes;
+  final production repeats those gates. Full audit304, zero failures and
+  progress/check pass. This real no-op has no invented return or side effect.
+- Independently scan the authentic L01 executable text and verify three JALs:
+  52863C (actual528098 startup),63FF58 and640098, each with its own real delay
+  and following word. Do not use an L00 callsite as L01 address evidence.
+  Startup52863C's genuine NOP delay precedes the real5A9030 call. The memory
+  agent's L01 source-only observation is now backed by original local bytes.
+- Memory batch15 takes117s, one successful compilation, zero compiler,
+  relocation or exact failures. At2026-10-11T14:11:32.444184+00:00 baseline gain24
+  gives6.20 accepted/hour; root production integration takes10.30s from its
+  recorded checkpoint, excluding earlier independent gates. Recovery holds
+  while root handles native composition; no additional unusable batch queue.
+- Native stays82 passing central tests and128 focused ground checks. A bounded
+  independent audit now targets active secondary displacement and post-ground
+  settling register publishers. No complete player frame, playable scene or push.
