@@ -785,12 +785,39 @@ not complete fresh-player construction, UI rendering or a native game frame.
 Complete actor synchronization sources `0066A678`, `0066A6F8`, `0066E580`
 and `0058DF58` retain the original oscillator, collision-volume, spatial and
 model calls. Root independently rebuilt and strictly linked their complete
-spans; all four remain nonmatching PS2 drafts with no native entry. Original
+spans; all four remain nonmatching PS2 drafts. The first three still lack native
+entries; the supported native0058DF58 composition is described below. Original
 and compiled instruction streams agree across256 complete inactive-state,
 negative-actor-byte20, absent-volume returns, executing the genuine copy and
 adjustment helpers. Raw COP1 word transport is checked without approximating
 floating arithmetic. Active oscillation, VU B58, collision and model submission
-remain unexecuted dependencies; this evidence does not establish actor motion.
+remained unexecuted in that earlier evidence, which does not establish motion.
+
+`dreadzone_actor_transform` now supplies complete supported0058DF58 RAM/SPR
+effects through the actual B58 basis, current animation offset,1024-scaled world
+vector, signed generation saturation, packed key, spatial cells and initial
+model update. Requests carry cloned disjoint RAM/SPR and explicit inherited VU
+data; guest RAM cannot shadow SPR. Negative actor.byte20 skips. Computed
+rotation requires positive-zero actorFC and the basis adapter's supported XYZ
+angles; flag100 uses the existing basis and preserves W, while flag8000 negates
+only computed axis21.xyz. Offset/scale/position intermediates must be finite
+normal/zero; packed VFTOI0 inputs fit signed32. Blend lists are unsupported and
+the reached model entry retains its frame-zero/no-override contract.
+Spatial pool count is explicit and its base comes from actual222D14. Direct
+outer mapping failures return-2; nested spatial/model refusals return-3. All
+failed operations retain every callerRAM/SPR byte, including late failures after
+private spatial writes. Register state, pipeline timing, physical VU rounding,
+DMA/cache hardware and the original stack/ABI remain excluded.
+
+The final central DLL passes52 complete original/native RAM/SPR comparisons:
+70560EE/49712VU pairs/546111488bytes. Actual fresh construction precedes the
+transform, genuine4249/9207 assets are used, and reached spatial/model callees
+execute. Cases include existing membership movement/growth/shrink and borrowed
+SPR descriptors overwritten by model output. Two separate late refusals and48
+focused regression checks pass; all98 native tests pass5.91s. Private raw-word,
+integer and basis reviews retain their corrections and numeric limitations.
+These are explicit diagnostic inputs, not proof of selected mission records,
+complete player construction, repeated live animation or a playable frame.
 
 The complete bounded CPU spatial update `0058DC78` now executes the genuine
 bitmap helpers `0058DBA0` and `0058DC00`. It preserves cell membership order,

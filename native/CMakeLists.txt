@@ -586,6 +586,16 @@ endif()
 
 add_library(deadlocked_native_dreadzone_initial_pool STATIC dreadzone_initial_pool.c)
 
+add_library(deadlocked_native_dreadzone_actor_transform STATIC dreadzone_actor_transform.c)
+target_include_directories(deadlocked_native_dreadzone_actor_transform PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_actor_transform PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_transform PUBLIC
+    deadlocked_native_dreadzone_actor_basis deadlocked_native_dreadzone_spatial_grid
+    deadlocked_native_dreadzone_model_transform)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_actor_transform PRIVATE /W4 /WX /fp:strict)
+endif()
+
 add_library(deadlocked_native_dreadzone_guest_actor_pool STATIC dreadzone_guest_actor_pool.c)
 target_include_directories(deadlocked_native_dreadzone_guest_actor_pool PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_guest_actor_pool PUBLIC c_std_11)
@@ -674,11 +684,12 @@ if(WIN32)
     add_library(deadlocked_native_animation_diagnostic SHARED
         dreadzone_general_matrices.c dreadzone_variable_pose.c dreadzone_bind_pose.c
         dreadzone_model_transform.c dreadzone_guest_model_pool.c dreadzone_fresh_class.c
-        dreadzone_guest_actor_pool.c
+        dreadzone_guest_actor_pool.c dreadzone_actor_transform.c
         dreadzone_animation_diagnostic.def)
     target_include_directories(deadlocked_native_animation_diagnostic PRIVATE include ${CMAKE_CURRENT_SOURCE_DIR})
     target_compile_features(deadlocked_native_animation_diagnostic PRIVATE c_std_11)
-    target_link_libraries(deadlocked_native_animation_diagnostic PRIVATE deadlocked_native_dreadzone_payload)
+    target_link_libraries(deadlocked_native_animation_diagnostic PRIVATE deadlocked_native_dreadzone_payload
+        deadlocked_native_dreadzone_actor_basis deadlocked_native_dreadzone_spatial_grid)
     if(MSVC)
         target_compile_options(deadlocked_native_animation_diagnostic PRIVATE /W4 /WX /fp:precise)
     endif()
@@ -1234,6 +1245,13 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_guest_actor_pool_tests PRIVATE /W4 /WX)
     endif()
     add_test(NAME native_guest_actor_pool_validation COMMAND deadlocked_native_guest_actor_pool_tests)
+
+    add_executable(deadlocked_native_actor_transform_tests tests/dreadzone_actor_transform_tests.c)
+    target_link_libraries(deadlocked_native_actor_transform_tests PRIVATE deadlocked_native_dreadzone_actor_transform)
+    if(MSVC)
+        target_compile_options(deadlocked_native_actor_transform_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_actor_transform_validation COMMAND deadlocked_native_actor_transform_tests)
 
     add_executable(deadlocked_native_initial_pool_tests tests/dreadzone_initial_pool_tests.c)
     target_link_libraries(deadlocked_native_initial_pool_tests PRIVATE deadlocked_native_dreadzone_initial_pool)

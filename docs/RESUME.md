@@ -1,5 +1,35 @@
 # Resume checkpoint — active development, 2026-10-11
 
+Latest native integration: supported complete0058DF58 RAM/SPR transform in
+native/dreadzone_actor_transform.{c,h}. Actual basis/spatial/initial-model paths
+are composed, without helper capture. Computed actorFC positivezero, no blend
+list, finite normal/zero arithmetic and signed32 packed conversion; model entry
+retains its initial-frame domain. Explicit pool count, whole cloned RAM/SPR/VU,
+guest-SPR exclusion and atomic late refusal. Central52 complete comparisons:
+70560EE/49712VU/546111488bytes, including real membership movement/growth/shrink
+and model writes over borrowedSPR descriptors.48 focused checks/all98 native
+tests pass5.91s; exactaudit315/0failures/progresscheck pass. No playable feature.
+
+Keep private/root-actor-transform-* sources, frozen pre-fix references and
+production proofs/receipt. Strong review artifacts: sol-first-player-producer-next
+(429s), sol-transform-b58-review(245s), sol-transform-integer-review(260s),
+guard review(196s). Integer reference fixes irrelevant VADD multiply, full scalar
+upper64 capture and canonicalVF0; B58 entry is quiescent and hostbinary32 only.
+PADDSH lacks a second maintained executable oracle. All workers now HOLD.
+
+Next: genuine placed loader0057B788. Original diagnostic zero-position and
+mission-coordinate variants now execute the entire reached loader, including
+real variable9207 fresh class and spatial registration (7628EE/5217VU positioned).
+Inputs are explicitly diagnostic/cached-upload state, not actual serialized
+mission selection. Mission0 extracted Moby543 class9207 UID2726 has real
+position[558.47998,330.26001,184.011993],rotZ2.48987007;45/46missionfiles have target
+class fields. Read correction/report before reusing asset inventory. Remaining
+height5928E0, environment58FC50, special7D0 and unknown live paths may refuse.
+Main constructor668070, frame684EF0/66ACA0 and live input/collision/renderer
+composition remain open. Viewer unchanged, no controllable Ratchet. No push.
+
+Previous exact backlink checkpoint follows.
+
 Latest exact integration: src/game/00511310.c, complete eight-byte raw record
 backlink store, also actualL01 667050. No relocations; fresh and production C
 objects pass full unmasked real links at resident and47 independently located

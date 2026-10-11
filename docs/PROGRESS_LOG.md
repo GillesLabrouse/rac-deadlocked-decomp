@@ -1,5 +1,77 @@
 # Local development progress
 
+## 2026-10-11 — Integrate supported complete actor transformation
+
+- Publish native/dreadzone_actor_transform.{c,h} and its48-check regression
+  suite. Complete supported0058DF58 composes real B58 basis, current animation
+  offset, ordered1024-scaled world vector, signed generation saturation, packed
+  spatial key and real cell/model adapters. Negative actors skip. Computed
+  rotationFC must be positive zero; existing basis preserves all W fields.
+  Consumed numeric values/intermediates are finite normal or zero; packed
+  conversions are signed32. Blend lists and live nonzero-frame animation are
+  unsupported. Direct unmapped outer inputs and nested refusals stay distinct.
+- The final central diagnostic DLL passes44 original/native fullRAM/SPR cases,
+  32 genuine spatial calls and eight genuine model calls:37548EE/26212VU pairs/
+  462094336bytes. Actual fresh construction precedes transform in the same
+  original CPU. Two borrowedSPR-zero requests survive real model writes over
+  their descriptors:7897EE/5875VU/21004288bytes. Six further full compositions
+  exercise existing membership, cell movement, growth and shrink before model:
+  25115EE/17625VU/63012864bytes. Two separate late refusals preserve all RAM/SPR.
+  Totals are52 full comparisons/70560EE/49712VU/546111488bytes. Every reached
+  original callee executes; no simulated/captured helper establishes success.
+- Independent guard review passes six additional private probes, verifies all
+  96 raw function words and confirms spatial-before-model ordering. Its196s
+  report recommends the documented numeric/status clarifications. Root adds
+  the guest-SPR-shadow exclusion, preserves earlier source/DLL/checkers and
+  corrects the first test's float-conversion compile warning and fixture choices.
+- Central build and all98 native tests pass5.91s. Exact audit315/zero failures
+  and generated progresscheck pass; this native composition adds zero exact
+  functions and zero playable features. Viewer behavior remains scenery plus
+  prepared animation. First mission selection/serialization, complete player
+  constructor/frame, live commands/collisions/pose/camera remain outstanding.
+- Final receipts and source/DLL hashes are private/root-actor-transform-*;
+  worker lots are sol-first-player-producer-next and sol-transform-*. Root owns
+  integration/configuration and continues the placed loader. No push.
+
+## 2026-10-11 — Trace placed-player provenance and validate a private transform
+
+- Independently walk the complete placed loader0057B788 and its actual startup
+  and mission callers. Mission0's extracted Moby543 has genuine class9207,
+  UID2726, position[558.47998,330.26001,184.011993] and rotationZ2.48987007.
+  Forty-five of46 actual mission files contain target class fields. These are
+  extracted asset observations; runtime selection and binary placement-record
+  equivalence remain unproved. Do not relabel Armor0 or infer absence from the
+  base401-row placement table. Preserve sol-first-player-producer-next reports.
+- Execute the genuine loader/fresh variable-model chain with an explicit
+  diagnostic record and cached upload state. Preserve MOVN, XORI, MR32 and
+  later spatial packed/shift boundaries. Root extends only reached operations,
+  retaining failures and full raw references. The positioned diagnostic now
+  executes7628EE/5217VU pairs through actual spatial allocation and returns;
+  it is not a replay of the selected mission's serialized records.
+- Existing native basis matches896 independently reviewed inherited-state/
+  moderate-W cases,54208VU pairs/57344bytes; all148 resident MPG pairs agree.
+  Very large finite rotationW overflows an otherwise unused original polynomial
+  lane. Require positive-zero actorFC for the new computed-basis domain.
+- Independently review1152 full128 integer/alias/delay microcases. PADDSH has
+  an independent signed-halfword model, not a second maintained executable
+  oracle. Correct the generic reference's irrelevant multiply on VADD/VSUB,
+  preserve inherited scalar upper64, require canonical VF0 and document its
+  quiescent B58 entry. Preserve pre-correction sources and diagnostics.
+- Private root-actor-transform composition joins real basis, scaled animation
+  vector, signed generation saturation, spatial and initial-model components.
+  Both initial and refined proofs pass44 complete RAM/SPR comparisons using
+  genuine4249/9207 assets after actual fresh construction in the same original
+  CPU:37548EE/26212VU pairs/462094336bytes,32 actual spatial calls and eight
+  actual model calls. Its48 focused checks pass, including late-model rollback
+  after spatial mutation and borrowed request capture. Blend lists and repeated
+  live animation remain unsupported. This is private, pending final review and
+  production integration; it adds zero exact functions or playable features.
+- Worker provenance lot429s, basis review245s and integer review260s accept
+  zero exact functions; native integration time is pending. Keep the lighter
+  workers on HOLD while root and the independent reviewer close the composition.
+  Matching remains315/zero failures; the latest public native suite remains
+  97passing tests. The viewer still has no controllable Ratchet or complete frame.
+
 ## 2026-10-11 — Accept the exact player-record backlink leaf
 
 - Confirm the actual full eight-byte L01 00667050 entry and resident canonical

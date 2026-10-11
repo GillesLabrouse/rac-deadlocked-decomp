@@ -9,9 +9,10 @@
  * VU instructions retain ACC rounding, masked W lanes, VF0, VFTOI and the
  * packed coordinate conversion. Those semantics cannot be established by
  * replacing this body with host float matrix multiplication. The actual
- * spatial0058DC78 and skeleton/DMA0058A648 remain unresolved calls. Actor
+ * spatial0058DC78 and skeleton/DMA0058A648 remain actual calls. Actor
  * storage must be16-byte aligned and contain valid animation/list/model
- * pointers; negative actor.byte20 skips every update. No native entry exists.
+ * pointers; negative actor.byte20 skips every update. A separate bounded
+ * native entry is now supplied by native/dreadzone_actor_transform.c.
  * Nonmatching: the compiled function is 428 bytes versus 384 retail bytes.
  */
 #ifndef DEADLOCKED_NATIVE

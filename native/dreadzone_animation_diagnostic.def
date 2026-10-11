@@ -1,4 +1,5 @@
 EXPORTS
+    dreadzone_actor_transform
     dreadzone_guest_actor_allocate
     dreadzone_fresh_class_initialize
     dreadzone_guest_model_pool_apply
