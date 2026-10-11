@@ -21,7 +21,8 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - 311 accepted exact functions of15766, approximately0.556% code. Last full
   audit:311 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All87 native tests passed in6.57s; float timer30 focused checks, counter20, visibility24,
+- All88 native tests passed in5.75s; orientation43 focused checks,
+  float timer30, counter20, visibility24,
   publication module36,
   position75, ground132 and capsule119. Latest additive entry is
   `dreadzone_actor_position_state_0067F5E8`, with explicit caller high64 input.
@@ -54,6 +55,19 @@ nonmatching drafts and ignored private/baserom/build evidence.
   nine numerical-domain refusals,23070EE/140836864 bytes, no captures/differences.
   Runtime L01 GP distribution, physical FPU flags/rounding and full frame remain
   unproven; explicit diagnostic clock/GP variations earn no runtime credit.
+- Complete selected L01 orientation683310 now has a conservative public native
+  entry, `dreadzone_actor_orientation_00683310`. Genuine state/parity/mode>=3
+  exits and mode0 turns ending with zero C0/C4 preserve whole RAM, five supplied
+  raw W lanes and A0 high64. GP is explicit, including executed delay reads.
+  Final archive proof:232 complete matches,24 complete-original atomic refusals,
+  16 separate oracle/mapping boundaries,616177152 bytes and91781 accepted EE;
+  accepted cases execute zero VU pairs. Nonzero tilt and modes1/2 still refuse.
+  It does not initialize the actor or demonstrate a complete frame/loop.
+  The older broad orientation draft and default NaN boundaries stay private.
+  Active first-turn boost comes from GP-7B93; inactive first turn and every
+  second turn reload absolute DDEC. Preserve the pre-correction evidence in
+  `private/root-orientation-zero-before-active-gp-fix`; its197-case passes are
+  historical, not evidence for the corrected full GP-selection contract.
 - Public ground UPDATE has an additive raw high64 output. Actual special-height
   helper593478 was verified across600 original/native full RAM/return/register
   calls; genuine2237D8 lookup dependencies still refuse.
@@ -81,6 +95,10 @@ nonmatching drafts and ignored private/baserom/build evidence.
    Root remains focused on startup, player movement, collisions and the first
    scene. Entire684EF0/67C010 frame still needs orientation, callbacks, timers,
    metadata/interaction and secondary motion; never substitute captured callees.
+   The zero-final-tilt orientation domain is now validated; actual constructor
+   provenance and nonzero tilt remain separate. Native record-resolution draft
+   work uses actual667008/5B5668 and only real metadata+4==666140; supplied BSS
+   test fixtures are diagnostics, never runtime registration credit.
 5. At most two bounded Luna exact-recovery batches use exclusive sources
    and object basenames/output prefixes. Add a third worker only when root
    validation/integration keeps up. Hold after each batch; report accepted/hour,
@@ -128,6 +146,19 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - Latest exact: `private/root-resume-wrapper-production-acceptance.json`.
   Correct11C920 pointer/string ABI and121CF8 f64/soft-double ABI, explicit-G0.
   Do not copy the incorrect integer prototypes from preserved agent drafts.
+- Orientation: `build/drafts/root-orientation-zero-production-proof.json`,
+  matching final build manifest and `private/root-orientation-zero-final-receipt.json`.
+  Full raw-register audit:33 original completions,10 default model boundaries
+  and2046 high64 perturbations; no RAM/five-W changes in completing probes.
+  Nonzero paths and unresolved poisoned Z consumption remain private.
+  Getter actual666140 body is36 bytes plus4-byte padding, with internal return
+  at66615C, not two functions. All46 catalog members have independently located
+  unmasked full copies at13 distinct addresses. Catalog remains unchanged:
+  two SN variants fail whole36-byte and resolved-link comparisons; one flag is
+  rejected. No exact credit. Private memory audits24/25 preserve corrections
+  to earlier callback ordering and selector table addresses/index branches.
+  Correct L01 selector tables:26B2B0 ->26B1C0,26B490 ->26DF90. Never copy the
+  incorrect27... bases or reversed indexes from the frozen resume23 report.
 - Position state final: `build/drafts/root-position-state-final-proof.json`
   and `root-position-state-contract-proof.json`, production build manifest and
   `private/root-position-state-final-receipt.json`.249 full RAM/five-W matches,

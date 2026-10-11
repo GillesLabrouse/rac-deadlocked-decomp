@@ -3041,3 +3041,66 @@ prove a later one. Emulator tests are optional reference checks.
   specification or adoption proof. Keep the current orientation draft private
   while tracing all caller upper-word inputs and whole-chain consumers. Neither
   timers nor static audits establish a complete initialized frame/playable loop.
+
+## 2026-10-11 — Verify conservative complete native orientation
+
+- Add `dreadzone_actor_orientation_00683310` for complete selected original
+  paths: genuine state/parity/mode>=3 exits or actual mode0 scalar turns ending
+  with C0=C4=zero. Execute both5952B8 dependencies and the real67CBC0 yaw-only
+  fallback through55D828. No angle, clock, parity or exit is forced. Preserve
+  supplied five raw W words and A0 high64; nonzero tilt and modes1/2 atomically
+  refuse. Actual incoming GP supplies delay-slot globals; in the inactive path,
+  the GP frame load executes even when absolute220649 is zero. This read was
+  corrected before public adoption and is explicitly exercised as an unmapped
+  original fault. The old broad draft stays private; no C60 operand clamp or
+  captured call is introduced to establish acceptance.
+- Private and final central-archive proofs each pass232 complete whole RAM/
+  raw-state comparisons, including signed zeros, arbitrary raw incoming W/high
+  words, random initial128-bit GPRs, actual rates/clocks and host-request aliases.
+  Compare616177152 bytes and91781 EE instructions on accepted paths, zero VU
+  pairs. Separately retain24 completing-original atomic refusals and16 original
+  oracle/mapping boundaries. All probes execute117279 EE/3822 VU pairs, but those
+  rejected-path VU counts are not accepted work. No differences/captures; all
+  actually executed tools, recipes, manifests, binaries and inputs stay hashed.
+- All88 native tests pass in5.75s;43 focused checks include repeated orientation
+  calls, real parity, mode/state skips, raw state, aliases and the executed GP
+  frame-delay fault. Initial focused test expected negative-zero yaw to survive;
+  original55D828 adds positive zero, producing positive zero, so fix the test
+  expectation without changing implementation. Two private harness failures
+  (missing separator before `for`, then a cumulative micro-count assertion)
+  are corrected and their logs preserved. Final compiler/test/proof gates pass.
+  Before commit, static review identifies the active BNEZ target6833D8: the
+  first factor retains the GP-7B93 delay load instead of reloading absolute
+  DDEC. Correct both private/public code and repeat final validation with42
+  controlled factor/rate probes and a NaN boundary. Keep the earlier197-case
+  code/proofs/manifests in a separate local pre-correction snapshot. A first
+  added test incorrectly expected zero boost to refuse; actual scalar helper
+  completes, so fix that expectation and test factor16's real damping bound.
+  Independent final12-case pre/post33-input audit passes seven accepted whole
+  RAM/W/high matches and five atomic refusals; factor16 versus absolute1 at
+  time.25 exercises the prior false supported-domain acceptance. Rounded
+  damping-boundary times are checked separately; no broad VU model adoption.
+  Integration starts16:41:54UTC; final receipt measures the checkpoint elapsed.
+  Exact count remains311/15766 and0.556%; progress check passes, zero native
+  byte-exact credit. This is a dependency, not an initialized player/frame/loop.
+- Independent register audit executes33 completing original cases,10 numerical
+  boundaries and2046 high64 perturbations in312.003s. Completing probes preserve
+  RAM/five W outputs;17 real skip/zero-angle paths pass through incoming A0 high.
+  Ten incomplete probes still leave poisoned VF15.Z consumption unresolved.
+  Do not infer a broad native orientation contract from finite completing cases.
+- Getter boundary audit resolves66615C as an internal return of666140, with its
+  load in the JR delay at666160;666164 is padding and666168 the next prologue.
+  Independently locate all46 catalog members at13 distinct addresses and compare
+  their entire36 bytes unmasked plus local vtable references. Keep catalog
+  unchanged while two SN variants fail complete36-byte comparison and actual
+  L01 resolved link; one compiler flag is rejected. Commands lots23/24 measure
+  28/367s, zero exact accepted functions in395 worker-seconds. Hold further
+  variants and redirect to actual initialization provenance. Memory audits24/25
+  take87/128s, no compilation or exact credit. Preserve separate corrections:
+  actor LW66ABF0 precedes flag SB66ABF8; selector bases/indexes are26B2B0 ->
+  26B1C0 and26B490 ->26DF90, not the erroneous27.../reversed prior prose.
+- Continue with authentic constructor writes and667008 record resolution through
+  real metadata+4 and runtime BSS, then remaining full player/callback/secondary
+  movement dependencies. The executable remains a scenery/animation viewer;
+  no controllable Ratchet, complete initialized frame or playable loop exists.
+  All work stays local; no push.
