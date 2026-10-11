@@ -2,8 +2,8 @@
 
 Current checkpoint: 2026-10-11. The Windows executable displays Dreadzone scenery
 and a separate prepared animation diagnostic. It does not run a controllable
-Ratchet or a complete gameplay frame. Matching coverage is 312 functions of
-15,766 (0.558% code); this percentage does not measure playable readiness.
+Ratchet or a complete gameplay frame. Matching coverage is 313 functions of
+15,766 (0.559% code); this percentage does not measure playable readiness.
 
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
@@ -19,6 +19,14 @@ mesh or isolated diagnostic RAM comparisons do not satisfy that milestone.
 There is no measured schedule for closing the remaining dependencies yet.
 
 ## Latest startup component
+
+Exact leaf `src/overlays/L01/0047FBF0.c` is newly accepted. Its complete 48-byte
+reference includes four trailing padding bytes; both fresh and production
+objects pass full unmasked resolution at independently located addresses in
+all 46 catalogued overlays. It has no relocations. The original CFG returns one
+for null and signed classes `1099`/`171C`, zero otherwise; all 65,536 class
+halfwords and null are checked. This adds one distinct exact function, not 46,
+and performs no actor construction. Full audit passes 313 exact/zero failures.
 
 `native/dreadzone_pool_bounds.c` implements complete L01 `0057BAC0` RAM effects
 through genuine `00578928`, `00586F78` and `0055D2A8`. It publishes ordered pool
@@ -38,6 +46,13 @@ images, but its live value remains unproved. The 401 rows reached through core
 from other data or later loaders. Constructor `00668070` scans the pool for
 these classes when the first player receives a null actor; that actor's producer
 still requires tracing, including the later core `+34` loader.
+
+That later `+34` block has now been checked: its 192 entries are all invalid
+and skipped by `0057BF78`. This excludes only that block. The entry's literal
+loader arguments `(1,0)` select control paths; they do not identify the first
+level. Live first-level/resource selection remains a separate prerequisite.
+The known constructor's virtual reset clears the record's actor pointer;
+it does not retain a previous player's pointer as a fallback.
 
 `native/dreadzone_initial_pool.c` implements complete memory effects of actual
 L01 `0057B6B8` with the real `0055D2A8` filler and `0057B6B0` identity-return

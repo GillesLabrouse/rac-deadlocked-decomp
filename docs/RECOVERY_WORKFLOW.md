@@ -39,6 +39,25 @@ function batch must independently locate each level's entry and dependencies,
 and exact-link against that level's ELF. Behavioral tests and simulated calls
 do not establish an exact match.
 
+## Raw evidence before interpretation
+
+Record branch opcode, signed displacement, computed target and executed delay
+slot directly from the reference word. Generate effective addresses from the
+actual base and sign-extended immediate; do not manually transcribe a decoded
+mnemonic as a raw word. Distinguish wrapping ADDIU/ADDU from trapping ADDI.
+For small predicates, execute the original integer CFG across its bounded input
+domain before compiling a second variant. This catches a wrong branch meaning;
+it still does not replace the exact relocation/resolved-byte acceptance gates.
+Inferred m2c prototypes and residue registers must be checked against callees.
+
+Keep a failed report and add a separate correction with raw evidence and hashes.
+Infrastructure failures, semantic errors and genuine compiler nonmatches are
+different outcomes. Two low-yield or error-prone lots trigger a bounded review
+before further variants. Root must verify every candidate and material startup
+claim independently; adding agents does not compensate for an integration or
+validation bottleneck. Independent reviews can use a stronger model when the
+user has authorized model selection. No agent writes shared configuration.
+
 ## Throughput
 
 Record the UTC start/end, attempted functions, compile failures, relocation

@@ -3322,3 +3322,46 @@ prove a later one. Emulator tests are optional reference checks.
   A byte-identical L21 overlay copy has no proved resident counterpart and
   earns no duplicate credit. Preserve the source/object/manifest privately.
   Root retains integration/configuration/central-output ownership.
+
+## 2026-10-11 — Accept the exact null-aware actor-class predicate
+
+- Root independently reads L01 literal producers, preserving8841 decoded-span
+  evidence privately without treating constant absence as runtime absence.
+  Target0047FBF0 is a complete44-byte leaf plus four true zero padding bytes.
+  Null and signed class1099/171C return1; all other nonnull classes return0.
+  Decode firstBEQ target47FC10 and47FC08 BNE opcode05 directly. Worker40/41
+  semantics were wrong and both frozen variants fail exact comparison; keep
+  their separate corrections and61/31-second receipts. These semantic failures
+  never enter accepted sources or native gameplay.
+- Root's corrected source passes whole48-byte comparison with zero relocations,
+  plus real unmasked links. Independently find exactly one full-byte reference
+  in each of the46 catalogued overlays and resolve at each actual local address.
+  Repeat all46 checks with the production object; both proofs execute original
+  CFG for65536 raw class halfwords and null, with no substituted callee.
+  First common-proof script used a nonexistent return_value oracle property;
+  preserve its failure and corrected common2 script using actual register2.
+  Production common proof takes6.611s; all input hashes stay stable.
+- Accept one source under src/overlays/L01, not46 duplicate functions. Central
+  incremental build compiles one of258 sources, reuses257 validated objects,
+  removes none. Full audit313 exact/zero failures; generated progress/check
+  pass313/15766,0.559% code. Native CMake/behavior are unchanged; last92-test
+  suite/6.05s remains current. The helper recognizes classes; it creates none.
+  Final private receipt records full dispatch-to-validation acceptance/hour
+  and post-adoption integration seconds separately from worker durations.
+- Read-only commands32/correction take176/43s. Actual+34 core offset20F050 has
+ 192 all-invalid entries skipped by57BF78. Actual57CD78 copies source21EC00 to
+  config90 with length21EAEC, then sourceconfig94 toconfig98 with length21EAF0.
+  Both lengths have real stores57BB94/57CF00; preserve the initial wrong GP
+  addresses/order and correction. This does not exclude other player sources.
+- Loader528098 ->578940(1,0) is a real edge in L01, but literals select loader
+  control paths, not a first-level number. Live first-level21DE10/resource
+  selection remains unproved. Distinct21E824 controls the early world-mode
+  branch; root checks actual5789BC=8C63E824 after a reviewer transcription
+  error. Known vtable reset6A6598 really clears31F0 includingactor2EF0; no
+  prior-player pointer survives that reset. Do not manufacture one for startup.
+- Strengthen RECOVERY_WORKFLOW.md with programmatic raw branch/address checks,
+  bounded original predicate execution before additional variants and distinct
+  failure categories. Keep root responsible for integration and all material
+  claims. A stronger-model independent reviewer now audits genuine model-aware
+  class composition; no new agent implementation or shared build is delegated.
+  First-scene construction, complete update and live rendering remain open.

@@ -7,17 +7,30 @@ PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 Latest component: complete `native/dreadzone_pool_bounds.{c,h}` /0057BAC0 through
 actual578928,586F78,55D2A8. Central archive proof205 whole-RAM matches/15 original
 fault atomic refusals,32024EE/859832320 bytes,zero captured callees/input changes;
-68 focused checks,all92 native tests pass in6.05s. Exact coverage stays312.
+68 focused checks,all92 native tests pass in6.05s. Exact coverage is now313.
 Read the latest PROGRESS_LOG entry for private receipts and original inputs.
 Source walk establishes21EAC4=169 from actual core3C0; live21EAD4 and allocation
-cursor remain unproved. The401 +30 rows contain no171C/23F7 class, but later
-+34/57BF78 path has not been excluded. Trace this before declaring the player
-entirely dynamic. Constructor668070 scans those classes for index0, allocator
+cursor remain unproved. The401 +30 rows contain no171C/23F7 class; later
++34/57BF78 has192 invalid/skippedentries. Other sources are not excluded.
+Constructor668070 scans those classes for index0, allocator
 5869E0 only handles other indices there. ADDIU never traps: retain independent
 review36's addendum correcting the initial report; only filler ADDI traps here.
-Current agents: commandsresume32 investigates+34, memoryresume39 retries one
-proper exact586F78 compile after two infrastructure failures. No shared edits
-are delegated; position reviewer is HOLD. No playable frame or visual change.
+Latest exact source `src/overlays/L01/0047FBF0.c`: full48-byte correct predicate,
+zero relocations, fresh/production resolved exact across46 independently located
+overlay references, one distinct coverage addition. Original65536 class cases
+and null pass; null returns1. Preserve memory40/41 semantic failures and separate
+corrections; root fixed the code after checking BNE opcode05/targets directly.
+Root common proof's first return_value API error is preserved; corrected common2
+and production proofs use actual CPU.registers[2]. Native CMake is unchanged.
+Loader578940(1,0) is not first-level identity; live21DE10 selection is unproved.
+57CD78 copies to config90 from21EC00/length21EAEC, then toconfig98 fromconfig94/
+length21EAF0. Read commands32 correction; initialaddresses/order were wrong.
+Actual virtual6A6598 reset clearsrecord2EF0; it is not prior-actor fallback.
+Read positionstartup37 and its address corrections; root verifies raw5789BC is
+8C63E824 (signed load from21E824), not the manually transcribed8C631824.
+New stronger-model agent sol_model_class_review owns only private read-only
+model-aware class composition analysis; lightweight workers are HOLD. Root
+keeps accepted/shared edits and central builds. No playable/visual change.
 
 ## Objective and constraints
 
@@ -33,10 +46,10 @@ nonmatching drafts and ignored private/baserom/build evidence.
 
 ## Saved state
 
-- 312 accepted exact functions of15766, approximately0.558% code. Last full
-  audit:312 exact, zero failures; generated progress/check passed. Native ports
+- 313 accepted exact functions of15766, approximately0.559% code. Last full
+  audit:313 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All91 native tests passed in5.97s; initial-pool2222 focused checks,
+- All92 native tests passed in6.05s; bounds68 and initial-pool2222 focused checks,
   environment-reader10 focused checks,
   record27, orientation43,
   float timer30, counter20, visibility24,
