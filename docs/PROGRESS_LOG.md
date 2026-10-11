@@ -2131,3 +2131,28 @@ prove a later one. Emulator tests are optional reference checks.
   Root owns ground/frame composition. Model and eligible primitive geometry
   remain atomic refusals; no complete player frame or playable Ratchet yet.
   Matching remains287; nothing is pushed.
+
+## 2026-10-11 — Accept two initialization setters and adjust recovery load
+
+- Root freshly compiles00159C28 and0015EEF0, checks their complete eight-byte
+  boundaries, genuine GPREL16 relocations and independently read resident GP,
+  then verifies unmasked linked bytes. The actual L01 initialization callers
+  are checked separately. Both production objects pass exact linking; shared
+  audit passes289 functions with zero failures and progress check passes.
+  Incremental compilation builds two sources and reuses231.
+- Memory batches5/6 take66s/107s with no object or exact-link mismatches.
+  Batch5 has two diagnostic/setup failures before its successful exact link.
+  Root catches an unrelated copied bounds-check description in that receipt;
+  the agent corrects prose and counts against preserved source/assembly/output,
+  retains the original receipt, and does not modify the candidate artifacts.
+- Command batch5 saves14D348 after three bounded forms (94s, three object and
+  three exact-link mismatches). At11:27:18 UTC, nine accepted since10:19:14
+  across4084.66s gives7.93/hour including native integration. Fourteen distinct
+  candidates were attempted, five remain unaccepted. Full root integration
+  wall time for these setters is148.09s, from source preparation through final
+  production/progress checks; it includes concurrent native work and an
+  automatic-review timeout, and excludes subsequent report/commit authoring.
+- Keep the repeatedly blocked command worker temporarily idle; the memory
+  worker waits during integration, and the collision specialist continues a
+  genuine frame prerequisite. No third new recovery worker is added. These
+  exact setters do not add a rendered player or playable frame. No push.
