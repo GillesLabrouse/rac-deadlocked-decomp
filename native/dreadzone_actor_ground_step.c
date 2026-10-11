@@ -12,7 +12,6 @@ typedef struct GroundRun {
     DreadzoneGroundInfo info;
     int status;
     DreadzoneProbeRegisters registers;
-    int track_registers;
 } GroundRun;
 static int span(const void *p,uintptr_t n){return p && (uintptr_t)p<=UINTPTR_MAX-n;}
 static int overlap(const void *p,uintptr_t n,const void *q,uintptr_t m){
@@ -164,9 +163,6 @@ static f32 height(GroundRun *r,const u32 input[4],u32 output){
         quad(r,0x2237C0,special);
         z=bounded(r,input[2],8192.f,0x1p-40f);delta=sub(r,z,bounded(r,special[2],8192.f,0x1p-40f));
         if(fabsf(delta)<.5f){
-            /* This producer is not reached by verified L01 terrain fixtures.
-             * Preserve the existing RAM-only helper; state composition refuses. */
-            if(r->track_registers){fail(r,DREADZONE_GROUND_UNSUPPORTED_PATH);return 0.f;}
             dx=sub(r,bounded(r,input[0],8192.f,0x1p-40f),bounded(r,special[0],8192.f,0x1p-40f));
             dy=sub(r,bounded(r,input[1],8192.f,0x1p-40f),bounded(r,special[1],8192.f,0x1p-40f));
             r->registers.high64[0]=bits(r,mul(r,delta,delta));r->registers.high64[1]=bits(r,mul(r,floating(r,input[3]),floating(r,input[3])));r->registers.last_writer_pc=0x593548;
@@ -429,7 +425,6 @@ static int ground_execute(const DreadzoneGroundRequest *request,const u32 incomi
        overlap(output,sizeof(*output),request,sizeof(*request)) ||
        overlap(output,sizeof(*output),info,sizeof(*info))))return DREADZONE_GROUND_INVALID;
     memset(&r,0,sizeof(r));memcpy(&r.request,request,sizeof(r.request));b=r.request.record_guest;
-    r.track_registers=tracked;
     if(tracked)memcpy(r.registers.high64,incoming,8);
     if(!r.request.storage_bytes || r.request.storage_bytes>64U*1024U*1024U ||
        !span(r.request.storage,r.request.storage_bytes) || r.request.guest_base>=0x80000000U ||

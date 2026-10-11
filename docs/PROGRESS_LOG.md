@@ -2672,3 +2672,36 @@ prove a later one. Emulator tests are optional reference checks.
 - Native stays82 passing central tests and128 focused ground checks. A bounded
   independent audit now targets active secondary displacement and post-ground
   settling register publishers. No complete player frame, playable scene or push.
+
+## 2026-10-11 — Verify and compose the special height register publisher
+
+- Root independently compares600 complete original593478 helper calls with a
+  strict isolated native draft: all RAM, real float return and raw high64 agree
+  across1,593,561,600 bytes.180 cases reach the genuine593548 producer,60 enter
+  the special radius. Preserve actual output/input/global alias ordering: the
+  squared deltaZ/inputW is published before the radius test, including misses.
+  Aliased output2237C0 changes the later returned special-height read to1.
+- Remove the new UPDATE-only transport's temporary special-height refusal only
+  after those gates. The unchanged2237D8 object lookup still refuses on its real
+  reached dependency; two whole-original calls reach634948/634220 and stop at
+  the authentic missing backing, without a captured return.
+- Final production archive bridge passes58 complete original UPDATE RAM/five-W/
+  high64 comparisons:40 actual-level and18 explicitly authored contract cases,
+  including12 synthetic surface-zero special-global compositions. These do not
+  imply surface-zero terrain in actual L01. Six original numeric boundaries
+  remain separate. Leaf plus production diagnostics execute189525EE and ground
+  5246VU pairs, zero captures/differences and unchanged inputs during each proof.
+- All82 central tests pass in6.11s;132 focused ground checks, four additional
+  checks. Integration takes222.91s from its checkpoint, excluding earlier fresh
+  helper gates. Preserve one private path-expression TypeError and a report-name
+  collision. Separate leaf/ground/production paths and repeat all600 leaf calls;
+  retain the prior ground report and stale freeze for diagnosis. No final compile
+  or comparison failure. Exact stays304; native earns zero exact credit.
+- A frozen independent36-call original position audit verifies115920EE/5508VU
+  with actual player266D1, active/inactive140 and true scheduling. Active140's
+  scheduled first ground preserves incoming high64, so W is a real caller input;
+  marker W0/.25/1 gives distinct VF28.W while persistent RAM agrees. Inactive140
+  first calls the capsule publisher; its scheduled nonzero-half settling path
+  requires that capsule state. Actual second-phase67FD74 is PCPYUD, then a real
+  second capsule changes the state again. Keep complete active140 refused until
+  capsule transport is closed. No complete player frame/playable scene or push.

@@ -76,8 +76,10 @@ int dreadzone_actor_ground_step(const DreadzoneGroundRequest *,DreadzoneGroundIn
  * only after the full transaction succeeds. Refusals preserve all three outputs.
  * Diagnostic last_writer_pc is zero for preserved state, otherwise the actual
  * reached producer PC. This transport does not model the other GPR/VF lanes.
- * The special593548 height producer refuses pending independent verification;
- * the established RAM-only operations retain their original bounded behavior. */
+ * The special593548 height producer squares actual delta-Z and input-W before
+ * testing radius; output/global aliases retain that instruction order. Reached
+ *2237D8 object lookup remains unsupported. The established RAM-only operations
+ * retain their original bounded behavior. */
 int dreadzone_actor_ground_registers(const DreadzoneGroundRequest *,const u32 incoming_high64[2],
     DreadzoneProbeRegisters *,DreadzoneGroundInfo *);
 #endif

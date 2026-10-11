@@ -207,14 +207,23 @@ int main(void){
     CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==DREADZONE_GROUND_UNSUPPORTED_FLOAT);
     CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)) && !memcmp(&registers,&old_registers,sizeof(registers)));
 
-    /* Synthetic surface-zero input exercises a boundary, not original-level
-     * coverage. The new entry refuses the unverified special height producer. */
+    /* Synthetic surface-zero input exercises helper composition, not original
+     * level coverage. Standalone original-helper proof verifies its producer. */
     ground_fixture(b);b[0x3A0093-BASE]=0;word(b,0x2237DC,1);
     vector(b,0x2237C0,10.f,10.f,9.75f,0x40000000U);
     q=request(b,DREADZONE_GROUND_UPDATE);q.integer0=1;q.actor_pool_count=1;q.grid_block_count=3072;
+    CHECK(dreadzone_actor_ground_step(&q,&info)==1);
+    memcpy(snapshot,b,SIZE);old_info=info;
+    ground_fixture(b);b[0x3A0093-BASE]=0;word(b,0x2237DC,1);
+    vector(b,0x2237C0,10.f,10.f,9.75f,0x40000000U);
+    CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==1);
+    CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)));
+    CHECK(info.probe_calls==2 && !info.ground_contacts);
+    CHECK(registers.high64[0]==0 && registers.high64[1]==0 && registers.last_writer_pc==0x53E464);
+
+    ground_fixture(b);b[0x3A0093-BASE]=0;word(b,0x2237D8,1);
     memcpy(snapshot,b,SIZE);old_info=info;old_registers=registers;
     CHECK(dreadzone_actor_ground_registers(&q,incoming,&registers,&info)==DREADZONE_GROUND_UNSUPPORTED_PATH);
     CHECK(!memcmp(b,snapshot,SIZE) && !memcmp(&info,&old_info,sizeof(info)) && !memcmp(&registers,&old_registers,sizeof(registers)));
-    CHECK(dreadzone_actor_ground_step(&q,&info)==1);
     free(snapshot);free(b);printf("Ground CPU helpers and whole update: %u checks passed.\n",checks);return 0;
 }
