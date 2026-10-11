@@ -3238,3 +3238,45 @@ prove a later one. Emulator tests are optional reference checks.
   Next trace the asset descriptor producer/load/header path and model-aware
   class initialization. Constructor, complete callback/secondary update and
   repeated player frame are still outstanding. No playable Ratchet or push.
+
+## 2026-10-11 — Execute the authentic initial pool memory routine
+
+- Trace actual L01 entry528098:528480 ->578940 ->57CD78 ->57B6B8. The original
+  gameplay core's nonzero+30 offset1FE730 contains count401/reserve400. A2 at
+  the pool call points to localSP+80 allocation cursor, seeded by57D110 and
+  config54 and advanced by real optional parsers; its runtime address and
+  sizing globals21EAC4/21EAD4 remain prerequisites. Global archive640130 is
+  not a proven first-opening initializer. Independently map its TOC header
+  +940/base+944/rows+948; row0 decodes2249792bytes with108 class19E9 placements,
+  no171C/23F7. Do not substitute that candidate for the gameplay source.
+- Preserve corrections separately:159A50 copies21 words from+C440+18*i to
+  +C620+18*i, not the front table; level-header+20 is sound bank, primary+60
+  is gameplay. The earlier root583980 walker merged error fallthrough/helpers;
+  genuine successful return plus delay ends583C70 and TEQ583AE8 terminates its
+  branch. The640130 marker loop writes64 FE bytes, including B+4020 beyond
+  published B+4000. None of these static corrections earns matching credit.
+- Add full native0057B6B8 RAM effects through genuine55D2A8/57B6B0, explicit
+  GP/header/cursor-pointer inputs and ordered transaction aliases. Filler
+  always stores one word even for zero/negative sizes; signed ADDI overflow
+  and missing mappings produce atomic host refusals, unlike original partial
+  fault writes. Clear the pool and actual247A18/247AD8 tables; no actor/model
+  constructor, VU substitute or callback capture is supplied.
+- Private first proof179 complete/11 faults is retained. Extended private and
+  final actual central-archive proofs each pass182 complete RAM comparisons,
+  12 original-fault refusals,1423530EE/763363328RAM bytes and zero captures or
+  changed inputs. Production proof takes3.024s. Independent review adds eight
+  completions, header/GP/output aliases and real count/pointer ADDI traps.
+  All91 native tests pass in5.97s;2222 focused pool checks. Progress check
+  remains312/15766,0.558%; native ports add zero matching coverage.
+- Exact worker lots28/29 measure320/217s, accept zero functions: zero exact
+  accepted/hour across537 combined worker seconds. Preserve five nonmatching
+  objects, one assembly-processing failure, the corrected declaration retry
+  and the first initializer variant's flag-manifest mismatch. Final comparisons
+  fail; no draft enters src. Read-only memory lots32/34/35 measure241/212/140s;
+  lot33 has no captured start clock and therefore no invented elapsed metric.
+  Root owns integration, final validation and shared outputs. Focus parallel
+  work on actual startup and independent review when exact lots yield nothing.
+- Add GAMEPLAY_STATUS.md with explicit loading, construction, repeated-update
+  and rendering gates. Next close57B788/57BAC0 and model-aware actor setup.
+  Scenery and prepared animation viewers remain unchanged; there is no playable
+  Ratchet, complete initialized constructor or repeated player frame. No push.

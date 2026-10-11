@@ -21,7 +21,8 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - 312 accepted exact functions of15766, approximately0.558% code. Last full
   audit:312 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All90 native tests passed in5.63s; environment-reader10 focused checks,
+- All91 native tests passed in5.97s; initial-pool2222 focused checks,
+  environment-reader10 focused checks,
   record27, orientation43,
   float timer30, counter20, visibility24,
   publication module36,
@@ -250,6 +251,37 @@ nonmatching drafts and ignored private/baserom/build evidence.
   numerical boundaries. Do not adopt or count this as exact or a complete frame.
 
 ## Commands and output discipline
+
+Latest startup integration: complete native0057B6B8 initial pool RAM effects
+through actual55D2A8 and57B6B0, with explicit GP/header/cursor-pointer inputs.
+Final actual central archive proof:182 complete matches,12 original-fault
+atomic refusals,1423530EE/763363328RAM bytes, zero captures/input changes.
+Public `native/dreadzone_initial_pool.{c,h}` and test are outside exact coverage.
+Private proofs/builds use `root-initial-pool-*`; final production proof is
+`build/drafts/root-initial-pool-production-proof.json`. Independent worker
+review is `private/position-provenance-initial-pool35-report.md` and results.
+Preserve first179-case proof and its separate extended182-case boundary proof.
+Actual55D2A8 always writes a first word even for zero/negative counts; ADDI
+overflow faults retain original partial writes but host refusals are atomic.
+
+Actual startup edge528098:528480 ->578940 ->57CD78 ->57B6B8 is established.
+Original gameplay core c969... has +30offset1FE730, fields401/400. Descriptor
+A2 points to localSP+80 allocation cursor, seeded from57D110/config54 and
+advanced by real parsers; its runtime address and sizing globals21EAC4/21EAD4
+are not established. Next57B788 creates actors and57BAC0 publishes boundaries;
+complete modeled class/constructor and repeated frame remain outstanding.
+Read `docs/GAMEPLAY_STATUS.md` for the concise milestone gates.
+
+Recent worker exact lots28/29:320s/217s, zero accepted, keep all variants private.
+Correct decoder successful body ends583C70; always-trapping TEQ at583AE8 ends
+that path. Older root-startup-data CFG incorrectly merged helpers/adjacent code;
+do not adopt its888-byte bound. Pool640130 is not proved opening-time. Its
+free-marker loop makes64FE writes, including one atB+4020 beyond published
+B+4000 end; preserve actual behavior rather than changing to63 iterations.
+Global archive TOC header is +940,size68; +944base9A843, rows+948. Row0 decoded
+eeaf... has108 placements all class19E9, no171C/23F7, and is only a candidate.
+Actual159A50 copy is +C440+18*i -> +C620+18*i for21words, not front+4*i.
+Read memoryresume33 corrections,34 entry and35 cursor reports before reuse.
 
 Use `venv\Scripts\python.exe` and Git Bash at
 `C:/Program Files/Git/bin/bash.exe`. Native central validation:
