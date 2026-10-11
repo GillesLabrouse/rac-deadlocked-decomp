@@ -3365,3 +3365,32 @@ prove a later one. Emulator tests are optional reference checks.
   claims. A stronger-model independent reviewer now audits genuine model-aware
   class composition; no new agent implementation or shared build is delegated.
   First-scene construction, complete update and live rendering remain open.
+
+## 2026-10-11 — Withdraw incomplete static model transformation
+
+- Independent review of actual L01 words identifies a missing genuine decoder:
+  the zero-variable branch at58A2E0 targets58A314, which calls5894F0 with the
+  computed fraction in its delay slot. Fixed compressed channels still execute.
+  The old static transform's identity specialization omitted that call; isolated
+  matrix-program comparisons did not establish complete model-path behavior.
+- Preserve original source/header/tests in private/root-static-transform-
+  withdrawal-* with SHA256 receipt. Remove the incomplete successful path from
+  public native code; all nonempty models now return UNSUPPORTED without writes.
+  Null actor/model and host/mapping guards remain. Regression checks cover
+  counts1/2/3/107/127, zero-variable fixed streams and whole backing/scratch
+  preservation, including a borrowed request in scratch. Central rebuild and
+  all92 native tests pass in5.62s. This is a correction, zero exact additions,
+  and no new gameplay capability. Coverage stays313/15766,0.559%.
+- The prepared animation diagnostic calls separate local-pose/variable-decoder/
+  general-matrix/binding entries; reference search finds no production caller
+  of the withdrawn static entry. Correct NATIVE_PORT, GAMEPLAY_STATUS and RESUME
+  without erasing historical claims or proof failures.
+- Stronger independent review takes327.34s, zero builds or accepted functions.
+  It also identifies two erroneous likely branches in the full initializer
+  draft, while the public zero-joint slice avoids them. Preserve corrected
+  variants privately; they remain uncompiled/nonmatching. Model pool globals
+  and private bindings require complete transaction transport, and compaction
+  can rewrite other live actors. RAM cloning alone is insufficient.
+- Continue a private bounded fixed-decoder investigation and retain root
+  ownership of public integration and central outputs. No push or playable
+  character is claimed.

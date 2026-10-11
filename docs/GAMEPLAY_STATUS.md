@@ -18,6 +18,15 @@ camera, and stable repeated updates. A camera-only viewer, a prepared animated
 mesh or isolated diagnostic RAM comparisons do not satisfy that milestone.
 There is no measured schedule for closing the remaining dependencies yet.
 
+The latest model review withdrew `dreadzone_model_transform_static`'s complete
+static-pose claim. Zero variable qwords still reach the original compressed
+decoder, which the old implementation omitted. The entry now refuses all
+nonempty models without writes. Fixed-channel decoding, full class initializer
+composition and transaction-safe model-pool state are immediate construction
+dependencies. The prepared animation diagnostic uses a separate path.
+All 92 native tests pass after this correction in 5.62 seconds; these checks
+include refusal regressions and do not demonstrate a playable frame.
+
 ## Latest startup component
 
 Exact leaf `src/overlays/L01/0047FBF0.c` is newly accepted. Its complete 48-byte

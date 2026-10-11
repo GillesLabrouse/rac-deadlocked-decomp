@@ -19,17 +19,15 @@ typedef struct DreadzoneModelTransform {
     u32 scratch_bytes;
 } DreadzoneModelTransform;
 
-/* Complete CPU-visible model-storage effects of the normal static-animation
- * path through 0058A648, 0058A440, 0058A258, 00589368 and 00589950.
- * Supported: 1..127 joints, animation stream byte2 == 0, no actor55 bit4,
- * no actor50/5C lists, root parent127 and subsequent earlier parents or127.
- * Unsupported branches and invalid mappings leave every output unchanged.
- * The scratchpad's complete 16 KiB backing, matrices and dirty bit publish
- * together. Guest pointers remain numeric32; every host descriptor is copied
- * before writes. Views and scratch must have disjoint backing.
- * APPROXIMATE means finite normal host float arithmetic, not VU bit-equivalent
- * rounding. This neither executes DMA/VIF nor changes VU register/data state;
- * it completes the explicitly supported CPU-visible memory effects only.
+/* Reserved model transform entry; nonempty models are currently UNSUPPORTED.
+ * Original 0058A258 calls decoder 005894F0 even with zero variable qwords.
+ * Closing its fixed compressed channels is required before this entry may
+ * prepare matrices or clear the actor dirty bit. The earlier identity-only
+ * implementation and its completion guarantee have been withdrawn.
+ * Null actor/model returns NO_MODEL. Invalid host descriptors or unmapped
+ * actor backing retain distinct statuses. Every status leaves all caller
+ * memory unchanged; views and scratch must have disjoint backing.
+ * APPROXIMATE is retained for API compatibility but is never returned.
  */
 int dreadzone_model_transform_static(const DreadzoneModelTransform *request);
 #endif

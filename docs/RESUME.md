@@ -4,6 +4,18 @@ The user explicitly resumed development after the saved pause. Work is active;
 continue until the user stops it. No push is authorized. Read the latest
 PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 
+Critical correction: the public static model transform is now a reserved entry
+that refuses every nonempty model atomically. Original 58A2E0 branches to58A314,
+which unconditionally calls5894F0 even when variable qwords are zero. The old
+identity specialization omitted fixed compressed-channel decoding. Preserve
+private/root-static-transform-withdrawal-* backups and independent
+sol-model-class-review-* evidence. All92 tests pass after withdrawal in5.62s;
+matching313 is unchanged. The prepared animation diagnostic uses another path.
+Agent sol_model_class_review owns private/sol-fixed-decoder-* investigation;
+position_provenance delivered corrected private initializer/58A258 variants
+under position-model-correction-* and is HOLD. No public integration of those
+uncompiled drafts is authorized by their control-flow reviews alone.
+
 Latest component: complete `native/dreadzone_pool_bounds.{c,h}` /0057BAC0 through
 actual578928,586F78,55D2A8. Central archive proof205 whole-RAM matches/15 original
 fault atomic refusals,32024EE/859832320 bytes,zero captured callees/input changes;

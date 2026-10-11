@@ -543,17 +543,18 @@ or notification paths before mutation. All mapped memory agrees across2,048
 original-instruction cases with19 genuine callees. This initializes inventory,
 not the whole player constructor.
 
-`dreadzone_model_transform_static` prepares the full CPU-visible memory effects
-of the normal static-animation model path, including the real107-joint Armor0
-skeleton, hierarchy translations, both scratchpad banks and dirty-bit update.
-Its identity quaternion/unit-scale specialization follows actual initialized
-inputs when the animation stream has zero variable qwords. Compressed animated
-streams, blend lists and override lists are refused atomically. An independent
-executor of the original VU0738/0858 pairs agrees across129 cases under host
-IEEE arithmetic, including original Armor0 inputs. The result remains
-`APPROXIMATE`: PS2 rounding, DMA/VIF and VU internal state are not reproduced.
-The viewer still needs original joint weights and their actual consumer before
-these matrices can transform its mesh.
+`dreadzone_model_transform_static` currently refuses every nonempty model
+atomically. Its previous completion guarantee was withdrawn after checking
+the actual zero-variable branch: `0058A258` still calls decoder `005894F0`
+when there are no variable qwords. Fixed compressed channels therefore require
+decoding before the general matrix stage. The old identity specialization
+omitted that call; agreement with the isolated matrix microprogram did not
+validate the complete model path. Original code and proof artifacts are
+preserved privately. Null actor/model returns remain available, and refusals
+leave actor, matrices and scratch unchanged. Closing the fixed decoder and
+then validating the complete original chain is required to restore support.
+The prepared animation diagnostic uses the separate variable decoder and
+general-matrix/binding path; it does not call this reserved entry.
 
 `dreadzone_bind_pose_prepare` now composes the genuine64-byte pose records
 with the supplied48-byte compact binding records in the original A40/AA8
