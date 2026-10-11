@@ -4,7 +4,24 @@ The user explicitly resumed development after the saved pause. Work is active;
 continue until the user stops it. No push is authorized. Read the latest
 PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 
-Latest integration: native/dreadzone_guest_model_pool.{c,h} implements complete
+Latest integration: native/dreadzone_fresh_class.{c,h}, supported fresh586B10
+RAM/SPR effects through real filler/env/defaults, guest model allocation with
+compaction, fixed-only initial model update, finalflags. Cleanup mustnotreach;
+explicit diagnosticpublishedtables/relocatedassets are inputs, notprovenance.
+Private and finalcentralDLL eachpass128 wholeRAM/SPR comparisons,
+6836959EE/317440VUpairs/1210056704bytes,32 realcompactions, allreachedcallees
+execute. Originalcallstack is external togameRAM andexcludednativeABI. All95
+tests pass29.71s. Private guards14; preserve their first incorrect expectedstatus
+and the first synthetic-test constanttruncation compilefailure. Fixedbinary32/
+DMA assumptions stayapproximate, zero exactcredit/no playableviewerchange.
+Root-class-composition-* and sol-class-composition-* evidence are frozen.
+Next: actual classpublication/relocation and playerproducer, placedactorloader,
+constructor/frame/input/collisions/liveanimation. AllagentsHOLD after2 lightlots
+andstrongreview. Environmental mainfunctions have differentactualL01/resident/
+canonicalL00 addresses; preserve both workers' catalogcorrections. Root private
+C schedulingvariant forresident00470090 is separate, unaccepted untilfullchecks.
+
+Previous integration: native/dreadzone_guest_model_pool.{c,h} implements complete
 supported allocation58B148/release58B268/compaction58B338 RAM effects, using a
 private clone of callerRAM and no legacy host globals/bindings. Full state/bank/
 liveactor/definition validation, real compaction with all survivor+58 updates,

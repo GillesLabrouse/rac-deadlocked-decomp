@@ -8,7 +8,7 @@ Ratchet or a complete gameplay frame. Matching coverage is 313 functions of
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
 | Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges. | Execute the allocation/layout and parser chain with its real cursor, globals, selected records and resources. |
-| Actor and player construction | Full initial pool memory effects and allocation bounds/table setup, reset, inventory, parameters, class publication/relocation and model allocation components. | Load the placed actors through `0057B788`; establish the first player's source, close model-aware class initialization, `00668070` and the actual child/backlink producers. |
+| Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation components, guest model pool and fresh fixed-model class composition. | Load placed actors through `0057B788` with genuine published tables; establish the first player's source, close `00668070` and actual child/backlink producers, and support reached cleanup/animation paths. |
 | Repeated player update | Controller decoding and selected direction, walking, position and collision paths; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
 | Live visual output | Native terrain renderer, original body topology and validated prepared animation samples. | Bind the initialized actor's changing position, live animation and camera to the renderer across successive frames. |
 
@@ -34,8 +34,13 @@ The guest-RAM model pool now implements allocation, release and real compaction
 without legacy host globals or bindings. The final DLL passes 147 whole-RAM
 comparisons, including seven allocations that reach original compaction. It
 updates every affected live actor's matrix pointer and publishes atomically.
-Model-aware class composition and first-player provenance remain open.
-All 94 native tests pass after these changes in 18.65 seconds; these checks
+Fresh class initialization now composes the real filler, environment, defaults,
+model allocation/compaction and initial fixed-only model update. Private and
+final DLL proofs each pass 128 whole-RAM/SPR comparisons, including 32 real
+compactions, with an external original EE call stack excluded from the API.
+The tables/assets are explicit diagnostic inputs; authentic publication and
+first-player provenance remain open. Cleanup and variable model paths are
+unsupported. All 95 native tests pass in 29.71 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 ## Latest startup component

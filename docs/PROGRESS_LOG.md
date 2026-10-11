@@ -3498,3 +3498,47 @@ prove a later one. Emulator tests are optional reference checks.
 - Resume two isolated lightweight exact lots, environment initializer00589210
   and packed leaf0058D468. Root owns model-aware class construction, player
   provenance, scene/frame and all shared validation. No push.
+
+## 2026-10-11 — Compose fresh actor class initialization with a real model
+
+- Add native/dreadzone_fresh_class.{c,h}, bounded fresh00586B10 memory effects
+  with no reached cleanup. Genuine filler/environment/defaults, class mismatch
+  or definition, guest model allocation/compaction, fixed modelupdate and final
+  definition flags now compose in one atomic RAM/SPR transaction. Read inputs
+  are disjoint from selected actor, banks, globals and every liveactor100 write
+  footprint. Full class tables, relocated assets, inheritedVU and SPR are
+  explicit inputs. No global binding, actor allocator or player creation occurs.
+- Independent original-chain preparation takes435.74s: every reached callee
+  executes actual raw instructions, including full real compaction, skeleton,
+  compressed fixed decoder, VU/DMA matrix chain. Sixteen nonmodel cases also
+  match the maintained integeroracle on fullGPR128/RAM. Its first unsupported
+  MTC1 failure is retained; only raw word transport is added privately.
+  Preserve the initial overlapping actor/definition fixture; use strict
+  separate definitions for supported native comparisons. Original preparation
+  put its callstack insideRAM; root maps an external stack for wholeRAM proof,
+  so no originalstack transport is claimed as native gameplay memory.
+- Private and final centralDLL proofs eachpass128 wholeRAM/SPR comparisons,
+  6836959EE/317440VUpairs/1210056704bytes and32 realcompactions. Both cleanup
+  exclusion predicates, class mismatch/zerojoints, two environments, all
+  nonzero BNEL outcomes, arbitrary128registers and borrowedactor request pass.
+  All proof inputs remain hashidentical. Host binary32/VU rounding and immediate
+  DMA remain approximations; diagnostic class23F7/Armor0 publication and partial
+  pointer relocation do not prove live class registration or firstplayer source.
+- Fourteen private transaction guards pass after correcting one mistaken
+  expected status (unmapped bank returnsmapping, notunsupported). Preserve the
+  failed script. First central test build fails/WX on a constantbyte cast;
+  explicitly mask the lowbyte and preserve failed source. All95 native tests
+  thenpass29.71s. Synthetic0/1/2/107/127joint fixtures and atomicrefusals are
+  generated data only. Final receipt measures rootintegration since its stored
+  UTC start and hashes finalsource/header/DLL/reference/oracle/test inputs.
+  This lot accepts zero exactfunctions (0exact/hour), one nativecomposition,
+  and zero playablefeatures. No push.
+- Lightweight environment42 tries3 SNvariants, noneexact,371.623s. Initial
+  unknowncanonical/numericcontainment interpretation is corrected in a separate
+  209.7s read-only lot: actualL01 589210/58 matches canonicalL00 5DF3D0 and
+  resident46DAA0, notthe nearbyL00 5891D0 group. Environmental33 takes903s:
+  twoC variants nonmatch; third handwritten shift/OR inlineassembly matches
+  actualL01 but remainsprivate. Its canonicalaudit finds resident470090 and
+  independently enumerated overlayentries. Root is testing C operations with
+  empty compilerbarriers instead of adopting that assembly-only arithmetic.
+  AllworkersHOLD; furtheragentexpansion is deferred while rootvalidates.

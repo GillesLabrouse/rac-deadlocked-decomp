@@ -5,6 +5,33 @@ Windows x64. Upstream Deadlocked and rac1 are matching PS2 decompilations. Their
 matching builds validate recovered source against the game; they do not produce
 a PC executable. Keep that validation while developing the host runtime.
 
+## Fresh model-aware class construction
+
+`dreadzone_fresh_class_initialize` composes supported original L01 00586B10
+memory effects: actual fixed-size filler, environment initialization/packing,
+defaults, class mismatch or definition metadata, genuine guest model allocation
+and optional compaction, fixed-only initial model update and final flags. Cleanup
+must not be reached. The caller supplies real published tables and relocated
+assets, one disjoint RAM range, SPR and explicit inherited VU data. Read inputs
+cannot alias actor/pool/live-actor write footprints; the header states the full
+bounded domain. RAM/SPR publish atomically and VU input stays unchanged.
+
+Private and final central DLL each match 128 complete original-chain RAM/SPR
+cases: 6,836,959 EE instructions, 317,440 VU pairs and 1,210,056,704 compared
+bytes. Thirty-two cases reach original model compaction. Both cleanup-exclusion
+conditions, mismatch/zero joints, environment paths, nonzero BNEL outcomes,
+arbitrary128 GPR inputs and a request borrowed in actor memory are covered.
+The genuine original EE stack is mapped separately from gameplay RAM. Every
+reached callee executes; stack/register ABI, physical binary32 rounding, VU
+state and DMA timing remain outside the approximate native memory contract.
+
+The reference uses diagnostic class23F7/Armor0 tables with only reached pointers
+relocated. This does not prove authentic live class publication or the first
+player's source. Synthetic native fixtures also exercise0/1/2/107/127 joints,
+unchanged inputs, output limits and atomic refusals. No actor allocation, player
+construction, variable animation or gameplay frame is supplied by this adapter.
+Matching credit remains zero for this native composition.
+
 ## Guest model-pool transactions
 
 `dreadzone_guest_model_pool_apply` implements the RAM effects of actual L01
