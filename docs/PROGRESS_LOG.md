@@ -3423,3 +3423,44 @@ prove a later one. Emulator tests are optional reference checks.
   unsupported numeric oracle domains; preserve failures separately rather than
   claiming those matrix paths completed. Continue with authentic frame-zero
   model composition as the next bounded construction lot. No push.
+
+## 2026-10-11 — Compose the authentic initial-frame fixed model update
+
+- Add explicit-VU dreadzone_model_transform_fixed after private validation.
+  Genuine A648/A440 ordering is skeleton transfer/init589368, fixed transfer/
+  unconditional decoder5894F0, general matrices589950, matrix transfer and dirty
+  clear. Domain is positive-zero actor44, no blend/override nodes, matching
+  1..127 joints and fixed-only streams. Use caller-owned numeric guest views,
+  16KiB scratch and4KiB inheritedVU; snapshot descriptors and publish complete
+  outputs atomically. Legacy static request lacks VU input and stays reserved.
+- Independent full original-chain oracle executes every reached EE callee and
+  actual MMIO-triggered memory transfers. Immediate DMA completion and host
+  binary32 remain explicit approximations; original stack/register/MMIO/VU state
+  are outside the adapter. Root independently reviews/fixes proof scope, then
+  repeats128 complete comparisons with both private and finalcentralDLL:
+  815360EE instructions,634880VUpairs,94371840wholeRAM/SPRbytes,zero differences
+  per proof. Fixtures include32 Armor0 RAM/scratch/VU images and4 upper-GPR
+  variants each. Central proof verifies all inputs stay hash-identical.
+- Preserve failed original128-bit scalar-branch comparison and correctedlow64
+  interpreter privately. The frozen final oracle hashae368874 includes clearer
+  pre-delay/entry argument tracing; no callees are skipped. Root's first private
+  fixture left unused lookahead metadata unbounded and overflowed the numeric
+  oracle; preserve it and the corrected full64-byte finite-lookahead fixture.
+  Diagnostic pointer relocation covers only reached asset fields, not genuine
+  class publication or startup registration. Neither those fixtures nor the
+  original-instruction proof earn byte-exact matching credit.
+- Private host guards pass22 wholeRAM/scratch/VU unchanged statuses. Generated
+  synthetic unit fixtures cover1/2/3/107/127 joints, real fixed decode before
+  matrices, final dirtyclear, unaffected RAM/VU, borrowed request and refusals.
+  Newfocusedtestpasses128050checks; all93native tests pass6.14s. Public diagnostic
+  DLL exports the explicit fixed entry; no viewer or gameplay frame changes.
+- Stronger full-model lot takes544.09s, zero builds/publicedits; read-only
+  guest-pool lot takes293.64s and delivers a contract plus raw compaction probe,
+  no incomplete-success implementation. Stockintegeroracle lackedLDL and the
+  firstextendedpoolfixture used a wrong matrixoffset; both failures are retained.
+  Independent probe reports49 updatedactors/12434 movedrecords and ten state
+  words. Root must review/prove the guest adapter before any integration.
+- Matching remains313/15766,0.559%, zero exact functions accepted in this native
+  lot. Measure root integration from private integration-start receipt separately
+  from recovery/review; final receipt records elapsed seconds. Next compose
+  model-pool guest state and full class initializer. No push.

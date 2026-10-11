@@ -21,8 +21,9 @@ typedef struct DreadzoneModelTransform {
 
 /* Reserved model transform entry; nonempty models are currently UNSUPPORTED.
  * Original 0058A258 calls decoder 005894F0 even with zero variable qwords.
- * Closing its fixed compressed channels is required before this entry may
- * prepare matrices or clear the actor dirty bit. The earlier identity-only
+ * This legacy request lacks the explicit inherited VU input required by the
+ * decoder. Use the fixed entry below for the verified initial-frame domain.
+ * The earlier identity-only
  * implementation and its completion guarantee have been withdrawn.
  * Null actor/model returns NO_MODEL. Invalid host descriptors or unmapped
  * actor backing retain distinct statuses. Every status leaves all caller
@@ -30,4 +31,25 @@ typedef struct DreadzoneModelTransform {
  * APPROXIMATE is retained for API compatibility but is never returned.
  */
 int dreadzone_model_transform_static(const DreadzoneModelTransform *request);
+typedef struct DreadzoneFixedModelTransform {
+    DreadzoneModelTransform model;
+    const u8 *vu_data;
+    u32 vu_data_bytes;
+} DreadzoneFixedModelTransform;
+/* Normal initial-frame 0058A648 memory effects through actual 0058A440,
+ * skeleton transfer/00589368, fixed transfer/005894F0, 00589950 and final
+ * matrix transfer. Requires positive-zero actor44, no actor55 bit4, no actor50
+ * or5C nodes, matching1..127 joint counts and a fixed-only animation stream.
+ * Inherited VU data4096 bytes are explicit input; no zero-state assumption.
+ * Only APPROXIMATE host binary32 memory effects are supplied. Hardware DMA
+ * registers/timing, VU state and original stack/register ABI are excluded.
+ * Complete actor100 and referenced assets must be mapped; matrices may not
+ * overlap actor or referenced assets. Guest and host views are disjoint, and
+ * neither scratch nor VU backing may overlap any view or each other.
+ * Request/view descriptors are captured before writes, including borrowed
+ * descriptors in scratch or output backing. All preflight/helper refusals
+ * leave every caller byte unchanged. Success publishes matrices, full scratch
+ * and actor55 dirty-bit clear together. No class/actor construction occurs.
+ */
+int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request);
 #endif

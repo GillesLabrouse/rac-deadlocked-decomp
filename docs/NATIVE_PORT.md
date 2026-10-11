@@ -564,7 +564,27 @@ of scratch plus guards across 160 original EE/VU comparisons using Armor0's
 fixed stream, five fractions and 32 explicit inherited VU images. Three malformed
 streams refuse unchanged. The proof executes 365,120 original EE instructions
 and 285,440 VU pairs under host binary32 arithmetic. This closes the decoder
-component, while composition of the complete model update remains outstanding.
+component, with the bounded model composition described below.
+
+`dreadzone_model_transform_fixed` now supplies the bounded initial-frame model
+update with explicit inherited VU input. It executes skeleton initialization,
+fixed-channel decoding and general matrix generation in the original order,
+then publishes the output matrices, both scratch banks and actor dirty-bit clear.
+Supported inputs require positive-zero frame, matching 1..127 joint counts,
+a fixed-only stream and no secondary blend/override nodes. Unsupported inputs
+refuse atomically. The original legacy entry remains reserved because its
+request has no inherited VU snapshot.
+
+Root's private and final central DLL proofs each pass 128 whole game-RAM/SPR
+comparisons with 32 Armor0 fixtures and four variants of upper GPR halves.
+The reference executes all reached original EE callees, 815,360 instructions
+and 634,880 VU pairs, and compares 94,371,840 bytes per proof. DMA memory copies
+follow the actual MMIO stores, with immediate completion as an explicit timing
+approximation. Stack/register/MMIO/VU state effects are outside the native API.
+Pointer relocation in these fixtures covers only the reached definition,
+animation and skeleton fields; actual class publication remains unproved.
+The 128,050 focused checks and all 93 native tests pass. This update constructs
+model matrices; it does not allocate or initialize Ratchet or advance gameplay.
 
 `dreadzone_bind_pose_prepare` now composes the genuine64-byte pose records
 with the supplied48-byte compact binding records in the original A40/AA8

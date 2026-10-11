@@ -4,6 +4,20 @@ The user explicitly resumed development after the saved pause. Work is active;
 continue until the user stops it. No push is authorized. Read the latest
 PROGRESS_LOG.md entry and preserve the earlier pause evidence.
 
+Latest integration: new dreadzone_model_transform_fixed uses an explicit4KiB
+inheritedVU snapshot, original skeleton/fixed DMA memory copies, genuine589368/
+5894F0/589950 adapters and matrix publication/dirty clear. Domainframe44positive
+zero, no secondaryblend/override nodes, matching1..127 joints, fixed-onlystream.
+Private and finalcentralDLL proofs eachpass128 wholeRAM/SPR comparisons,
+815360EE/634880VUpairs/94371840bytes; all reachedEEcallees execute. DMA immediate
+completion is an explicit approximation; stack/MMIO/VUstate are outsideAPI.
+Frozen root-fixed-model-production-* evidence preserves all inputhashes.
+All93native tests pass6.14s;128050focusedchecks. Legacy staticentry staysreserved.
+Nextcloseactualmodelpoolgueststate/compaction andfullclassinitializer; main
+player constructor, startup provenance, repeatedframe andliveviewer stillopen.
+Allagents currentlyHOLD; sol-fixed-modelreport andluna-model-pool-guestreport
+areprivate. No playablechange and313exact unchanged. Preservefailedoracles.
+
 Critical correction: the public static model transform is now a reserved entry
 that refuses every nonempty model atomically. Original 58A2E0 branches to58A314,
 which unconditionally calls5894F0 even when variable qwords are zero. The old
