@@ -556,6 +556,16 @@ then validating the complete original chain is required to restore support.
 The prepared animation diagnostic uses the separate variable decoder and
 general-matrix/binding path; it does not call this reserved entry.
 
+The normal decoder `dreadzone_variable_pose_decode` now also supports fixed-only
+streams with zero variable qwords. Reached variable opcodes still require their
+actual current/next-bank extents and refuse atomically when missing. Root's
+private variant and rebuilt central diagnostic DLL each agree on all 16 KiB
+of scratch plus guards across 160 original EE/VU comparisons using Armor0's
+fixed stream, five fractions and 32 explicit inherited VU images. Three malformed
+streams refuse unchanged. The proof executes 365,120 original EE instructions
+and 285,440 VU pairs under host binary32 arithmetic. This closes the decoder
+component, while composition of the complete model update remains outstanding.
+
 `dreadzone_bind_pose_prepare` now composes the genuine64-byte pose records
 with the supplied48-byte compact binding records in the original A40/AA8
 order. It supports count0..127 and the real existing-scratch pose bypass,

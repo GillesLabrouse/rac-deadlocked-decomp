@@ -22,6 +22,8 @@ enum { DREADZONE_VARIABLE_POSE_APPROXIMATE=1,
  * All16384 bytes are retained except actual decoder writes, atomically.
  * Host binary32 arithmetic is explicitly approximate relative to PS2 VU.
  * Invalid/truncated streams, other computed-jump opcodes, zero rotation count,
- * nonfinite/denormal fraction and fractions outside[0,1] are refused. */
+ * nonfinite/denormal fraction and fractions outside[0,1] are refused.
+ * Zero variable qwords are supported when all reached groups use fixed opcode0;
+ * reached opcodes24/48 still require mapped current/next variable bytes. */
 int dreadzone_variable_pose_decode(const DreadzoneVariablePose *request);
 #endif

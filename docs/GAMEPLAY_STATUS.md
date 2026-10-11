@@ -24,7 +24,10 @@ decoder, which the old implementation omitted. The entry now refuses all
 nonempty models without writes. Fixed-channel decoding, full class initializer
 composition and transaction-safe model-pool state are immediate construction
 dependencies. The prepared animation diagnostic uses a separate path.
-All 92 native tests pass after this correction in 5.62 seconds; these checks
+The fixed-only decoder component now passes 160 complete original EE/VU scratch
+comparisons and three atomic refusals against the final native DLL. The full
+model update and model-aware class initializer still need composition proof.
+All 92 native tests pass after these changes in 5.75 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 ## Latest startup component

@@ -19,7 +19,7 @@ static float load_float(const u8 *p) { float v;memcpy(&v,p,4);return v; }
 int main(void) {
     u8 scratch[0x4020],saved[0x4020],vu[0x1000];
     DreadzoneVariablePose request={scratch,0x4000,0.f,vu,sizeof(vu)};
-    unsigned i;
+    unsigned i,opcode;
     memset(vu,0x53,sizeof(vu));make_stream(scratch);memset(scratch+0x4000,0x91,32);
     memcpy(saved,scratch,sizeof(scratch));
     CHECK(dreadzone_variable_pose_decode(&request)==DREADZONE_VARIABLE_POSE_APPROXIMATE);
@@ -60,5 +60,17 @@ int main(void) {
     memcpy(scratch,&request,sizeof(request));
     CHECK(dreadzone_variable_pose_decode((const DreadzoneVariablePose *)(const void *)scratch)==DREADZONE_VARIABLE_POSE_APPROXIMATE);
     CHECK(load_float(scratch)==128.f);
+    /* Fixed-only streams still execute the compressed decoder. */
+    make_stream(scratch);scratch[0x2002]=0;request.fraction=0;
+    memcpy(saved,scratch,sizeof(scratch));
+    CHECK(dreadzone_variable_pose_decode(&request)==DREADZONE_VARIABLE_POSE_APPROXIMATE);
+    CHECK(load_float(scratch)==128.f);CHECK(load_float(scratch+64)==144.f);
+    CHECK(memcmp(scratch+0x2000,saved+0x2000,sizeof(scratch)-0x2000)==0);
+    for(opcode=24;opcode<=48;opcode+=24) {
+        make_stream(scratch);scratch[0x2002]=0;scratch[0x2060]=(u8)opcode;
+        memcpy(saved,scratch,sizeof(scratch));
+        CHECK(dreadzone_variable_pose_decode(&request)==DREADZONE_VARIABLE_POSE_UNSUPPORTED);
+        CHECK(memcmp(saved,scratch,sizeof(scratch))==0);
+    }
     printf("%u checks, %u failures\n",checks,failures);return failures!=0;
 }

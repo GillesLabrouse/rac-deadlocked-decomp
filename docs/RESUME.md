@@ -10,7 +10,13 @@ which unconditionally calls5894F0 even when variable qwords are zero. The old
 identity specialization omitted fixed compressed-channel decoding. Preserve
 private/root-static-transform-withdrawal-* backups and independent
 sol-model-class-review-* evidence. All92 tests pass after withdrawal in5.62s;
-matching313 is unchanged. The prepared animation diagnostic uses another path.
+matching313 is unchanged. Latest minimal variable-decoder extension removes
+only the blanket zero-variable refusal; actual opcode24/48 extent guards remain.
+Private and final central DLL proofs each pass160 full scratch+guard matches
+and3 atomic refusals,365120EE/285440VUpairs/2626560bytes. All92 tests now pass
+in5.75s, focuseddecoder20515 checks. Read root-fixed-decoder-* receipts. This
+closes fixed-only decoding, not the full transform; static entry stays reserved.
+The prepared animation diagnostic uses another path.
 Agent sol_model_class_review owns private/sol-fixed-decoder-* investigation;
 position_provenance delivered corrected private initializer/58A258 variants
 under position-model-correction-* and is HOLD. No public integration of those

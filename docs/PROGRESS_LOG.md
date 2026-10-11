@@ -3394,3 +3394,32 @@ prove a later one. Emulator tests are optional reference checks.
 - Continue a private bounded fixed-decoder investigation and retain root
   ownership of public integration and central outputs. No push or playable
   character is claimed.
+
+## 2026-10-11 — Decode genuine fixed-only model channels
+
+- Execute original L01 589368/5894F0 and resident verified VU160/250 for Armor0's
+  zero-variable stream. Independent reviewer finds58 reached opcode0 groups,
+  no original reads in variable banks, and only an inherited scale-w lane that
+  the normal matrix stage does not consume. Preserve explicit VU input and all
+  scratch bytes; this is diagnostic input, not a claim about actual startup VU.
+- Root builds a private isolated native variant before integration. Remove only
+  the blanket header2-zero rejection. Actual variable opcodes24/48 retain their
+  existing bounds and reject missing current/next bytes atomically. Private and
+  final central DLL each pass160 whole-scratch-plus-guard comparisons,32 explicit
+  arbitrary inheritedVU bit images and five fractions, plus3 malformed-stream
+  atomic refusals. Execute365120 originalEE instructions/285440VUpairs and
+  compare2626560bytes per proof. Host binary32 memory effects remain approximate
+  relative to PS2 arithmetic; no DMA timing or VU state publication is claimed.
+- Add generated synthetic fixed-only regression and missing-variable opcode
+  refusals. First central build failed because root added a local test variable
+  to the wrong function; correct the declaration and preserve failed output.
+  Rebuild succeeds: all92 tests pass in5.75s; focused decoder20515 checks.
+  Production differential proof takes3.029s. Matching coverage stays313; zero
+  exact accepted functions and no playable/viewer capability change.
+- Full static transform remains reserved pending real fixed decode/general
+  matrix composition and class/model-pool transaction proof. Independent
+  original matrix replay also exposes the old identity specialization's wrong
+  bases for all107 joints. Fraction1 and unbounded diagnostic metadata expose
+  unsupported numeric oracle domains; preserve failures separately rather than
+  claiming those matrix paths completed. Continue with authentic frame-zero
+  model composition as the next bounded construction lot. No push.

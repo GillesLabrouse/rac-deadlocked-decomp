@@ -119,7 +119,10 @@ int dreadzone_variable_pose_decode(const DreadzoneVariablePose *request) {
        (r.fraction!=0 && r.fraction<FLT_MIN)) return DREADZONE_VARIABLE_POSE_UNSUPPORTED;
     memset(&d,0,sizeof(d));memcpy(d.scratch,r.scratch,0x4000);header=d.scratch+0x2000;
     memcpy(d.cache,r.vu_data,0x1000);memset(d.defined,1,128);
-    if(!header[1] || !header[2] || !header[8] || header[6]>127 || header[7]>127 ||
+    /* 0058A258 calls this decoder even when variable qwords are zero.
+     * Opcode0 consumes only fixed data. Opcodes24/48 still require their
+     * actual variable spans in pose_group and refuse atomically otherwise. */
+    if(!header[1] || !header[8] || header[6]>127 || header[7]>127 ||
        header[1]>128 || header[2]>128) return DREADZONE_VARIABLE_POSE_UNSUPPORTED;
     d.fixed_end=0x2000+(u32)header[1]*16;
     d.variable_end=0x3000+(u32)header[2]*16;d.next_end=0x3800+(u32)header[2]*16;
