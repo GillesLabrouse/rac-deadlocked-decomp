@@ -1396,3 +1396,16 @@ remains NONMATCHING2524/2384 bytes:201 original/SN RAM-only cases include77
 explicit outgoing-W mismatches. No matching percentage is credited for it.
 The native code follows the original EA88/C60 high-register producer inside
 its bounded host-f32 domain; hardware precision, flags and timing are unproven.
+
+`dreadzone_actor_mode_0068A090` calculates the actual movement mode from signed
+record fields, globals and the real index18 metadata flag. It retains signed
+results outside0..2 and performs the query when the original reaches it, even
+when subsequent state tests reject the override. It leaves2659 publication to
+the real movement caller. Missing storage leaves the output untouched.
+
+The central-production bridge passes1984 complete original/fresh-SN/native
+integer replays with1394 genuine metadata queries and16 descriptor aliases.
+All130,023,424 compared RAM bytes stay unchanged; zero captures or differences
+occur over180,214 instructions. The41 focused checks and all82 central tests
+pass. The same-size232-byte PS2 draft still fails exact linking and receives no
+matching credit. This is a frame dependency, not a complete movement frame.

@@ -2459,3 +2459,32 @@ prove a later one. Emulator tests are optional reference checks.
   four candidates accepted from the latest useful batches justify this capacity.
   Root alone integrates sources, shared reports and native code. Current native
   tests remain81 passing; there is no playable character frame and no push.
+
+## 2026-10-11 — Recover the native movement-mode prerequisite
+
+- Add complete native L01 mode selector0068A090. It retains the actual signed
+  halfword2F8, original ordered state/global gates and the reached6BF278 index18
+  metadata flag query. It calculates the original mode; a future caller must
+  publish2659. Missing selected storage refuses with unchanged RAM and output.
+  No prescribed mode or successful callback substitutes for an original read.
+- Root audits all58 reachable words in232 bytes, the real final delay slot and
+  actual metadata callee. Fresh full PS2 C compiles to232 bytes but fails the
+  unmasked address-resolved check; it remains NONMATCHING with zero exact credit.
+- An isolated build and the final central-production bridge each pass1984
+  whole original/fresh-SN/native cases:1394 genuine metadata queries,16 caller
+  descriptor aliases,130,023,424 unchanged RAM bytes and180,214 integer EE
+  instructions. Every metadata byte, signed initial modes and timer boundaries
+  are exercised. Zero differences, captured dependencies or final gate failures.
+  The41 focused checks and all82 central tests pass (4.90s); proof inputs stay
+  unchanged. Player/frame construction and playable rendering remain incomplete.
+- The caller audit proves that ground miss alone cannot determine register
+  provenance: short rays, empty cells and scheduled no-probe exits preserve
+  incoming high words; vertex decode and some traversal paths produce zero.
+  Keep existing position refusals until actual producer transport is closed.
+- At13:10:52 UTC the latest exact checkpoint is299:19 new canonical functions
+  over10,298.18s,6.64 accepted/hour. The four-function production integration
+  phase takes96.82s from its recorded checkpoint, excluding earlier root
+  recovery/ABI gates and including adjacent documentation/commit work. Commands
+  batch14 freezes one exact resident transfer candidate in74s; memory batch14
+  freezes four nonmatching forms in316s with an explicit link-launch failure.
+  Their drafts remain outside accepted sources while root final gates proceed.
