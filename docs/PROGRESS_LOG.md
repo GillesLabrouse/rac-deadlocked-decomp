@@ -2934,3 +2934,43 @@ prove a later one. Emulator tests are optional reference checks.
   Next: actual timer complete control flow, orientation register/numerical closure
   and callback execution dependencies. Still no complete initialized native player
   frame or playable loop. Local work only; no push.
+
+## 2026-10-11 — Verify definition-driven actor visibility
+
+- Establish actual complete L01 5A8630..5A8680 (80 bytes including padding),
+  both returns and their delay slots. The real 684FB0 caller supplies actor2EF0
+  and raw32 mode2F14 through LW; constructor669194 supplies mode2F10 instead.
+  The canonical recovery guard reports unknown_canonical_name. Keep three SN
+  drafts (84/84/80 bytes) private/nonmatching: none passes unmasked equality,
+  no actual relocations exist, and no exact link/adoption is attempted. The
+  initial unprefixed object temporary basename was not inventoried beforehand;
+  its result is excluded and the inability to prove prior absence is recorded.
+- Add a native RAM-only visibility leaf from the actual instructions. Read
+  actor24 definition and definition byteB before accessing actor36. Genuine
+  null/zero metadata exits write nothing; active paths retain the original
+  intermediate (old|8000)&87FF and final mode10/shifted-mode halfword stores.
+  Preserve aliases, caller LW raw32 semantics, captured request/storage alias,
+  and atomic refusal of unmapped fields. This is not actor construction or an
+  original return-register ABI; no captured callee, MMIO/timing or exact credit.
+- Root private and final central-archive proofs each pass673 complete RAM
+  comparisons/four genuine original-fault atomic refusals,8065EE/44105728 bytes,
+  zero differences/captures and unchanged bound inputs. Final run takes0.067s.
+  All85 native tests pass in5.58s;24 focused visibility checks. Independently
+  execute the actual caller LW/JAL/delay path:23 original complete RAM comparisons
+  and three unmapped faults, with two ordered stores and preserved caller high64.
+  Its broader scan corrects the initial12-call inventory to13 actual L01 calls;
+  preserve the earlier receipt rather than silently rewrite its evidence.
+- Memory recovery batch20 takes259s, zero accepted and three failed comparisons.
+  Independent visibility audit takes334s and earns zero exact credit. Keep both
+  exact workers held; the validation worker remains on bounded gameplay work.
+  The accepted total remains311 and0.556%, separate from this native port.
+  Integration starts at16:00:59UTC before public adoption; final receipt records
+  elapsed time and the measured zero-acceptance recovery throughput.
+- Audit timer bounds independently:55D240's actual branch target55D270 is part
+  of the complete64-byte function, beyond the old48-byte slice. 55D148 is48 bytes,
+  not its earlier56-byte catalog slice. Both helper returns are unused by actual
+  684EF0; their in-place mutations matter. Correct MFC1/BC1F delay placement and
+  signed64 classification. Preserve prior erroneous prose; overlay runtime GP
+  remains unproven by this audit. These are diagnostic findings, not native or
+  exact acceptance. Continue with orientation's raw MFC1/QMT/C60 gap and complete
+  actor/frame dependencies. Still no complete player frame or playable loop.

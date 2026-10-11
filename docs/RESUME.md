@@ -21,7 +21,7 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - 311 accepted exact functions of15766, approximately0.556% code. Last full
   audit:311 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All84 native tests passed in5.57s; publication module36 focused checks,
+- All85 native tests passed in5.58s; visibility24 focused checks, publication module36,
   position75, ground132 and capsule119. Latest additive entry is
   `dreadzone_actor_position_state_0067F5E8`, with explicit caller high64 input.
 - The new position entry supports selected complete active140 and scheduled
@@ -33,6 +33,13 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - Whole66ABD8/reached54A4E8 callback enqueue is public and verified through189
   complete integer RAM comparisons, three original-fault atomic refusals and
   27 focused checks. It does not execute callback66ACA0 or initialize its actor.
+- Complete L01 visibility leaf5A8630 is now a public native RAM port. Final
+  central-archive proof:673 complete comparisons, four original-fault atomic
+  refusals,8065EE and44105728 bytes; no captures, unchanged inputs. Independent
+  real-caller audit adds23 original RAM comparisons/three unmapped faults.
+  Actual class pointer/byteB controls two ordered actor36 halfword stores;
+  input mode is the caller LW raw32 word. No initialized actor, full player
+  frame or original return-register ABI is claimed. Zero byte-exact credit.
 - Public ground UPDATE has an additive raw high64 output. Actual special-height
   helper593478 was verified across600 original/native full RAM/return/register
   calls; genuine2237D8 lookup dependencies still refuse.
@@ -65,7 +72,10 @@ nonmatching drafts and ignored private/baserom/build evidence.
    validation/integration keeps up. Hold after each batch; report accepted/hour,
    failed gates and integration seconds. Latest measured batch checkpoint is
    3.61 accepted/hour at15:48:20UTC from15:31:42UTC dispatch, including root
-   integration and concurrent native work. See the latest progress-log entry.
+   integration and concurrent native work. The next memory recovery takes259s
+   with zero accepted/three failed full comparisons; both recovery workers are
+   held while root integrates gameplay dependencies. A separate bounded worker
+   audits the orientation raw-VU numerical gap. See the latest log and receipt.
 
 ## Private evidence retained locally
 
