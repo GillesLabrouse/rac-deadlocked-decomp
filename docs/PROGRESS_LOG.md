@@ -2391,3 +2391,43 @@ prove a later one. Emulator tests are optional reference checks.
   excluding earlier draft work and later documentation/commit, with zero root
   gate failures. Both Luna recovery workers wait while native position is
   independently reviewed. No new third recovery worker or push is made.
+
+## 2026-10-11 — Integrate bounded primary position and resume small parallel lots
+
+- Add native selected mode-zero0067F5E8 position composition to central
+  libraries: genuine inactive-object exit, velocity caps, capsule resolution,
+  ground update, settling, displacement projections and metrics. All nested
+  calls use transactional RAM and explicit incoming W words. Active secondary
+  displacement, missing high-register provenance after ground misses, active
+  object lookup and unrecovered numeric/geometry paths refuse without writes.
+  Constructor, state/frame composition and live rendering remain incomplete;
+  no playable character or airborne frame is claimed.
+- Root independently checks the actual2384-byte extent,596 reachable words,
+  final delay slot and19 calls, and compiles the full PS2 source to2524 bytes.
+  Its real address-resolved comparison is NONMATCHING. Original/SN complete
+  replay agrees on RAM in201 cases but differs on outgoing W in77 cases;
+  these differences are retained explicitly and add no exact coverage.
+- Central production archive replay passes76 complete original/native RAM and
+  five-W comparisons, including four successful request aliases, across
+  403,702,272 compared bytes,1,959,263 EE instructions and63,066 VU pairs with
+  zero captured callees. Another129 native cases refuse atomically. All frozen
+  inputs stay unchanged during63.76s. Root's earlier isolated build also passes.
+  All45 focused checks and81 central tests pass (5.79s).
+- Original EA88's full-width67EBEC producer transports A0.word3 into the later
+  C60 intermediate W polynomial. The compiled draft uses a different full-width
+  register producer; a native approximation follows the original instruction
+  effects rather than masking this discrepancy. Physical VU precision, flags,
+  timing and other register effects remain outside the declared domain.
+- Root initially chose an elevated miss fixture that still intersected the
+  downward ray's floor. Preserve that failed test; move XY outside the authored
+  cell, independently verify genuine ground probes, zero contacts and nonzero
+  timer, then verify whole-position rollback. Integration start was not captured
+  before review, so no invented total wall-time is reported.
+- Resume two Luna workers with exclusive prefixes and separate compiler output.
+  Memory batch13 freezes two exact callback candidates in110s. Commands batch12
+  rejects a common/local entry conflict before compilation (106s); no source or
+  exact gain. Commands batch13 freezes two resident word-accessor candidates in
+  136s, with two corrected verifier file-handle errors. Root gates remain pending.
+  The specialist independently audits real684A60 caller/high-register producers
+  for the remaining position branches; root alone owns integration and reports.
+  Nothing is pushed. Matching remains295 at this native checkpoint.

@@ -1377,3 +1377,22 @@ and adds no matching percentage. Host-f32/VU arithmetic remains a bounded
 approximation. Actor/world construction, state/frame dispatch, complete
 position integration and live animation/rendering still need composition.
 There is no playable Ratchet frame; existing viewer controls move the camera.
+
+`dreadzone_actor_position_step_0067F5E8` now composes selected mode-zero primary
+position movement with actual capsule, ground and settling calls, projections,
+velocity caps and displacement metrics. One exclusive RAM transaction retains
+ordered aliases and five outgoing W words. Active secondary displacement,
+ground-miss high-register provenance, active-object lookup and other reached
+unsupported dependencies refuse without changing RAM or diagnostic output.
+The supplied record, body, world, clock, history and grid remain explicit
+inputs; this does not initialize a player or complete a frame.
+
+The root bridge to central production archives passes76 whole original/native
+RAM-and-five-W cases, including four successful caller aliases, and129 atomic
+refusals. All403,702,272 compared bytes agree over1,959,263 EE instructions and
+63,066 VU pairs, without captured dependencies. Bound inputs stay unchanged;
+45 focused checks and all81 central tests pass. A separate full PS2 draft
+remains NONMATCHING2524/2384 bytes:201 original/SN RAM-only cases include77
+explicit outgoing-W mismatches. No matching percentage is credited for it.
+The native code follows the original EA88/C60 high-register producer inside
+its bounded host-f32 domain; hardware precision, flags and timing are unproven.
