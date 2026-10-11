@@ -1829,3 +1829,35 @@ prove a later one. Emulator tests are optional reference checks.
   All 70 native tests pass in 4.92 seconds. Physical PS2 arithmetic, full
   constructor/state entry, ground/position frame and live pose/blend rendering
   remain unverified. The animated viewer is unchanged. Nothing is pushed.
+
+## 2026-10-11 — Recover complete walking update and native direction history
+
+- Retained the complete 00695CB8 state-two update outside accepted source.
+  Its true history, turn, parameter, acceleration/velocity, wall, optional
+  terrain/slope branches remain intact. Fresh SN/strict linking is NONMATCHING:
+  2468 rebuilt bytes versus the genuine 2404-byte span. The expanded draft is
+  executed in isolation from the adjacent entry, with default arithmetic;
+  fast-math reassociation was corrected before this validated checkpoint.
+- Full original/SN replay passes 672 cases: 76 complete and 596 explicitly
+  stopped at the genuine wall-probe entry, without replacing any callee.
+  This includes 160 actual projected contributions and 32 actor/global aliases,
+  746,576 original/760,304 rebuilt EE instructions and zero RAM differences.
+  Freshly promoted source/code and unchanged private inputs are hash-bound.
+- Added complete native 005BD900 signed angle-history reading: null selects
+  actual mapped001EE600; head/count, wrapped32 arithmetic and signed remainder
+  retain their real behavior. Raw returned float words are never evaluated or
+  normalized. Missing/misaligned reached reads refuse before publication.
+- Central-production original/SN/native replay passes 1,920 cases, four caller
+  output aliases and four real reached-memory refusals. It compares 8,847,360
+  RAM bytes and executes 32,640 original/32,000 rebuilt instructions without
+  differences. The focused fixture passes 3,851 checks; all 71 central native
+  tests pass in 4.94 seconds. Matching progress remains 280 functions.
+- Optimized private replay by validating immutable complete instruction maps
+  once, retaining fresh per-case RAM and reset architecture/trace state. All
+  672 state-two per-case results and resolved code hashes agree with the prior
+  replay; observed local duration drops from 362.66 to 7.34 seconds (~49x).
+  The redundant slow history replay was stopped only after an independent
+  complete original/SN/native proof passed. Agent jobs were left running.
+- Actual wall/ground response, complete state entry/frame composition and
+  live rendered pose/blend remain active work. No playable frame is claimed;
+  the visible animation preview is unchanged. Nothing is pushed.

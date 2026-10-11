@@ -1085,6 +1085,40 @@ All 10,306 focused checks and all 70 central tests pass (4.92 seconds).
 The visible preview still lacks player controls; full state entry/update,
 position/ground composition and live rendered pose/blend integration remain.
 
+The complete 00695CB8 state-two update is now retained as a PS2 recovery draft.
+It preserves the true history, turning, parameters, acceleration, velocity,
+wall, optional terrain and slope calls. The 2404-byte original span rebuilds to
+2468 bytes and remains NONMATCHING; the expanded draft is replayed in isolation
+from the adjacent original entry. No extra accumulated-motion call is inserted.
+Default arithmetic preserves the original ordered operations; fast-math
+reassociation did not agree and is excluded from the validated recipe.
+
+Fresh strict linking and 672 original/SN comparisons agree without captures:
+76 calls complete and 596 stop explicitly at the genuine wall-probe entry.
+There are 160 projected-contribution cases and 32 actual actor/global aliases,
+746,576 original and 760,304 rebuilt EE instructions. These controlled fixtures
+do not establish a constructor, physical floating equivalence or active frame
+completion. The full native state-two composition remains pending.
+
+`dreadzone_input_angle_history_005BD900` now implements the genuine signed
+history query needed by this update. Null input selects mapped 001EE600; signed
+head/count, wrapped32 arithmetic and signed remainder can read before the
+thirty angle slots. The returned LWC1 word keeps all bits, including signed
+zero, subnormal, infinity and NaN patterns. Missing/misaligned reads refuse
+without output publication. The native library is compared independently with
+original instructions and fresh complete SN code on 1,920 cases, four caller
+output aliases and four genuinely reached memory refusals. All 8,847,360 RAM
+bytes agree. The fixture passes 3,851 checks; all 71 central tests pass in
+4.94 seconds. This query does not supply live controller transport.
+
+Private replay now validates immutable complete instruction maps once and
+reuses CPU instances with freshly copied RAM and reset architectural/trace
+state per case. The promoted state-two code has the identical resolved
+instruction hash and all 672 per-case results match the earlier replay.
+Observed local validation time falls from 362.66 to 7.34 seconds; coverage,
+true calls and explicit wall boundaries are retained. Original assets/code
+maps and diagnostic reports remain private. The visible viewer is unchanged.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail

@@ -296,6 +296,13 @@ if(WIN32)
     endif()
 endif()
 
+add_library(deadlocked_native_dreadzone_input_angle_history STATIC dreadzone_input_angle_history.c)
+target_include_directories(deadlocked_native_dreadzone_input_angle_history PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_input_angle_history PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_input_angle_history PRIVATE /W4 /WX)
+endif()
+
 add_library(deadlocked_native_dreadzone_actor_input_bridge STATIC
     dreadzone_actor_input_bridge.c ../nonmatching/L01_006A7D48.c
     ../nonmatching/L01_0067BD58.c ../nonmatching/L01_0055D180.c
@@ -914,6 +921,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_actor_animation_select_tests PRIVATE /W4 /WX /fp:precise)
     endif()
     add_test(NAME native_actor_animation_select_validation COMMAND deadlocked_native_actor_animation_select_tests)
+    add_executable(deadlocked_native_input_angle_history_tests tests/dreadzone_input_angle_history_tests.c)
+    target_link_libraries(deadlocked_native_input_angle_history_tests PRIVATE deadlocked_native_dreadzone_input_angle_history)
+    if(MSVC)
+        target_compile_options(deadlocked_native_input_angle_history_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_input_angle_history_validation COMMAND deadlocked_native_input_angle_history_tests)
     add_executable(deadlocked_native_actor_position_helpers_tests tests/dreadzone_actor_position_helpers_tests.c)
     target_link_libraries(deadlocked_native_actor_position_helpers_tests PRIVATE deadlocked_native_dreadzone_actor_position_helpers)
     if(MSVC)
