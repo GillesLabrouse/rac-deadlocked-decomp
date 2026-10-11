@@ -195,6 +195,13 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_general_matrices PRIVATE /W4 /WX /fp:precise)
 endif()
 
+add_library(deadlocked_native_dreadzone_pose_masks STATIC dreadzone_pose_masks.c)
+target_include_directories(deadlocked_native_dreadzone_pose_masks PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_pose_masks PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_pose_masks PRIVATE /W4 /WX)
+endif()
+
 add_library(deadlocked_native_dreadzone_inventory_setup STATIC
     ../nonmatching/L01_005688A0.c ../nonmatching/L01_006BE050.c
     ../nonmatching/L01_006BE198.c ../nonmatching/L01_006BE208.c
@@ -980,6 +987,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_actor_position_helpers_tests PRIVATE /W4 /WX /fp:strict)
     endif()
     add_test(NAME native_actor_position_helpers_validation COMMAND deadlocked_native_actor_position_helpers_tests)
+    add_executable(deadlocked_native_pose_masks_tests tests/dreadzone_pose_masks_tests.c)
+    target_link_libraries(deadlocked_native_pose_masks_tests PRIVATE deadlocked_native_dreadzone_pose_masks)
+    if(MSVC)
+        target_compile_options(deadlocked_native_pose_masks_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_pose_masks_validation COMMAND deadlocked_native_pose_masks_tests)
     add_executable(deadlocked_native_general_matrices_tests tests/dreadzone_general_matrices_tests.c)
     target_link_libraries(deadlocked_native_general_matrices_tests PRIVATE deadlocked_native_dreadzone_general_matrices)
     if(MSVC)

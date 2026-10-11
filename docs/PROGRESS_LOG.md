@@ -1948,3 +1948,20 @@ prove a later one. Emulator tests are optional reference checks.
   closure over further all154-state dispatcher expansion. Full construction,
   wall/ground closure, outer position and live pose/blend remain work; the
   existing preview remains camera-controlled. Nothing is pushed.
+
+## 2026-10-11 — Recover the genuine secondary-pose mask producer
+
+- Added complete5893F0 PS2 source and native scratch/VU-data effects, retaining
+  actual joint IDs, offsets, mask gaps, sentinel writes and the null-first-list
+  early return. Lists that alias scratch preserve the real load/store order.
+- Root independently compiles/strict-links SN and uses a DLL linked to the
+  central production library. Guarded1,300 whole original/SN/native calls
+  include112 actual clip ranges,812 combinations of all28 original masks and
+  128 ordered aliases. All687,113,728 compared bytes agree with zero captures.
+- Execution covers1,181,260 original/1,974,930 SN EE; three real missing-read
+  cases refuse without publishing either bank. All inputs remain unchanged
+  over7.32 seconds. The84 focused checks and all75 native tests pass (4.37s).
+- The complete draft is388 versus256 original bytes and isolated NONMATCHING.
+  Register state and physical timing are excluded. Full secondary decoding/
+  blending and live pose rendering remain work; no new controls are claimed.
+  Matching coverage stays280 functions, and nothing is pushed.

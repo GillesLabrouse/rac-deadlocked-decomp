@@ -1202,6 +1202,28 @@ explicit refusals. Actual frame scheduling, idle/walking composition, collision
 response, live pose/blend and rendered controls remain active work. The
 existing animated viewer is unchanged.
 
+`dreadzone_pose_masks` now executes the complete5893F0 CPU scratch and integer
+VU-data mask effects used before secondary pose blending. It consumes the real
+halfword offsets and signed joint IDs, preserves gaps in the second list and
+the genuine ending sentinel, and honors the null-first-list early return.
+Lists can alias scratch metadata: each next ID is loaded before the current
+mask store. Both full banks publish only after supported completion.
+
+Independent original/SN/central-production replay passes1,300 whole calls,
+including all112 real clip-header ranges,812 combinations of the class's28
+authentic masks and128 ordered scratch-list aliases. All687,113,728 compared
+scratch/VU/source bytes agree, with1,181,260 original and1,974,930 SN EE
+instructions and no captured calls. Three genuinely reached missing-read
+cases refuse atomically. All bound inputs remain unchanged for7.32 seconds.
+The focused fixture passes84 checks; all75 central tests pass in4.37 seconds.
+The complete PS2 draft compiles to388 versus256 original bytes, remains
+NONMATCHING and is replayed in isolation. [VISWR integer store semantics]
+(https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VUops.cpp) were cross-checked
+as facts against the primary implementation, without copying code. The adapter
+does not publish VU register state or establish physical scheduling/timing.
+Full589768 secondary decoding/blend330/620 and live rendering remain work;
+this producer alone does not add a visible pose or playable frame.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
