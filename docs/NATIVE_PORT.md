@@ -1332,5 +1332,22 @@ standard overflow-clamping facts were checked against the primary
 [PCSX2 VU implementation](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VUops.cpp).
 This does not establish physical ACC precision, flags or timing. Fixture
 constructor/body/clock/grid/prior-stack values do not prove a player frame;
-wall response, position/state/frame and live rendering composition remain
-separate work. The existing animated viewer still provides camera controls.
+position/state/frame and live rendering composition remain separate work.
+The existing animated viewer still provides camera controls.
+
+`dreadzone_actor_wall_response_0067D6E8` supplies the complete selected
+mode-zero response. Both genuine mask2 probes execute, preserving the first
+surface across the second packet overwrite. The reached inclination and
+projection paths retain actual object publication and inward velocity removal.
+Caller RAM is transactional; eligible unrecovered geometry, modes, table
+changes and unsupported numeric inputs refuse without committing writes.
+
+Independent root replay uses a freshly compiled full NONMATCHING PS2 body and
+the central native production archives. All 180 complete comparisons agree,
+including 14 actual velocity changes, 308 probes, 20 aliases and explicit five
+caller W words. Nine atomic refusals are independently exercised. All
+956,136,960 compared native RAM bytes agree, with zero captured dependencies;
+the 40 focused checks and all 79 central tests pass. Four original instructions
+remain unexecuted by the fixtures. The declared ordered host-f32/VU/Q domain
+does not establish hardware precision, flags or timing, full position update,
+actor construction or a playable frame.

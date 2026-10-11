@@ -2238,3 +2238,47 @@ prove a later one. Emulator tests are optional reference checks.
   for root integration. Whole idle/walking/position and constructor/live pose
   composition remain required; the viewer's controls still move the camera,
   and no playable Ratchet frame is claimed. Nothing is pushed.
+
+## 2026-10-11 — Integrate complete selected native wall response
+
+- Root independently compiles the full 0067D6E8..0067DBE8 body, verifies all
+  seven actual L01 calls and strict resolved references. Its 1336/1280-byte
+  PS2 object remains NONMATCHING and outside accepted matching sources.
+- Add the mode-zero native response to the central production libraries and
+  replay those archives through a separate diagnostic bridge. Genuine velocity
+  projection, scheduling, both mask2 probes, retained first surface and second
+  packet inclination execute; inward velocity is corrected in genuine order.
+  Reached unsupported modes or geometry refuse atomically, never as misses.
+- All 180 complete original/authored-SN/native calls agree, including 308
+  probes, 16 responses, 14 actual velocity changes and 20 RAM/descriptor aliases.
+  Five caller W words are explicit. Nine atomic refusals cover two modes,
+  four numeric cases, real eligible model geometry, a table modified by probes,
+  and a missing clock. All 956,136,960 compared native RAM bytes agree with
+  zero captures/differences across 702,179 EE instructions and 41,360 VU pairs.
+  Bound inputs remain unchanged during 11.30 seconds of root replay. The root
+  private oracle retains SA; shared integer decoding and historical receipts
+  remain untouched. Ordered host-f32/VU/Q approximation is not hardware proof.
+- The 40 focused checks and all 79 central tests pass (4.44 seconds). Four
+  original instructions are not reached by this fixture set; successful replay
+  does not establish exhaustive branch coverage or a complete character frame.
+  Position update, state dispatch, constructor and live pose remain required.
+  The collision specialist now owns a separate full 67F5E8 position draft.
+
+## 2026-10-11 — Accept two bounded resident accessors
+
+- Root freshly compiles 00142220/00142230, verifies the real 12/16-byte bounds,
+  record+40 pointer structure, no actual relocations, and actual L01 callsites
+  63F910/63F74C. Unmasked resident linking and both production objects pass.
+  These are generic accessors; their startup role is not asserted. Shared audit
+  passes 292 with zero mismatches; generated progress check passes (0.547%).
+- Memory batch8 takes 194 seconds with one source form per function, zero
+  object/link mismatches and one corrected compiler-launch quoting failure.
+  Root has one pre-execution PowerShell quoting failure, then uses a saved
+  Python script; no validation fails. Use argument arrays or saved scripts for
+  future invocations. Two-function batches reduce repeated integration overhead.
+- At 12:01:18 UTC, 12 accepted since 10:19:14 across 6124.20 seconds gives
+  7.05 accepted/hour, including main native work. Root integration is 115.98
+  seconds including concurrent native validation, excluding later docs/commit.
+  Seventeen distinct recovery candidates have been attempted; five remain
+  unaccepted. The second Luna worker audits useful dependencies read-only;
+  no third new recovery worker is added. Nothing is pushed or playable yet.
