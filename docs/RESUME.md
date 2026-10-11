@@ -21,7 +21,8 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - 311 accepted exact functions of15766, approximately0.556% code. Last full
   audit:311 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All85 native tests passed in5.58s; visibility24 focused checks, publication module36,
+- All86 native tests passed in6.13s; counter20 focused checks, visibility24,
+  publication module36,
   position75, ground132 and capsule119. Latest additive entry is
   `dreadzone_actor_position_state_0067F5E8`, with explicit caller high64 input.
 - The new position entry supports selected complete active140 and scheduled
@@ -40,6 +41,12 @@ nonmatching drafts and ignored private/baserom/build evidence.
   Actual class pointer/byteB controls two ordered actor36 halfword stores;
   input mode is the caller LW raw32 word. No initialized actor, full player
   frame or original return-register ABI is claimed. Zero byte-exact credit.
+- Complete L01 signed word-counter55D148 is public native code. Final actual
+  central-archive proof:4105 complete64-byte RAM/low64-return comparisons,
+  45126EE,262720 bytes, zero captures or differences. Actual whole48-byte L01
+  helper equals the separately checked resident4534D0 body. The integer oracle
+  already supports PMAXW's four signed32 lanes; no oracle extension was needed.
+  Neither full-GPR ABI, exact credit nor a complete player frame is claimed.
 - Public ground UPDATE has an additive raw high64 output. Actual special-height
   helper593478 was verified across600 original/native full RAM/return/register
   calls; genuine2237D8 lookup dependencies still refuse.

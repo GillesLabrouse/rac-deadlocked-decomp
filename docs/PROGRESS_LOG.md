@@ -2974,3 +2974,34 @@ prove a later one. Emulator tests are optional reference checks.
   remains unproven by this audit. These are diagnostic findings, not native or
   exact acceptance. Continue with orientation's raw MFC1/QMT/C60 gap and complete
   actor/frame dependencies. Still no complete player frame or playable loop.
+
+## 2026-10-11 — Verify complete signed word-counter dependency
+
+- Recover the complete48-byte L01 55D148 leaf from actual words and verify its
+  separately read resident4534D0 body is byte-identical. Retain the real zero
+  early exit, executed PMAXW branch delay, signed clamp/decrement, store in the
+  positive-test delay and low-word returns1/0/2. PMAXW writes four signed32 lanes;
+  subsequent word operations consume only its low lane. The existing integer
+  oracle already executes this operation without a captured callee or patch.
+  Independently check its lane semantics against the pinned primary
+  [PCSX2 MMI implementation](https://github.com/PCSX2/pcsx2/blob/v2.4.0/pcsx2/MMI.cpp#L313).
+- Add a native signed word-counter helper, preserving only the consumed RAM and
+  scalar result contract. Actual684EF0 uses in-place counters2EE0/398/3F4/3E8/
+  390/394 and its four-entry2D84 stride16 loop, while ignoring these returns.
+  Host null-pointer refusal returns-1; successful original results are0/1/2.
+  This is not a full-GPR wrapper, complete frame or exact recovery. Do not count
+  the prior nonmatching SN drafts as accepted because of this native port.
+- Private and final central-archive proofs each pass4105 complete64-byte RAM/
+  signed64 scalar-return comparisons, including4096 deterministic random words,
+  minimum/maximum signed values and random initial full128 register state.
+  All262720 RAM bytes and45126EE compare without captures/differences; bound
+  inputs remain unchanged. Final run takes0.181s. The original caller a0 high64
+  and V0's inherited high64 remain intact; no native full-GPR result is invented.
+- All86 native tests pass in6.13s;20 focused counter checks include consecutive
+  decrements through positive/expired/already-zero states and surrounding byte
+  preservation. No final compiler/test/proof failures. Accepted exact count
+  remains311/0.556%; recovery workers remain held. Public integration clock
+  starts16:08:03UTC; the final receipt records its measured elapsed time.
+  Next: close orientation's raw-vector model gap and genuine frame/initialization
+  call graph. The executable remains a scenery/animation viewer, with no complete
+  initialized native player frame, playable loop or push.
