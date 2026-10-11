@@ -1669,3 +1669,21 @@ All130,023,424 compared RAM bytes stay unchanged; zero captures or differences
 occur over180,214 instructions. The41 focused checks and all82 central tests
 pass. The same-size232-byte PS2 draft still fails exact linking and receives no
 matching credit. This is a frame dependency, not a complete movement frame.
+
+## Supported player record and volume composition (2026-10-12)
+
+`dreadzone_player_record_transform` composes the complete supported L01
+0066E580 RAM/SPR path, including actor transformation and both actual collision
+volumes. `dreadzone_player_volume_update` supplies the complete supported
+00587188 memory boundary. Resource volume headers remain in caller RAM; no
+invented actor-local volume pool is supplied. Requests capture borrowed
+storage and use atomic publication. See their headers for numeric and branch
+limits; original stack/register ABI, VU register effects and physical timing
+are excluded. The internal volume apply entry is for private enclosing
+transactions only and is not exported by the diagnostic DLL.
+
+The production DLL passes68 whole record comparisons plus eight atomic
+refusals and58 volume comparisons plus six atomic refusals. All100 native
+regressions pass. These entries add neither exact matching coverage nor a
+controllable player. Serialized reference relocation, authentic construction,
+repeated input/movement/collision and live pose/camera remain integration work.

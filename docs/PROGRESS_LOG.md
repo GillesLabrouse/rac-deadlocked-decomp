@@ -1,5 +1,41 @@
 # Local development progress
 
+## 2026-10-12 — Integrate player record transformation and collision volumes
+
+- Publish native/dreadzone_player_record_transform.{c,h} and player_volume
+  interfaces for complete supported actual0066E580 and00587188 memory paths.
+  Compose actual nonoscillator position/rotation helpers, the paired-quad copy,
+  actor transformation, mode0 height offset and both original volume updates.
+  Preserve genuine nonzero volume headers in published class resources, full
+  basis W terms, ordered binary32 arithmetic and mutable fields reloaded after
+  the first volume. No actor construction or complete repeated frame is claimed.
+  Unsupported oscillator/height/live transform paths refuse atomically.
+- The central production DLL passes68 wholeRAM/SPR comparisons for the complete
+  record composition:33550EE/2956CALLMS VU pairs/714145792bytes, including eight
+  independently devised aliases. Eight separate late atomic refusals pass.
+  The volume entry independently passes58 whole-memory comparisons and six
+  atomic refusals. Actual resources4249/9207 and every reached original callee
+  execute; none are simulated. Original external stack/register ABI, VU register
+  effects, physical EE/VU timing and runtime player selection are excluded.
+- Focused regression passes60 checks; all100 native tests pass6.05s. Exact audit
+  remains316/zero failures and progresscheck passes. Preserve the initial invalid
+  deepcopy-CPU fixture (56 failed comparisons because the VU hook retained the
+  previous CPU) and first three mistaken test sign expectations. Recreate the
+  genuine original CPU for every case and correct only those fixtures; unchanged
+  native implementation passes all production comparisons. Independent record
+  review396s and volume review358s found no supported-domain blocker. Their
+  first failed fixtures and bounded reference limits remain documented.
+- Startup51/52/53 and mission41 recover actual57BDC8 reference relocation and
+  its genuine55D470 copy. Original mission descriptor22 lives at body9910,
+  source10430..10520, lengthF0; aligned copy reads through10530. Root rereads
+  actual caller and function words. Preserve memory52's mistaken9EC0 payload
+  base and separate correction to actual header18=9F40. Static input provenance
+  does not prove selected mission, active actor or runtime cursor. Next close
+  this complete payload relocation with original comparisons, then constructor
+  and repeated frame. Two native boundaries, zero exact functions and zero
+  playable features are added in this lot; no viewer change or push.
+  Integration timing/hashes: private/root-player-record-transform-final-receipt.json.
+
 ## 2026-10-11 â€” Integrate the supported complete placed-actor loader
 
 - Publish native/dreadzone_placed_actors.{c,h}, the supported complete824-byte

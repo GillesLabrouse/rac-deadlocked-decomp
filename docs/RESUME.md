@@ -1,6 +1,30 @@
 # Resume checkpoint — active development, 2026-10-11
 
-Latest native checkpoint: native/dreadzone_placed_actors.{c,h} now composes the
+Latest native checkpoint: complete supported0066E580 player record transform
+and00587188 volume update are integrated in native/dreadzone_player_* files.
+Central68 wholeRAM/SPR matches33550EE/2956VU/714145792bytes; eight atomic
+record refusals. Volume58 independent whole-memory matches and six atomic
+refusals. Genuine class4249/9207 volume resources remain present. Full basisW,
+paired-copy lookahead, mutable postvolume fields and ordered finite binary32
+are preserved. Nonoscillator states and height mode0 only, nested transform
+limits apply. Original stack/register ABI/VU register effects excluded.
+60 focused checks/all100 native tests pass6.05s; exact316/0failures/progresscheck.
+No controllable Ratchet, selected full startup, repeated frame or viewer change.
+
+Preserve private/root-player-record-transform-* and root-player-volume-*, both
+strong independent reviews, failed deepcopy-original fixture and first wrong
+unit sign expectations. New finite original reference explicitly restricts
+MAX.S to finite input and actual F21=.05. Production proofs use that version.
+Root integration hashes/timing are frozen in its final receipt.
+Next: supported full57BDC8 + real55D470 reference relocation, using corrected
+original mission body header14=9860/header18=9F40; descriptor22 offset64F0/
+lengthF0 implies source10430..10520 and true pairedquad read through10530.
+Memory52's original mistaken9EC0 is withdrawn in its separate correction.
+Runtime mission24375C producer, active actor and cursor243760 remain unproved.
+Light workers memory54 recover exactcopy in exclusive draft/output and mission42
+replay original relocation; root owns native composition/integration. No push.
+
+Earlier native checkpoint: native/dreadzone_placed_actors.{c,h} now composes the
 supported complete0057B788 memory path, cached upload/noheight/noenvironment/
 nospecial7D0 with actual fresh/model/transform/spatial components. Preserve
 all mutable loads and snapshots. Public70-check suite/all99 native tests pass

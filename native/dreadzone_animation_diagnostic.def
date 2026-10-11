@@ -1,4 +1,6 @@
 EXPORTS
+    dreadzone_player_record_transform
+    dreadzone_player_volume_update
     dreadzone_placed_actors_load
     dreadzone_actor_transform
     dreadzone_guest_actor_allocate

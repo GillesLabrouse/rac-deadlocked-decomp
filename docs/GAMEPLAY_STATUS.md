@@ -1,6 +1,6 @@
 # Native playable-opening checkpoint
 
-Current checkpoint: 2026-10-11. The Windows executable displays Dreadzone scenery
+Current checkpoint: 2026-10-12. The Windows executable displays Dreadzone scenery
 and a separate prepared animation diagnostic. It does not run a controllable
 Ratchet or a complete gameplay frame. Matching coverage is 316 functions of
 15,766 (0.560% code); this percentage does not measure playable readiness.
@@ -9,8 +9,14 @@ Ratchet or a complete gameplay frame. Matching coverage is 316 functions of
 | --- | --- | --- |
 | Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges; original mission0 binary placement list with all342 text records crossvalidated. | Execute the allocation/layout and parser chain with its real cursor, globals, runtime selected records and resources; close the producer of mission pointer24375C. |
 | Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation, guest actor/payload/model pools, fresh initial-model class composition, complete supported actor transformation/spatial registration and placed-loader memory composition. | Supply runtime selected serialized records and their actual reference relocation; close `00668070` and actual child/backlink producers, and support reached cleanup/live animation paths. |
-| Repeated player update | Controller decoding and selected direction, walking, position and collision paths; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
+| Repeated player update | Controller decoding and selected direction, walking, position and collision paths; complete supported player-record transformation and both resource volume updates; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
 | Live visual output | Native terrain renderer, original body topology and validated prepared animation samples. | Bind the initialized actor's changing position, live animation and camera to the renderer across successive frames. |
+
+Complete supported player-record transformation now passes68 wholeRAM/SPR
+original comparisons, with actual resource collision volumes preserved. The
+separate volume entry passes58 comparisons. Oscillator states, nonzero height
+modes and reached unsupported nested transform paths remain bounded refusals.
+These memory boundaries do not initialize a player or execute a gameplay frame.
 
 The first playable milestone requires an authentically initialized player in
 the opening scene, directional input, movement and floor collision, a following
@@ -40,7 +46,7 @@ final DLL proofs each pass 128 whole-RAM/SPR comparisons, including 32 real
 compactions, with an external original EE call stack excluded from the API.
 The tables/assets are explicit diagnostic inputs; authentic runtime selection and
 first-player provenance remain open. Cleanup and repeated live model updates
-are unsupported. All 99 native tests pass in 14.36 seconds; these checks
+are unsupported. All 100 native tests pass in 6.05 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 Class publication now passes 105 complete original/native RAM comparisons,
