@@ -499,6 +499,17 @@ if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_actor_walk_parameters PRIVATE /W4 /WX /fp:precise)
 endif()
 
+add_library(deadlocked_native_dreadzone_actor_walking STATIC dreadzone_actor_walking.c)
+target_include_directories(deadlocked_native_dreadzone_actor_walking PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_actor_walking PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_walking PUBLIC
+    deadlocked_native_dreadzone_actor_wall_response deadlocked_native_dreadzone_actor_speed_target
+    deadlocked_native_dreadzone_actor_walk_parameters deadlocked_native_dreadzone_actor_position_helpers
+    deadlocked_native_dreadzone_actor_slope deadlocked_native_dreadzone_input_angle_history)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_actor_walking PRIVATE /W4 /WX /fp:strict)
+endif()
+
 add_library(deadlocked_native_dreadzone_actor_slope STATIC dreadzone_actor_slope.c)
 target_include_directories(deadlocked_native_dreadzone_actor_slope PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_actor_slope PUBLIC c_std_11)
@@ -1023,6 +1034,13 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_player_state_entry_tests PRIVATE /W4 /WX /fp:precise)
     endif()
     add_test(NAME native_player_state_entry_validation COMMAND deadlocked_native_player_state_entry_tests)
+    add_executable(deadlocked_native_actor_walking_tests tests/dreadzone_actor_walking_tests.c)
+    target_link_libraries(deadlocked_native_actor_walking_tests PRIVATE
+        deadlocked_native_dreadzone_actor_walking deadlocked_native_dreadzone_actor_input_bridge)
+    if(MSVC)
+        target_compile_options(deadlocked_native_actor_walking_tests PRIVATE /W4 /WX /fp:strict)
+    endif()
+    add_test(NAME native_actor_walking_validation COMMAND deadlocked_native_actor_walking_tests)
     add_executable(deadlocked_native_actor_slope_tests tests/dreadzone_actor_slope_tests.c)
     target_link_libraries(deadlocked_native_actor_slope_tests PRIVATE deadlocked_native_dreadzone_actor_slope)
     if(MSVC)

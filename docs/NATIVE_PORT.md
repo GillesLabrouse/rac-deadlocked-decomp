@@ -1351,3 +1351,29 @@ the 40 focused checks and all 79 central tests pass. Four original instructions
 remain unexecuted by the fixtures. The declared ordered host-f32/VU/Q domain
 does not establish hardware precision, flags or timing, full position update,
 actor construction or a playable frame.
+
+
+`dreadzone_actor_walking_00695CB8` composes the complete selected state2/mode0
+walking call: actual input history, direction, turning, mapped speed target,
+parameter update, velocity, wall response and final height/slope dependency.
+The shadow transaction retains ordered reads and aliases; reached event,
+special turning, optional6840B8, numeric or missing-memory paths refuse without
+publishing RAM or diagnostic output. It neither changes world position nor
+manufactures a body, state, clock, radius, grid or contact.
+
+A separate bridge links the central production archives. All384 complete
+original/fresh-SN/native comparisons pass:256 ordinary inputs,96 branch and
+signed-zero cases, and32 ordered coefficient/input-record aliases. Real L01
+references override overlapping resident text. The full genuine C60 producer
+clears VF28.W before wall response; other caller W publication remains genuine.
+All2,580,824,064 compared native RAM bytes and five outgoing W words agree over
+1,858,226 EE instructions and90,656 VU pairs, including656 actual probes and35
+surface/inclination paths. Bound inputs stay unchanged, with zero captured
+callees, in102.61 seconds. The71 focused checks exercise late atomic rollback,
+and all80 central tests pass in5.09 seconds.
+
+The full2404-byte walking PS2 source remains NONMATCHING (2484 compiled bytes)
+and adds no matching percentage. Host-f32/VU arithmetic remains a bounded
+approximation. Actor/world construction, state/frame dispatch, complete
+position integration and live animation/rendering still need composition.
+There is no playable Ratchet frame; existing viewer controls move the camera.

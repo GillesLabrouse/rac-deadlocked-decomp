@@ -7,7 +7,7 @@ by Sony's toolchain, so they are rebuilt from those sources unchanged.
 - **Sources:** newlib, snapshot 2000-02-17 (`newlib/libm/math` and
   `newlib/libm/common`), copyright Sun Microsystems and others, under the
   permissive notices in each file's header (see `THIRD_PARTY_NOTICES.md`).
-  Only the members that match retail are kept here (27 of 40 in the range);
+  Only the members that match retail are kept here (26 of 40 in the range);
   the rest are left out until they match.
 - **Compiler:** Sony's `2.9-ee-991111` through its driver, `-O2 -G2`, one object
   per source file (`tools/build_libm.sh`; headers from the same snapshot via
@@ -16,6 +16,12 @@ by Sony's toolchain, so they are rebuilt from those sources unchanged.
 - **Mapping:** `config/libm.tsv` pairs each function with its retail address
   (`tools/map_archive.py`, from the library archive in the toolchain mirror);
   `tools/audit_matches.py` checks the bytes.
+- **Rejected attribution:** the former `dremf` mapping at `0x0015DB88` was a
+  normalized wrapper-shape match. Its real callee consumes an allocator
+  pointer and reads heap context; it is not `remainderf`. The unchanged newlib
+  wrapper is preserved in `nonmatching/libm/wf_drem.c`, outside accepted
+  sources and progress. The genuine pointer wrapper is recovered separately
+  in `src/core/0015DB88.c` with its actual call relocation.
 - **Not matching yet:** `e_fmod` (5 words differ), `e_sqrt` (same size, 20 words),
   `e_pow`, `s_rint`, and the float members `ef_asin`, `ef_exp`, `ef_log`,
   `ef_log10`, `ef_pow`, `ef_rem_pio2`, `ef_sqrt`, `wf_acos`: their size differs from

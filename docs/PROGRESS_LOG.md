@@ -2315,3 +2315,57 @@ prove a later one. Emulator tests are optional reference checks.
   newly integrated wall response; reached missing dependencies must refuse
   atomically. Position specialist continues whole original/SN replay separately.
   No playable character is claimed and nothing is pushed.
+
+
+## 2026-10-11 — Compose selected native walking; correct alias attribution
+
+- Add complete selected695CB8 state2/mode0 composition to central native
+  libraries. Genuine history/direction/turn/parameters/speed/velocity/wall and
+  height/slope operations execute in original order. Reached special/event
+  paths and missing/numeric dependencies refuse transactionally. Position,
+  constructor and frame composition remain separate; no playable frame exists.
+- Production archive bridge passes384 complete original/fresh-SN/native calls:
+  256 ordinary,96 branch/signed-zero and32 ordered RAM aliases. All656 probes,
+  35 surface/inclination paths,2,580,824,064 native RAM bytes and five outgoing
+  W words agree over1,858,226 EE/90,656 VU pairs with zero captures. All bound
+  inputs stay unchanged during102.61s. The71 focused checks and all80 central
+  tests pass (5.09s). Fresh full PS2 walking remains NONMATCHING2484/2404 bytes.
+- Preserve failed reference-load-order proof separately: resident reconstruction
+  had overwritten overlapping L01 code. Correct the order and assert actual
+  L01 bytes before replay. Expanded W checks then expose the actual velocity
+  C60 clobber: caller652988 VCALLMS, microCD0 VMULi.xyzw writes VF28 from VF15.
+  The corrected native transport clears that real W before the wall call.
+  These are distinct corrected draft/reference failures, not accepted matches.
+- Root source integration through production checks takes857.45 wall seconds,
+  including concurrent alias investigation and excluding prior draft work and
+  later documentation/commit. Focused test preparation had one missing-library
+  link and two fixture errors (zero mapped coefficient; an unused body pointer
+  was wrongly expected to refuse). Final tests use an actually reached missing
+  input dependency. Failed scripts/receipts remain private and unchanged.
+- Both Luna batch10 results are redundant, adding zero canonical functions:
+  memory211s, commands463s. Memory's distinct001633C0 has three compiled
+  relocation/exact failures. Commands repeated already acceptedC750/C760.
+  Enforce canonical inventory before drafting, including library aliases and
+  explicit ownership, with tools/check_recovery_candidates.py. Five live guard
+  checks cover a library alias, canonical duplicate, ownership, unknown and
+  available names. CONTRIBUTING documents this gate and its limits.
+- Alias audit reveals the old dremf attribution at0015DB88 is itself false.
+  map_archive normalized a generic wrapper and selected a first hit. Actual
+  DB48/11EFB0/120378/263F0/256C8 manipulate an allocator pointer and40-byte heap
+  context; they do not calculate a float remainder. Preserve unchanged newlib
+  source in nonmatching/libm; remove its erroneous mapping. Recover DB88 with
+  actual pointer-forwarding ABI, fresh SN and production unmasked exact link,
+  independently checking original spans and eleven L01 callsites. The temporary
+  zero-argument duplicate and production object are archived, not overwritten.
+  Matching stays294, with zero audit mismatches and a passing progress check;
+  this is a correction of attribution, not a new function or initialization proof.
+- At12:48:39 UTC,14 new canonical functions since10:19:14 over8965.55 seconds
+  gives5.62 accepted/hour, including main native work. No third new recovery
+  worker is added while root integration is the bottleneck. Current batches
+  wait after freezing; counter recovery awaits independent root gates. Memory
+  batch12 freezes after115s: two compiled120378 forms both fail relocation
+  comparison; one also differs at exact link and one fails on a genuine
+  out-of-range GPREL16. No function is accepted from this bounded batch.
+  Specialist position evidence is frozen with
+  genuine original/SN W divergences explicitly separated from RAM-only replay.
+  Nothing is pushed. Code and documentation remain English.

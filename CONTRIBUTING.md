@@ -155,6 +155,13 @@ addresses only, never a substitute for source).
 1. **Pick one.** Look in `asm/nonmatchings/<segment>/func_XXXXXXXX.s`. Small
    functions without data tables are a good start. `config/functions.tsv` lists
    all of them with sizes.
+   Before drafting, run `venv/bin/python tools/check_recovery_candidates.py
+   func_XXXXXXXX` (Windows: `venv/Scripts/python.exe`). It checks canonical
+   source names and libgcc/libm aliases; `--owned func_XXXXXXXX` also excludes
+   another agent's reserved candidate. Preserve its result with the batch
+   receipt. Archive mappings from `map_archive.py` are naming hypotheses:
+   verify actual argument flow, callees and resolved addresses independently,
+   especially for small wrappers with indistinguishable instruction shapes.
 2. **Get a starting point** with `venv/bin/python tools/ext/m2c/m2c.py -t
    mipsee-gcc-c asm/nonmatchings/.../func_XXXXXXXX.s`. The output is a draft: it
    usually needs types, struct members and cleaner control flow.
