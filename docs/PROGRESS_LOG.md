@@ -1888,3 +1888,22 @@ prove a later one. Emulator tests are optional reference checks.
   does not establish physical flags/DMA/timing. Genuine wall/ground response,
   outer position and whole player frames remain active work. No new visible
   controls or playable frame are claimed; nothing is pushed.
+
+## 2026-10-11 — Unblock complete ground-vector replay
+
+- Extended the bounded integer diagnostic with MTSAB byte-position selection
+  and QFSRV full128-bit source windows. Source snapshots retain destination
+  aliases, zero-register behavior and HI/LO; every run resets SA.
+- Added independent byte-window expectations, exhaustive shift/source/target
+  combinations, low-nibble selector cases and initialized-accumulator/reset
+  checks. All178 Python tests pass (3.05 seconds). MTSAH remains unsupported.
+- Instruction semantics were cross-checked against the primary PCSX2
+  R5900OpcodeImpl.cpp and MMI.cpp descriptions; no implementation was copied.
+  This diagnostic does not establish physical PS2 timing or hardware identity.
+- The new shared CPU SHA256 is
+  bd0797db5a6f2da3b5e648a8d368a347a59f1bcbb230e580ec48cb13175bc723.
+  Completed earlier receipts retain their original CPU identities; their
+  frozen sources are not silently relabeled. The live historical wall replay
+  uses its separate immutable private CPU snapshot.
+- Genuine596390 execution is now available to the ongoing ground-step lot.
+  This infrastructure change does not add visible controls or a player frame.

@@ -30,6 +30,62 @@ class IntegerCPUTests(unittest.TestCase):
         result = cpu.run(0x1000, initial_registers=initial)
         return cpu, result
 
+    def test_mtsab_low_nibble_xor_and_no_branch(self):
+        for low in range(16):
+            for immediate in (*range(16),0xFFF0,0xFFFF,0x1234,-8):
+                for source in (0,1):
+                    raw=(0xFEDCBA98765432100123456789ABCDE0 | low)
+                    initial={1:raw,2:0xAABBCCDDEEFF00112233445566778899}
+                    cpu,result=self.execute([i(1,source,24,immediate),i(9,0,3,7),r(8,31),0],initial)
+                    self.assertEqual(cpu.sa,(low if source else 0) ^ (immediate & 15))
+                    self.assertEqual(cpu.registers[1],raw)
+                    self.assertEqual(cpu.registers[2],initial[2])
+                    self.assertEqual(cpu.registers[3],7)
+                    self.assertEqual((cpu.hi,cpu.lo),(0,0))
+                    self.assertEqual((result.steps,result.calls),(4,()))
+
+    def test_qfsrv_byte_window_full_quad_aliases_and_zero_sources(self):
+        a=bytes(range(0xA0,0xB0));b=bytes(range(0x10,0x20))
+        inputs={1:int.from_bytes(a,'little'),2:int.from_bytes(b,'little')}
+        for amount in range(16):
+            for rs in (0,1,2):
+                for rt in (0,1,2):
+                    left=bytes(16) if not rs else (a if rs==1 else b)
+                    right=bytes(16) if not rt else (a if rt==1 else b)
+                    expected=int.from_bytes((right+left)[amount:amount+16],'little')
+                    for destination in (0,1,2,3):
+                        cpu,result=self.execute([i(1,0,24,amount),
+                            (28<<26)|r(40,rs,rt,destination,27),r(8,31),0],inputs)
+                        self.assertEqual(cpu.registers[destination],expected if destination else 0)
+                        for register in (1,2):
+                            if register!=destination:self.assertEqual(cpu.registers[register],inputs[register])
+                        self.assertEqual((cpu.hi,cpu.lo,cpu.sa),(0,0,amount))
+                        self.assertEqual((result.steps,result.calls),(4,()))
+
+    def test_mtsab_qfsrv_preserve_initialized_accumulators_and_run_reset(self):
+        a=bytes(range(16));b=bytes(range(16,32))
+        products=(1,-2,3,-4,5,-6,7,-8)
+        factors=int.from_bytes(struct.pack('<8h',*range(1,9)),'little')
+        signs=int.from_bytes(struct.pack('<8h',1,-1,1,-1,1,-1,1,-1),'little')
+        code=[(28<<26)|r(9,6,7,8,28),i(1,0,24,8),
+              (28<<26)|r(40,1,2,1,27),r(8,31),0,
+              (28<<26)|r(40,1,2,3,27),r(8,31),0]
+        words=dict(zip(range(0x1000,0x1000+len(code)*4,4),code))
+        cpu=RetailIntegerCPU(words,IntegerMemory(()))
+        initial={1:int.from_bytes(a,'little'),2:int.from_bytes(b,'little'),6:factors,7:signs}
+        cpu.run(0x1000,initial_registers=initial)
+        self.assertEqual(cpu.registers[1],int.from_bytes((b+a)[8:24],'little'))
+        self.assertEqual(cpu.lo,int.from_bytes(struct.pack('<4i',*(products[i] for i in (0,1,4,5))),'little'))
+        self.assertEqual(cpu.hi,int.from_bytes(struct.pack('<4i',*(products[i] for i in (2,3,6,7))),'little'))
+        cpu.run(0x1014,initial_registers=initial)
+        self.assertEqual(cpu.sa,0)
+        self.assertEqual(cpu.registers[3],initial[2])
+        self.assertEqual((cpu.hi,cpu.lo),(0,0))
+
+    def test_mtsah_is_still_an_unsupported_regimm_selector(self):
+        with self.assertRaises(UnsupportedInstruction):
+            self.execute([i(1,1,25,7),r(8,31),0],{1:4})
+
     def test_comparisons_use_full_signed_or_unsigned_64_bits(self):
         cpu, _ = self.execute([r(42, 1, 0, 4), r(43, 1, 0, 5), i(10, 1, 6, 1),
                                i(11, 1, 7, -1), r(42, 2, 0, 8), r(8, 31), 0],

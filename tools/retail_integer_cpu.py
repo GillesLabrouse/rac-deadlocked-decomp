@@ -15,8 +15,11 @@ and ordinary branches use 64 bits. HI/LO also retain 128 bits; scalar arithmetic
 replaces their low halves while packed halfword multiplication writes all lanes.
 PLZCW counts redundant sign bits separately
 in the two low words. LQ/SQ round addresses down to 16; other accesses require
-their natural alignment. These details were independently cross-checked against
-the PCSX2 project's R5900OpcodeImpl.cpp and MMI.cpp; no code was copied from them.
+their natural alignment. MTSAB retains the XOR of source/immediate low nibbles
+as a byte-position SA register; QFSRV selects sixteen bytes from concatenated
+rt/rs, snapshotting both before a full128 destination write. SA resets per run.
+These details, together with the other instructions, were independently checked
+against the PCSX2 project's R5900OpcodeImpl.cpp and MMI.cpp; no code was copied.
 Raw COP1 load/store semantics were checked against its FPU.cpp. The oracle
 models memory effects only, not cache timing or floating control/status state.
 """
@@ -108,6 +111,7 @@ class RetailIntegerCPU:
         self.registers = [0] * 32
         self.float_bits = [0] * 32
         self.hi = self.lo = 0
+        self.sa = 0
         self.steps = 0
         self.calls: list[int] = []
 
@@ -134,6 +138,7 @@ class RetailIntegerCPU:
         self.registers = [0] * 32
         self.float_bits = [0] * 32
         self.hi = self.lo = self.steps = 0
+        self.sa = 0
         self.calls = []
         for r, value in (initial_registers or {}).items():
             if not 0 <= r < 32:
@@ -281,6 +286,9 @@ class RetailIntegerCPU:
                 if op == 3:
                     self._put(31, pc + 8)
                     self.calls.append(target)
+            elif op == 1 and rt == 24:
+                # MTSAB is a register write, not a REGIMM branch.
+                self.sa = (a & 15) ^ (immediate & 15)
             elif op == 1 or op in (4, 5, 6, 7, 20, 21, 22, 23):
                 if op == 1:
                     if rt not in (0, 1, 2, 3):
@@ -341,6 +349,11 @@ class RetailIntegerCPU:
                              value >> shift if function == 62 else signed(value, 32) >> shift)
                     result |= (value & MASK32) << (lane * 32)
                 self._put_quad(rd, result)
+            elif op == 28 and (word & 63) == 40 and shift == 27:
+                # QFSRV concatenates rs above rt, then selects a full quad.
+                left, right = self.registers[rs], self.registers[rt]
+                result = ((left << 128) | right) >> (self.sa * 8)
+                self._put_quad(rd, result & MASK128)
             elif op == 28 and (word & 63, shift) in (
                     (8, 26), (8, 22), (8, 18), (8, 25), (8, 3), (8, 1),
                     (8, 23), (8, 27), (8, 0), (8, 5), (40, 3), (40, 18), (40, 1),
