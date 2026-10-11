@@ -1,5 +1,43 @@
 # Resume checkpoint — active development, 2026-10-12
 
+Latest integrated checkpoint: native/dreadzone_actor_constructor.{c,h},
+internal prefix/orientation and separate realwordfill now compile centrally.
+Final production archive bridge passes33 complete10MiB original comparisons:
+346030080bytes/1049393EE/17624VU, plus2 late atomic inventory refusals.
+Public constructor test65 checks/all102 native tests pass13.28s. Matching audit
+316/0 andprogress check agree; no matching coverage credit or controllable
+Ratchet. Preserve root-constructor-production-*, firstwrongclock-offsettest
+source/log, fullprivatepreintegration proofs/review and legacydrafts. Inputs
+mayborrowRAM and are captured before reset; SPR/VU/register/stack outputs are
+explicitly excluded. Only ordinarynull/index0/mode0/height0 supported.
+Root independently verifies actualnet.nostomp PROGBITS1F31380/6C20 and actual
+vtable3B10CC->6A65E8/full105C frame bytes. Liveprofilecallback/scheduler/input
+selection remain unproved. Strong sol-player-first-frame-* continues real
+caller usingactualELFsection then diagnoses firstframe, withouthelpercapture.
+Light memory60/commands48 frozenHOLD. Root owns allintegration/sharedoutputs.
+Next: complete native startup caller and authentic successive gameplay frames,
+then liveactor/camera/animation renderer binding. Viewerunchanged/no push.
+
+Current resumed checkpoint: root-constructor-complete-v2-draft.c and isolated
+build/drafts/root-constructor-complete-v2/constructor.dll pass24 whole10MiB
+RAM-only original comparisons251658240bytes/783617EE/12197VU. Preserved first
+broad observer failed because it assumed side helpers always execute. Corrected
+broad-v2 captures genuine side-local W at actual67DDD0 from SP-160+80/90+12,
+verified original prologue27BDFEA0, and checks reached68A340 observations.
+Guarded v2 reloads mode/height/index after transform/animation and before tail.
+Independent sol_model_class_review is pending. Constructor remains private;
+no accepted C/count or playable feature yet. Existing exact316/native101.
+Original v26 completes668070 and returns6A8480; then actual15FA68 caller helper
+needs indexed backing1F31380. No kernel allocator/mocked backing claim.
+Actual ground2/2 wholeRAM passes; actual postground transform RAM+SPR passes.
+Constructor-entry bank reuse matchesRAM but differs1036SPR bytes: preserved
+experiment, explicit exclusion of SPR/VU/register/stack hardware effects.
+Prefixv2 has32/8 proofs; checkpoint receipt freezes all private inputs/hashes.
+Light memory60 traces real indexed backing; commands48 traces genuine frame
+ordering in exclusiveprivate files. Root reserves sharedsource/build/reports.
+Next: final constructor review/integration, authentic successive movement and
+animation frames, scene rendering. No control/gameplay loop or push.
+
 Private root-constructor-prefix-draft.c and prefix-v3.dll compose ordinary
 null/index-zero constructor REGION ending BEFORE67DDD0.32 complete10MiB RAM
 comparisons pass335544320bytes/730778EE/6848VU; six atomic refusals pass.

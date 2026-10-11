@@ -1,5 +1,45 @@
 # Native PC development
 
+## Supported complete ordinary player construction
+
+`dreadzone_actor_construct` now composes the complete supported L01 `00668070`
+RAM path: real reset, occupied class23F7 selection, parameters, visibility,
+ordered finite orientation, both wall probes, ground update, player/model
+transformation, animation selection, RNG, camera, inventory and equipment.
+It accepts the genuine null-actor/index-zero mode0/height0 path. Runtime arena
+and resource selection remain caller prerequisites. Class171C conversion,
+allocation, unsupported nested geometry/model/UI paths and changed control
+selectors refuse without publishing any RAM writes.
+
+The request retains caller W/side-local W and initial SPR/VU inputs before the
+record reset. Readable inputs and the request may borrow RAM backing. Success
+publishes complete guest RAM, which can overwrite borrowed input backing;
+disjoint input banks remain inputs. This API does not emit hardware SPR/VU,
+register/stack ABI, flags or timing. Its finite arithmetic uses the established
+ordered host binary32 model; it makes no physical VU precision claim.
+
+Final central production archives pass33 whole10MiB original comparisons:
+346,030,080 bytes,1,049,393 EE instructions and17,624 VU pairs, plus two late
+atomic inventory refusals. The independently reviewed ordinary variants cover
+seeds, position/rotation, camera markers, level selection, existing inventory,
+raw camera-clock NaN transport and borrowed input banks. Every reached original
+callee executes. Some real ground branches skip side helpers; prior W is
+observed from the actual original stack frame, without fabricating calls.
+
+The65-check public constructor test uses a synthetic resource-free fixture for
+API composition, retained descriptors, aliases and transactional refusals.
+All102 native tests pass in13.28 seconds; matching audit remains316/zero failures.
+The initial test expected the clock at the wrong camera offset; its failed
+source/log remain private, and the corrected expectation uses actual output134.
+The word-fill dependency is separated from unrelated pool globals without
+changing its algorithm or the original PS2 source path.
+
+This boundary supplies bounded native initialization, not a controllable
+Ratchet, selected opening startup or repeated gameplay frame. The actual L01
+frame entry is6A65E8 through vtable3B10CC, independently verified against the
+level ELF. Its incoming scheduler/input/history and complete successive updates
+remain open. The viewer still displays scenery and prepared animation.
+
 ## Supported placed-actor loading
 
 `dreadzone_placed_actors_load` composes the complete supported0057B788 memory

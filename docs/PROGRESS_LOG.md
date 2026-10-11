@@ -1,5 +1,22 @@
 # Local development progress
 
+## 2026-10-12: complete supported ordinary constructor integrated
+
+- Added the bounded native dreadzone_actor_construct API and real prefix/orientation components. Complete RAM publication is atomic; all reached supported collision, ground, transformation, animation, RNG, camera and inventory/equipment components execute. Class conversion/allocation/nonzero selectors and unsupported nested paths refuse. Hardware bank/register/stack outputs and selected startup remain excluded.
+- Final central archives pass33 complete10MiB original/native comparisons (24 broad plus9 independent),346030080bytes/1049393EE/17624VU, and2 late atomic refusals including borrowed inputs. The65-check public synthetic integration test and all102 native tests pass13.28s. First wrong camera-clock offset expectation is preserved separately and corrected using actual output134. Exact matching remains316/0; this native composition earns no exact coverage.
+- Word-fill algorithm is unchanged but separated from unrelated pool globals. Root independently verifies realnet.nostomp section1F31380/6C20 and actual framevtable3B10CC->6A65E8/full105C body. Cold ELF image is not live network/session evidence. Strong original caller/first-frame continuation remains in progress; no playable loop or viewer change.
+- Parallel output: memory60 traces indexed backing/reset/population,191seconds; commands48 verifies fullframe/order196seconds. Both add0 exact functions and stopHOLD. Reports/raw are private and independently rechecked. Keep two light workers bounded; main owns integration and strong reference validation. No third light agent added.
+- Measured integration begins with public API preparation23:39:31UTC; frozen receipt records its completion/duration, hashes and validation. Exact accepted-functions/hour for these lots is0; one bounded native constructor composition was integrated, separately from exact coverage. No source-match validation failures; test-expectation failures remain recorded. Nothing pushed.
+
+## 2026-10-12: resumed full constructor validation (private)
+
+- Exact accepted count remains316; the public native suite remains101. No controllable Ratchet or repeated game frame is available yet. Nothing has been pushed.
+- Genuine original668070 now returns to6A8480 after29529 EE instructions, including real collision, ground, model transformation, animation, camera, PRNG and inventory. Caller continuation reaches resident15FA68; its indexed backing at1F31380 remains unproved. It is not a kernel allocator.
+- Corrected prefix v2 passes32 whole10MiB comparisons and8 atomic refusals. Actual ground call boundaries pass2/2 whole10MiB comparisons. Actual post-ground transformation passes wholeRAM and SPR comparison; reusing constructor-entry banks preserves RAM but differs in1036 SPR bytes. Full-constructor validation is explicitly RAM-only.
+- Private guarded full native composition passes24/24 whole10MiB original comparisons:251658240 bytes,783617 EE instructions and12197 VU pairs. Variants cover seeds, camera markers, level selector, existing inventory, actor position and rotation. The first broad observer incorrectly required side calls on every ground branch; preserve its failure. The corrected observer captures authentic side-local W from the verified original frame and compares reached helper observations.
+- Independent review and alias validation are pending. Private drafts do not enter accepted sources or matching percentages. Root owns integration; two light agents resume exclusive bounded read-only lots for indexed backing and genuine frame-call order.
+- Next gates: finalize bounded constructor integration, prove real successive input/movement/collision/animation updates, then connect their state to first-scene rendering. Current viewer remains diagnostic.
+
 ## 2026-10-12 - Compose private native constructor prefix
 
 - Private root-constructor-prefix-draft.c composes genuine reset, parameters,

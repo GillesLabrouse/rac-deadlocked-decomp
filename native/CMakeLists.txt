@@ -32,6 +32,14 @@ target_compile_definitions(deadlocked_native_core PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_core PUBLIC include)
 target_compile_features(deadlocked_native_core PUBLIC c_std_11)
 
+# Keep the real word-fill dependency separate from unrelated pool globals.
+add_library(deadlocked_native_dreadzone_word_fill STATIC dreadzone_word_fill.c)
+target_include_directories(deadlocked_native_dreadzone_word_fill PUBLIC include)
+target_compile_features(deadlocked_native_dreadzone_word_fill PUBLIC c_std_11)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_word_fill PRIVATE /W4 /WX)
+endif()
+
 add_library(deadlocked_native_dreadzone_memory STATIC
     ../nonmatching/L01_00628020.c ../nonmatching/L01_006A9640.c
     ../nonmatching/L01_006AF588.c ../nonmatching/L01_00529280.c
@@ -41,6 +49,7 @@ add_library(deadlocked_native_dreadzone_memory STATIC
 target_compile_definitions(deadlocked_native_dreadzone_memory PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_dreadzone_memory PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_memory PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_memory PUBLIC deadlocked_native_dreadzone_word_fill)
 
 # Payload descriptors preserve guest32 links; the actor constructor is separate.
 add_library(deadlocked_native_dreadzone_payload STATIC
@@ -91,6 +100,7 @@ add_library(deadlocked_native_dreadzone_input STATIC
 target_compile_definitions(deadlocked_native_dreadzone_input PRIVATE DEADLOCKED_NATIVE=1)
 target_include_directories(deadlocked_native_dreadzone_input PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_input PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_input PUBLIC deadlocked_native_dreadzone_word_fill)
 if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_input PRIVATE /W4 /WX /fp:precise)
 endif()
@@ -1393,4 +1403,29 @@ if(BUILD_TESTING)
             --pose-self-test --software --capture ${CMAKE_CURRENT_BINARY_DIR}/test-pose.png)
         set_tests_properties(native_pose_render_validation PROPERTIES TIMEOUT 30)
     endif()
+endif()
+
+# Complete bounded ordinary constructor; native RAM validation is not matching coverage.
+add_library(deadlocked_native_dreadzone_actor_constructor STATIC
+    dreadzone_actor_constructor.c dreadzone_actor_constructor_prefix.c
+    dreadzone_actor_constructor_orientation.c)
+target_include_directories(deadlocked_native_dreadzone_actor_constructor PUBLIC include ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_actor_constructor PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_constructor PUBLIC
+    deadlocked_native_dreadzone_input deadlocked_native_dreadzone_actor_parameters
+    deadlocked_native_dreadzone_actor_visibility deadlocked_native_dreadzone_wall_contact
+    deadlocked_native_dreadzone_angle_pair deadlocked_native_dreadzone_actor_ground_step
+    deadlocked_native_dreadzone_player_record_transform deadlocked_native_dreadzone_actor_animation
+    deadlocked_native_dreadzone_equipment deadlocked_native_dreadzone_camera_init
+    deadlocked_native_game_random)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_actor_constructor PRIVATE /W4 /WX /fp:strict)
+endif()
+if(BUILD_TESTING)
+    add_executable(deadlocked_native_actor_constructor_tests tests/dreadzone_actor_constructor_tests.c)
+    target_link_libraries(deadlocked_native_actor_constructor_tests PRIVATE deadlocked_native_dreadzone_actor_constructor)
+    if(MSVC)
+        target_compile_options(deadlocked_native_actor_constructor_tests PRIVATE /W4 /WX /fp:strict)
+    endif()
+    add_test(NAME native_actor_constructor_validation COMMAND deadlocked_native_actor_constructor_tests)
 endif()

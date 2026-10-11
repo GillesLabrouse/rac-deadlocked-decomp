@@ -8,9 +8,17 @@ Ratchet or a complete gameplay frame. Matching coverage is 316 functions of
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
 | Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges; original mission0 binary placement list with all342 text records crossvalidated. | Execute the allocation/layout and parser chain with its real cursor, globals, runtime selected records and resources; close the producer of mission pointer24375C. |
-| Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation, guest actor/payload/model pools, fresh initial-model class composition, complete supported actor transformation/spatial registration, placed-loader memory composition and serialized payload relocation. | Supply runtime selected records and arenas to the supported payload relocation; close `00668070` and actual child/backlink producers, and support reached cleanup/live animation paths. |
+| Actor and player construction | Full initial pool memory effects and bounds/table setup, reset, inventory, parameters, class publication/relocation, guest actor/payload/model pools, fresh initial-model class composition, complete supported actor transformation/spatial registration, placed-loader memory composition and serialized payload relocation. | Supply runtime selected records and arenas to the supported payload relocation; use the newly validated bounded ordinary `00668070` constructor, close startup caller/resource selection, and support reached cleanup/live animation paths. |
 | Repeated player update | Controller decoding and selected direction, walking, position and collision paths; complete supported player-record transformation and both resource volume updates; timer, record and queue helpers. | Complete the reached frame paths, including `00684EF0`, callback `0066ACA0`, secondary movement and their real input/history/state producers. |
 | Live visual output | Native terrain renderer, original body topology and validated prepared animation samples. | Bind the initialized actor's changing position, live animation and camera to the renderer across successive frames. |
+
+The complete supported ordinary `dreadzone_actor_construct` RAM path now passes
+33 central original comparisons and two late atomic refusals. Its public
+65-check integration test and all102 native tests pass. This removes the bounded
+constructor composition gate; runtime selected resources/arenas, complete
+hardware banks and successive frames remain separate work. The real frame
+entry is L01 `006A65E8`, vtable slot `003B10CC`. Its incoming scheduler and
+input/history producers have not yet been demonstrated for the opening scene.
 
 Complete supported player-record transformation now passes68 wholeRAM/SPR
 original comparisons, with actual resource collision volumes preserved. The
@@ -52,7 +60,7 @@ final DLL proofs each pass 128 whole-RAM/SPR comparisons, including 32 real
 compactions, with an external original EE call stack excluded from the API.
 The tables/assets are explicit diagnostic inputs; authentic runtime selection and
 first-player provenance remain open. Cleanup and repeated live model updates
-are unsupported. All 101 native tests pass in 6.61 seconds; these checks
+are unsupported. All 102 native tests pass in 13.28 seconds; these checks
 include refusal regressions and do not demonstrate a playable frame.
 
 Class publication now passes 105 complete original/native RAM comparisons,

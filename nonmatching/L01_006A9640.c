@@ -35,17 +35,6 @@ typedef char check_pool55[MEMORY_FIELD(DreadzonePoolRecord, f55) == 0x55 ? 1 : -
 typedef char check_pool58[MEMORY_FIELD(DreadzonePoolRecord, f58) == 0x58 ? 1 : -1];
 #undef MEMORY_FIELD
 
-#ifdef DEADLOCKED_NATIVE
-/* Actual word-filling behavior recovered from L01 0055D2A8. This initializer
- * calls it with an aligned destination and the positive byte count 0x40.
- */
-void func_L01_0055D2A8(u32 *destination, u32 value, s32 bytes) {
-    do {
-        *destination++ = value;
-        bytes -= 4;
-    } while (bytes > 0);
-}
-#endif
 
 void func_L01_006A9AE0(DreadzonePoolRecord *record) {
     record->f8 = 0;
