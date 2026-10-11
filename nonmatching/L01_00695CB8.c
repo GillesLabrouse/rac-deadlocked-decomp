@@ -23,7 +23,7 @@ extern void func_L01_0067D4E8(u8 *);
 extern void func_L01_0067D6E8(u8 *,s32);
 extern f32 func_L01_0067EEA0(u8 *,StateTwoQuad);
 extern void func_L01_00681B30(u8 *);
-extern void func_L01_006840B8(u8 *,u32,u32,u32);
+extern s32 func_L01_006840B8(u8 *,f32,f32,f32);
 extern void func_L01_0068A178(u8 *,void *,const void *,f32);
 #define FIELD(type,offset) (*(volatile type *)(arg0+(offset)))
 static __inline__ f32 state_two_min(f32 a,f32 b) {
@@ -238,7 +238,7 @@ block_110:
     }
     func_L01_0067D6E8(arg0, 0);
     if (FIELD(s16,0x3D0) != 0) {
-        func_L01_006840B8(arg0, 0x40A00000, 0x3E4CCCCD, 0x3EB33333);
+        func_L01_006840B8(arg0, 5.0f, 0.2f, 0.35f);
     }
     if (FIELD(s16,0x2FE) != 0) {
         func_L01_0068A178(arg0, arg0 + 0x130, arg0 + 0x170, D_0021DDF8 * 25.0f * FIELD(f32,0x25C4));

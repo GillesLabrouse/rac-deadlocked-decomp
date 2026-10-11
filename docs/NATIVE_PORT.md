@@ -1088,7 +1088,8 @@ position/ground composition and live rendered pose/blend integration remain.
 The complete 00695CB8 state-two update is now retained as a PS2 recovery draft.
 It preserves the true history, turning, parameters, acceleration, velocity,
 wall, optional terrain and slope calls. The 2404-byte original span rebuilds to
-2468 bytes and remains NONMATCHING; the expanded draft is replayed in isolation
+2484 bytes after the probe ABI correction and remains NONMATCHING; the expanded
+draft is replayed in isolation
 from the adjacent original entry. No extra accumulated-motion call is inserted.
 Default arithmetic preserves the original ordered operations; fast-math
 reassociation did not agree and is excluded from the validated recipe.
@@ -1099,6 +1100,18 @@ There are 160 projected-contribution cases and 32 actual actor/global aliases,
 746,576 original and 760,304 rebuilt EE instructions. These controlled fixtures
 do not establish a constructor, physical floating equivalence or active frame
 completion. The full native state-two composition remains pending.
+
+The optional `006840B8` call now uses its actual floating ABI: player in A0,
+scale/minimum/offset in F12/F13/F14, and an integer return. The earlier integer
+declaration was wrong; the previous fixture set had player3D0 zero and did not
+exercise this call. Its old source and receipts remain preserved privately.
+A fresh672-case replay retains the76 complete/596 actual-wall-boundary result.
+A separate672-case set with player3D0 nonzero reaches76 genuine probe entries:
+all three floating words agree exactly with the original (5.0,0.2,0.35).
+It completes72 calls and stops600 at the actual wall entry, with no replaced
+callee results. Both sets agree across full non-stack RAM and call order.
+This closes a recovered-source ABI error; it does not establish an active
+native walking frame or exact PS2 matching.
 
 `dreadzone_input_angle_history_005BD900` now implements the genuine signed
 history query needed by this update. Null input selects mapped 001EE600; signed

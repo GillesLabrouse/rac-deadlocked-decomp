@@ -1965,3 +1965,36 @@ prove a later one. Emulator tests are optional reference checks.
   Register state and physical timing are excluded. Full secondary decoding/
   blending and live pose rendering remain work; no new controls are claimed.
   Matching coverage stays280 functions, and nothing is pushed.
+
+## 2026-10-11 — Start measured two-agent exact-recovery batches
+
+- Started GPT-6 Luna agents for resident memory/initialization and small queue
+  helpers. Exclusive draft filenames, object basenames and private link outputs
+  prevent shared intermediate collisions. Root retains accepted integration,
+  generated configuration, shared reports and the native scene.
+- Window baseline: 2026-10-11 10:19:14 UTC,280 accepted functions. First batches
+  contain two functions each. No additional function has been accepted yet;
+  rates and validation failures will be reported after final root checks.
+- Preserved the prior ground and idle lots with hashed private handoffs. Their
+  unfinished compositions remain outside accepted sources and matching coverage.
+  The collision agent completes its existing wall lot before further dispatch.
+- The long wall replay completed24,747 cases with zero differences/unsupported
+  paths,45,308,662 EE instructions and1,088,868 VU pairs. Final candidate replay
+  and root integration remain pending; this is not a playable-character claim.
+- See `RECOVERY_WORKFLOW.md` for ownership, acceptance gates and measurements.
+
+## 2026-10-11 — Correct the walking probe floating ABI
+
+- Corrected the complete695CB8 draft's optional6840B8 declaration/call to the
+  true A0 plus F12/F13/F14 ABI and integer return. Original call/callee register
+  use was checked independently. The earlier integer-argument draft and its
+  receipts remain saved privately; its zero3D0 coverage did not test this call.
+- Fresh SN build/strict link remains NONMATCHING:2484 versus2404 bytes, replayed
+  in isolation. The672 prior fixtures still pass:76 complete and596 explicit
+  actual wall boundaries, with no captures or memory differences.
+- An additional672 fixtures set3D0 nonzero and reach76 genuine6840B8 entries.
+  F12/F13/F14 match the original5.0/0.2/0.35 words;72 calls complete and600 stop
+  at the real wall entry. Inputs are unchanged,751,792 original/765,520 SN EE
+  instructions,9.20 seconds. No callee result or contact was substituted.
+- Matching coverage remains280. This source correction does not expose native
+  walking controls, a complete frame or a playable character. Nothing is pushed.
