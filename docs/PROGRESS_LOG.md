@@ -2752,3 +2752,25 @@ prove a later one. Emulator tests are optional reference checks.
 - Native remains82 passing tests, no complete player frame/playable scene or
   push. Third worker receives one bounded private capsule-state experiment;
   separate outputs and proof hashes, root final validation required.
+
+## 2026-10-11 — Accept verified parser forwarding and first-level initialization
+
+- Accept resident00126718 (52B) and001637F0 (20B) after root fresh and production
+  SN compilations, actual relocation comparisons and resolved full unmasked
+  resident links. Full audit307, zero failures; progress/check pass.
+- Correct the forwarding wrapper to a signed64 result: actual1264E8 constructs
+  64-bit overflow limits and forwards full A0 into V0. Outer caller11EB90 then
+  separately truncates/signextends32. A scalar163E74 declaration with explicit
+  -G0 matches actual HI/LO loads; no invented array used to select placement.
+- Initializer clears21D948 then21D944, including the actual return delay store.
+  Independently read actual L01 text: JAL5742D0, genuine NOP delay, then actual
+ 633248 call. Do not substitute the agent's L00 caller for this L01 verification.
+- Commands batch19 takes133s with one rejected relocation/size variant; memory
+  batch16 takes143s with two rejected variants. Root catches one initializer
+  flag discrepancy: draft requests -mno-split-addresses, but its proven object
+  manifest has no extra flags. Applying that hint fails; remove the hint and
+  repeat fresh/default and production gates. All drafts remain preserved.
+- Root production integration43.75s, excluding earlier fresh/ABI gates; baseline
+  gain27 at14:39:38UTC gives6.22 accepted/hour. No final validation failure.
+  Hold further recovery batches while the private collision-state and actual
+  table-loader work proceeds. Native stays82 passing tests; no playable frame.
