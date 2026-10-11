@@ -18,15 +18,18 @@ nonmatching drafts and ignored private/baserom/build evidence.
 
 ## Saved state
 
-- 309 accepted exact functions of15766, approximately0.555% code. Last full
-  audit:309 exact, zero failures; generated progress/check passed. Native ports
+- 310 accepted exact functions of15766, approximately0.555% code. Last full
+  audit:310 exact, zero failures; generated progress/check passed. Native ports
   and semantic proofs earn zero byte-exact credit.
-- All83 native tests passed in12.60s; publication module36 focused checks,
-  position51, ground132 and capsule119. Latest public addition is
-  `dreadzone_actor_capsule_registers`, with verified actual00577C70 composition.
-- Validated position settling supports inactive140 and nonzero half2FE only
-  after a definite reached ground register publisher. Scheduled nonzero-half
-  capsule residue and complete active140 remain atomic refusals.
+- All83 native tests passed in10.97s; publication module36 focused checks,
+  position75, ground132 and capsule119. Latest additive entry is
+  `dreadzone_actor_position_state_0067F5E8`, with explicit caller high64 input.
+- The new position entry supports selected complete active140 and scheduled
+  nonzero-half routes through strict capsule and actual ground register state.
+  Unknown capsule residue still refuses; the older position entry retains its
+  previous supported domain. Actual67FD74 PCPYUD duplicates140 words2/3 into
+  both a0 halves, rather than clearing high64. Live upstream caller-state
+  distribution and final full-GPR transport remain separate requirements.
 - Public ground UPDATE has an additive raw high64 output. Actual special-height
   helper593478 was verified across600 original/native full RAM/return/register
   calls; genuine2237D8 lookup dependencies still refuse.
@@ -50,15 +53,16 @@ nonmatching drafts and ignored private/baserom/build evidence.
    subsequent capsule invalidates that witness. No universal W=0 assumption.
 3. Preserve diagnostic guest placement versus complete loader initialization
    distinction; the verified publisher alone does not initialize a whole actor.
-4. Revisit scheduled settling and active140 in the complete position entry.
+4. Selected scheduled settling and active140 are validated in the new entry.
    Root remains focused on startup, player movement, collisions and the first
    scene. Entire684EF0/67C010 frame still needs orientation, callbacks, timers,
    metadata/interaction and secondary motion; never substitute captured callees.
-5. Resume at most two bounded Luna exact-recovery batches, exclusive sources
+5. At most two bounded Luna exact-recovery batches use exclusive sources
    and object basenames/output prefixes. Add a third worker only when root
    validation/integration keeps up. Hold after each batch; report accepted/hour,
-   failed gates and integration seconds. Latest exact receipt6.22/hour at
-   14:39:38UTC, baseline280 at10:19:14UTC, now+27 accepted.
+   failed gates and integration seconds. Latest measured batch checkpoint is
+   3.89 accepted/hour at15:32:45UTC from15:17:19UTC dispatch, including root
+   integration and concurrent native work. See the latest progress-log entry.
 
 ## Private evidence retained locally
 
@@ -97,6 +101,15 @@ nonmatching drafts and ignored private/baserom/build evidence.
 - Latest exact: `private/root-resume-wrapper-production-acceptance.json`.
   Correct11C920 pointer/string ABI and121CF8 f64/soft-double ABI, explicit-G0.
   Do not copy the incorrect integer prototypes from preserved agent drafts.
+- Position state final: `build/drafts/root-position-state-final-proof.json`
+  and `root-position-state-contract-proof.json`, production build manifest and
+  `private/root-position-state-final-receipt.json`.249 full RAM/five-W matches,
+  20 complete-original atomic refusals,269 actual publisher comparisons. Preserve
+  the earlier private v2 changed-input failure; use final hashes for resumption.
+- Latest accessor: `private/root-accessor18-production-acceptance.json` verifies
+  accepted1384E0's pointer ABI/full12-byte resolved link. Command resume21 failed
+  three size gates and remains outside src. Luna workers resume19/22 are bounded;
+  the third worker audits orientation register effects in exclusive private files.
 - Orientation remains private: `private/root-orientation.{c,h}` and its proofs,
   plus `nonmatching/L01_00683310.c`.33 full matches/43 calls, ten original
   numerical boundaries. Do not adopt or count this as exact or a complete frame.

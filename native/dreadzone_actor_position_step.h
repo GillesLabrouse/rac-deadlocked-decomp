@@ -60,4 +60,22 @@ enum DreadzonePositionStepResult {
  */
 int dreadzone_actor_position_step_0067F5E8(const DreadzonePositionStepRequest *,
                                         DreadzonePositionStepInfo *);
+
+/* Additive complete selected mode-zero position entry with explicit raw caller
+ * a0.word2/3. This admits actual active140 and scheduled/nonzero-half routes.
+ * Reached mode-zero prefix/velocity leaves preserve these lanes; actual ground
+ * and half-zero settling publishers replace them before the heading C60 W.
+ * Every reached capsule uses its strict provenance entry: an actual positive
+ * final supplementary count or genuine early exit is required. Unknown capsule
+ * residue refuses even if a later ground call could overwrite it. The second
+ * phase uses actual67FD74 PCPYUD's duplicated140 words2/3, not cleared high64.
+ * All existing numerical/dependency/transaction restrictions apply. Incoming
+ * lanes may alias request, info or backing and are captured before execution.
+ * Original request/info layouts and the older entry's domain are unchanged.
+ * Only RAM, reported counters and five outgoing W lanes are published: final
+ * full GPR/VF/ACC/Q, live caller provenance and a full player frame are separate.
+ */
+int dreadzone_actor_position_state_0067F5E8(const DreadzonePositionStepRequest *,
+                                         const u32 incoming_high64[2],
+                                         DreadzonePositionStepInfo *);
 #endif

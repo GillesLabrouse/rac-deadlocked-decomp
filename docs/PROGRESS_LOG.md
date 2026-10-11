@@ -2846,3 +2846,46 @@ prove a later one. Emulator tests are optional reference checks.
   secondary140 displacement, then orientation/full player update. Startup/class
   initialization and actual update-to-animation/render composition still prevent
   a gameplay loop. No complete player frame, playable Ratchet or push.
+
+## 2026-10-11 — Close selected secondary position and scheduled ground transport
+
+- Add `dreadzone_actor_position_state_0067F5E8` with explicit captured caller
+  a0 words2/3, preserving the older entry and request/info layouts. Reached
+  capsule state uses its verified strict provenance API; ground and half-zero
+  settling publish actual replacements. Unknown capsule residue still refuses,
+  even when a later call might replace it. Active140 follows both real phases.
+- Correct the private checkpoint's PCPYUD interpretation: actual67FD74 copies
+  record140 words2/3 into both a0 halves; it does not clear high64. Independently
+  verify raw L01 words and complete reached call/delay flow. Ninety additional
+  original calls confirm admitted B258 exits and mode-zero velocity leaves
+  preserve incoming high64 before the first ground. Upstream live caller state
+  remains separate; controlled marker inputs do not establish its distribution.
+- Final central-archive proof passes243 complete RAM/five-W comparisons and12
+  complete-original atomic refusals across255 actual publisher compositions.
+  Six more complete alias comparisons and eight real related98/null-table/
+  zero-count refusals bring the totals to249 comparisons/20 atomic refusals,
+  269 publisher comparisons,1375774848 RAM bytes,743259EE/30113VU, zero captures
+  or differences. Actual681772-byte container placements are diagnostic inputs,
+  not completed loader or actor initialization. Final source/archive/recipe
+  hashes are bound and unchanged. Native proof earns zero exact credit.
+- All83 central native tests pass in10.97s, with75 focused position checks.
+  Preserve three root gate failures: an incorrect accessor HI literal in an
+  assertion, a private proof detecting public-input edits during its run, and
+  a contract checker syntax error. Correct/repeat using final archive inputs;
+  no final compile/test/relocation/comparison failure. Post-edit integration
+  checkpoint15:25:32UTC to15:32:45UTC takes433.18s; this excludes earlier private
+  gates and editing, so complete root integration time is unknown.
+- Accept resident1384E0 only after fresh and production compile, true12-byte
+  return-delay extent, actual relocations and full resolved unmasked link.
+  Real callers store halfwords0/2 and read halfword6 through the returned opaque
+  descriptor pointer. Full audit310 exact, zero failures; progress/check passes.
+  No opening-scene caller claim. Memory batch18 takes241s; command batch21
+  takes181s with three116-byte drafts failing its108-byte extent. Keep all
+  failures outside accepted sources. One accepted function from measured
+  15:17:19UTC dispatch to checkpoint gives3.89/hour including root integration
+  and concurrent native work. Resume bounded lots; keep the third worker on
+  independent gameplay provenance validation while integration remains current.
+- Next: validate/adopt orientation with actual outgoing register effects, then
+  timers/callbacks/metadata and the complete player call. The executable remains
+  a scenery/animation viewer; no complete player frame, repeated gameplay loop,
+  playable Ratchet or push has been demonstrated.

@@ -17,6 +17,8 @@ typedef struct PositionWork {
     DreadzonePositionStepInfo info;
     u8 *copy;
     int failed;
+    int track_incoming;
+    u32 high64[2];
     u32 approximate_q_bits;
     DreadzoneProbeRegisters ground_registers;
 } PositionWork;
@@ -204,7 +206,11 @@ static int capsule(PositionWork *w) {
     q.actor_pool_count=w->request.actor_pool_count;
     memcpy(q.incoming_vf25_29_w,w->info.outgoing_vf25_29_w,20);
     if(w->failed)return 0;
-    result=dreadzone_actor_capsule_resolve(&q,&info);
+    if(w->track_incoming) {
+        DreadzoneCapsuleResolveRegisters state;
+        result=dreadzone_actor_capsule_registers(&q,w->high64,&state,&info);
+        if(result>0)memcpy(w->high64,state.high64,8);
+    }else result=dreadzone_actor_capsule_resolve(&q,&info);
     if(!error_status(w,result))return 0;
     ++w->info.capsule_resolve_calls;w->info.capsule_calls+=info.capsule_calls;
     w->info.static_calls+=info.static_calls;return 1;
@@ -220,8 +226,13 @@ static int ground(PositionWork *w) {
     /* The preceding capsule state is symbolic/unknown in this adapter.
      * Poison bookkeeping is never fed into C60: only a definite reached
      * ground producer or the original settling load may establish its W. */
-    {const u32 unknown[2]={0xFFFFFFFFU,0x7FC0BEEFU};
-     result=dreadzone_actor_ground_registers(&q,unknown,&w->ground_registers,&info);}
+    if(w->track_incoming) {
+        result=dreadzone_actor_ground_registers(&q,w->high64,&w->ground_registers,&info);
+        if(result>0)memcpy(w->high64,w->ground_registers.high64,8);
+    }else {
+        const u32 unknown[2]={0xFFFFFFFFU,0x7FC0BEEFU};
+        result=dreadzone_actor_ground_registers(&q,unknown,&w->ground_registers,&info);
+    }
     if(!error_status(w,result))return 0;
     ++w->info.ground_calls;w->info.probe_calls+=info.probe_calls;
     w->info.ground_contacts+=info.ground_contacts;
@@ -334,7 +345,7 @@ static int body(PositionWork *w) {
     /* With the actual secondary-position branch, EA88 is not called here.
      * Its inherited a0.high64 producer has not been closed by this API.
      * Refuse the reached path rather than supply a fabricated C60 W. */
-    if(second_phase)return DREADZONE_POSITION_STEP_UNSUPPORTED_PATH;
+    if(second_phase&&!w->track_incoming)return DREADZONE_POSITION_STEP_UNSUPPORTED_PATH;
     if(!second_phase && !capsule(w))return w->failed;
     if(!ground(w))return w->failed;
     if(!second_phase) {
@@ -346,11 +357,11 @@ static int body(PositionWork *w) {
          * remains symbolic and refuses before its W can be consumed. */
         if(half(w,b+0x2FE)!=0) {
             u32 word3;
-            if(!w->ground_registers.last_writer_pc)return DREADZONE_POSITION_STEP_UNSUPPORTED_PATH;
+            if(!w->track_incoming&&!w->ground_registers.last_writer_pc)return DREADZONE_POSITION_STEP_UNSUPPORTED_PATH;
             word3=w->ground_registers.high64[1];memcpy(&headingW,&word3,4);
         }else {position=vector(w,b+0xA0);headingW=position.lane[3];}
         if(!helper(w,DREADZONE_POSITION_SETTLE,0,0,&value))return w->failed;
-    } else headingW=0.f; /* Unreachable after the explicit boundary above. */
+    } else {u32 bits=w->high64[1];memcpy(&headingW,&bits,4);}
     observed=difference(w,vector(w,b+0xA0),saved);
     store_vector(w,b+0x160,&observed);store_vector(w,b+0x180,&observed);store_vector(w,b+0x170,&observed);
     observed=normalize(w,observed,1.f,3);
@@ -384,6 +395,9 @@ static int body(PositionWork *w) {
         PositionVector zero={{0.f,0.f,0.f,0.f}};second=vector(w,b+0x140);
         store_vector(w,b+0x140,&zero);position=sum(w,position,second);store_vector(w,b+0xA0,&position);
         zero.lane[3]=second.lane[3];store_vector(w,b+0x140,&zero);
+        /* Actual67FD74 PCPYUD duplicates140 upper64 into both a0 halves.
+         * The scalar operations and call delay DADDU preserve its high64. */
+        if(w->track_incoming)memcpy(w->high64,&second.lane[2],8);
         if(!capsule(w)||!ground(w))return w->failed;
         observed=difference(w,vector(w,b+0xA0),saved);store_vector(w,b+0x150,&observed);
         if(!helper(w,DREADZONE_POSITION_SETTLE,0,0,&value))return w->failed;
@@ -407,10 +421,14 @@ static int body(PositionWork *w) {
     return w->failed?w->failed:DREADZONE_POSITION_STEP_APPROXIMATE;
 }
 
-int dreadzone_actor_position_step_0067F5E8(const DreadzonePositionStepRequest *request,DreadzonePositionStepInfo *info) {
+static int position_execute(const DreadzonePositionStepRequest *request,int track_incoming,
+                            const u32 incoming_high64[2],DreadzonePositionStepInfo *info) {
     PositionWork w;DreadzonePositionStepRequest *q;PositionVector old;int result;u8 *p;
     if(!host_span(request,sizeof(*request))||!host_span(info,sizeof(*info)))return DREADZONE_POSITION_STEP_INVALID;
+    if(track_incoming&&!host_span(incoming_high64,8))return DREADZONE_POSITION_STEP_INVALID;
     memset(&w,0,sizeof(w));memcpy(&w.request,request,sizeof(*request));q=&w.request;
+    w.track_incoming=track_incoming;
+    if(track_incoming)memcpy(w.high64,incoming_high64,8);
     if(!q->storage_bytes||q->storage_bytes>16U*1024U*1024U||!host_span(q->storage,q->storage_bytes)||
         ((uintptr_t)q->storage&3U)||(u64)q->guest_base+q->storage_bytes>0x80000000ULL||
         (q->record_guest&15U)||q->record_guest<q->guest_base||q->storage_bytes<0x31F0U||
@@ -426,4 +444,13 @@ int dreadzone_actor_position_step_0067F5E8(const DreadzonePositionStepRequest *r
     if(result>0&&w.failed)result=w.failed;
     if(result>0){w.info.position_changed=memcmp(p,&old,16)!=0;memcpy(q->storage,w.copy,q->storage_bytes);memcpy(info,&w.info,sizeof(w.info));}
     free(w.copy);return result;
+}
+
+int dreadzone_actor_position_step_0067F5E8(const DreadzonePositionStepRequest *request,DreadzonePositionStepInfo *info) {
+    return position_execute(request,0,NULL,info);
+}
+
+int dreadzone_actor_position_state_0067F5E8(const DreadzonePositionStepRequest *request,
+                                         const u32 incoming_high64[2],DreadzonePositionStepInfo *info) {
+    return position_execute(request,1,incoming_high64,info);
 }

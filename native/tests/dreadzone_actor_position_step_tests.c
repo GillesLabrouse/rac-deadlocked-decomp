@@ -96,6 +96,46 @@ int main(void) {
         memcpy(before,b,size);status=dreadzone_actor_position_step_0067F5E8(&q,&info);
         CHECK(status<0);CHECK(memcmp(b,before,size)==0);CHECK(memcmp(&info,&old,sizeof(info))==0);
     }
+    /* Raw caller state is necessary when actual active140 skips the first
+     * capsule and scheduled ground has no full register publisher. Genuine
+     * half3A0 exits avoid capsule geometry without inventing a return. */
+    {
+        const u32 markers[3][2]={{0,0},{0x3F000000U,0x3E800000U},{0xBF800000U,0x3F800000U}};
+        const u32 expected[3]={0,0x3B08535CU,0x3C055360U};u32 j;
+        for(j=0;j<3;++j) {
+            fixture(b,size);b[r+0x266D-0x21D000]=1;scalar(b,r+0x140,.01f);
+            scalar(b,r+0x2D4,.25f);scalar(b,r+0x2E08,.75f);word(b,r+0x2F10,1);
+            short_word(b,r+0x2FE,2);short_word(b,r+0x3A0,1);
+            CHECK(dreadzone_actor_position_state_0067F5E8(&q,markers[j],&info)==1);
+            CHECK(info.capsule_resolve_calls==1&&info.ground_calls==2&&info.settle_calls==1);
+            CHECK(info.outgoing_vf25_29_w[3]==expected[j]);CHECK(info.position_changed==1);
+        }
+        fixture(b,size);b[r+0x266D-0x21D000]=1;
+        scalar(b,r+0x2D4,.25f);scalar(b,r+0x2E08,.75f);word(b,r+0x2F10,1);
+        short_word(b,r+0x2FE,2);short_word(b,r+0x3A0,1);
+        CHECK(dreadzone_actor_position_state_0067F5E8(&q,markers[1],&info)==1);
+        CHECK(info.capsule_resolve_calls==1&&info.ground_calls==1&&info.settle_calls==1);
+        CHECK(info.outgoing_vf25_29_w[3]==expected[1]);
+
+        /* Caller words alias140 and are captured before its real clearing. */
+        fixture(b,size);b[r+0x266D-0x21D000]=1;scalar(b,r+0x140,.01f);
+        scalar(b,r+0x2D4,.25f);scalar(b,r+0x2E08,.75f);word(b,r+0x2F10,1);
+        short_word(b,r+0x2FE,2);short_word(b,r+0x3A0,1);
+        CHECK(dreadzone_actor_position_state_0067F5E8(&q,(u32 *)(b+r+0x148-0x21D000),&info)==1);
+        CHECK(info.outgoing_vf25_29_w[3]==expected[1]);
+
+        /* Unknown capsule residue refuses atomically; the older entry keeps
+         * its established RAM-only domain after genuine ground publication. */
+        fixture(b,size);memcpy(before,b,size);memset(&info,0xA5,sizeof(info));old=info;
+        CHECK(dreadzone_actor_position_state_0067F5E8(&q,markers[1],&info)==DREADZONE_POSITION_STEP_UNSUPPORTED_PATH);
+        CHECK(!memcmp(b,before,size)&&!memcmp(&info,&old,sizeof(info)));
+        CHECK(dreadzone_actor_position_step_0067F5E8(&q,&info)==1);
+        fixture(b,size);memcpy(before,b,size);memset(&info,0xA5,sizeof(info));old=info;
+        CHECK(dreadzone_actor_position_state_0067F5E8(&q,NULL,&info)==DREADZONE_POSITION_STEP_INVALID);
+        CHECK(!memcmp(b,before,size)&&!memcmp(&info,&old,sizeof(info)));
+        CHECK(dreadzone_actor_position_state_0067F5E8(&q,markers[1],(DreadzonePositionStepInfo *)b)==DREADZONE_POSITION_STEP_INVALID);
+        CHECK(!memcmp(b,before,size));
+    }
     fixture(b,size);memset(&info,0xA5,sizeof(info));old=info;q.record_guest|=1U;
     memcpy(before,b,size);CHECK(dreadzone_actor_position_step_0067F5E8(&q,&info)<0);
     CHECK(!memcmp(b,before,size));CHECK(!memcmp(&info,&old,sizeof(info)));
