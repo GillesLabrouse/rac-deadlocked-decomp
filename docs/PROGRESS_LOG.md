@@ -2591,3 +2591,30 @@ prove a later one. Emulator tests are optional reference checks.
 - The ground-state specialist now works privately on actual producer transport
   using the accepted additive probe API. Native remains82 passing central
   tests and zero validated complete player frames. Nothing is pushed.
+
+## 2026-10-11 — Verify a resident float pair store; hold orientation boundaries
+
+- Accept resident00149360, complete12-byte first/second float stores at record+0/+4.
+  Root independently binds the entire resident148F20 caller to original bytes:
+  A0=S7 at1490FC, F13 load149108, JAL14910C and F12=F20 delay149110.
+  The following caller suffix does not consume V0; the leaf does not write it.
+  Fresh SN and final production relocation-aware and unmasked exact checks pass.
+  Preserve two root linker-launch failures under the restricted shell and retry
+  the linker with the required toolchain execution permissions. Full audit303,
+  zero failures, regenerated progress/check pass; no L01 dependency is inferred.
+- Commands batch17 takes199s with three compiled forms, two nonmatching forms
+  and four failed comparisons, zero compiler/tool failures. At2026-10-11T14:00:05.877884+00:00
+  baseline gain23 gives6.25 accepted/hour; root production integration takes30.67s,
+  excluding earlier independent ABI/fresh compile work. Resume one independent
+  Luna memory batch while commands holds and root integrates the collision chain.
+- Private whole orientation683310/67CBC0/596470 native draft passes33 complete
+  original RAM comparisons across87,645,888 bytes,23873EE/3738VU pairs, zero
+  final differences or captures. Ten original numerical oracle boundaries remain
+  unvalidated. Preserve five earlier RAM differences caused by an incorrectly
+  conditional square root and the corrected draft/proof. The complete SN683310
+  draft compiles but remains436-byte NONMATCHING; no exact credit or public
+  orientation integration. No VF/GPR-state or complete playable-frame claim.
+- Ground register transport is still a frozen private draft awaiting independent
+  root adoption. Actual8249-cell L01 surface inventory never reaches the special
+  height producer; do not infer coverage from synthetic contacts. Native remains
+ 82 passing central tests; zero playable character/scene and nothing pushed.
