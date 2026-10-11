@@ -2282,3 +2282,36 @@ prove a later one. Emulator tests are optional reference checks.
   Seventeen distinct recovery candidates have been attempted; five remain
   unaccepted. The second Luna worker audits useful dependencies read-only;
   no third new recovery worker is added. Nothing is pushed or playable yet.
+
+## 2026-10-11 — Accept paired state setters; audit position inheritance
+
+- Fresh root SN objects for 0015C750/0015C760 pass real relocation-aware and
+  unmasked resident exact-link comparisons. Verify complete 16-byte bounds,
+  both genuine GPREL16 stores, and all six actual L01 callsites independently.
+  Both production objects pass exact linking; shared audit passes 294 with
+  zero mismatches and progress check passes. These generic state helpers are
+  not attributed to first-scene initialization without caller evidence.
+- Memory batch9 takes 113 seconds: one source form per function and zero
+  launch/compile/object/link failures. Root's handwritten reference assertion
+  initially encodes signed GP offsets incorrectly (7635/7633 instead of
+  8635/8633). Original reference checker is retained; real instructions confirm
+  the correction and repeated independent/production checks pass. This is one
+  reference-fixture error, not an object or exact-link mismatch.
+- At 12:06:50 UTC, 14 accepted since 10:19:14 across 6456.10 seconds gives
+  7.81 accepted/hour. Integration takes 100.34 seconds including concurrent
+  native dependency review, excluding later docs/commit. Nineteen distinct
+  worker recovery candidates have been attempted; five remain unaccepted.
+  Memory recovery waits while root composes the main movement prerequisites.
+- Independently trace complete 68B258 inheritance: 2308 bytes, 577 reachable
+  words, one real return and 19 callsites. Active object paths need actual
+  598830/598868/599838/5994A8 lookup/transforms. The m2c graph invents several
+  argument/return contracts and leaves VU operations unresolved. Preserve that
+  private draft/audit; no accepted C, exact coverage or native completion is
+  claimed. The genuine no-active-object exit is a branch, not a substituted
+  successful lookup or constructor proof.
+- Independent Luna review confirms the state-two update's actual 3D0 and 2FE
+  gates, including the optional 6840B8 probe. Their fixture values do not prove
+  initialization. Root begins complete selected walking composition with the
+  newly integrated wall response; reached missing dependencies must refuse
+  atomically. Position specialist continues whole original/SN replay separately.
+  No playable character is claimed and nothing is pushed.
