@@ -1907,3 +1907,24 @@ prove a later one. Emulator tests are optional reference checks.
   uses its separate immutable private CPU snapshot.
 - Genuine596390 execution is now available to the ongoing ground-step lot.
   This infrastructure change does not add visible controls or a player frame.
+
+## 2026-10-11 — Recover complete native slope response
+
+- Added complete NONMATCHING0067D4E8 PS2 source and a transactional native
+  response preserving the true contact gates, angle polynomial, planar
+  normalization, raw velocity W and ordered scale/time reads between stores.
+- Genuine terrain normals are unnormalized cross products. The native domain
+  supports their component magnitudes through2^30 without replacing them
+  with unit vectors. Original coefficient tables are checked when reached;
+  changed tables and unsupported arithmetic refuse atomically.
+- Independent original/SN/central-production replay passes487 whole calls,
+  including146 real terrain-contact normals and133 corrections. All selected
+  non-floating bytes agree; maximum velocity error is2.384185791015625e-7.
+  The run compares6,305,628 RAM bytes, executes67,535 original/71,972 SN EE
+  and retains363 exact signed-zero components. No calls are captured.
+- The66-check focused fixture covers ordered time aliases, lazy gates,
+  missing memory, changed tables, raw W, numerical bounds and atomic refusals.
+  SN has408 entry bytes plus208 local helper bytes versus original508;
+  replay is isolated rather than claiming an in-place replacement.
+- Matching progress remains280 functions. No new rendered controls, ground
+  query, full frame or playable character is claimed; nothing is pushed.

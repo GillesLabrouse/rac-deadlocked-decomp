@@ -1150,6 +1150,28 @@ remain separate work. Ordered host scalar/VU arithmetic and existing probe-Q
 semantics are approximate; physical flags, exceptional corner behavior, DMA
 and timing are outside this evidence. The animated viewer remains unchanged.
 
+`dreadzone_actor_slope` executes the complete selected0067D4E8 response:
+actual ordered gates, original angle polynomial, planar normalization and
+two velocity stores. It caches scale before the first store and reads the
+live time word afterward, preserving real record/time aliases. Terrain normals
+remain raw cross products, with component magnitudes through2^30; velocity W
+is transported unchanged. Missing dependencies or unsupported numeric/table
+domains refuse the full transaction. The mapped original angle coefficients
+must match the recovered polynomial. Nonzero polynomial ratios below2^-7
+refuse to bound subnormal intermediates; physical flush behavior is excluded.
+
+Fresh isolated SN and central-production native replay pass487 whole calls,
+including146 genuine terrain-contact normals and133 actual corrections.
+The original executes67,535 EE and SN71,972;6,305,628 compared RAM bytes
+agree outside a declared host-float tolerance, with maximum velocity error
+2.384185791015625e-7 and363 bit-exact signed-zero components. No call result
+is captured. The six terrain inclination subnormal examples have negative Z
+and genuinely exit this slope entry before the angle call. They are not
+successful inclination calculations. The focused native fixture passes66
+checks. SN compiles408 entry bytes plus208 helper bytes versus the original
+508-byte span, so the whole draft is NONMATCHING and replayed in isolation.
+This response does not query ground, integrate position or create a frame.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
