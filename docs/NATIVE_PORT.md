@@ -1,5 +1,33 @@
 # Native PC development
 
+## Supported placed-actor loading
+
+`dreadzone_placed_actors_load` composes the complete supported0057B788 memory
+path with genuine fresh class, initial-model and actor transform/spatial
+components. The request supplies bounded RAM/SPR/VU, GP, serialized header,
+output cell, mode and pool capacity. The upload descriptor must already be
+cached; hardware upload, height adjustment, environment58FC50 and special7D0
+callbacks remain unsupported. All failures preserve complete caller RAM/SPR.
+Consumed scale multiplication is finite normal-or-zero; nested numeric/layout
+contracts apply. Direct unmapped inputs return-2, nested refusals return-3.
+
+Actual ordering includes pre-mutation stride/metadata/special-class snapshots,
+class reload after mapping, sequential rotation loads, no-height skipped4C,
+payload50, mutable shared-definition flags and actual wrapping color packing.
+Per-record output/pool pointers are reloaded. This handles tested aliases rather
+than assuming an immutable input record snapshot. The final central DLL passes
+62 full original/native memory comparisons, including12 verbatim originalISO
+9207 records in explicitly isolated headers and14 independent alias cases:
+386910EE/246681VU/651132928bytes. Eight additional atomic refusals pass.
+All99 native tests pass14.36s, including70 new focused checks.
+
+The original placement list contains342 records; its runtime selection and
+installation remain open. Raw record142 payload word22 is transported, without
+claiming a relocated usable pointer. Diagnostic count/published table/pool/cache
+inputs do not establish whole mission loading, first-player identity or a
+complete frame. The viewer remains scenery and prepared animation. This native
+boundary adds no exact matching coverage or playable feature.
+
 ## Exact constructor backlink leaf
 
 Resident `src/game/00511310.c` now recovers the complete raw record -> actor+90

@@ -1,5 +1,23 @@
 # Resume checkpoint — active development, 2026-10-11
 
+Latest native checkpoint: native/dreadzone_placed_actors.{c,h} now composes the
+supported complete0057B788 memory path, cached upload/noheight/noenvironment/
+nospecial7D0 with actual fresh/model/transform/spatial components. Preserve
+all mutable loads and snapshots. Public70-check suite/all99 native tests pass
+14.36s. Central62 wholeRAM/SPR comparisons pass386910EE/246681VU/651132928B,
+including12 unchanged originalISO9207records in isolated diagnostic headers,
+14 independently devised alias cases and eight separate atomic refusals.
+Payloadword22 is raw, not relocated. No selected full mission/player/frame.
+Matching remains316/0failures/progresscheck pass. No viewer behavior change.
+
+Preserve private/root-placed-actor-loader-* originals/checkers/first-failed
+fixtures and sol-placed-loader-review-* (354s). Root final receipt records
+integration duration/hashes. Next: actual serialized reference relocation and
+mission installation, plus full0066E580 collision-volume closure. Strong worker
+audits0068A178/00587188/00673A00; mission40 traces rawR50 preparation. Never
+zero actor98/record3A0 to bypass required volumes. Root alone integrates and
+owns shared configuration/report/central outputs. Everything stays local.
+
 Latest exact checkpoint: complete src/overlays/L00/005D2B10.c returns its second
 scalar; actualL01 57B6B0, caller57B748 independently stores21EAD8. Fresh and
 production SN objects pass47 actual resolved full eight-byte references, no

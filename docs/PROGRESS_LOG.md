@@ -1,5 +1,44 @@
 # Local development progress
 
+## 2026-10-11 — Integrate the supported complete placed-actor loader
+
+- Publish native/dreadzone_placed_actors.{c,h}, the supported complete824-byte
+  actual0057B788 memory composition recovered with the established m2c tools.
+  Real fresh class/model, actor transform/spatial and packed color effects are
+  composed. Preserve pre-mutation stride/metadata/special-class snapshots,
+  post-mapping class reload, all mutable record/definition loads and per-record
+  output/pool reloads. Payload comes from record50; no-height skips record4C.
+  Signed nonpositive count skips records. Explicit pool counts/GP/RAM/SPR/VU
+  and cached633178 upload state are required. Scale multiplication and reached
+  nested arithmetic retain bounded numeric domains. Height, environment58FC50,
+  special7D0 and reached unsupported model paths refuse atomically.
+- The final central DLL passes36 synthetic-record wholeRAM/SPR comparisons,
+  227832EE/142584VU/378077184bytes. Twelve further comparisons use verbatim
+  originalISO record142/9207/UID2726:91524EE/62604VU/126025728bytes. Only its
+  isolated header count is modified; published tables, pool and cached upload
+  are explicit diagnostics. Raw payload word22 is transported unchanged; no
+  usable relocated pointer or runtime selected mission is claimed.
+- Repeat the independent alias review against the final DLL:14 whole-memory
+  comparisons/67554EE/41493VU/147030016bytes, plus eight atomic refusals.
+  Mapping aliases class/stride/metadata, output-cell overwritten by basis,
+  mutable shared flags and borrowedSPR requests are covered. Late second-record
+  height/special/environment failures undo prior writes. Total production proof
+  is62 full comparisons/386910EE/246681VU/651132928bytes. Every reached original
+  callee executes; helper simulations or captured results are not used.
+- Focused regression passes70 checks; all99 native tests pass14.36s. Preserve
+  the first erroneous fixture expecting a refusal for a zero-joint model flag:
+  that case legitimately succeeds. Replace it with a genuinely unsupported
+  late NaN rotation and verify full rollback. No implementation fix was needed.
+  Independent review354s finds no supported-domain source blocker; preserve
+  its initial incorrect status expectation and separate DLL-hash addendum.
+- Exact audit remains316/zero failures and progresscheck passes. This lot adds
+  one validated native boundary, zero exact functions and zero playable features.
+  Root integration duration/source/DLL/proof hashes are frozen in
+  private/root-placed-actor-loader-final-receipt.json. Native viewer behavior is
+  unchanged. Remaining links include mission pointer installation/selection,
+  reference relocation, full player construction, collision volumes and repeated
+  live input/pose/camera/frame. Continue locally; no push.
+
 ## 2026-10-11 — Accept the exact startup scalar return and recover mission bytes
 
 - Accept src/overlays/L00/005D2B10.c, the complete eight-byte scalar return,
