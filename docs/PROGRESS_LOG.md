@@ -1757,3 +1757,26 @@ prove a later one. Emulator tests are optional reference checks.
   No new visible player controls or playable frame are claimed. The next lots
   target actual wall contact, position/radius helpers and walking clip selection.
   No original assets or instruction bytes are tracked. Nothing is pushed.
+
+## 2026-10-11 — Integrate vertical capsule terrain contact
+
+- Added the genuine 0053FAA8 terrain/quad contact and dynamic-filter native
+  transaction. Real generation/visitation effects survive misses; eligible
+  unrecovered dynamic geometry refuses atomically. Radius/height and incoming
+  unsaved VF W lanes remain explicit inputs. The full 3976-byte PS2 draft
+  preserves model/primitive, cache, DMA, VU and custom-ABI tree branches.
+- Root freshly compiled and strictly linked the complete NONMATCHING draft,
+  then compared the central production libraries over all 8,249 actual
+  nonempty cells: 3,107 contacts, 5,142 misses, 13,993,800 EE instructions,
+  362,956 micro instructions and 21,807,452,352 RAM bytes without differences.
+- Separate flags-zero and mask-two original/SN/native samples each cover 250
+  cells, 65 contacts, 185 misses, 5,200,745 combined EE and 22,000 micro
+  instructions. Thirteen dynamic-filter/alias fixtures pass; twelve genuine
+  dynamic geometry contacts validate the complete PS2 draft separately.
+- Source, original inputs, private oracles, fresh objects, linked code and
+  production libraries remain hash-bound and unchanged throughout the replay.
+  All 49 focused checks and all 68 central native tests pass (3.80 seconds).
+- Host binary32/saturated-Q arithmetic remains approximate. Reset-empty actor
+  grids are declared fixtures, not initialized gameplay. Wall/ground response
+  and full player-frame composition remain active work. The animated native
+  viewer is unchanged. No retail bytes/assets are tracked; nothing is pushed.

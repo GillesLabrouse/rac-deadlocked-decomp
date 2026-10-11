@@ -1019,6 +1019,32 @@ All 67 registered native tests pass in 4.10 seconds. The animated viewer is
 unchanged; first walking clip selection, wall response and position/ground
 composition remain active work.
 
+`dreadzone_capsule_contact` now executes the genuine vertical capsule probe
+0053FAA8 for terrain/quad contact and actual dynamic-list filtering. Radius and
+height remain independent inputs. Generation, visitation, ordered metadata
+aliases and contact-packet writes are preserved; a genuine miss still publishes
+its original side effects. Eligible dynamic primitive/model geometry refuses
+atomically. The complete PS2 draft retains those branches, cache, DMA and VU
+calls, including the genuine custom-ABI tree helper; it remains NONMATCHING.
+
+Root freshly compiled/strictly linked the full 3976-byte span and compared an
+independent bridge linked to the central production libraries. All 8,249 actual
+nonempty terrain cells agree with original execution: 3,107 contacts, 5,142
+misses, 13,993,800 EE instructions, 362,956 micro instructions and 21,807,452,352
+RAM bytes compared without differences. Two further original/SN/native runs
+each sample 250 cells under flags zero and mask two; each executes 5,200,745
+combined EE and 22,000 micro instructions with 65 contacts and 185 misses.
+Thirteen dynamic-filter/alias fixtures agree, and twelve real-contact dynamic
+geometry fixtures validate the complete PS2 recovery separately.
+
+All guarded inputs remain unchanged throughout the central replay. The declared
+reset-empty dynamic grid is a fixture, not recovered level initialization.
+Ordered host binary32 and saturated Q are numerical approximations; physical
+VU arithmetic, DMA synchronization and complete player-frame behavior are not
+verified. All 49 focused checks and all 68 central native tests pass. Ground
+response, the distinct wall probe and frame composition remain prerequisites
+for a controllable character; the visible animation preview is unchanged.
+
 Keep matching progress and native functionality separate. A function compiling
 on PC does not prove its behavior or make its PS2 dependencies portable. Every
 native milestone must describe executed code and observed behavior. A retail
