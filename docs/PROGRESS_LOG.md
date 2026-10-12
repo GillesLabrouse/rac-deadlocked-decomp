@@ -1,5 +1,54 @@
 # Local development progress
 
+## 2026-10-12 - Radius update validated after the defined movement basis
+
+The next actual 67C010 call is the radius/metadata helper 67B9B0, followed by
+684A60 and 684EF0. Radius callable bounds are 67B9B0..67BC78 (712 bytes),
+with a genuine JR at 67BC70 and delay at 67BC74. It updates dimensions and
+radius from the actual metadata pointer 3BD930 and real clock/record fields.
+Its existing native position-helper operation RADIUS is reusable here.
+
+The full actual basis block sets A1=0 at 67C25C and A0=S0 at 67C264, with
+no later writes to these argument registers before the radius call. T2=S0+60
+at 67C24C remains unchanged, so the 67C3B4 SQ delay writes record+80, not
+the stack. Commands119's immediate-window interpretation missed these earlier
+producers and incorrectly described the delay destination. Its original report
+is preserved; root's raw writer scan establishes the correction separately.
+No incoming radius flag is guessed or borrowed from an unrelated caller.
+
+An independent bounded run executes the complete radius component on explicitly
+typed projected basis RAM. It uses diagnostic v32 banks, the projected stack,
+the authenticated low64 arguments and an explicit return sentinel. This is
+a component test, not an authentic whole-machine continuation past guarded C60.
+All four reached calls execute actual instructions: 594AE8 twice, 594D28 once
+and nested 594A88 once. The component returns after 160 EE instructions and
+zero VU-program pairs. Its selected path avoids the alternate distance/SQRT
+branch through real record fields, without changing those conditions.
+
+An independently linked strict DLL runs the existing native RADIUS(initial=0)
+operation against three disjoint views covering a genuine 10 MiB RAM prefix.
+It agrees on all 32,505,856 RAM bytes, leaving the returned scalar untouched.
+Root verifies frozen input/source/archive/DLL hashes, the complete raw argument
+and destination scan, then repeats full RAM equality at host offsets 0/1/7:
+97,517,568 bytes compared. Unmapped tail memory stays unchanged. The native
+contract excludes stack, complete CPU/VU banks, physical flags and scheduling.
+
+The independent review takes 354.2s within six minutes. Its first normal-return
+harness had an unset status variable; its first isolated link omitted required
+transitive archives. Separate corrected retries are preserved. Root's first two
+argument-scan attempts refuse unhandled DADDU/LWC1 classes before any native
+execution. The third passes; the fourth additionally checks T2 from its actual
+earlier producer. No source implementation or matching credit changes here.
+
+Next original wrappers remain substantial: 684A60 includes 67F5E8 plus
+scheduled collision work, and 684EF0 is a separate 5,424-byte contact/state/
+callback routine. Existing selected position APIs do not prove either complete
+wrapper. Consumed VF/W and high-GPR lanes need genuine data-flow validation;
+projected RAM alone does not supply those machine banks. Main work continues
+the actual position/contact path. Matching stays 323, last native suite is
+114/114 in 7.29s, and five startup leaves remain integrated. No returned whole
+player update, repeated input loop, controllable Ratchet or new live render.
+
 ## 2026-10-12 - Fifth startup leaf completes the second pool family
 
 Actual L01 leaf 667400 with A0=5 is integrated as a separate native RAM API.

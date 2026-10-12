@@ -8,6 +8,10 @@ agree on39 fullRAM comparisons/37unique inputs/1267728384bytes. Unknown
 machine banks, physical precision/flags, stack/ABI/callee/frame remain excluded.
 All114 native tests pass in7.29s. Exact323/0bad,273resolved,0.564% unchanged.
 
+The existing radius API agrees on complete RAM after a separately typed
+basis projection, with authenticated A1=0. This is an explicit component;
+684A60/684EF0 position/contact closure and live machine banks stay open.
+
 The original full-bank diagnostic remains guarded at v32/67C224 after8237EE/
 5233VU; no complete player update has returned. Initializer/client/provider
 remain incomplete. Live animation context/skeleton/matrix links are proven;
