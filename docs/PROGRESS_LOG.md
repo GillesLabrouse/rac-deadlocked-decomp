@@ -1,3 +1,61 @@
+# Current checkpoint - 2026-10-13 - Complete selected native RAM update reviewed
+
+The private compiled frame257 experiment now composes prefix, history, basis,
+radius, tagged position, post-position and actual getter/slot cleanup. Root
+three host offsets and independent258 two offsets match all32,505,856 RAM
+bytes against the continuous original-word software reference. Root nine
+atomic refusals and independent25830 checks PASS. Independent256 separately
+builds the seven tagged position drafts:22 checks, two fresh full-RAM rows
+and token-safe packet-publication guards PASS. New public native components,
+accepted exact functions and playable features in this lot are all0.
+
+Fresh259 reconstructs the historical explicitly constructed fixture with its
+original API and observes real6A6854 JAL/delay into67C010. v17 restores that
+captured main-entry RAM/stack/banks and Q model pending/taint state, then runs
+every reached word continuously through real67C564 JR and67C568 delay to
+6A685C:8672 EE steps,258 VU steps,126 observed calls. All16 boundary RAM/stack
+hashes are checked; the prefix agrees with213/225, and suffix agrees withv13.
+This is a constructed diagnostic and bounded software arithmetic reference,
+not authentic startup, physical bank/status/timing proof or SN compilation.
+No register reset occurs inside the main function. Unknown C60 Z/W stay
+tokens until real writers replace them; no numeric placeholder is consumed.
+Independent250148 raw-bank/continuation checks and260 caller/boundary audit
+PASS. v18's explicit prior2D8=.25 variation also matches three native position
+RAM rows. That variation does not establish broader scheduling equivalence.
+
+Private evidence:root-player-opaque244/v17/run.json andverify-v17.json;
+root-player-entry259/result.json;root-player-typed255/frame.c,frame.h,
+frame-comparison.json andcomparison-prior-2d8.json;sol-player-tagged-review256;
+sol-frame-composition-review258;luna-main-entry-return260;luna-frame-storage261.
+The final strict native builds PASS. Preserve earlier253/254 preparation/build
+failures, v14's constructor guard and v16's absent passive event journal.
+v17 restores only the captured diagnostic journal to fix that bookkeeping.
+
+Public adoption is pending.261 requires a conservative null-object guard and
+route-specific input/data ownership; radius initial0 models only reached
+A1.low64=0, not the opaque/nonzero128-bit register as a whole. Ground remains
+limited to the checked RAM trajectory: its original stack delay store and
+continued CFG are not replaced by a general scheduler-equivalence claim.
+Offset-local W zeroes are captured inputs, not universal initialization.
+Implement additive tagged APIs sharing the existing kernels, preserve concrete
+legacy ABI/guards, expand relevant original-RAM variants, independently review
+and perform the final production native build before public integration.
+Next gameplay work is controller/nonzero movement/state2, repeated updates and
+actual actor/scene ownership plus rendering. Dreadzone base follows the first
+playable scene. Concurrent preview work is preserved; this lot adds no control.
+
+Metrics:0 accepted exact functions/hour; public integration pending; private
+final parity failures0; detailed elapsed time/failures/check hashes in
+private/root-player-frame-checkpoint263/receipt.json. Current inventory check
+PASS411 entries includes concurrent work and is not a fresh SN/resolved-link
+audit. Accepted-scope native suite127/127 and cleanup39 checks were verified
+in the earlier root lot; no fresh central whole-build claim is made here.
+Read-only tool inspector:494786 traversal complete,447215 unverified bodies,
+1681 distinct audited context/name proposals; no tool main adoption/playable
+gain and no demonstrated general15% rate. Frozen tool runs/inputs are intact.
+Authentic startup still needs platform/campaign/loader provenance; Count249
+is an architectural boundary without a fabricated timer value. No push.
+
 # Private handoff review - 2026-10-13
 
 Root integrationsbb8db07/c2fb0a9 remain the latest accepted native code.
