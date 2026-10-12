@@ -1,3 +1,24 @@
+# Private handoff review - 2026-10-13
+
+Root integrationsbb8db07/c2fb0a9 remain the latest accepted native code.
+Independent242 accepts240v2 only as a partial-bank projection:21 unchanged
+RAM/stack stores,3 defined-XY C60 paths, known low lanes and explicit opaque
+Z/W. Strong239 accepts only the private transport foundation (38 checks,
+including7 actual-word comparisons); no selected frame execution yet.
+Next root work: connect these two private tools to the actual instruction
+continuation with no opaque-to-number conversion, enforce232's selected-path
+liveness evidence, capture named known banks at first53DC70, then continue
+position/post/tail and compare full RAM before native full-frame integration.
+
+Startup243 executes15B498 and245 executes15F4A0 up to its real11A518 JAL
+and15F4E8 delay; new frontier arguments10000D00/0/1C4 and RA15F4EC.
+246 maps that canonical body and continues additively from the same original
+665D58 fixture; no register reset or substituted service is authorized.
+This is still mode1/levelFFFFFFFF component evidence;241's menu/campaign
+selector lacks the live descriptor/loader context. Authentic boot stays HOLD.
+No new matching source, native feature or playable feature in this review.
+PROGRESS_LOG/RESUME and all earlier frozen artifacts preserve the open scope.
+
 # Current continuation - 2026-10-13 - Opaque-bank player handoff in preparation
 
 Latest root integrationc2fb0a9 completes the bounded535A30 cleanup dependency;
