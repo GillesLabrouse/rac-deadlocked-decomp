@@ -1,5 +1,68 @@
 # Local development progress
 
+## 2026-10-12 - Complete selected orientation RAM integration
+
+- Added the separate dreadzone_actor_orientation_ram_00683310 API to the
+  existing native orientation archive. It composes actual 67CBC0 matrices and
+  596470 Euler extraction, preserving genuine GP/parity/clock reloads.
+  The prior zero-tilt register-transport API and domain are unchanged.
+- Final production archive bridge passes 93 whole 10 MiB RAM comparisons:
+  975,175,680 bytes, comprising 75 broad cases, 10 independently selected cases,
+  and 8 explicit component calls retaining original CPU banks between calls.
+  Seven atomic refusals pass; central 29-check unit and all 103 native tests
+  pass (6.32s). These successive calls are not full gameplay frames.
+- Independent review requested only header clarifications: selected angles
+  also have the 2^-40 floor, and the guest record must be 16-byte aligned.
+  Both are documented. No supported whole-RAM mismatch remains.
+- Register/vector/scratch/stack outputs are explicitly excluded. Preserve the
+  separate transport draft's genuine VF28.W mismatch; it was not repaired or
+  counted as accepted. No physical precision, flags, timing or frame claim.
+- Exact audit remains 316 exact / 0 not exact; progress check agrees. Exact
+  recovery rate remains 0 functions/hour for these lots. Native integration
+  adds one bounded RAM API, with its duration frozen separately in the receipt.
+  No integration test failure. No viewer/control change and nothing pushed.
+- Root reserves shared sources/builds/reports. Both light agents and the
+  independent reviewer HOLD until another integration-ready lot is assigned.
+  Next work is genuine client initialization and native startup services,
+  then full successive player updates and live rendering.
+
+## 2026-10-12 - Startup producers and bounded orientation review
+
+- Exact total remains 316. Public native tests remain 102 while the new RAM-only
+  orientation candidate is private. Root preserves 75 whole 10 MiB comparisons
+  (786,432,000 bytes; 52,667 EE / 9,114 VU) and 29 isolated component checks.
+- Independent review rejected the full register-transport extension: 10 complete
+  RAM comparisons passed, but one VF28.W output differed (FFFFFFFF versus 0).
+  C60 computes that unconsumed lane from transported raw upper GPR words; it is
+  not universally cleared. All failing banks and earlier drafts are preserved.
+  The new explicit RAM-only API excludes register/vector/scratch outputs and
+  does not change the accepted zero-tilt orientation API or matching coverage.
+- Reference extensions are limited to six verified finite COP1 clamp sites and
+  two verified annulled branches. 24,792 independent raw-order properties and
+  four actual compare/branch/delay-window properties pass. Synthetic return
+  sentinels only bound opcode tests; they are not game-function matching proof.
+- Genuine caller completion is still blocked at 6A8580 by record+2F28 being null.
+  A direct frame on the SAME partial-caller CPU reaches 6A7DF4 after 135 EE,
+  where the client history pointer +50 is null. No fake object/flags were added.
+- Light memory62 finds the real client pointer writer: 57CAD8 -> 538A80 ->
+  538918 -> 5353C8, with SW5389A4 installing the index-local pool object.
+  Live initialization and ordinary-opening invocation remain unknown. memory63
+  verifies the selector's complete 40-byte CFG but canonical identity is absent;
+  no compiler variant or accepted source was added.
+- Strong startup-context-next finds activation through 15D9A8/15DBB8/15DD38 to
+  1E9DE38. Accepted request type is 1; 26h is an error value. Genuine flag +24 is
+  written only after lock creation. Original startup stops at MFC0 Count15DBFC;
+  lock creation stops at syscall40/126BA4. Native service providers remain open.
+- Light commands49 identifies scheduler6A8340; commands50 corrects its two-stage
+  count load; commands51 reads initialized boot pointer21DDA4=172174 and count1
+  with no relocations on either word. Old constructor diagnostics zero both
+  words and are not live boot images. Cadence/input ordering still unproved.
+- Exact accepted-functions/hour is 0 in these bounded recovery/provenance lots.
+  No matching validation failure occurred. Private transport review has one
+  semantic mismatch; root's earlier three metadata cases and reference/setup
+  failures are retained. Both light agents HOLD during root integration; no
+  extra recovery agent is added. Nothing pushed; no controllable Ratchet yet.
+
 ## 2026-10-12: complete supported ordinary constructor integrated
 
 - Added the bounded native dreadzone_actor_construct API and real prefix/orientation components. Complete RAM publication is atomic; all reached supported collision, ground, transformation, animation, RNG, camera and inventory/equipment components execute. Class conversion/allocation/nonzero selectors and unsupported nested paths refuse. Hardware bank/register/stack outputs and selected startup remain excluded.

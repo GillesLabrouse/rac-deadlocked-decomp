@@ -1,4 +1,55 @@
-# Resume checkpoint — active development, 2026-10-12
+# Resume checkpoint â€” active development, 2026-10-12
+
+Latest accepted local change: complete selected RAM-only orientation
+`native/dreadzone_actor_orientation_ram.{c,h}` in the existing orientation
+archive, with its separate 29-check unit test. Production bridge passes 93
+whole 10 MiB comparisons (975,175,680 bytes): 75 broad, 10 independent, and
+8 component-only successive calls preserving original CPU banks. Seven atomic
+refusals pass. All 103 native tests pass (6.32s); exact audit remains 316/0.
+No exact credit, physical bank emulation, full player frame, visible gameplay
+change or push. Existing zero-tilt register-transport API remains unchanged.
+Header now includes the selected-angle 2^-40 floor and 16-byte record alignment.
+Preserve root-orientation-ram-production-* and independent review-ram receipts;
+full transport drafts remain private with their VF28.W failures retained.
+Next: real client initialization and bounded native time/kernel service design,
+then genuine complete player frames and renderer binding. Both light agents and
+strong reviewer HOLD; root owns final integration and shared outputs.
+
+Current startup and orientation checkpoint (2026-10-12):
+- Public exact/native totals remain 316/102 while the new orientation RAM-only
+  candidate awaits independent review. Private root-orientation-ram-* passes
+  75 full 10 MiB comparisons (786,432,000 bytes), including nonzero tilt,
+  custom GP factors, aliasing and the discovered C60 bank frontier. Its isolated
+  unit test passes 29 checks. No matching credit or playable feature.
+- Do not promote root-orientation-compose-v3-draft.c into the existing register
+  transport API: independent review found VF28.W=FFFFFFFF where it predicts 0.
+  C60's unconsumed W polynomial depends on transported raw upper GPR words.
+  The separate RAM-only API excludes every register/scratch/vector-bank output;
+  the existing zero-tilt transport API retains its accepted domain.
+- Real caller stops at 6A8580 on null record+2F28; the same partially initialized
+  CPU's direct 6A65E8 update stops after 135 EE at 6A7DF4 on client+50 being null.
+  These are preserved failures, not completed caller/frame evidence.
+- memory62 proves 57CAD8 -> 538A80 -> 538918 -> 5353C8, with genuine SW5389A4
+  installing client+50 from its per-client pool. Live pool initialization and
+  ordinary opening reachability remain unproved. memory63 independently proves
+  5353C8..535408's full 40-byte CFG, but canonical-name/catalog recovery is open.
+- Context activation is 15D9A8 -> 15DBB8 -> 15DD38 -> 1E9DE38. Request type is 1;
+  26h is an error value, not the accepted request type. The real flag store occurs
+  after lock creation. Startup reaches MFC0 Count at 15DBFC; the lock helper
+  reaches syscall40 at 126BA4. Native time/kernel providers are not implemented.
+- Scheduler 6A8340 loads pointer [21DDA4], then signed count [pointer], and calls
+  record vtable+0C. Resident boot core.lit serializes 21DDA4=172174; core.data
+  serializes initial count 1 there, with no relocations on those two words.
+  The old constructor fixture has zero at both: it is not a boot image.
+  Preserve commands49/50/51 and memory61/62/63 receipts, startup-context-next
+  banks/reports, orientation original-refusal and metadata-failure artifacts.
+- Matching throughput in these bounded provenance/review lots is 0 accepted
+  exact functions/hour. Keep both light agents on HOLD while root integrates
+  validated work; do not add a third recovery agent or generate more drafts.
+  Root owns shared builds, reports and final validation. No push.
+Next: finish the separate RAM-only orientation review/production checks, then
+establish actual client initialization and native startup services before full
+successive player frames and live rendering.
 
 Latest integrated checkpoint: native/dreadzone_actor_constructor.{c,h},
 internal prefix/orientation and separate realwordfill now compile centrally.

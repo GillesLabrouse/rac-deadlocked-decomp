@@ -1,5 +1,16 @@
 # Native PC development
 
+The complete selected RAM-only orientation API now covers real L01 `683310`,
+`67CBC0` matrix composition and `596470` Euler extraction. Its separate request
+supplies RAM, guest mapping, record and GP; its result publishes only RAM and
+work counters. Production checks include 93 full 10 MiB comparisons and seven
+atomic refusals; all 103 native tests pass. Eight comparisons retain original
+CPU banks between explicit orientation-component calls, without claiming player
+frames. The existing zero-tilt API's register transport remains unchanged.
+Preserve the broader transport draft's VF28.W failure: the new API expressly
+excludes machine banks, physical precision, flags and timing. Exact matching
+coverage remains 316, and the viewer still has no controllable Ratchet.
+
 ## Supported complete ordinary player construction
 
 `dreadzone_actor_construct` now composes the complete supported L01 `00668070`

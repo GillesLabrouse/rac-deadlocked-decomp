@@ -17,8 +17,23 @@ The complete supported ordinary `dreadzone_actor_construct` RAM path now passes
 65-check integration test and all102 native tests pass. This removes the bounded
 constructor composition gate; runtime selected resources/arenas, complete
 hardware banks and successive frames remain separate work. The real frame
-entry is L01 `006A65E8`, vtable slot `003B10CC`. Its incoming scheduler and
-input/history producers have not yet been demonstrated for the opening scene.
+entry is L01 `006A65E8`, vtable slot `003B10CC`. Its scheduler and several input/history producers are now identified; their
+live invocation and initialization for the opening scene remain unproved.
+
+The separate RAM-only orientation entry now composes nonzero tilt and extracts
+Euler angles in its bounded float domain. It passes 93 production whole-RAM
+comparisons, including eight successive orientation-component calls; all 103
+native tests pass. It emits no machine-bank outputs. The prior transport draft's
+VF28.W mismatch remains documented, and no complete player frame is claimed.
+
+The real scheduler is `006A8340`, with its count pointer initialized by the boot
+image to `00172174`, whose serialized initial count is 1. Ordinary-opening
+invocation, cadence and polling order remain unproved. The direct update on a
+partial real caller stops at the missing client history object. Its genuine
+initializer is identified; startup activation also needs native time and lock
+services for the reached Count/syscall boundary. These are the immediate gates
+before a complete first frame, followed by repeated input/movement/collision,
+then live actor/camera/animation rendering.
 
 Complete supported player-record transformation now passes68 wholeRAM/SPR
 original comparisons, with actual resource collision volumes preserved. The
