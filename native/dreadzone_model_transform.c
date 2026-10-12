@@ -58,8 +58,8 @@ int dreadzone_model_transform_static(const DreadzoneModelTransform *request) {
     return DREADZONE_TRANSFORM_UNSUPPORTED;
 }
 
-/* Bounded initial-frame model memory effects; see the public API contract. */
-static int transform_initial(const DreadzoneFixedModelTransform *request, int variable_enabled) {
+/* Bounded selected-frame model memory effects; see the public API contract. */
+static int transform_initial(const DreadzoneFixedModelTransform *request, int variable_enabled, int frame_enabled) {
     DreadzoneFixedModelTransform input;
     DreadzoneModelView views[16];
     DreadzoneLocalPoseInit initialize;
@@ -69,6 +69,8 @@ static int transform_initial(const DreadzoneFixedModelTransform *request, int va
     u8 *actor, *definition, *animation, *skeleton, *stream, *matrices;
     u32 i, j, count, fixed_bytes, variable_bytes, stream_bytes, definition_address, animation_address;
     u32 skeleton_address, stream_address, output_address;
+    u32 current_frame=0, next_frame=0, frame_word, magnitude;
+    f32 frame=0.f, fraction=0.f;
     if (!request || (uintptr_t)request > UINTPTR_MAX - (sizeof(*request)-1))
         return DREADZONE_TRANSFORM_INVALID;
     input=*request;
@@ -100,8 +102,16 @@ static int transform_initial(const DreadzoneFixedModelTransform *request, int va
     if (!actor) return DREADZONE_TRANSFORM_UNMAPPED;
     output_address=read32(actor+0x58);
     if (!output_address) return DREADZONE_TRANSFORM_NO_MODEL;
-    if ((actor[0x55]&4) || read32(actor+0x50) || read32(actor+0x5C) || read32(actor+0x44))
-        return DREADZONE_TRANSFORM_UNSUPPORTED;
+    frame_word=read32(actor+0x44);magnitude=frame_word&0x7FFFFFFFU;
+    if ((actor[0x55]&4) || read32(actor+0x50) || read32(actor+0x5C) ||
+        (!frame_enabled && frame_word)) return DREADZONE_TRANSFORM_UNSUPPORTED;
+    if (frame_enabled) {
+        if (magnitude && ((frame_word&0x80000000U) || magnitude<0x00800000U || magnitude>=0x43800000U))
+            return DREADZONE_TRANSFORM_UNSUPPORTED;
+        memcpy(&frame,&frame_word,sizeof(frame));
+        current_frame=(u32)frame;
+        fraction=frame-(f32)current_frame;
+    }
     definition_address=read32(actor+0x24); animation_address=read32(actor+0x40);
     if ((definition_address&3) || (animation_address&3)) return DREADZONE_TRANSFORM_INVALID;
     definition=resolve(views,input.model.view_count,definition_address,0x4C);
@@ -116,7 +126,10 @@ static int transform_initial(const DreadzoneFixedModelTransform *request, int va
     if ((!variable_enabled && stream[2]) || stream[2]>128 || !stream[1] || stream[1]>128) return DREADZONE_TRANSFORM_UNSUPPORTED;
     fixed_bytes=(u32)stream[1]*16;
     variable_bytes=(u32)stream[2]*16;
-    stream_bytes=fixed_bytes+variable_bytes*(animation[0x10]==1 ? 1U : 2U);
+    if (frame>=animation[0x10]) return DREADZONE_TRANSFORM_UNSUPPORTED;
+    next_frame=current_frame+1U;
+    if (next_frame==animation[0x10]) next_frame=0;
+    stream_bytes=fixed_bytes+variable_bytes*((current_frame>next_frame ? current_frame : next_frame)+1U);
     stream=resolve(views,input.model.view_count,stream_address,stream_bytes);
     skeleton=resolve(views,input.model.view_count,skeleton_address,count*16);
     matrices=resolve(views,input.model.view_count,output_address,count*64);
@@ -142,12 +155,12 @@ static int transform_initial(const DreadzoneFixedModelTransform *request, int va
         return DREADZONE_TRANSFORM_UNSUPPORTED;
     /* Actual0058A258 fixed DMA and unconditional005894F0, even with V==0. */
     memcpy(work+0x2000,stream,fixed_bytes);
-    /* Positive-zero frame selects current0 and wraps next1 to0 for one frame. */
+    /* Actual finite current/next stream selection, with the next frame wrap. */
     if (variable_bytes) {
-        memcpy(work+0x3000,stream+fixed_bytes,variable_bytes);
-        memcpy(work+0x3800,stream+fixed_bytes+(animation[0x10]==1 ? 0 : variable_bytes),variable_bytes);
+        memcpy(work+0x3000,stream+fixed_bytes+current_frame*variable_bytes,variable_bytes);
+        memcpy(work+0x3800,stream+fixed_bytes+next_frame*variable_bytes,variable_bytes);
     }
-    decode.scratch=work;decode.bytes=sizeof(work);decode.fraction=0.f;
+    decode.scratch=work;decode.bytes=sizeof(work);decode.fraction=fraction;
     decode.vu_data=inherited;decode.vu_data_bytes=sizeof(inherited);
     if (dreadzone_variable_pose_decode(&decode)!=DREADZONE_VARIABLE_POSE_APPROXIMATE)
         return DREADZONE_TRANSFORM_UNSUPPORTED;
@@ -163,8 +176,12 @@ static int transform_initial(const DreadzoneFixedModelTransform *request, int va
 }
 
 int dreadzone_model_transform_fixed(const DreadzoneFixedModelTransform *request) {
-    return transform_initial(request,0);
+    return transform_initial(request,0,0);
 }
 int dreadzone_model_transform_initial(const DreadzoneInitialModelTransform *request) {
-    return transform_initial(request,1);
+    return transform_initial(request,1,0);
+}
+
+int dreadzone_model_transform_frame(const DreadzoneFrameModelTransform *request) {
+    return transform_initial(request,1,1);
 }

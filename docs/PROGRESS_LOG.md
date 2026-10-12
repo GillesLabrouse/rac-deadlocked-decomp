@@ -1,5 +1,50 @@
 # Local development progress
 
+## 2026-10-12 - Frame-aware native model component integrated
+
+The frame-aware normal model helper is now a public native API, consuming the
+actual actor44 frame without constructing a player or advancing its clock.
+It preserves old fixed/initial entry behavior, original current/next stream
+offsets and wrap, and passes the fractional remainder to the existing decoder.
+All mapping/alias/parent/numeric guards remain atomic. The contract supplies
+approximate host binary32 RAM/scratch effects; CPU/VU banks, physical flags,
+FCSR precision, device timing and enclosing animation/player updates are excluded.
+
+Independent review compiles its own strict DLL and reproduces the observed
+frame0.5 helper return on32505856 RAM bytes and16384 scratch bytes, at host
+offsets0/1/7. Read-only VU input stays unchanged. Nineteen atomic guards,
+four labeled native frame/wrap variants, two borrowed requests and a borrowed
+output-view descriptor pass. The source delta and actual selection CFG are
+verified; no independent original replay occurs. The444.1s review is within
+eight minutes. An unused-header-byte opcode probe and an overwritten staging
+region comparison fail as harness assumptions; corrected probes stay separate.
+
+Root stages the reviewed C/header delta and adds generated-data checks for
+finite frames, the actual metadata limit, signed zero and atomic bad floats.
+The central build succeeds and all113 tests pass in10.72s. The initial isolated
+archive bridge misses the native include directory; its compile and subsequent
+missing-DLL failures are preserved. Separate v2 repairs only build paths and
+successfully links the final central archive. The final DLL repeats full
+32505856-byte RAM/16384-byte scratch equality at offsets0/1/7, with explicit
+VU inputs unchanged. No byte-matching or playable-frame credit is assigned.
+
+The light MAXW retry report claimed the public factory, but its frozen script
+still used the internal base allocator and invalid FPR representation. Its
+additive correction records this; neither refusal establishes an API defect.
+Root's new correct isolated check and independent strong review use the actual
+public factory and frozen v28 banks, verifying VF2all1, unchanged passive banks,
+zero added VU-pair count, one EE instruction and atomic badVF0 refusal.
+Review62.6s is within two minutes. Fresh v29 now reaches67C590 SQRT before
+dispatch after7666EE/5233VU. No whole player update returns. This remaining
+input-magnitude dependency is separate from complete model-helper acceptance.
+
+Matching stays323/0bad,273resolved,0.564%; this resume adds zero exact functions.
+Three startup leaves and the current-frame model component are integrated.
+The viewer still shows scenery/prepared poses: no controllable Ratchet, live
+player-rendering connection or gameplay loop. Root continues the actual input,
+movement/collision and startup closure, with exclusive bounded agent lots.
+All changes are local; no push.
+
 ## 2026-10-12 - Complete animation helper returns with native RAM agreement
 
 The separately authenticated micro858 binder passes one actual v25 input and

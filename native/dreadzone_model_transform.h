@@ -67,4 +67,19 @@ typedef DreadzoneFixedModelTransform DreadzoneInitialModelTransform;
  * even when a128-quad next transfer filled that location. This is initial
  * pose construction, without repeated animation updates or player creation. */
 int dreadzone_model_transform_initial(const DreadzoneInitialModelTransform *request);
+typedef DreadzoneFixedModelTransform DreadzoneFrameModelTransform;
+/* Selected normal 0058A648 RAM/scratch effects at the actual actor44 frame.
+ * Extends the initial API with finite nonnegative normal values or signed zero,
+ * below the actual nonzero byte-sized animation frame count. Current frame is
+ * the finite truncating integer part; next wraps to0 at the final frame, and
+ * the fractional remainder reaches the existing decoder. Current/next streams
+ * use their original offsets, with the complete reached span in one view.
+ * All initial mapping, alias, decoder, parent and numeric guards still apply.
+ * Success publishes matrices, scratch and actor55 dirty clear atomically;
+ * all refusals preserve caller bytes, with explicit read-only inherited VU.
+ * This is approximate host binary32 memory behavior. Original CPU/VU banks,
+ * physical FCSR/flags/rounding/DMA timing and enclosing player updates are
+ * excluded. No animation clock, resource provider or player is constructed.
+ */
+int dreadzone_model_transform_frame(const DreadzoneFrameModelTransform *request);
 #endif

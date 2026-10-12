@@ -2,19 +2,19 @@
 
 Actual L01 startup pool leaves6670B8(index2),6671D0(index3) and667518(index6)
 are integrated with independent per-function original RAM/address/alias
-validation and final central-archive proofs. The113 native tests pass in29.68s. Matching unchanged:
+validation and final central-archive proofs. The113 native tests pass in10.72s. Matching unchanged:
 323exact/0bad,273resolved,0.564%code. Viewer remains scenery/prepared poses;
 no controllable Ratchet, complete player update or gameplay loop.
 
-Private v28 completes the animation helper and reaches67C574 in the real
-input bridge after7659EE/5233VU. Whole player update remains open. Separate
-v27 observes the genuine helper return; full RAM/scratch match the native draft.
+Private v29 completes the animation helper and reaches67C590 SQRT in the
+real input bridge after7666EE/5233VU. Whole player update remains open.
+The frame-aware native helper is integrated after independent/production proof.
 Q readiness/physical flags/FCSR/timing remain unproved. Initializer is suspended and client partial. Privateframe-aware
 model C at0.5 agrees on32505856 RAM and16384 scratch bytes after the
-complete helper; independent review/production proof remain, so it is not accepted. Preserve all failures and correction receipts separately.
+complete helper; native acceptance covers selected RAM/scratch effects only. Preserve all failures and correction receipts separately.
 
-Next: independently validate/integrate the frame-aware native helper and
-complete the reached input/movement/collision update; close
+Next: validate the reached input-magnitude dependency, complete a returned
+player update and repeated real input/movement/collision with live rendering; close
 actual first startup wrapper/sibling pools and provider, then repeated player
 input/movement/collision with live actor rendering. No reliable ETA/readiness
 percentage. Root owns integration, reports and central builds. No push.

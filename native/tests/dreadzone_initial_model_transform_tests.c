@@ -43,6 +43,12 @@ static void refuse(int status) {
     CHECK(dreadzone_model_transform_initial(&request)==status);
     CHECK(memcmp(prior,ram,sizeof(ram))==0);CHECK(memcmp(spr_prior,spr,sizeof(spr))==0);
 }
+static void refuse_frame(u32 frame_word) {
+    put32(ram+0x44,frame_word);
+    memcpy(prior,ram,sizeof(ram));memcpy(spr_prior,spr,sizeof(spr));
+    CHECK(dreadzone_model_transform_frame(&request)==DREADZONE_TRANSFORM_UNSUPPORTED);
+    CHECK(memcmp(prior,ram,sizeof(ram))==0);CHECK(memcmp(spr_prior,spr,sizeof(spr))==0);
+}
 int main(void) {
     u32 frames,i;u8 current[0x800],next[0x800];
     for(frames=1;frames<=2;frames++) {
@@ -89,6 +95,20 @@ int main(void) {
         memcpy(borrowed,&request,sizeof(request));
         CHECK(dreadzone_model_transform_initial(borrowed)==1 && ram[0x55]==0xD3);
     }
-    printf("initial model checks: %u, failures: %u\n",checks,failures);
+    /* A generated fixed stream permits actual frame consumption without
+     * importing game bytes. Frame-aware output must retain the initial pose. */
+    setup(3);put_float(ram+0x44,.5f);
+    CHECK(dreadzone_model_transform_frame(&request)==1 && ram[0x55]==0xD3);
+    CHECK(memcmp(ram+0x3000,spr,3*64)==0);
+    setup(3);put_float(ram+0x44,16.5f);
+    CHECK(dreadzone_model_transform_frame(&request)==1);
+    setup(3);refuse_frame(0x41880000U); /* actual frame-count limit17 */
+    setup(3);refuse_frame(0xBF000000U);
+    setup(3);refuse_frame(0x00000001U);
+    setup(3);refuse_frame(0x7F800000U);
+    setup(3);refuse_frame(0x7FC00000U);
+    setup(3);put32(ram+0x44,0x80000000U);
+    CHECK(dreadzone_model_transform_frame(&request)==1);
+    printf("initial and current model checks: %u, failures: %u\n",checks,failures);
     return failures?EXIT_FAILURE:EXIT_SUCCESS;
 }
