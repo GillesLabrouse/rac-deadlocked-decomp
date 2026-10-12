@@ -88,6 +88,7 @@ int dreadzone_actor_idle_00695570(const DreadzoneActorIdleRequest *request,Dread
     memset(&w,0,sizeof(w));memcpy(&w.request,request,sizeof(*request));r=&w.request.wall;
     if(!r->storage_bytes||r->storage_bytes>16U*1024U*1024U||!span(r->storage,r->storage_bytes)||
        r->guest_base>=0x10000000U||r->storage_bytes>0x10000000U-r->guest_base||
+       w.request.gp_guest!=0x22597FU||
        overlap(info,sizeof(*info),r->storage,r->storage_bytes)||
        (w.request.record_guest&15U)||w.request.record_guest<r->guest_base||r->storage_bytes<0x31F0U||
        w.request.record_guest-r->guest_base>r->storage_bytes-0x31F0U)return -1;

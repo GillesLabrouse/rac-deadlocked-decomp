@@ -42,6 +42,7 @@ int main(void){
     fixture(p,&r);p[RECORD+0x437-BASE]=1;refusal(p,&r);
     fixture(p,&r);word(p,0x21DDF8,0x40000000);refusal(p,&r); /* late height refusal rolls back all earlier stores */
     fixture(p,&r);word(p,0x21DDF4,0x7FC12345);refusal(p,&r); /* nested wall refusal */
+    fixture(p,&r);r.gp_guest+=4;refusal(p,&r); /* different GP would misbind nested globals */
     fixture(p,&r);CHECK(fesetround(FE_UPWARD)==0);refusal(p,&r);CHECK(fesetround(FE_TONEAREST)==0);
     fixture(p,&r);CHECK(dreadzone_actor_idle_00695570(&r,(DreadzoneActorIdleInfo *)(void *)(p+0x1000))<0);
     fixture(p,&r);probe=(DreadzoneMotionProbeRequest){p,BASE,SIZE,RECORD};

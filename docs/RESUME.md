@@ -1,3 +1,50 @@
+# Current checkpoint - 2026-10-12 - Selected native player dispatcher integrated
+
+Previous goal turn made progress at6f7c8d0 (selected idle). Root now integrates
+690F18's complete selected substate0 RAM route: original-order object/state/byte
+snapshots, actual3B08C0 table target690FE0, real recovered idle call, branch-delay
+state reload and ordered conditional378/37C clears. Other routes refuse without
+publication; API/types/storage ownership and original return remain hypotheses.
+All nested writes stay on one outer shadow until complete success.
+
+Final public archives pass12 whole32,505,856-byte original-reference comparisons
+(390,070,272 bytes) at host offsets0/1/7. These include the genuine209 caller
+boundary and three constructed212 variants that naturally return through real
+JR695564/delay695568 to67C104. The object54 alias genuinely exercises37C clear;
+the changed25D0/378-clear branch is statically authenticated, not dynamically
+observed. Independent214 builds its own DLL and passes13 full-RAM rows plus
+descriptor/guard checks. No full player frame, banks or hardware claim is made.
+
+Independent219 authenticates GP-relative695B00/67D758/53E418 bindings. Idle
+now requires captured L01 GP22597F before allocation/publication, avoiding mixed
+globals in nested wall calls. Regression rejects an alternate mapped GP.
+Both new targets build; dispatcher37 checks and updated idle45 checks pass.
+Native accepted-scope suite125/125 PASS in8.42s, excluding all unintegrated
+resident-introduction targets. The earlier full-build GNU-attribute failure
+remains outside this scope; no whole central-build success is claimed.
+Report consistency check passes (371 concurrent source entries, not root's
+fresh original compile/link/reconstruction audit). Root adds0 exact (0/hour),
+1 native API and0 playable features. Integration elapsed1746.6s; receipt:
+private/root-player-dispatch211/acceptance.json.
+
+213 captures genuine67C010..67C1B0 prefix, with real callback getter,535A58,
+mode helper and dispatcher. Full67C010 body is55C bytes through67C568 delay;
+old560-byte hash windows include trailing padding. 215's memory draft has a
+nonzero-index null-V0 defect; it remains rejected/frozen. Corrected216 passes
+seven original-integer-word cases, independently reviewed218; production still
+needs<=16MiB main-view/caller-domain guards. 206 transform has bounded210 review.
+217 authenticates the420-byte post-control tail statically; no genuine tail run
+or callback results are asserted, and it remains a private HOLD.
+
+Next: adopt the corrected memory dependency and compose the real player prefix,
+then finish basis/radius/position/post-control/tail and authentic startup/input/
+camera/rendering. The executable remains an asset/pose viewer, with no controlled
+character or complete native gameplay loop. Dreadzone base follows that scene.
+No push, no third recovery stream, no goal completion. Sibling recovery-tool
+checkpoint reports stopped_error at batch14; its frozen inputs/run are untouched.
+All concurrent unintegrated source/config/asset work is preserved outside this
+root commit. Older entries below are historical.
+
 # Current checkpoint - 2026-10-12 - Selected native idle control integrated
 
 Root adds bounded native RAM adapters for the real mode0 zero-planar early

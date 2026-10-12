@@ -16,8 +16,9 @@ typedef struct DreadzoneActorIdleInfo {
  * config byte171DE0+index (index0..1). Planar130 must meet motion-probe domain;
  * accumulated1A0 must contain signed zeros in every lane, preserving incoming
  * VF28/29W without manufacturing a bank producer. All real nested calls run.
- * Raw1970/19B0 transport has no float-domain restriction. Ordered actual guest
- * GP-relative and absolute timestep reads remain separate; scale/time
+ * Raw1970/19B0 transport has no float-domain restriction. GP must be22597F
+ * for the nested APIs' actual L01 global bindings. The ordered GP-relative
+ * and absolute timestep reads remain separate; scale/time
  * inputs have normal/zero binary32 magnitude<=16, nonzero>=2^-40.
  * Products must be normal/zero; nested APIs impose rate/offset bounds. The height
  * API imposes its own offset floor2^-20. Nearest rounding/gradual underflow
