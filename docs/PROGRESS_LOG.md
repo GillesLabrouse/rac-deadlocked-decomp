@@ -1,5 +1,57 @@
 # Local development progress
 
+## 2026-10-12 - Native descriptor rows and corrected player/loader boundaries
+
+Actual L01 0057B498/118h and its real 0055D2A8/28h word-zero helper now have
+a bounded native final-RAM implementation in dreadzone_descriptor_rows.c/h.
+Source rows start16 bytes after the count, not40 bytes as a typed m2c draft
+would suggest. Raw words are permuted without floating arithmetic; the producer
+publishes222990/222994 and advances the supplied cursor to64-byte alignment.
+Readable stable exclusive RAM, numeric descriptor/backing bounds, mapped spans,
+alignment, count and participating disjointness are checked before mutation.
+Allocation refusal is atomic by inspection; allocation failure was not injected.
+
+Root production-source and actual central-archive proofs each pass28 fresh
+original executions/56 whole-RAM comparisons,114144EE/0VU and22 atomic guards,
+including unaligned host storage and the actual ISO14-row subsection. Independent
+private review passes12 originals/36 comparisons/50268EE and22 guards. Public
+review verifies identifier-only equivalence and independently replays empty,
+ISO14 and raw-pattern cases. All110 native tests pass in6.23s. Matching stays
+321 exact/0 mismatches,0.563% code; this native module adds no matching credit.
+No complete client, player update, repeated gameplay loop or new visible controls.
+
+Correcting the previous initial-route claim: observed caller528098 supplies
+A0=1 to578940 and takes579C5C, using actual resident globals21DA24/21DA28
+and primary package fields. The earlier1CEC4C/12FE2C/22A ISO read applies to
+the separate A0=0 reload route at579D5C. Both static packages decode to the
+same gameplay bytes, but static identity does not establish provider readiness
+or actual boot ordering. Outer package and nested header offsets are different
+tiers. The metadata read capacity is4096 bytes; actual header copy is0xC68.
+Memory87 corrects the earlier branch report; historical probes remain frozen.
+Memory88 finds true24377C cursor writers5798A8 and579914; the latter depends
+on578928, whose complete behavior is not yet established.
+
+Player record368F60 differs from Moby700000 held at record+2EF0. Constructor
+return6A8480 precedes real caller stores6A84B4/B8 to record+2EFC/+2F00.
+They publish client230280 and input1EE600 for explicit index0. A constructor-only
+direct frame therefore stops6A7DF0 even when a separate partial client image
+has client+50=231AD0. A genuine later cold caller image has these bindings but
+no history object; it instead stops6A7DF4. These frozen histories cannot be
+merged and claimed as one original runtime. Full caller6A8420/338 also requires
+real15FA68 to produce record+2F28; its cold failure remains before publication
+at6A8744. Next: authentic postconstructor setup on one evolving state, required
+client arithmetic, a complete player update, then repeated input/collision/render.
+
+Throughput: exact acceptance remains five functions since00:30:01UTC, including
+the earlier three request-state helpers; elapsed-time denominator continues to
+include native integration and startup research. Exact mismatch attempts remain
+11 plus one earlier compiler failure. Commands77 took97s, public review78 took
+133s, descriptor private review221.9s, player-binding audit195.0s, and memory88
+93.5s. Descriptor integration took604.4s wall time including checks,
+review waiting and archive proof; this is not active coding time. Two lightweight
+workers and one independent reviewer remain the maximum used; a third recovery
+worker is not justified by current integration throughput. No push.
+
 ## 2026-10-12 - Native world projection and source-backed startup diagnostics
 
 Complete bounded final-RAM effects of actual L01 00628210/148h and its

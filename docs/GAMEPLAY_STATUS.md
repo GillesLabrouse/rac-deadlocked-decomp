@@ -1,3 +1,25 @@
+# Current checkpoint - 2026-10-12 - 321 exact / 110 native tests
+
+Native descriptor rows0057B498 are integrated with complete original final-RAM,
+independent production-source and central-archive comparisons. All110 native
+tests pass in6.23s. Matching stays321 exact/0 mismatches,0.563% code.
+Viewer remains scenery/prepared poses; no complete player frame, controllable
+Ratchet, repeated gameplay loop or new visible controls.
+
+The next main task is genuine postconstructor binding/setup: actual stores
+6A84B4/B8 connect Player record368F60 to client230280/input1EE600 for index0.
+Do not merge separate frozen client/caller histories or fabricate record+2F28.
+Real client initialization still stops537D00 at exceptional VRSQRT whose Q is
+consumed537D18. Complete real initialization, then one whole update, repeated
+input/movement/collision and live actor/camera rendering; no reliable ETA.
+
+Loader correction: actual initial A0=1 branch uses579C5C, resident globals
+21DA24/21DA28 and primary package fields.1CEC4C/12FE2C/22A belongs to the
+separate A0=0 reload branch579D5C. Matching static payloads do not prove actual
+bootstrap allocation/provider readiness. Detailed evidence: PROGRESS_LOG.md.
+Current resume authority is this top checkpoint; earlier checkpoints are history.
+No push. Preserve drafts/probes and use new isolated output names for corrections.
+
 # Current checkpoint - 2026-10-12 - 321 exact / 109 native tests
 
 Native world projection00628210 is integrated and validated against complete
