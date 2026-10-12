@@ -1,3 +1,52 @@
+# Current checkpoint - 2026-10-12 - Reviewed recovery handoff / 325 exact / 119 native tests
+
+Two historical handoff proposals are accepted as exact PS2 C: resident
+0012D058 (0x40, platform dispatch) and00162C50 (0x44, pointer-checked cleanup).
+Copied C bytes retain the package hashes. Actual callers, boundaries and all
+six R_MIPS_26 call relocations were reviewed; original SN compilation,
+relocation audit and final unmasked linking pass. Full audit:325 exact/0bad;
+275 resolved/0mismatches/0object failures. Reconstruction inserts193 resident
+functions and equals the original section stream. Coverage:0.566529910%.
+API return/storage identities remain hypotheses; these are PS2 recovery sources,
+not PC startup adapters. Main adoption was performed here, not by the tool.
+
+The frozen f10c48df package supplies156 additional proposals; historical780
+makes936 reviewed context/name proposals. Fresh ownership triage:842 available,
+90 unknown canonical names,4 library mappings needing review. Six useful L01
+entries remain held:32-byte scene clear586138, player wrapper593338 with real
+quad/FPR transport, initializer6587C8 and three further wrappers/stores. Exact
+bytes do not settle ownership, data producers or ABI. No frozen configuration,
+source-generator input or existing work was changed. Latest read-only pipeline
+inspection:235987/494786 spans (47.69%),212485 generated bodies, active L14;
+947 separately audited proposals now reported. These live counts do not change
+this package, main coverage or the unproven independent general>15% target.
+
+Private native wrapperv4 passes a constructed active near-wall path against
+all32,505,856 RAM bytes and five W at offsets0/1/7; independent fresh DLL/raw
+replay passes5/13. Genuine caller quads use the at-call position/matrix,
+MAXX.Z lower bound0.5, ignored actor700000 and wall distance3F7C2900<3.
+No sphere is called on that case. It remains outside accepted native sources.
+
+A separate constructed cache/active state with initial actor Z raised4 reaches
+actual sphere53EC88 and naturally returns to684E24:6826 EE/197 VU, sphere
+return0. It uses authenticated raw bank save/restore, two E0-only sign reads,
+finite VMULW/ACC subtraction and post-sphere MAX.S; all other flags and timing
+remain unknown. Root referencev14 is pending independent161 review, not native
+sphere acceptance or live player provenance. Earlier import failures and
+protected frontiers remain private. No opcode or callee result was substituted.
+
+Batch metrics:2 accepted exact functions,0 candidate validation failures;
+integration158.7s from first public mutation through final acceptance.
+Agent review was about9minutes; this small batch suggests about10.3 accepted
+functions/hour for review plus integration, not sustained project throughput.
+Two Luna streams plus temporary independent QA fit four slots. No extra
+matching stream justified yet. Native sources unchanged:latest119/119 pass
+in24.97s remains applicable;0 new playable features. Full player still guards
+at67C224. Continue sphere/native composition, actual startup/provider and
+scene/skin/input/camera binding. Milestones:first playable native scene, then
+the Dreadzone base area. No controllable Ratchet or reliable gameplay ETA yet.
+No push. Older checkpoints below are historical.
+
 # Current checkpoint - 2026-10-12 - Object predicate and private contact-angle wrapper / 323 exact / 119 tests
 
 Accepted native `dreadzone_object_predicate_00596E48` retains actual L01 pool
