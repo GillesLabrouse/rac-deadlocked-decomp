@@ -1,3 +1,52 @@
+# Active checkpoint - 2026-10-12 - 322 exact / 111 native tests
+
+Accepted matching remains322/0 bad,272 resolved,0.564% code. All111 native
+tests pass in7.78s. New owned PC synchronization service is validated and
+integrated as a separate platform library, with no guest startup wiring yet.
+Viewer remains scenery/prepared poses; no controllable Ratchet or live loop.
+
+Private same-state actual mode prefix665D78 now enables genuine15FA68 snapshot
+branch: explicit phase0 constructor/caller returns after27961EE/603VU and
+produces child slot1F31380/payload2121A0/publication without patched fields or
+network success. This uses a suspended startup prefix and partial-client image,
+not a completed initializer/client, original scheduling or native gameplay.
+Its following explicit frame still refuses6A7FAC VRSQRT(2,+0) after403EE.
+Strict client537D00 and attributed-model signed-zero537EA4 remain unresolved.
+
+Next: authentic local bootstrap and client data/arithmetic, one complete player
+update, repeated input/movement/collision, live actor/animation/follow-camera.
+No reliable ETA. Commands88 exact setter awaits correction of a demonstrated
+false libc mapping hint; do not count it yet. Mismatch attempts17, compiler
+failures2, GP link failure separate. Root owns public/config/final validation.
+Detailed evidence: PROGRESS_LOG.md; older checkpoints are history. No push.
+
+# Active checkpoint - 2026-10-12 - 322 exact / 110 native tests
+
+Resumed work:322 exact/0 mismatches,272 resolved game functions,0.564% code.
+Last central native suite110/110 passed in6.23s. No controllable Ratchet,
+complete player update, repeated gameplay loop or new visible viewer behavior.
+
+Private actual constructor/caller prefix on one evolving image reaches6A8568,
+publishes genuine Player/client/input bindings, then explicit frame stops6A7FAC
+at VRSQRT(2,0) after403EE. Prefix-only C passes144 original/288 whole-RAM cases
+plus independent repeat/guards; it stays private, excludes the context JAL and
+its delay slot, and does not prove full initialization or native accepted code.
+Strict client537D00 remains; attributed PCSX2-model probe reaches537EA4 signed
+zero VRSQRT where source implementations disagree. Physical Q/status unresolved.
+
+Next: legitimate PC startup resources and genuine child+2F28 producer, required
+client arithmetic/data, a complete player update, repeated input/collision and
+live actor/animation/camera rendering. Private owned synchronization service
+passes contended tests, but is not integrated or wired to guest calls yet.
+Context+24 is scalar state, not an allocated pointer or proof of startup success.
+Do not fabricate child pointers, kernel returns, I/O success or exceptional Q.
+
+Latest bounded recovery lots deliver no exact candidate. Failed compiled-byte
+variants16; compiler failures2; GP link overflow and infrastructure errors kept
+separate. Two light workers plus one reviewer; root owns shared integration.
+Progress details and frozen evidence: PROGRESS_LOG.md. Earlier checkpoints are
+history. No push; preserve all drafts and use unique output paths for corrections.
+
 # Active checkpoint - 2026-10-12 - 322 exact / 110 native tests
 
 Native descriptor rows0057B498 are integrated with complete original final-RAM,

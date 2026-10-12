@@ -1,5 +1,111 @@
 # Local development progress
 
+## 2026-10-12 - Owned PC synchronization and genuine snapshot-mode player linkage
+
+Native pc_startup_sync.cpp/h now implements a new PC platform service owning
+binary semaphore resources through mutex/condition-variable state, a32-slot
+registry, nonreused process-local integer handles and stable per-thread IDs.
+Foreign/stale handles and capacity refusal are explicit; closing wakes waiters.
+The caller must join users before registry destruction. Queue fairness and
+cancellation are new unspecified port policy, not a PS2 kernel-equivalence claim.
+It is not yet wired into recovered guest lock/syscall callers or session startup.
+
+Production CMake archive and tests compile with /W4 /WX. Root tests pass8000
+contended acquisitions with8 threads plus closure, identity and capacity checks.
+Independent draft review passes24-waiter closure, concurrent registry creation,
+slot reuse and100 thread identities over20 batches. Independent actual public
+source compilation passes2000 concurrent lifecycle cycles,320 closing waiters
+and the production8000-acquisition test. Only include names and explanatory
+header comments differ from reviewed private v2. First v1 mutex-lifetime defect
+and a review freeze interrupted by a comment edit remain preserved. All111
+central native tests pass in7.78s. Measured integration takes648.5s wall
+time including parallel research/review, not isolated active coding time.
+Matching stays322/0 bad,272 resolved,0.564% code; no matching credit is added.
+
+Important source correction: the gate1723B8 read by15FA68 equals172160+258.
+Actual campaign initializer665D58 writes1 there at665D78, verified independently
+from actual L01 bytes and its528098 caller. Memory98's missing-writer conclusion
+is corrected separately in memory99; malformed first textual addendum and clean
+v2/raw-v2 are preserved. This is an authentic mode write, not a manual flag patch.
+
+Fresh private diagnostic executes the actual11-instruction mode-setting prefix
+up to665D84 before its required helper call, then explicitly invokes player
+phase0 on the same evolved partial-client RAM and banks. Full actual constructor
+and caller return after27961EE/603VU. Real15FA68 copies its assembled stack row
+to2121A0 and publishes child slot1F31380 to Player+2F28; later caller publishes
+record368F60 at3660F8. No successful network response or child pointer was supplied.
+This is an explicit two-component diagnostic, not completion of the suspended
+initializer, original scheduling, client readiness, native C integration or boot.
+Following explicit frame still stops6A7FAC at VRSQRT(2,+0) after403EE. The earlier
+hash-assertion failure before any execution and missing resident-code inventory
+failure are preserved; v3 adds complete verified11A518/B8 and15C6E8/2C bodies.
+
+Commands88 delivers an exact16-byte setter candidate awaiting root adoption.
+Independent review caught config/libc.tsv naming the same address as srand.
+Both inspected shipped library binaries store+58; actual setter stores+10, and
+that displacement is not relocated. Broad normalization caused the false hint.
+No candidate is accepted until this metadata issue is corrected. Its first
+variant adds one failed byte comparison: cumulative17 mismatches,2 compiler
+failures plus the separate GP link representation failure. Failed drafts never
+raise progress. Main work remains real local bootstrap, client arithmetic/data,
+a whole player update, repeated controls/collisions and live actor rendering.
+No controllable Ratchet, complete native gameplay frame, viewer changes or push.
+
+## 2026-10-12 - Resumed native startup and player dependency closure
+
+Accepted state remains322 exact functions,272 fully resolved game functions,
+zero accepted mismatches,0.564% code. The last central native suite is110/110
+passed in6.23s; it was not rerun for private-only diagnostics. Viewer remains
+scenery and prepared poses, with no controllable Ratchet or complete player
+frame. The next gates are complete genuine player/client setup, one full update,
+repeated input/movement/collision, and live actor/animation/follow-camera rendering.
+There is no reliable calendar estimate or playable-readiness percentage.
+
+Actual constructor/caller prefix now reaches6A8568 after26478EE/603VU on one
+evolving partial-client image. No Player field was hand-filled. Its subsequent
+explicit frame reaches6A7FAC after403EE and stops at unsupported VRSQRT(2,0).
+The private RAM-only C prefix6A8480..6A8568 passes144 fresh originals/288 whole
+RAM comparisons and13 atomic guards. Independent review repeats144/288 and
+adds22 guards. This excludes the JAL, its Z-store delay slot, registers and full
+caller completion; the prefix stays private and earns no acceptance credit.
+
+Strict source-backed client initialization still stops537D00. A separate
+explicitly attributed PCSX2-model diagnostic passes that nonzero-numerator
+exception, preserves status/readiness refusals and stops537EA4 at VRSQRT(-0,+0)
+after1814EE/118VU. Interpreter and JIT disagree there. Public real-console tests
+retrieved did not establish this exact Q/status case. No physical Q, flags,
+success, callback, pointer or readiness was fabricated. Frozen failed probes
+and earlier strict boundaries remain authoritative for their own domains.
+
+Resident startup audit identifies context1AF540+24 as a scalar state, not an
+allocation. Its embedded recursive lock uses a real count1/max1 semaphore,
+GetThreadId, WaitSema and SignalSema. Actual Count supplies the startup RNG seed
+and a6000..6499 scalar; no counter frequency or time-unit ratio is inferred.
+The context state does not establish successful session or child creation.
+A private new PC synchronization registry now owns real mutex/condition-variable
+resources, stable process-local thread identities and nonreused integer handles.
+Its isolated /W4 /WX build and8000 contended acquisitions pass; independent
+review is pending. It is not connected to the original guest callers yet, not a
+PS2 kernel emulator, and earns no matching/native accepted credit at this point.
+The first private draft had a mutex lifetime defect in close; v2 retains a local
+resource owner through unlock. Both versions remain for audit. Actual activation
+resource/callback closure and Player+2F28 production are being audited separately.
+
+Commands85 has one C89 compile failure and one compiled-byte mismatch. Memory96
+has one GP-relocation overflow and one compiled-byte size mismatch. Commands86
+has two compiled-byte size mismatches. Cumulative compiled-byte mismatch attempts
+are16, C compiler failures2; the GP-link representation failure is separate.
+No failed draft was accepted or counted in matching coverage. Commands86's initial
+scratch mistake left four uniquely named intermediates in build/tmp; they are
+listed in its receipt, preserved, and not accepted central objects.
+Exact throughput remains six accepted functions since00:30:01UTC,
+1.34/wall hour at04:59:11UTC, including native research and
+integration. No exact functions were accepted in these latest two-variant lots.
+Memory96 took112.3s and commands86 took193s. A third recovery worker is not
+justified; two light workers now cover child provenance and independent platform
+review, alongside one deeper dependency reviewer. Root owns public integration,
+shared configuration and final checks. No push, reset or removal of old work.
+
 ## 2026-10-12 - Exact shared alignment helper accepted
 
 Canonical L00 func_L00_005CFD88/18h is accepted after established m2c recovery,
