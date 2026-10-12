@@ -1,5 +1,35 @@
 # Local development progress
 
+## 2026-10-12 - Exact shared alignment helper accepted
+
+Canonical L00 func_L00_005CFD88/18h is accepted after established m2c recovery,
+isolated SN compilation, root reproduction and independent raw/relocation review.
+Its real L01 counterpart is00578928/18h; both independently read references have
+identical24-byte bodies, no calls/globals/relocations, and a final AND in JR delay.
+The C uses unsigned wrapping arithmetic for (A2+A0+A1-1)&(-A1); A1=16 in
+the verified loader cursor calls. Each level address was verified independently.
+No separate L01 linked-object pass is claimed for this canonical L00 acceptance.
+
+Central incremental build compiles1 of267 sources, reuses266 and removes none.
+Audit passes322 exact/0 bad; all272 linked game functions resolve exactly against
+their correct references. Regenerated progress and --check pass322/15766,
+0.564% code. Last native suite remains110 passed; native sources are unchanged.
+Six exact functions accepted since00:30:01UTC: 1.52 per wall-clock hour at
+this checkpoint, including native integration/research time. Exact mismatch
+attempts remain11 plus one earlier compiler failure. Root isolated linker first
+failed under sandbox, then under a fresh scratch path without its required input
+manifest; both failure reports remain. Correct manifest scratch plus a fresh
+output succeeds. These are infrastructure failures, not compiled-byte mismatches.
+Integration start timing was not captured and is not estimated. No push.
+
+Main startup diagnostic now runs an actual fresh constructor/caller prefix on
+one evolving partial-client RAM image:26478EE/603VU reaches6A8568 before the
+resident context call and publishes the Player/client/input bindings without
+patching fields. The subsequent explicit frame reaches6A7F84 after393EE and
+refuses an unbound canonical MAXW site. Client/caller completion and scheduled
+gameplay remain unproved. The BC1FL binding has96 independent GPR/FPR checks;
+new finite clamp bindings await independent review. Frozen failures are retained.
+
 ## 2026-10-12 - Native descriptor rows and corrected player/loader boundaries
 
 Actual L01 0057B498/118h and its real 0055D2A8/28h word-zero helper now have

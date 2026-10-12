@@ -1,8 +1,8 @@
-# Active checkpoint - 2026-10-12 - 321 exact / 110 native tests
+# Active checkpoint - 2026-10-12 - 322 exact / 110 native tests
 
 Native descriptor rows0057B498 are integrated with complete original final-RAM,
 independent production-source and central-archive comparisons. All110 native
-tests pass in6.23s. Matching stays321 exact/0 mismatches,0.563% code.
+tests pass in6.23s. Matching stays322 exact/0 mismatches,0.564% code.
 Viewer remains scenery/prepared poses; no complete player frame, controllable
 Ratchet, repeated gameplay loop or new visible controls.
 
