@@ -1,5 +1,37 @@
 # Local development progress
 
+## 2026-10-12: genuine client initializer reaches missing graphics descriptor
+
+- Exact matching remains 316 functions / 0 mismatches; native regression stays
+  103/103 from the accepted orientation integration. No source implementation
+  changed in this provenance checkpoint and no playable frame is claimed.
+- Actual L01 538A80..538DC0 executes216 EE/38 VU from genuine constructor-return
+  banks with real boot thenL01 serialized ALLOC data mapped, without BSS reset.
+  It reaches534E80 -> real55D658/C88 -> real55D640/C78 ->546B38 and stops at
+  DIV.S546C58 onzero240058/240050. Physical exceptional division is outside
+  this bounded reference; no exceptional result or dimensions were injected.
+  Initializer has not returned, client+50 iszero, no history/frame probe ran.
+- Real5469A0 producer derives240050/54/58/5C fromsignedLH206B90/92 in descriptor
+  206A40 residentcore.bss. Authentic device descriptor initialization is the
+  next prerequisite; staticcallers57439C/640294 alone do not prove opening
+  invocation. The fixture with mapped serialized sections is not a live boot.
+- Correct the earlier predecessor extent:538918..538A80/168, not1A0 through
+  538AB8. Actualclientbase is230280, notcommands52's23280 typo. Commands52's
+  previous-lot freeze cannot establish this lot's duration or budget overrun;
+  actual dispatch/duration isunknown. Preserve frozen report and correction.
+- Root independently verifies50 frozenhashes/twelveactualinstructionwords and
+  zerooperand/pointer observations inroot-client-frontier-audit.json. Preserve
+  sol-client-initialization-v1/v2 failures, v3 inputs/outputbanks/traces/receipt.
+- Measured boundedclientlot7m13s andmemory64lot2m52s; acceptedexactgain0 and
+  exactfunctions/hour0. No compile/exact-validation rejection in these read-only
+  lots; two unsupported microentry routing frontiers and finalzero-operand
+  frontier retained. No source integration or gameplay feature added. Root
+  assigns isolated descriptor provenance and one small canonical recovery lot,
+  retaining shared builds/configuration/reports and finalvalidation ownership.
+- Next: genuine graphics descriptor/client setup, native time/kernel service
+  boundaries, complete repeated input/movement/collision frames, live render.
+  No push; no controllable Ratchet; all previous work preserved.
+
 ## 2026-10-12 - Complete selected orientation RAM integration
 
 - Added the separate dreadzone_actor_orientation_ram_00683310 API to the

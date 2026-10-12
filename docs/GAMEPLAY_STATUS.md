@@ -35,6 +35,16 @@ services for the reached Count/syscall boundary. These are the immediate gates
 before a complete first frame, followed by repeated input/movement/collision,
 then live actor/camera/animation rendering.
 
+The genuine client initializer now runs 216 EE instructions / 38 VU pairs
+before the bounded original reference stops on zero projection operands.
+Their producer depends on descriptor halfwords `00206B90/92` in resident BSS;
+their authentic initialization remains the next prerequisite. Actual boot and
+L01 serialized data are mapped onto genuine constructor-return banks for this
+diagnostic, without resetting BSS. This does not establish live startup or a
+completed initializer, and the history object remains null. No dimensions or
+exceptional division result were injected. The earlier client routine's extent
+is corrected to `00538918..00538A80` and its base to `00230280`.
+
 Complete supported player-record transformation now passes68 wholeRAM/SPR
 original comparisons, with actual resource collision volumes preserved. The
 separate volume entry passes58 comparisons. Oscillator states, nonzero height

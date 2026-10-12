@@ -11,9 +11,36 @@ change or push. Existing zero-tilt register-transport API remains unchanged.
 Header now includes the selected-angle 2^-40 floor and 16-byte record alignment.
 Preserve root-orientation-ram-production-* and independent review-ram receipts;
 full transport drafts remain private with their VF28.W failures retained.
-Next: real client initialization and bounded native time/kernel service design,
-then genuine complete player frames and renderer binding. Both light agents and
-strong reviewer HOLD; root owns final integration and shared outputs.
+Next: real graphics descriptor and client initialization, bounded native
+time/kernel service design, then complete player frames and renderer binding.
+Agents use isolated bounded lots; root owns integration and shared outputs.
+
+Verified client startup frontier (2026-10-12):
+- The complete L01 client initializer is `00538A80..00538DC0`. Direct execution
+  on genuine constructor-return banks, with actual boot then L01 serialized
+  data mapped, reaches `00546C58` after 216 EE instructions / 38 VU pairs.
+  This explicit fixture is not proof of a live boot/load sequence. No BSS reset,
+  injected dimensions, object, flag, helper return or exceptional result.
+- Original `00534E80` reaches the genuine C88/C78 microcode tails, then
+  `00546B38`. The reference stops on zero projection operands at `00546C58`;
+  physical PS2 exceptional division is outside this bounded reference. The
+  initializer has not returned, client+50 remains null, and no frame ran.
+- Actual producer `005469A0..00546B38` derives the four projection fields
+  `00240050/54/58/5C` from signed descriptor halfwords `00206B90/92`, inside
+  resident core.bss. Trace the real initialization of descriptor `00206A40`
+  before retrying; do not substitute a chosen resolution. Direct callers
+  `0057439C/00640294` are static observations, not opening reachability proof.
+- Correct earlier boundary and base readings: `00538918..00538A80` is 0x168
+  bytes, not 0x1A0. Its actual client base is `00230280`, not `00023280`.
+  The frozen commands52 report contains the latter typo and an invalid budget
+  inference from the preceding lot's freeze; actual commands52 duration is
+  unknown. Preserve it and its separate correction, rather than rewriting it.
+- Root independently verified 50 frozen evidence hashes, twelve actual L01
+  instruction words, the function boundary, zero operands and null pointer in
+  `private/root-client-frontier-audit.json`. Preserve every earlier C88/C78
+  routing failure and the client v3 banks/trace/receipt. The client lot froze
+  after 7m13s. Memory64 froze after 2m52s; exact accepted throughput is zero
+  for these provenance lots, with no code integration or matching credit.
 
 Current startup and orientation checkpoint (2026-10-12):
 - Public exact/native totals remain 316/102 while the new orientation RAM-only
