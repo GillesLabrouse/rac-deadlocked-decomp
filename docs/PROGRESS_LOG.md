@@ -1,5 +1,102 @@
 # Local development progress
 
+## 2026-10-12 - Native callback registration RAM component and orientation diagnosis
+
+Integrated native/dreadzone_callback_table.c/h: complete game-RAM writes of
+actual L01 006C1C00/CC. It writes fourteen original guest code identifiers to
+212148 slots, preserving other bytes; it does not invoke callbacks, allocate
+resources, emulate original stack/GPR effects or complete the initializer.
+The checked descriptor must be readable and disjoint from truthful exclusive
+stable backing. Unsupported mappings refuse before mutation. Reference runs
+use a separate original stack; stack/table aliasing is outside the contract.
+
+Root strict MSVC DLL proof passes128 original whole-RAM comparisons,6528EE,
+9 atomic guards. Independent source-copy build passes24 fresh originals/72
+native whole-RAM comparisons,1224EE,11 guards and2 normal child wrap refusals.
+Original store logs independently verify all fourteen address/value/order pairs.
+Root central CMake archive bridge repeats128 comparisons/9 guards; all112
+central native tests pass in7.19s. C++ contract test verifies C linkage and
+mapping refusal. The public C differs only in include name; header adds C++
+linkage and explicit original-stack exclusion. An initial unqualified CMake
+launch failed before build; using the configured absolute executable succeeds.
+An archive bridge CMD path spelling failed before compile; corrected isolated
+build and proof succeed. These are infrastructure errors, not exact failures.
+No new viewer behavior, complete player update or controllable Ratchet.
+
+Corrected genuine callback installer extent is callableCC plus4-byte pad=D0.
+The L01 address6C1C00 maps to canonicalL00 702CA8, whose real callbacks differ.
+No catalog repair is needed; comparing a same-address L00 row was invalid.
+Commands92 verifies all per-level callback targets as real starts. Memory104's
+incorrect44-byte bound remains preserved and is superseded by memory105.
+Commands91 also corrects prior MPG hash labeling:0ea534... covers header+body;
+body-only f52b3d... is independently identical to actual namespace pairs.
+
+Private C60 numeric model passes96 root and160 independent full-bank host-model
+comparisons,actual21-pair control flow through E delayD20,and atomic invalid
+operand/mapping guards. It is not console precision/flags/timing evidence.
+Actual secondRSQRT branch skips itsWAITQ andQ consumer. The narrowly scoped
+C60 binding retains pendingTrue,Q,unknownflags/timing rather than inventing a
+wait. Independent actual-site/negative checks pass. Root extends the same
+validated model to three verified identical CALLMS words,with6 site bank cases
+and7 guards. Fresh v10 reaches6A80E0 after511EE/42VU,two C60 calls completed,
+then refuses a consumed subnormalVF15.Z=0000007F. Its source is being reviewed.
+Strict reference still refuses6A7FAC after403EE. No full frame/native credit.
+
+Commands93 compiles2 variants for L01 helper666A28/canonical6AA0D8; both fail
+resolved comparison. Memory107 compiles2 variants for canonical702CA8; both
+fail actual relocation and resolved checks. All remain private. Compiled-byte
+failure total21,C compile failures2,GP representation failure1 separately.
+The compiler retries used explicit Git Bash after sandbox denial; WSL was an
+incorrect earlier executable choice. Memory107 accidentally invoked the
+non-argparse audit_matches.py with --help,rewriting central build/matches.json
+outside its scope. Root retained its323/0 result with no guessed restoration;
+side-effect command/time/hash are recorded and workers now inspect help support
+before invoking tools. No concurrent root central validation was running.
+Matching remains323 exact/273 resolved/0.564%; no new exact acceptance here.
+Seven accepted since00:30:01UTC,1.25/wall hour at06:04:42UTC.
+Zero acceptance in latest recovery lots; no third light worker justified.
+Root owns integration/final checks; two light workers and a deeper reviewer
+remain the limit. No push, reset, removal or overwrite of existing drafts.
+
+## 2026-10-12 - Resume: completed component linkage and bounded player arithmetic
+
+Accepted matching remains 323 exact / 0 bad, 273 fully resolved game functions,
+0.564% code. Last central native validation remains 111/111 passed in 7.78s.
+No controllable Ratchet, complete player frame or repeated gameplay loop exists.
+No push. Existing accepted source and frozen diagnostics are preserved.
+
+Independent memory102 replay reproduces the actual 11-instruction mode prefix,
+then explicit phase0 constructor/caller return (27961 EE / 603 VU), stack-row
+copy to snapshot payload, child slot and final publication. All RAM, SPR, stack
+and VU output banks equal root v5. This is an explicit component invocation on
+one evolving partial-client image, with the initializer suspended; it does not
+prove authentic whole startup or original caller scheduling.
+
+Strict next-frame execution still stops at 6A7FAC after 403 EE instructions.
+A separately attributed PCSX2 numerical model for exactly (+2,+0) and (-3,+0)
+passes independent whole-bank numeric/atomic guards and real WAITQ/readiness
+checks. Private v7 reaches 6A8074 after 484 EE and refuses before VCALLMS C60.
+Unknown physical Q/status/flags/timing remain explicit, no VU dispatch occurs,
+and this diagnostic earns no native gameplay or matching coverage credit.
+The static C60 body has no status/MAC/clip/control/Q dependency; this alone does
+not justify dispatch. ACC is numeric state, distinct from MAC flags.
+
+Memory103 independently identifies authentic startup publication 223E40 to
+21DFE8 before the level gate and the nonzero-level call to 665D58. Its first
+unclosed dependency after resident initialization is 6C1C00. This identifies a
+real provider path without hand-filled level state, callbacks or pointers.
+Two light workers now audit that dependency and the actual C60 executor.
+Root continues bootstrap/player closure and reserves shared integration.
+The third reviewer will validate concrete new results; more recovery workers
+are not justified by the recent acceptance throughput.
+
+Remaining gates: authentic PC bootstrap/client completion; one complete player
+update followed by repeated input, movement and collision; live actor animation
+and follow-camera rendering. No reliable ETA or playable-readiness percentage.
+Frozen evidence: memory102/103, commands89, root-player-snapshot-mode-v7-result,
+and sol-player-rsqrt-two-sites-review-report. Failed compiled variants remain
+17, C compile failures 2, one GP-link representation failure separately.
+
 ## 2026-10-12 - Exact context setter and relocation-aware archive navigation
 
 Complete resident func_01EA0658/10h is accepted in src/net/01EA0658.c after

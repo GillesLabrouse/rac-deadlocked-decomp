@@ -1,3 +1,29 @@
+# Current checkpoint - 2026-10-12 - 323 exact / 112 native tests
+
+Matching:323 exact,0 bad,273 fully resolved,0.564% code. Last central native
+suite112/112 passes in7.19s. New native L01 callback installer reproduces its
+fourteen game-RAM stores; identifiers are guest code addresses,not host callable
+pointers. It does not invoke callbacks or close the full initializer.
+Viewer remains scenery/prepared poses,no controllable Ratchet or gameplay loop.
+
+Private genuine-mode prefix plus explicit constructor/caller returns27961EE/
+603VU on one evolving partial-client image. Initializer/client remain incomplete;
+this is not original scheduling or a complete boot. Strict frame refuses6A7FAC
+at403EE. Separately attributed numeric C60 model passes independent full-bank
+checks,retains unknownflags/timing and pendingQ,and reaches thirdCALLMS6A80E0
+at511EE/42VU. VF15.Z=0000007F is outside its domain,so it refuses there. This
+is not a returned whole frame,native integration or matching coverage credit.
+
+Next: authentic PC bootstrap/client closure,one whole player update,repeated
+input/movement/collision,live actor/animation/follow-camera rendering. No ETA.
+Latest four compiled recovery variants failed and remain private; total failed
+byte variants21,C compile failures2,GP link representation failure separate.
+No catalog repair needed for6C1C00: correct paddedD0 canonical isL00 702CA8;
+per-level callback addresses must be checked independently. Read PROGRESS_LOG.
+Root owns accepted/config/central validation. Preserve all frozen diagnostics,
+use explicit Git Bash and isolated outputs,no worker shared generator calls.
+No push. Older checkpoints are retained as history.
+
 # Current checkpoint - 2026-10-12 - 323 exact / 111 native tests
 
 Accepted matching remains323/0 bad,273 resolved,0.564% code. All111 native
@@ -10,7 +36,9 @@ branch: explicit phase0 constructor/caller returns after27961EE/603VU and
 produces child slot1F31380/payload2121A0/publication without patched fields or
 network success. This uses a suspended startup prefix and partial-client image,
 not a completed initializer/client, original scheduling or native gameplay.
-Its following explicit frame still refuses6A7FAC VRSQRT(2,+0) after403EE.
+Strict next frame refuses6A7FAC VRSQRT(2,+0) after403EE. Separately
+attributed two-site PCSX2 numeric model reaches6A8074 after484EE and refuses
+before VCALLMS C60; physical flags/timing remain unknown. Neither is a full frame.
 Strict client537D00 and attributed-model signed-zero537EA4 remain unresolved.
 
 Next: authentic local bootstrap and client data/arithmetic, one complete player
