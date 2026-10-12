@@ -73,10 +73,14 @@ static void motion_checks(void) {
 }
 static void height_offset_checks(void) {
     DreadzoneActorInputContext c;DreadzoneActorInputMemory view;u32 i;
-    for(i=0;i<6;++i) {
+    for(i=0;i<10;++i) {
         u32 output=(i&1)?0x210000:0x210010;
         f32 z=i<2?7.f:i<4?0.f:-0.f;
         f32 offset=i<2?2.f:(i==3 || i==5)?-0.f:0.f;
+        if(i>=6) {
+            z=i==6?183.9375f:i==7?-183.9375f:i==8?8192.f:-8192.f;
+            offset=-.6f;
+        }
         c=fixture();view=(DreadzoneActorInputMemory){extra+1,0x210000,64,1};
         c.views=&view;c.view_count=1;
         dreadzone_actor_input_store32(extra+1,0x7FC12345U);
@@ -105,7 +109,7 @@ static void height_offset_checks(void) {
         case 2:output=0x210040;break;
         case 3:offset=NAN;break;
         case 4:put(extra+1,8,NAN);break;
-        case 5:put(extra+1,8,17.f);break;
+        case 5:put(extra+1,8,8193.f);break;
         case 6:c.record[0x2659]=1;break;
         }
         memcpy(saved,extra,sizeof(extra));memcpy(baseline,record,sizeof(record));

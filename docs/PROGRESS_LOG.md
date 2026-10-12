@@ -1,3 +1,51 @@
+# Current checkpoint - 2026-10-12 - Native post-position control integrated
+
+The bounded native L01 00684EF0 component now composes orientation, visibility,
+ordered half/word/float timers, integral counters, callback enqueue, input remap,
+the validated 00686420 leaf, matrix projection and aliased height offset.
+Original API/storage identities and higher-level ownership remain hypotheses.
+This publishes selected RAM effects transactionally, with atomic refusal for
+unsupported paths. It excludes original low-V0, full registers, physical FCSR,
+VU flags/timing, the full player caller, authentic startup and playable frames.
+
+Independent184 authenticates the actual152C-byte body and natural component
+return. Root baseline and constructed live/expired timers compare all32,505,856
+RAM bytes at host offsets0/1/7:9 rows,292,552,704 bytes, exact top-level call
+counts, no differences. Positive float timer uses a read-only exact-site annul
+authorization; that selected software-reference scope is preserved. Independent
+185 checks separate builds, aliases, guards and real source Z183.9375. Final
+188 reviews the production delta and archive. Private diagnostic export removed.
+
+Height source Z domain is now abs<=8192/nonzero>=2^-20; scalar offset remains
+abs<=16/nonzero>=2^-20. Tests cover183.9375 and both8192 boundaries,8193 refusal,
+aliases and untouched lanes. First125-test run had124 passes and one failure
+from two obsolete17-height refusal assertions. Updated velocity and composition
+tests both pass; the other124 outcomes remain valid. Root adds one test; four
+other new introduction diagnostics belong to concurrent work. This is not a
+single clean125-test run. No accepted native implementation failure remains.
+
+Root receipts:private/root-post-position-production-v1-acceptance.json,
+private/root-post-position-production-v1/comparison.json and independent
+private/sol-post-production188/review.md. This integration adds0 byte-exact
+functions and0 playable features. Root's prior matching checkpoint remains
+330 functions atf00e8a1 with original SN/audit/link/rebuild proof. Concurrent
+matching work has changed the live report/sources; root's report --check caught
+a transient missing report row forfunc_L01_004E4F60. Root preserves that work,
+does not regenerate or stage its report, and does not claim its validation.
+
+Next:complete native67C010 control and position-wrapper sphere dependency,
+then repeated controller input, authentic resource/skin/camera binding and the
+first playable scene. Dreadzone base follows it. Two Luna streams audit actual
+caller/geometry dependencies; independent review stays within four slots.
+No third recovery stream or additional compiler lane. No push.
+
+Sibling tool latest read:959 staged audited context/name proposals, whole
+generation494786 occurrences/447215 unverified C bodies. These are tool-stage
+proposals and drafts, not adopted main or native coverage. General independent
+>15% remains unproven. Active tool benchmark/frozen inputs are untouched.
+Concurrent source/config/report/docs/assets changes remain outside this commit.
+Older checkpoints below are historical.
+
 # Current checkpoint - 2026-10-12 - Full post-position reference and native composition draft
 
 Previous goal turn was progress:330 exact functions and the validated active

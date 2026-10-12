@@ -147,7 +147,7 @@ static int run(const DreadzoneActorInputContext *ctx,u32 operation,u32 output,u3
         destination=operation==2?tx.record+0x130:dreadzone_actor_input_write(&tx,output,16);
         if(!source || !destination) {status=DREADZONE_VELOCITY_NEEDS_MEMORY;goto discard;}
         if(((operation==2 || operation==3) && !vector_valid(source,operation==2?3:2)) ||
-           (operation==6 && !bounded(dreadzone_velocity_float(source+8),16.f)) ||
+           (operation==6 && !bounded(dreadzone_velocity_float(source+8),8192.f)) ||
            (operation==2 && !bounded(dreadzone_velocity_float(tx.record+0x1784),16.f))) {
             status=DREADZONE_VELOCITY_UNSUPPORTED_FLOAT;goto discard;
         }

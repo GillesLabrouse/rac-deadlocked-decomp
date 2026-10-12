@@ -56,7 +56,9 @@ int dreadzone_actor_vertical_projection_0068ABA8(const DreadzoneActorInputContex
 int dreadzone_actor_accumulated_motion_006834C8(const DreadzoneActorInputContext *,f32 reduction);
 /* Mode0 height offset preserves destination X/Y/W, reads the original source
  * Z before any store, and subtracts the original scalar. Ordered aliases and
- * the same finite bounded scalar/domain and transactional rules apply. */
+ * transactional rules apply. Source Z is a position coordinate: magnitude
+ * <=8192, nonzero>=2^-20. Offset retains the scalar magnitude<=16/floor2^-20;
+ * the resulting Z must be finite normal/zero. XY/W are transported verbatim. */
 int dreadzone_actor_height_offset_0068A178(const DreadzoneActorInputContext *,u32 output_guest,u32 input_guest,f32 offset);
 /* Internal routines require a validated shadow context and supported floats. */
 f32 dreadzone_velocity_float(const void *);

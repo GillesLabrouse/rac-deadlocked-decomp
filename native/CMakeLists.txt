@@ -764,6 +764,20 @@ elseif(UNIX)
     target_link_libraries(deadlocked_native_dreadzone_actor_post_position_leaf PUBLIC m)
 endif()
 
+add_library(deadlocked_native_dreadzone_actor_post_position STATIC dreadzone_actor_post_position.c)
+target_include_directories(deadlocked_native_dreadzone_actor_post_position PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(deadlocked_native_dreadzone_actor_post_position PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_post_position PUBLIC
+    deadlocked_native_dreadzone_actor_orientation deadlocked_native_dreadzone_actor_visibility
+    deadlocked_native_dreadzone_actor_callback_enqueue deadlocked_native_dreadzone_actor_input_bridge
+    deadlocked_native_dreadzone_actor_counter_step deadlocked_native_dreadzone_actor_float_timer
+    deadlocked_native_dreadzone_actor_post_position_leaf deadlocked_native_dreadzone_actor_velocity)
+if(MSVC)
+    target_compile_options(deadlocked_native_dreadzone_actor_post_position PRIVATE /W4 /WX /fp:strict)
+elseif(UNIX)
+    target_link_libraries(deadlocked_native_dreadzone_actor_post_position PUBLIC m)
+endif()
+
 add_library(deadlocked_native_dreadzone_pool_bounds STATIC dreadzone_pool_bounds.c)
 target_include_directories(deadlocked_native_dreadzone_pool_bounds PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_pool_bounds PUBLIC c_std_11)
@@ -1391,6 +1405,12 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_actor_post_position_leaf_tests PRIVATE /W4 /WX /fp:strict)
     endif()
     add_test(NAME native_actor_post_position_leaf_validation COMMAND deadlocked_native_actor_post_position_leaf_tests)
+    add_executable(deadlocked_native_actor_post_position_tests tests/dreadzone_actor_post_position_tests.c)
+    target_link_libraries(deadlocked_native_actor_post_position_tests PRIVATE deadlocked_native_dreadzone_actor_post_position)
+    if(MSVC)
+        target_compile_options(deadlocked_native_actor_post_position_tests PRIVATE /W4 /WX /fp:strict)
+    endif()
+    add_test(NAME native_actor_post_position_validation COMMAND deadlocked_native_actor_post_position_tests)
     add_executable(deadlocked_native_actor_wall_response_tests tests/dreadzone_actor_wall_response_tests.c)
     target_link_libraries(deadlocked_native_actor_wall_response_tests PRIVATE deadlocked_native_dreadzone_actor_wall_response)
     if(MSVC)
