@@ -7,7 +7,8 @@ find_package(Threads REQUIRED)
 add_library(deadlocked_native_dreadzone_startup_pool STATIC
     dreadzone_startup_pool.c dreadzone_startup_pool_secondary.c
     dreadzone_startup_pool_index3.c dreadzone_startup_pool_index4.c
-    dreadzone_startup_pool_index5.c dreadzone_startup_first_pool.c)
+    dreadzone_startup_pool_index5.c dreadzone_startup_first_pool.c
+    dreadzone_startup_compose.c)
 target_include_directories(deadlocked_native_dreadzone_startup_pool PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_startup_pool PUBLIC c_std_11)
 if(MSVC)
@@ -21,6 +22,13 @@ if(BUILD_TESTING)
         target_compile_options(deadlocked_native_startup_pool_tests PRIVATE /W4 /WX)
     endif()
     add_test(NAME native_startup_pool COMMAND deadlocked_native_startup_pool_tests)
+    add_executable(deadlocked_native_startup_compose_tests tests/dreadzone_startup_compose_tests.cpp)
+    target_link_libraries(deadlocked_native_startup_compose_tests PRIVATE deadlocked_native_dreadzone_startup_pool)
+    target_compile_features(deadlocked_native_startup_compose_tests PRIVATE cxx_std_17)
+    if(MSVC)
+        target_compile_options(deadlocked_native_startup_compose_tests PRIVATE /W4 /WX)
+    endif()
+    add_test(NAME native_startup_compose COMMAND deadlocked_native_startup_compose_tests)
 endif()
 
 add_library(deadlocked_native_dreadzone_callback_table STATIC dreadzone_callback_table.c)

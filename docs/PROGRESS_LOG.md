@@ -1,5 +1,148 @@
 # Local development progress
 
+## 2026-10-12 - Native startup control composition accepted
+
+New native/dreadzone_startup_compose.c implements selected complete RAM effects
+of actual L01 6669D8. It stages one truthful exclusive writable linear mapping
+<=16MiB below 2GiB, disjoint from its captured descriptor. It publishes -1 at
+223E00, then 223E04 (the genuine first-call delay), invokes first-family indices
+1..6 then second-family indices 2..6 on the evolving same-address snapshot, and
+copies back only after every leaf accepts. Allocation, mapping or domain refusal
+preserves caller RAM. Existing leaf alias/order domains remain in force. This
+does not supply BSS/runtime allocation origins, original CPU/stack ABI, guest
+partial faults, callbacks, provider or completed PC bootstrap.
+
+Worker compose132 completes in 207 seconds, preserving an initial missing-DLL-
+export harness failure. Its first original call-tree fixture agrees on the full
+0x192000-byte mapping in 653 EE steps. Independent QA takes 114 seconds and adds
+five native cases: host offset3 success, late first-family and final secondary
+rollback, short second sentinel, and descriptor/backing overlap. It identifies
+an unused index local that could fail /W4 /WX. Root retains the original draft,
+removes only that unused local, and builds the isolated candidate with strict
+/O2 /W4 /WX /MD. No relaxed warning or fabricated callee is used.
+
+Root authenticates complete actual bounds and bytes for both wrappers and all
+eleven leaves, verifies every executed call target and both sentinel values, and
+compares 14 count/stride profiles at host offsets0/1/7. These include positive,
+zero and negative counts, mixed domains, 0/4/8 overlapping record strides in
+both families and wider strides. All 42 complete mapped-RAM comparisons pass
+(69,156,864 bytes; 16,134 original EE instructions across 14 distinct fixtures).
+Eleven atomic guards include late refusals, excess counts, descriptor aliases,
+mapping limits and truncated sentinels. A DLL linked from the final central
+archive independently repeats all 42 comparisons and 11 guards.
+
+The first central build remains live without compiler output in the sandbox.
+Root verifies its CMake/MSBuild process identities and child tree, explicitly
+stops only that invocation, confirms its tool session terminal, then resumes
+outside the sandbox with node reuse disabled. No concurrent central builds run
+and prior outputs remain. The outside-sandbox build completes. This change does
+not assert the exact internal cause of MSBuild's sandbox wait.
+
+The first full suite passes the existing 114 tests but fails the new test in
+8.63 seconds because two root-authored assertions confuse the first-family
+zero control table with its separate pool-pointer tables. The original test
+and complete failure log are frozen privately. Actual raw/whole-RAM evidence
+shows root_zero=0 while root_node/pool_slot publish the workspace pointer even
+with nonpositive count; correcting those two expectations changes no API code.
+Rebuilt full suite passes 115/115 in 8.44 seconds. Git's staged whitespace check
+then catches one extra blank EOF line. Root preserves the prior public source,
+normalizes only line endings/EOF, rebuilds, passes both startup tests in 1.08
+seconds, and a fresh v2 final central-archive DLL repeats all 42 comparisons and
+11 guards with the exact final source hash. Full-suite result predates only this
+token-preserving format cleanup; the targeted tests and archive proof follow it.
+
+Integration window: 13:05:52..13:14:00 UTC, 488 seconds, including the confirmed
+live-build interruption/retry, failed test, correction and format repair. Earlier
+recovery/review and later documentation/commit are excluded. This adds one native
+wrapper RAM-effect API and one CTest entry, zero accepted canonical matching
+functions. Exact-function throughput remains 0/hour in this observed recovery
+batch; native composition progress is reported separately. Two Luna workers
+retain short isolated lots and the third slot supplies independent QA. Do not
+increase matching recovery concurrency until accepted throughput improves.
+
+The additive producer correction authenticates S7=240000 and the loader's
+578E3C delay store of its computed container pointer to243734, before publisher
+execution. E40 reloads it and E58 publishes the same pointer to269944. The old
+incorrect return-value attribution is preserved and superseded. Actual opening
+descriptor/cursor/container provenance remains open. Private position v7 still
+stops at53FBB8; no full returned player update, live input loop or viewer change.
+Matching remains323 /0bad /273resolved /0.564%. No push.
+
+## 2026-10-12 - Collision bank saves, bounded signs and resolved wrapper
+
+The actual L01 53FAA8 word 4A0074B8 dispatches micro E90. Resident MPG header
+10F1E0 and its 148-pair payload at 10F1F0 are independently authenticated; all
+active E90..EF8 pairs agree with original bytes. Fourteen raw SQ/NOP pairs copy
+VF1..14 into VU memory quads 1..14. E is on EF0 and EF8 is its included delay.
+The next reached 53FAD0 word 4A0070B8 dispatches E10..E48: eight raw SQ/NOP pairs
+copy VF16..23 into quads 16..23, with E at E40 and delay E48. Neither program
+reads Q or arithmetic flags. Exact-site adapters preserve all inherited Q,
+numeric, status and timing uncertainty and every other control-access guard.
+
+Root checks six complete VU/CPU passive-state cases and seven atomic refusals
+for each bank. Raw random patterns include values that are not valid floats;
+these copies do not reinterpret them numerically. Independent QA checks both
+full 256-quad banks, VF/register/passive state, NaN/subnormal/infinity/zero bit
+patterns and eight atomic refusals across the two sites. Review wall time is
+156 seconds, with direct checks of 2.013 and 1.967 seconds. An initial introspection
+attempt cannot inspect a dynamically compiled class; a first test also compares
+deep-copied bound methods by identity and fails. Both scripts remain preserved.
+The corrected test retains callable identities while deep-copying state.
+
+Actual 53FB58 vsub.xyz writes VF3 before 53FB80 CFC2; 53FB94 consumes AT through
+ANDI E0. The bounded adapter projects only the three sign bits of freshly observed
+finite normal/zero results. It authenticates the consecutive producer suffix
+and raw instructions, preserves all other state and keeps the inherited taint
+guard until the actual ANDI. Root passes ten sign/actual/zero cases and eight
+atomic guards. Independent QA passes its direct projection, five atomic guards
+and a resumed execution through the genuine consumer. Review takes 136 seconds;
+direct check takes 2.411 seconds. Other MAC bits and physical flag production/
+timing remain unproved. This is a declared private software projection.
+
+Fresh explicit 684A60 v7 reaches 53FBB8 after 372 EE and 22 VU instructions,
+where the second CFC2 dependency remains guarded. Typed basis/radius RAM and
+diagnostic banks are retained; no captured callee, cleared uncertainty, field
+or opcode patch is used. No whole player update, live input or gameplay frame
+is established. The original strict full-bank v32 frontier remains 67C224.
+
+Root's L01 667668 validation independently checks real bounds, six R_MIPS_26
+object relocations and symbols, real callee arguments, masked comparison, then
+unmasked resolved addresses through the established link_object routine. Two
+prior WinError 623 launches remain preserved. The agent confirms its successful
+launches run the old SN tools outside the sandbox. A separately authorized root
+v3 validation likewise succeeds in 0.258 seconds of script wall time, with a
+new exclusive output directory. The 68 compiled bytes plus four zero padding
+bytes exactly match actual L01. No shared source/catalog changes are made: this
+private variant already has a recovered canonical common counterpart and adds
+zero canonical functions. Wrapper 6669D8 still has one failed resolved comparison
+and two further compiler-output mismatches; all three pure-C drafts remain outside
+accepted sources. Its actual sentinel stores and eleven called leaf effects now
+provide a concrete next native composition lot, not proof of complete bootstrap.
+
+Producer audit identifies actual packet-root writer 577C84 inside reachable
+577C70..577D6C, including a branch tail beyond the splitter's first JR boundary.
+It writes A0 + word[A0] to 242340 only for a nonzero relative word. Loader call
+578E38 supplies S5 + word[S3+14]; descriptor [24370C], cursor [243720] and selected
+asset linkage remain runtime dependencies. Root catches a delay-slot attribution
+error in the worker report: 578E3C stores V0 before this call, after E28/E30/E34
+compute the input container pointer. It cannot be this call's return. E40 reloads
+that pointer and E58 publishes it to the alternate selector cell. Preserve the
+original report and add the correction; do not infer selected scene provenance.
+
+Observed batch window: 12:46:58 UTC through 13:01:37 UTC
+(879.2 seconds). Accepted canonical functions: 0, therefore 0/hour in this
+window. One existing per-level variant obtains root final exact validation, which
+is reported separately. Matching lot failures: one resolved mismatch plus two
+unlinked compiler-output mismatches; no failed draft is integrated. Native API
+integrations: 0, so accepted-source integration time is not applicable. Two short
+Luna recovery/audit lots finish; the third worker slot supplies bounded independent
+QA instead of another recovery stream. Avoid expanding recovery concurrency until
+accepted throughput improves. A new exclusive native startup composition lot is
+in progress; require original RAM, independent and final archive proof before
+acceptance. Central sources/builds are unchanged. Last full native suite remains
+114/114 in 28.58 seconds; canonical matching remains 323 / 0 bad / 273 resolved /
+0.564% of code. No new viewer behavior, playable loop or push.
+
 ## 2026-10-12 - Reviewed position scalar and status checkpoint
 
 The private actual L01 capsule body at 67EF00 has verified extent 0x618. Its

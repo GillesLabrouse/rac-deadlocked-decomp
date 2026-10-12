@@ -1,11 +1,25 @@
 # Native PC development
 
-Current checkpoint: 323 exact functions and 114 passing native tests. The
+Current checkpoint: 323 exact functions and 115 passing native tests. The
 viewer supports scenery and prepared animation; it has no controllable player
 or gameplay loop. Both startup pool leaf families, current-frame model transfer and selected
 complete movement-basis matrices are integrated; wrappers/bootstrap/player update remain open. See [GAMEPLAY_STATUS.md](GAMEPLAY_STATUS.md)
 and [PROGRESS_LOG.md](PROGRESS_LOG.md) for current validation and blockers.
 The component sections below retain their validation counts at integration.
+
+## Selected startup control composition
+
+`dreadzone_startup_compose_006669D8_ram_effects` stages the actual L01 control
+stores and eleven pool leaves as one transactional RAM operation. It requires
+the leaf domains on the evolving snapshot and a truthful exclusive mapping
+<=16MiB below2GiB with a disjoint readable descriptor. Allocation or any refusal
+publishes nothing. Final central-archive proof passes42 complete RAM comparisons
+and11 atomic guards; independent QA adds5 host cases. All115 native tests pass.
+This closes selected wrapper RAM effects only; provider, complete initialization,
+CPU/stack/BSS provenance and authentic playable bootstrap remain open.
+
+Private collision continuation now reaches 53FBB8 after reviewed raw-bank saves
+and a bounded E0 sign projection; no new native API or gameplay frame is adopted.
 
 The complete selected RAM-only orientation API now covers real L01 `683310`,
 `67CBC0` matrix composition and `596470` Euler extraction. Its separate request

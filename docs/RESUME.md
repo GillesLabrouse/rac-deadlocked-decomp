@@ -1,3 +1,64 @@
+# Current checkpoint - 2026-10-12 - Native startup control / 323 exact / 115 tests
+
+The native L01 6669D8 RAM-effect API now composes two real control stores and
+the eleven pool leaves in actual call order. Root and final central-archive
+checks pass 42 full-RAM cases / 69,156,864 bytes and 11 atomic refusals, with five
+independent host checks. Last full suite: 115/115 in 8.44 seconds. After a pure
+line-ending/EOF cleanup, both startup tests and a new final-archive proof pass.
+This supplies selected wrapper RAM effects, not authentic bootstrap/provider,
+BSS origins, CPU/stack effects or a playable scene. Canonical exact coverage
+remains 323 functions / 0.564% of code; native API work is counted separately.
+
+Private collision continuation reaches 53FBB8 after 372 EE / 22 VU instructions,
+after independently reviewed raw bank saves and a bounded fresh-result E0 sign
+projection. The next MAC dependency is guarded. Projected RAM and diagnostic
+banks remain explicit; no complete player update or repeated frame is proven.
+Strict full-bank v32 remains at 67C224. Viewer still shows scenery/prepared poses;
+no controllable Ratchet, live gameplay loop or new viewer behavior exists.
+
+Root final resolved validation confirms private L01 wrapper 667668, without
+double-counting its common canonical counterpart. Matching wrapper 6669D8 drafts
+remain nonmatching; their selected native RAM composition is separately accepted.
+Packet publisher/loader calls are identified. Its call-delay store publishes the
+computed input container pointer, not the callee return; additive correction is
+preserved. Actual runtime descriptor/container selection remains open.
+
+Next: audit second MAC producer/consumer and complete position/contact plus a
+returned player update; close remaining initializer/control/provider paths and
+live scene/skin geometry binding, then validate real input and follow-camera
+rendering over repeated frames. No reliable playable ETA. No push.
+Read PROGRESS_LOG.md for proofs, preserved failures, timing and worker policy.
+Older checkpoints below remain historical.
+
+# Current checkpoint - 2026-10-12 - Raw collision banks / 323 exact / 114 tests
+
+Eleven startup pool leaf behaviors, selected orientation matrices and the
+current-frame model transform are native. Last full suite: 114/114 passed.
+Canonical exact coverage remains 323 functions / 0.564% of code. Viewer behavior
+is unchanged: scenery and prepared poses, no controllable Ratchet or gameplay loop.
+
+Two private actual collision bank saves now pass raw full-state checks and
+independent review. A bounded fresh-result E0 sign projection also passes direct
+checks and independent execution through its actual consumer. The explicit
+position component reaches 53FBB8 after 372 EE / 22 VU instructions and stops at
+the next MAC read. Projected RAM, diagnostic machine banks, physical flags/timing
+and runtime upload limits remain explicit. No complete player update has returned.
+The strict full-bank v32 path remains guarded at 67C224.
+
+Root resolved-link validation now confirms private L01 wrapper 667668 after
+six real object relocations. This already has a canonical common counterpart,
+so it adds no source row or percentage. Wrapper 6669D8 remains nonmatching.
+Actual packet-root publisher and its loader calls are identified; runtime
+descriptor/container selection remains open. The loader call-delay store
+publishes its computed input container pointer, not that call's return value.
+
+Next: audit the second MAC producer/consumer, close position/contact and a returned
+update, validate native startup control composition, and bind authentic scene
+resources plus live actor geometry/input/camera for repeated frames. Independent
+QA remains mandatory; use small isolated recovery lots. No reliable playable ETA.
+No push. Read PROGRESS_LOG.md for scopes, failures, metrics and next work.
+Older checkpoints below remain historical.
+
 # Current checkpoint - 2026-10-12 - Collision scalar review / 323 exact / 114 tests
 
 Eleven startup pool leaf behaviors, selected orientation matrices and the

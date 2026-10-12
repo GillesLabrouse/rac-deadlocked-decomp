@@ -70,6 +70,17 @@ int dreadzone_startup_pool_00667400_index5(const DreadzoneStartupPoolMemory *);
  * origin, CPU/stack ABI, partial faults or enclosing wrapper is supplied.
  */
 int dreadzone_startup_first_pool_leaf(const DreadzoneStartupPoolMemory *, uint32_t index);
+/* Complete selected RAM effects of actual L01 006669D8 and its call tree:
+ * stores -1 at223E00/223E04, first-family indices1..6, then second indices2..6.
+ * Captures a readable descriptor disjoint from exclusive truthful writable RAM;
+ * one nonwrapping linear mapping <=16MiB below2GiB. All leaf domains must hold
+ * on the evolving snapshot. Allocates a complete temporary RAM copy, preserving
+ * guest addresses, aliases and actual call/store order; allocation or any leaf
+ * refusal publishes nothing. Return0 complete RAM effects,-1 atomic refusal.
+ * No CPU/stack ABI, guest partial faults, live allocation/BSS provenance,
+ * callbacks, provider or complete PC bootstrap is supplied.
+ */
+int dreadzone_startup_compose_006669D8_ram_effects(const DreadzoneStartupPoolMemory *);
 #ifdef __cplusplus
 }
 #endif
