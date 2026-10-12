@@ -6,7 +6,8 @@ constant immediates must match. Uses the real GNU linker from the local SN
 mirror. Each compiler-emitted function gets its own section without changing
 instructions. Reassembly is checked against the original build/obj object
 before linking. Unknown symbols and additional data sections fail closed.
-Outputs stay in build/linked; this does not change progress/report.json.
+Outputs default to build/linked; isolated candidate jobs may supply their own
+output and compiler scratch directories. This does not change progress/report.json.
 """
 import argparse
 import io
@@ -19,7 +20,7 @@ from pathlib import Path
 
 from elftools.elf.elffile import ELFFile
 import retail
-from record_build import validate
+from record_build import scratch_path, validate
 from split_overlays import digest, functions as overlay_functions
 
 ROOT = retail.ROOT
@@ -57,8 +58,22 @@ def symbol_code(elf, symbol):
     return elf.get_section(symbol["st_shndx"]).data()[symbol["st_value"]:symbol["st_value"] + symbol["st_size"]]
 
 
-def link_object(path, sizes, reference, gp, output, context="resident", resolve_overlay=None):
-    inputs = validate(path)
+def protect_inputs(output, targets, inputs):
+    """Reject escaping outputs and input aliases before any write/tool call."""
+    for target in targets:
+        if not target.resolve().is_relative_to(ROOT.resolve()):
+            raise ValueError("linked output path escapes the repository: " + str(target))
+        for source in inputs:
+            same = target.resolve() == source.resolve()
+            if not same and target.exists() and source.exists():
+                same = target.samefile(source)
+            if same:
+                raise ValueError("linked output aliases an input: " + str(target))
+
+
+def link_object(path, sizes, reference, gp, output, context="resident", resolve_overlay=None,
+                scratch_dir=None):
+    inputs = validate(path, scratch_dir)
     original = ELFFile(io.BytesIO(path.read_bytes()))
     funcs = functions(original)
     if not funcs:
@@ -67,8 +82,10 @@ def link_object(path, sizes, reference, gp, output, context="resident", resolve_
         if section["sh_flags"] & 2 and section["sh_size"] and section.name not in (".text", ".reginfo"):
             raise ValueError("unsupported allocated section: " + section.name)
     stem = path.stem
-    source = ROOT / "build/tmp" / (stem + "_fixed.s")
+    source = scratch_path(scratch_dir) / (stem + "_fixed.s")
     assembly = output / (stem + ".s")
+    protect_inputs(output, [output / (stem + suffix) for suffix in (".s", ".o", ".ld", ".elf")] +
+                   [output / (name + ".bin") for name in funcs], [path, source])
     assembly.write_text(function_sections(source.read_text()), encoding="utf-8")
     separated = output / (stem + ".o")
     tool("ee-gcc2953.exe", "-c", assembly.relative_to(ROOT), "-o", separated.relative_to(ROOT))
@@ -136,8 +153,12 @@ def link_object(path, sizes, reference, gp, output, context="resident", resolve_
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--object", help="one build/obj object filename")
+    selected = parser.add_mutually_exclusive_group()
+    selected.add_argument("--object", help="one build/obj object filename")
+    selected.add_argument("--object-path", type=Path, help="one explicit candidate object path inside the repository")
     parser.add_argument("--overlays", action="store_true", help="also link overlay objects against their local overlay ELFs")
+    parser.add_argument("--scratch-dir", type=Path, help="exclusive compiler scratch/manifest directory for this job")
+    parser.add_argument("--output-dir", type=Path, help="exclusive linked output directory for this job")
     args = parser.parse_args()
     sizes = {}
     for line in (ROOT / "config/functions.tsv").read_text().splitlines():
@@ -156,7 +177,9 @@ def main():
     with (ROOT / "baserom/SCUS_974.65.elf").open("rb") as stream:
         reference = retail.sections(ELFFile(stream))
     gp = struct.unpack_from("<I", (ROOT / "baserom/sections/00_reginfo.bin").read_bytes(), 20)[0]
-    output = ROOT / "build/linked"
+    output = (ROOT / (args.output_dir or "build/linked")).resolve()
+    if not output.is_relative_to(ROOT):
+        parser.error("linked output directory must stay inside the repository")
     output.mkdir(parents=True, exist_ok=True)
     records, failures = [], []
     overlay_reference = {}
@@ -190,7 +213,13 @@ def main():
         if len(candidates) != 1:
             raise ValueError("canonical overlay symbol has %d local candidates: %s" % (len(candidates), name))
         return candidates[0]
-    paths = [ROOT / "build/obj" / args.object] if args.object else sorted((ROOT / "build/obj").glob("*.o"))
+    if args.object_path:
+        candidate = (ROOT / args.object_path).resolve()
+        if not candidate.is_relative_to(ROOT):
+            parser.error("candidate object must stay inside the repository")
+        paths = [candidate]
+    else:
+        paths = [ROOT / "build/obj" / args.object] if args.object else sorted((ROOT / "build/obj").glob("*.o"))
     for path in paths:
         overlay = re.match(r"overlays_(L\d\d)_", path.stem)
         if overlay and not args.overlays:
@@ -200,12 +229,13 @@ def main():
             current_reference = reference
             if overlay:
                 current_reference = read_overlay(context)
-            records.extend(link_object(path, sizes, current_reference, gp, output, context, resolve_overlay))
+            records.extend(link_object(path, sizes, current_reference, gp, output, context,
+                                       resolve_overlay, args.scratch_dir))
         except (OSError, ValueError, KeyError) as error:
             failures.append({"object": path.name, "error": str(error)})
     exact = sum(record["exact"] for record in records)
     report = {"functions": records, "failures": failures, "gp": gp}
-    report_path = output / ("report-single.json" if args.object else "report.json")
+    report_path = output / ("report-single.json" if args.object or args.object_path else "report.json")
     report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print("%d exact linked functions, %d mismatches, %d object failures" % (exact, len(records) - exact, len(failures)))
     for failure in failures:

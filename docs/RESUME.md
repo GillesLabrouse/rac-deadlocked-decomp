@@ -1,3 +1,43 @@
+# Active checkpoint - 2026-10-12
+
+## 2026-10-12 - Isolated recovery builds and genuine graphics frontier
+
+Accepted exact total remains 316, with zero audit mismatches. All 261 game
+sources were rebuilt after adding isolated compiler scratch and linker paths.
+The 522 object/fixed-assembly files are byte-identical to their previous
+versions; 266 game functions pass the fully resolved comparison. The library
+audit brings the total to 316. Native code is unchanged: last result 103 tests.
+
+Parallel jobs now have separate objects, scratch manifests and linked outputs.
+Missing isolated manifests fail closed; output aliases of input objects or
+fixed assembly are rejected before writes. Validation: 7 build-record tests,
+28 incremental-plan tests, 5 linker path tests, two real isolated builds/links,
+and independent collision checks. The Windows hard-link test required an
+approved execution outside the workspace sandbox. No accepted bytes changed.
+
+The overlay catalog was regenerated privately: all 10,898 rows are unchanged.
+A level-ID lookup error in a candidate probe caused a false canonical-name
+block. The new read-only resolver uses each canonical level's actual ELF and
+reports raw differences; normalized similarity never proves exact recovery.
+
+The genuine graphics initializer reaches 00131978 after 26 EE instructions,
+before its first VIF1 reset store. An older diagnostic stack overlapped device
+addresses and incorrectly absorbed those stores; preserve that failed trace,
+and use the strict refusal receipt. No graphics initialization returned.
+Static descriptor paths request 512x416 or, on a verified conditional path,
+512x448. Do not inject either resolution into the client fixture. The client
+still stops at 00546C58 on zero projection operands and client+50 remains null.
+
+The PC backend is D3D11. Next: a bounded backend-owned completion/reset service,
+then display/descriptor and real client initialization before player frames.
+Memory67's resident polling candidate passes independent private validation
+but awaits root production integration. Four clear-loop variants and the
+first wrong-level polling variant remain nonmatching; none count as recovered.
+Small-lot recovery durations: memory65 323s, memory66 149.8s, commands53 159s,
+commands54 248s, commands55 64s, memory67 226s. Only the last has a viable exact
+candidate. Keep agents on HOLD during integration; no third recovery agent.
+No controllable character, new gameplay frame, visible change or push.
+
 # Resume checkpoint â€” active development, 2026-10-12
 
 Latest accepted local change: complete selected RAM-only orientation

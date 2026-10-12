@@ -11,8 +11,14 @@ cd "$(dirname "$0")/.."
 src=$1; out=$2; shift 2
 CC=toolchain/sn-prodg-3.01/usr/local/sce/ee/gcc/bin/ee-gcc2953.exe
 source tools/toolchain.sh
-mkdir -p build/tmp
-tmp=build/tmp/$(basename "${out%.o}")
+# Parallel candidate jobs must supply an exclusive scratch directory as well
+# as an exclusive object path. The standard game build keeps its usual layout.
+tmp_dir=${DECOMP_TMP_DIR:-build/tmp}
+if [ -n "${DECOMP_TMP_DIR:-}" ]; then
+    "$PYTHON" -c 'import sys; sys.path.insert(0, "tools"); from record_build import scratch_path; scratch_path(sys.argv[1])' "$tmp_dir"
+fi
+mkdir -p "$tmp_dir"
+tmp=$tmp_dir/$(basename "${out%.o}")
 # Optional source-local assembler adaptations remain explicit in the manifest.
 # Read only the initial comment block; never execute the contents as shell code.
 asflags=()

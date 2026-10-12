@@ -91,6 +91,24 @@ changed. Removed sources also remove their orphan game objects and manifests.
 The default remains a full compile. Incremental reuse does not replace the audit,
 exact linking or reconstruction checks below.
 
+For parallel candidate recovery, assign separate object, compiler scratch and
+linked-output directories to each job. For example, in Git Bash:
+
+```bash
+mkdir -p build/drafts/JOB
+DECOMP_TMP_DIR=build/drafts/JOB/tmp bash tools/cc.sh nonmatching/CANDIDATE.c build/drafts/JOB/overlays_L00_CANDIDATE.o
+venv/Scripts/python.exe tools/link_objects.py --overlays --object-path build/drafts/JOB/overlays_L00_CANDIDATE.o --scratch-dir build/drafts/JOB/tmp --output-dir build/drafts/JOB/linked
+```
+
+Use a unique JOB directory. Preserve the `overlays_Ldd_` object prefix for the
+actual canonical overlay; resident candidates use a non-overlay prefix.
+The linker needs its explicit scratch option; the compiler environment variable
+does not change default linker validation. Missing isolated manifests fail
+closed. Default game builds retain `build/obj`, `build/tmp` and `build/linked`.
+The linker rejects output aliases of the input object or its fixed assembly.
+These paths support isolated builds; each function still needs the real
+relocation and resolved-address checks before acceptance.
+
 `tools/audit_matches.py` compares each compiled function with the retail bytes at
 its address, with only fields carrying actual ELF relocations masked. Constant
 immediates and pointer strides remain significant. This is
@@ -166,6 +184,16 @@ addresses only, never a substitute for source).
    Archive mappings from `map_archive.py` are naming hypotheses:
    verify actual argument flow, callees and resolved addresses independently,
    especially for small wrappers with indistinguishable instruction shapes.
+   If an actual overlay address has no row under that level's name, use
+   `venv/bin/python tools/resolve_overlay_candidate.py --level L01
+   --address 0x005348B8 --size 0x50` (Windows: `venv/Scripts/python.exe`).
+   Supply independently checked bounds. It reads each canonical candidate from
+   its own level's local ELF, reports raw differences and runs the inventory
+   guard. A normalized candidate is only a navigation hint: normalization also
+   masks constants and field offsets, so independently verify each level's
+   structures, globals, calls and complete CFG. Compile and resolve against the
+   canonical function's actual reference; do not infer equal addresses or
+   behavior for another level. The command never edits metadata or sources.
 2. **Get a starting point** with `venv/bin/python tools/ext/m2c/m2c.py -t
    mipsee-gcc-c asm/nonmatchings/.../func_XXXXXXXX.s`. The output is a draft: it
    usually needs types, struct members and cleaner control flow.
