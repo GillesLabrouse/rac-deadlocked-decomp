@@ -1,3 +1,56 @@
+# Current checkpoint - 2026-10-12 - Full post-position reference and native composition draft
+
+Previous goal turn was progress:330 exact functions and the validated active
+686420 native value branch at commitc8456e3. This turn adds an independent
+full684EF0 reference and a private composition draft, not accepted/native or
+playable coverage. No shared compiler/build/generator was run this turn.
+
+Independent184 replays the frozen v17 post-entry naturally through the actual
+JR686414/delay686418 to its explicit harness sentinel:1281EE/0VU, complete
+32,505,856 RAM and all recorded banks equalv17. Actualbody152C SHA731919a1...
+and padded1530 SHAe0e7689... are different;163 labeled the padded hash as the
+body hash. Root verified both directly in the actual L01 ELF. Caller67C3C0/
+67C3C4 is authenticated, but manually assembled component entry/sentinel and
+inherited I still do not prove full67C010 continuation or live gameplay.
+
+184 control/read audit freezes118 branch/jump events,75 nested realJALs,
+220 reads (81top-level),101 ordered writes (46RAM/55stack),49 changed RAM
+bytes. Actualtop-level callees include683310,5A8630,42half55D180,9word55D148,
+float55D240,66ABD8,5BE808,686420,68A178. Seven reachedCVT.W.S sites all
+convert exact+1.0 to integer1, invariant under ordinary rounding modes. The
+private interpreter truncates and does not model FCSR; fractional extensions
+do not inherit this proof. Native draft currently refuses fractional counter
+results. Physical flags/timing and whole caller/scene remain unproved.
+
+182 audits integer/float timer ABI and actualGP threshold21DE04;183 verifies
+remapmask4/index2F10, AND/BEQL halfstore and tailmatrix/quad/height aliases.
+Both rawL01/L00 navigation timer names guardunknowncanonical; no cross-level
+exact adoption.183 corrections preserve actual3C0 skipped store and double
+2CC read. Root draft uses validated callee adapters, isolated shadow/context
+views, ordered projection and prefix fields; LH418 is captured before the
+body74 store, preserving their possible alias order. It excludes synthesized
+low-V0: originalpostreturn is path-dependent and not normalized byepilogue.
+
+Artifacts:private/sol-post-full184/review.md,baseline.json,control-audit.json,
+cvt-probe.json,read-probe.json and frozen returnRAM/stack/SPR; private/luna-
+post-timers182/report.md; private/luna-post-tail183/report.md/correction.md;
+build/drafts/root-post-position-native-v1/post_position.c/.h. The draft lacks
+the complete control body/public entry and is uncompiled/unaccepted. Finish
+that body, compare its complete selected return against184, then independently
+validate before any public integration. Retain numeric/ABI/data-owner limits.
+
+Next:complete684EF0, then compose native67C010 with genuine startup, repeated
+input, collisions, character skin and camera; first playable scene, then the
+Dreadzone base. No new playable feature or exact source this turn. Reuse the
+two Luna streams and independent reviewer within4slots, no extra recovery lane.
+
+Other work concurrently changed native/CMakeLists.txt, docs/PROGRESS_LOG.md,
+docs/NATIVE_PORT.md, run-native.cmd and asset/test scripts. Preserve all of it;
+root stages only this new log/resume prefix, excluding their append/build edits.
+Recheck current ownership and live builders before shared mutation/build. Do
+not restart or edit the sibling generator/frozen inputs. No push. Older log
+entries below are historical; previous330/120-test acceptance is frozen evidence.
+
 # Current checkpoint - 2026-10-12 - Active post-position movement / 330 exact / 120 tests
 
 Accepted bounded native686420 now executes the genuine XY heading, taken or
