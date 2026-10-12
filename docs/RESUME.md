@@ -6,13 +6,13 @@ central-archive proofs. The113 native tests pass in7.62s. Matching unchanged:
 323exact/0bad,273resolved,0.564%code. Viewer remains scenery/prepared poses;
 no controllable Ratchet, complete player update or gameplay loop.
 
-Privatev23 reaches5899B8 CTC2 after4713EE/2079VU; decoder and register
-snapshots returned, but integer width and numeric matrices remain open.
+Privatev24 reaches589A04/738 after4732EE/2079VU; logicalVI32 factory
+is corrected, while numeric matrices and whole player update remain open.
 Q readiness/physical flags/FCSR/timing remain unproved. Initializer is suspended and client partial. Privateframe-aware
 model C at0.5 agrees on16384 decoded-pose scratch bytes before matrices,
 but has no original full-helper proof and is not accepted. Preserve all failures and correction receipts separately.
 
-Next: review logical VI32/low-half semantics, complete bounded matrices and
+Next: validate current738 finite math/localQ, complete bounded matrices and
 full model-helper RAM comparison, then return a whole player update; close
 actual first startup wrapper/sibling pools and provider, then repeated player
 input/movement/collision with live actor rendering. No reliable ETA/readiness

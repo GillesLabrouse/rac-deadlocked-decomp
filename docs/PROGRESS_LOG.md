@@ -1,5 +1,48 @@
 # Local development progress
 
+## 2026-10-12 - Logical integer-container binding corrected
+
+The first logicalVI32 correction passes one actual setter, five refusals and
+120 isolated low-half instruction tests, but its first complete typed pose
+case fails the staged bank comparison: the factory still constructs an older
+VU class whose integer handlers discard destination high16. The refusal is
+atomic and remains frozen. No numeric matrix or frame continuation uses v1.
+The review takes393.1s,153.1s beyond its four-minute target; report-generation
+time is included. Two failed checker probes and the subsequent receipt-print
+separator error are retained as separate infrastructure/harness evidence.
+
+Separate v2 binds the actual per-instance VU class before any execution and
+updates its existing wrapper's captured fallback to that class. CPU.run also
+uses the active namespace. All supplied banks, scoped basis wrapper and parent
+classes/maps stay unchanged. Independent review passes24 unique complete
+typed pose cases /720pairs,120 isolated lower-width tests, actual setter and
+five guards, plus five transaction guards. A supplement repeats the main
+checker:48 total executions /1440pairs are not48 unique cases. Both future
+factory rebinding and preserved parent instances are checked. The initial
+lexical checker failure stays separate. Review173.8s is within four minutes.
+These are logical container/slice operations; physical integer backups and
+sampling/pipeline/synchronization are still unproved. UnknownQ/flags persist.
+
+Fresh v24 preserves the original explicit constructor return (27961EE/603VU)
+and reaches589A04/738 after4732EE/2079VU in the partial player update. The
+full32 setter5899B8 executes, but neither738 nor858 has yet been executed in
+this diagnostic. The current738 input is reserved for isolated finite-math
+feasibility, with localDIV/Q order and all branch alternatives kept explicit.
+Initializer/client remain incomplete and there is no returned whole frame.
+
+Independent Memory121 reproduces the private compiledC before-matrix probe:
+statusAPPROXIMATE,16384scratch bytes equal genuinev22 pre-matrix output,
+completeRAM and inheritedVU unchanged. The scratch-only probe does publish
+scratch then return; its first report's contrary publication wording is
+corrected in an additive frozen addendum. The earlier5883-byte comparison
+crosses matrix stages and receives no equivalence/bug credit. The full native
+frame helper remains a draft awaiting complete output and production proof.
+
+Matching stays323/0bad,273resolved,0.564%; last native suite113/113 in7.62s.
+No new accepted source, executable behavior, controls, gameplay loop or push.
+The subsequent real player return/movement/input/collision dependencies are
+being bounded independently; static forecasts remain conditional evidence.
+
 ## 2026-10-12 - Same-stage native pose agrees and matrix entry is reached
 
 Fresh v22 completes both actual decoder restore calls (8+14 raw pairs) and
