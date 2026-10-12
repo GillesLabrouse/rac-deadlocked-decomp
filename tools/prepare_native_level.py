@@ -446,8 +446,9 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                     Path(__file__).resolve().parent.parent / "build/native/Release/deadlocked_native_animation_diagnostic.dll",
                     Path(__file__).resolve().parent.parent / "build/native/Release/deadlocked_native_model_diagnostic.dll")
             except (ValueError, OSError) as error:
-                omitted_mobys[class_id]["reason"] = "native core bind-pose diagnostic failed: " + str(error)
-                omitted_mobys[class_id]["placements"] += len(matrices)
+                omitted_mobys[class_id] = {
+                    "reason": "native core bind-pose diagnostic failed: " + str(error),
+                    "placements": len(matrices)}
                 continue
             prototypes.append((groups, matrices, {"kind": "dynamic-object-native-bind-pose-preview",
                                                   "class_id": class_id, "placements": len(matrices),
