@@ -1,5 +1,68 @@
 # Local development progress
 
+## 2026-10-12 - Native world projection and source-backed startup diagnostics
+
+Complete bounded final-RAM effects of actual L01 00628210/148h and its
+0055D2D0/28h zero helper are integrated in native/dreadzone_world_projection.c/h.
+The module preflights a readable disjoint descriptor and truthful exclusive RAM
+before mutation, stages three integral vector*1024 words and the 64-byte matrix,
+and supports finite host binary32 arithmetic with nearest rounding. EE banks,
+FCSR, physical/subnormal precision, intermediate store order and startup are
+outside this contract. Invalid numeric spans/domain inputs refuse atomically.
+
+Production-source proof passes96 fresh originals/192 whole-RAM comparisons,
+9600EE/0VU and18 atomic guards. Independent public-source review passes12
+originals/36 mapping comparisons,1200EE/0VU and22 atomic guards, including
+three non-nearest rounding modes and normal child refusal of descriptor wrap.
+Root additionally links the actual central CMake archive through an isolated
+bridge and reruns the96/192 full comparisons. All109 native tests pass in25.48s.
+Matching remains321 exact/0 mismatches,0.563% code; no player frame or push.
+
+Actual original577990 returns after112743EE on explicit selector1 ISO-backed
+input: source float24 produces144/96/48; its GP-relative577A34 store publishes
+223640=B00040, count414. The real body ends with JR577C64/delay577C68;
+577C6C is padding in the earlier2E0 catalog extraction. This is a separate
+component using partial graphics/client matrix RAM and chosen disjoint guest
+allocations, not actual disk/decompressor/loader/bootstrap execution.
+A fresh-bank client538A80 then publishes client0+50=231AD0 and stops at
+537D00 VRSQRT(-1,0). The following QMFC2 transfers full128 lanes: VF2.y=1
+makes the low64 BEQZ condition nonzero despite VF2.x=0, so the unknown Q is
+consumed at537D18. No arbitrary Q, flags, pointer or successful I/O was supplied.
+The complete player update and repeated input/collision/render loop remain open.
+
+Six integer site microproofs originally passed but missed Python local bits
+shadowing the float converter. The real mixed diagnostic failed before those
+sites. An immutable v2 renames only that local to lane_bits; independent576
+integer comparisons,576 properties,36 delay cases,12 guards and120 mixed
+sequences pass. The unchanged canonical-VF0 MAXW handler is bound only to
+verified537CB4/4BE00093; root32 and independent1 whole-bank microcases pass.
+These diagnostic tools are private and receive no native/exact acceptance credit.
+The projection draft first dereferenced its descriptor too early; a separate
+v2 fixes this. An erroneous proof return-sentinel assertion is also preserved.
+
+Read-only source lineage now connects the explicit copied-header+58/+5C to
+relative sector25E7/count22A plus base12D845, giving ISO read12FE2C/22A.
+Established WAD decoding yields2390596 bytes, SHA c9697eba9d7f5eb46bf196d6c67af489b10a188a1dd5a97e34fa4e9f913adfbd.
+Its+4=1FE0D0 points to count14 consumed by57B498 through57CD78. The actual
+initial-route table cell is1CEC4C (S0=1CA040), not24830C; the earlier memory83
+address claim and outer/nested header-tier confusion are corrected in separate
+memory84/85 receipts. Full actual loader invocation, request completion and its
+resource cursor context remain unproved. A private57B498 RAM draft is untested
+and excluded from accepted sources/progress. Typed m2c arg0+10 must mean the
+raw10-byte offset, not40 bytes. Original ISO/decoded/raw artifacts stay ignored.
+
+Two memory81 C variants failed exact resolved comparison and remain private;
+failed exact variants now total11, with one earlier matching compiler failure.
+Other name-binding/test-fixture/tool-launch failures are separate categories.
+Net exact recovery since00:30:01 is5 functions, 1.49/hour including native,
+provenance and review work. Measured native projection integration 533.10s
+from public preparation through tests/review/archive proof, excludes prior draft
+preparation and is elapsed wall time rather than isolated active labor.
+Two light workers plus one independent reviewer remain the limit; no extra
+recovery worker is justified. The next concrete gates are the actual client Q
+boundary and resource cursor initialization, then one full player update and
+repeated native frames connected to rendering.
+
 ## 2026-10-12 - Exact resident request state helpers accepted
 
 Added complete resident163928/30h,1638E8/3Ch and1639F0/8h from independently

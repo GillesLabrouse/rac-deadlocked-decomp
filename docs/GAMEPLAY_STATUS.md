@@ -1,3 +1,19 @@
+# Current checkpoint - 2026-10-12 - 321 exact / 109 native tests
+
+Native world projection00628210 is integrated and validated against complete
+original RAM effects, including an archive-linked proof. All109 native tests
+pass. Original world577990 also returns in an isolated source-backed diagnostic;
+the separate client now publishes its history pointer but stops at an unsupported
+exceptional VRSQRT path whose Q result is actually consumed. No full startup,
+player update, controllable Ratchet, repeated gameplay loop or new visible
+renderer behavior. Matching remains321 exact/0 mismatches,0.563% code.
+
+Before playability: resolve real initialization and required client arithmetic,
+execute one complete player update, repeat with input/movement/collisions, and
+connect live actor/animation/follow-camera state to the viewer. There is no reliable
+calendar estimate yet. Private drafts and diagnostic microcases do not raise
+matching coverage or prove live frames. Detailed evidence: PROGRESS_LOG.md.
+
 # Current checkpoint - 2026-10-12
 
 321 exact functions (0 mismatches,0.563% code); last108 native tests pass.
