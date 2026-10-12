@@ -1,5 +1,55 @@
 # Local development progress
 
+## 2026-10-12 - Exact context setter and relocation-aware archive navigation
+
+Complete resident func_01EA0658/10h is accepted in src/net/01EA0658.c after
+commands88 recovery, independent raw/caller/ELF-relocation review, root isolated
+recompilation and real resolved comparison. It reads the context pointer cell
+167EFC and writes argument0 to context+10 in JR delay. The observed1EA1858
+caller supplies zero and does not consume incidental V0; C interface is void.
+No initialized context, allocation, kernel result or session success is implied.
+
+The prior config/libc.tsv srand row was independently disproved for both local
+shipped archive binaries: their fixed+58 store differs from actual+10, with only
+HI16/LO16 pointer relocations. Removed that false hint only. Repaired map_archive
+uses actual ELF relocation fields, preserves all other constants, requires short
+zero-only terminal padding and refuses ambiguous candidate sets, even when one
+alternative was already taken. It keeps object streams alive while reading
+relocations. Unsupported relocations cannot generate mappings. This tool supplies
+navigation hints, not resolved-address matching or confirmed library ownership.
+Candidate guard now exposes unrecovered resident libc/libm/libgcc hints for
+review and ignores same-address foreign overlay entries. Workflow documents this.
+
+Nine new mapper/inventory regressions and five existing relocation regressions
+pass. A first inventory test run failed on the sandbox temporary location before
+exercising the code; tests now use a temporary directory within the repository.
+Independent source/tests review passes all nine new cases. Root also exercises
+the repaired helper with actual3.01/2.4 srand ELF symbols/relocations, both refused,
+and root's genuine compiled setter, uniquely identified. No full archive/config
+regeneration was run. Remaining older library hints are not promoted by this fix.
+
+Central incremental build compiles1 of268 sources and reuses267. Actual-relocation
+audit passes323 exact/0 bad; all273 game functions link fully resolved with zero
+mismatches/object failures. Progress regeneration and --check pass323/15766,
+0.564% code. Root initial compiler/link sandbox failures are retained separately;
+authorized isolated reruns succeeded. The linked16-byte output equals the actual
+raw hash12d40cfbc139fc4eb6df0b32df99e674a1e2dc8316dafb488872716c0b9f30fa.
+Root integration took433.5s wall including parallel player research and
+review. Seven accepted functions since00:30:01UTC, 1.44/wall hour at
+05:21:38UTC. Failed-byte variants17, C compiler failures2;
+GP link representation failure is separate. Last native suite remains111 pass;
+native code is unchanged by this matching source and no redundant suite was run.
+
+Private player diagnostic now exports real FPR values in immutable v5, correcting
+v4's dict-key metadata; numeric execution and RAM/VU outcomes are unchanged.
+An explicitly attributed one-site PCSX2 numeric model at6A7FAC for(+2,+0)
+advances the explicit partial-state frame from403EE to428EE, then refuses the
+second RSQRT6A8014 with(-3,+0). RealWAITQ6A7FBC executes before Q consumption;
+status/readiness taint stays active and forbids unknown control/CALLMS use.
+This is not physical Q/flags proof, a complete frame, native acceptance or gameplay.
+Independent constructor/snapshot replay and model guards are still in progress.
+No new visible controls, controllable Ratchet, complete client startup or push.
+
 ## 2026-10-12 - Owned PC synchronization and genuine snapshot-mode player linkage
 
 Native pc_startup_sync.cpp/h now implements a new PC platform service owning

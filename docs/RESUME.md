@@ -1,6 +1,6 @@
-# Active checkpoint - 2026-10-12 - 322 exact / 111 native tests
+# Active checkpoint - 2026-10-12 - 323 exact / 111 native tests
 
-Accepted matching remains322/0 bad,272 resolved,0.564% code. All111 native
+Accepted matching remains323/0 bad,273 resolved,0.564% code. All111 native
 tests pass in7.78s. New owned PC synchronization service is validated and
 integrated as a separate platform library, with no guest startup wiring yet.
 Viewer remains scenery/prepared poses; no controllable Ratchet or live loop.
@@ -15,8 +15,8 @@ Strict client537D00 and attributed-model signed-zero537EA4 remain unresolved.
 
 Next: authentic local bootstrap and client data/arithmetic, one complete player
 update, repeated input/movement/collision, live actor/animation/follow-camera.
-No reliable ETA. Commands88 exact setter awaits correction of a demonstrated
-false libc mapping hint; do not count it yet. Mismatch attempts17, compiler
+No reliable ETA. Commands88 exact setter is accepted after correcting the false libc hint.
+Archive navigation and candidate inventory now preserve actual relocations. Mismatch attempts17, compiler
 failures2, GP link failure separate. Root owns public/config/final validation.
 Detailed evidence: PROGRESS_LOG.md; older checkpoints are history. No push.
 

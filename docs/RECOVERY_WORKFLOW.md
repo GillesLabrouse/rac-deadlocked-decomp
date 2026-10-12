@@ -44,7 +44,14 @@ do not establish an exact match.
 Before each new lot, run `tools/check_recovery_candidates.py --native-evidence`
 for its actual address names. Search accepted native headers, drafts and earlier
 receipts before recovering another copy or declaring a missing producer. The
-optional native mentions are navigation hints only: inspect the referenced
+guard reports unrecovered resident library hints as
+`library_mapping_requires_review`, including libc rows absent from source
+coverage. Inspect the archive object's actual relocations and unmasked structure
+offsets before deciding ownership. A library hint is not an exact match or a
+reason to assign the same address in another overlay to that library.
+`map_archive.py` preserves constants, requires actual relocation compatibility
+and refuses ambiguous candidates. Full resolved matching checks remain required.
+The optional native mentions are navigation hints only: inspect the referenced
 level, ABI, supported domain and proof before reuse. They do not change matching
 availability, prove function coverage or establish shared overlay addresses.
 For global writers, also inspect direct LUI plus displaced stores; searching

@@ -40,12 +40,29 @@ def inventory(names, owned=(), include_native=False):
         for symbol in symbols:
             sources.setdefault(symbol, []).append(path)
     reserved = set(owned)
+    library_hints = {}
+    for library in ("libc", "libm", "libgcc"):
+        path = progress.ROOT / "config" / (library + ".tsv")
+        if not path.exists():
+            continue
+        for line in path.read_text().splitlines():
+            if not line or line.startswith("#"):
+                continue
+            member, symbol, address, size = line.split("\t")
+            library_hints.setdefault(int(address, 16), []).append({
+                "library": library, "member": member, "symbol": symbol,
+                "size": int(size, 16)})
     result = []
     for name in names:
+        function = functions.get(name)
+        hints = [] if function is None or function["seg"].startswith("ovl_") else library_hints.get(function["addr"], [])
         reason = ("unknown_canonical_name" if name not in functions else
                   "already_recovered" if name in sources else
-                  "owned_by_another_batch" if name in reserved else "available")
+                  "owned_by_another_batch" if name in reserved else
+                  "library_mapping_requires_review" if hints else "available")
         item = {"name": name, "status": reason, "sources": sources.get(name, [])}
+        if hints:
+            item["library_hints"] = hints
         if include_native:
             item["native_mentions"] = native_mentions(name)
         result.append(item)
