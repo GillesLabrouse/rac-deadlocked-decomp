@@ -1,3 +1,26 @@
+# Current checkpoint - 2026-10-12 - Movement basis / 323 exact / 114 tests
+
+Four independently validated startup pool leaves and the current-frame model
+helper remain integrated. The new selected movement-basis API produces the
+two complete orientation matrices through the genuine67C3B4 delay store.
+Independent raw EE/MMI/defined C60XY projection and final central archives
+agree on39 fullRAM comparisons/37unique inputs/1267728384bytes. Unknown
+machine banks, physical precision/flags, stack/ABI/callee/frame remain excluded.
+All114 native tests pass in7.18s. Exact323/0bad,273resolved,0.564% unchanged.
+
+The original full-bank diagnostic remains guarded at v32/67C224 after8237EE/
+5233VU; no complete player update has returned. Initializer/client/provider
+remain incomplete. Live animation context/skeleton/matrix links are proven;
+actual render-side geometry/skin resource binding remains unresolved. Viewer
+still shows scenery/prepared poses, with no controllable Ratchet or gameplay loop.
+
+Next: compose verified movement/radius/position/collision dependencies on the
+actual caller path, close authentic startup/provider, and establish live mesh/
+skin rendering and follow camera. No reliable ETA/readiness percentage. Root
+owns integration/reports/configs/final build; workers use exclusive new paths.
+Read PROGRESS_LOG.md for precise proof scopes and preserved failure corrections.
+No push. Older checkpoints are retained as history.
+
 # Current checkpoint - 2026-10-12 - Four startup pools / 323 exact / 113 tests
 
 Actual L01 startup pool leaves6670B8(index2),6671D0(index3),6672E8(index4)

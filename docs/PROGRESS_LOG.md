@@ -1,5 +1,85 @@
 # Local development progress
 
+## 2026-10-12 - Defined movement orientation matrices integrated natively
+
+The new movement-basis API consumes actual Player+B0/B4/B8 angles and publishes
+two complete 4x4 matrices at +20..9F. Its exact selected boundary includes the
+real 67C3B4 JAL delay-slot store before callee67B9B0, completing the transpose
+that the older frozen prefix omitted. The rest of the record is preserved.
+Supported numeric/backing/rounding refusals are atomic. It requires truthful
+exclusive backing, FE_TONEAREST and gradual host underflow. Ordered host
+binary32 uses the existing angle-pair API's explicit signed-zero flushing model.
+It remains an approximation; original GPR/VU/ACC banks, stack, call/return ABI,
+floating flags, callee execution and enclosing player/frame are excluded.
+
+The independently coded reference decodes all107 actual EE/MMI words plus the
+raw C60 XY data cone for each of three calls. It carries nonzero GPR upper64
+and C60 Z/W as unknown tokens, rejecting any unknown word reaching a store.
+It never calls the native angle helper or copies candidate matrix formulas.
+Twenty private complete-RAM comparisons/18 unique angles pass in447.5s within
+eight minutes. This is a defined-output projection, not whole-machine replay.
+The strict full-bank oracle remains guarded at v32/67C224; no lane or captured
+return is injected to advance it.
+
+Root verifies raw level/resident input hashes and all107 word bindings, stages
+the public component, and adds five independent synthetic expected-bit fixtures
+at every host offset0..7. Tests cover the asymmetric final transpose column,
+outside-output preservation, every-angle invalid numeric inputs, null/short/
+wrapped backing, non-nearest rounding and flush-to-zero refusal. Fixture v1
+used a wrong JSON key and v2 guessed the wrong row count; those harness failures
+and the missing-test CMake generation failure remain private. Corrected v3
+checks the actual107 rows before producing fixtures. The separate environment-domain failure and its fix are recorded below;
+no matching coverage is assigned to this component.
+
+The central native build succeeds; all114 tests pass in7.18s. A DLL linked
+against the final central archives repeats39 full32505856-byte RAM comparisons,
+37 unique inputs and1267728384 bytes total, plus21 paired unsafe-angle refusals
+and three backing guards. Sources, references, DLL and archives stay unchanged.
+Staging through build/tests/final archive proof takes467.0s, excluding earlier
+recovery/reference work and later documentation/commit; source-review follow-up
+and the environment guard correction are included.
+The final read-only delta review agrees on arithmetic and publication, but
+its additive note identifies a DAZ-only environment concern. Root executes an
+isolated witness: the frozen private candidate accepts raw subnormal00000001
+with DAZ and DAZ+FTZ and publishes RAM, contradicting the numeric domain.
+That is one implementation-domain issue observed in two environment cases.
+The final guard verifies both subnormal output and operand preservation before
+reading caller angles. New public tests cover DAZ-only, FTZ-only and both, with
+normal angles; the isolated raw-subnormal witness now refuses atomically in
+all four environments. MXCSR is restored. The second final-archive proof uses
+a new v2 prefix; prior failing candidate/proof/review artifacts are preserved.
+The initial delta review takes95.9s; additive concern freeze brings its total to
+194.6s,74.6s beyond the two-minute request. It performed no independent rebuild.
+
+New exact functions in this batch:0; matching stays323/0bad,273resolved,0.564%.
+Worker recovery throughput must not count this approximate native component.
+
+Commands118 independently confirms the live class/context skeleton and animation
+pointer fields and the actual player update/reset/constructor vtable slots.
+Its examined689090 update chain supplies no render-side geometry/weight binding.
+The next visual edge remains actual render traversal to selected geometry/skin
+resource; neither joint count nor Armor0 offline pairing proves it. Its bounded
+read-only lot takes190s and produces no draft/accepted function. Memory126's
+index5 private candidate has root50-case validation but is not integrated here.
+The accidentally misrouted index5 result previously overwrote Memory125 JSON;
+it is preserved separately and the old JSON is restored only after regeneration
+matches its exact prior SHA256. Root verifies the restoration and stable accepted
+source/final proof. Future worker harnesses must assert exclusive new output paths.
+
+Memory127 audits the startup wrapper first-stage family at378B78/378BB0.
+Its raw instructions establish count3B0048 and stride3B0110, correcting older
+Memory115 prose that named3B0090. The separate latter array is not consumed by
+those six first-stage leaves. Index1..5 serialized counts are zero but still
+publish three words each; index6 has512 records at stride1C. This bounded
+176.5s audit supplies no C/compiler/frame claim. The available normalized L00
+candidate is navigation only; actual L01 per-leaf bindings need independent
+validation before reuse. Original reports and corrected evidence are retained.
+
+No new viewer behavior, controllable Ratchet or complete repeated gameplay loop
+is claimed. Next: compose the actual movement caller with independently verified
+radius/position/collision dependencies, close authentic startup/provider, and
+establish live mesh/skin rendering. All changes remain local; no push.
+
 ## 2026-10-12 - Movement basis draft remains outside accepted sources
 
 A bounded source-only RAM prefix draft and static journal are frozen after
