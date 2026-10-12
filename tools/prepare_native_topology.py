@@ -161,7 +161,7 @@ def prepare(container, matrices, identity, textures, library, output, actor_mask
     status = dll.dreadzone_topology_prepare(C.byref(topology))
     if status != 1 or not triangle_count.value:
         raise ValueError(f"Native topology diagnostic refused: {status}")
-    textures = [Path(p).resolve() for p in textures]
+    textures = [Path(p).resolve() if p is not None else None for p in textures]
     groups = defaultdict(list)
     for triangle in triangles[:triangle_count.value]:
         if triangle.texture < 0 or triangle.texture >= len(textures):
@@ -171,7 +171,9 @@ def prepare(container, matrices, identity, textures, library, output, actor_mask
             display = tuple(position[i] * scale for i in (1, 0, 2))
             if not all(math.isfinite(v) for v in display):
                 raise ValueError("Nonfinite diagnostic position")
-            groups[textures[triangle.texture]].append((*display, st[0] / 4096, st[1] / 4096, 1, 1, 1, 1))
+            color = 0.5 if textures[triangle.texture] is None else 1
+            groups[textures[triangle.texture]].append(
+                (*display, st[0] / 4096, st[1] / 4096, color, color, color, 1))
     report = write_package([(groups, [IDENTITY], "Original selected native topology diagnostic")], output, paths)
     report.update(kind="native-model-topology-diagnostic", native_blend_status="APPROXIMATE",
                   native_topology_status="DIAGNOSTIC", joint_count=joint_count,

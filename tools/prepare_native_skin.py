@@ -51,7 +51,7 @@ def bind_matrices(core_path, animation_library, output):
 
 def read_mesh(core_path, textures, animation_library, model_library):
     core_path = Path(core_path).resolve()
-    textures = [Path(texture).resolve() for texture in textures]
+    textures = [Path(texture).resolve() if texture is not None else None for texture in textures]
     import tempfile
     with tempfile.TemporaryDirectory(prefix="native-bind-", dir=core_path.parent) as directory:
         work = Path(directory).resolve()
@@ -71,7 +71,8 @@ def read_mesh(core_path, textures, animation_library, model_library):
         for _ in range(texture_count):
             size = struct.unpack_from("<I", data, offset)[0]
             png = data[offset + 4:offset + 4 + size]
-            match = next((path for path in textures if path.read_bytes() == png), None)
+            match = next((path for path in textures
+                          if path is not None and path.read_bytes() == png), None)
             if match is None:
                 raise ValueError("Native core topology used a texture outside the supplied class materials")
             scene_textures.append(match)
@@ -85,15 +86,21 @@ def read_mesh(core_path, textures, animation_library, model_library):
             first, count, texture_id, instance_start, instances = struct.unpack_from("<5I", data, batches_start + index * 20)
             if texture_id > texture_count or instance_start != 0 or instances != 1:
                 raise ValueError("Native core topology batch has unsupported material or instances")
-            if first + count > vertex_count or count % 3:
-                raise ValueError("Native core topology batch exceeds its geometry")
+            if first + count > vertex_count:
+                raise ValueError(f"Native core topology batch {index} ({first}+{count}) exceeds {vertex_count} vertices")
             values = struct.iter_unpack("<9f", data[vertex_start + first * 36:vertex_start + (first + count) * 36])
             groups[scene_textures[texture_id - 1] if texture_id else None].extend(values)
         if sum(len(group) for group in groups.values()) != vertex_count:
             raise ValueError("Native core topology batches do not cover every vertex")
+        trailing_vertices = 0
+        for group in groups.values():
+            complete = len(group) - len(group) % 3
+            trailing_vertices += len(group) - complete
+            del group[complete:]
     return groups, {"pose": "native bind pose; no animation selected", "game_pose_verified": False,
                     "joints": joints, "triangles": report["prototype_triangles"],
+                    "vertices": report["vertices"], "unrenderable_trailing_vertices": trailing_vertices,
                     "packets": report["packet_count"], "core_sha256": hashlib.sha256(core_path.read_bytes()).hexdigest(),
                     "native_triangles_sha256": report["native_triangles_sha256"],
                     "matrix_sha256": hashlib.sha256(matrices).hexdigest(),
-                    "textures": [str(path) for path in textures]}
+                    "textures": [str(path) if path is not None else None for path in textures]}

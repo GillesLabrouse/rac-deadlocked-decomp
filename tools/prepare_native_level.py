@@ -124,6 +124,42 @@ def class_meshes(directory):
     return exported_class_meshes(directory, "TieClass", ".dae", "static object")
 
 
+def native_material_textures(definition):
+    """Resolve native material slots in order, retaining explicit untextured slots."""
+    definition = Path(definition).resolve()
+    roots = [root for root in asset_text.read(definition) if root.kind == "MobyClass"]
+    if len(roots) != 1:
+        raise ValueError("Native core definition must contain exactly one Moby class")
+    materials = [child for child in roots[0].children if child.kind == "materials"]
+    if len(materials) > 1:
+        raise ValueError("Native core definition has duplicate material tables")
+    if not materials:
+        return sorted(definition.parent.glob("*.png"),
+                      key=lambda path: int(path.stem) if path.stem.isdecimal() else path.name)
+    result = []
+    for material in materials[0].children:
+        if material.kind != "Material":
+            continue
+        textures = [node for node in material.children
+                    if node.kind == "Texture" and node.name == "diffuse"]
+        if len(textures) > 1:
+            raise ValueError("Native material has duplicate diffuse textures")
+        if not textures:
+            result.append(None)
+            continue
+        source = textures[0].attributes.get("src")
+        path = (definition.parent / source).resolve() if isinstance(source, str) else None
+        if path is None or not path.is_relative_to(definition.parent) or not path.is_file():
+            result.append(None)
+        else:
+            result.append(path)
+    if not result:
+        result = sorted(definition.parent.glob("*.png"),
+                        key=lambda path: int(path.stem) if path.stem.isdecimal() else path.name)
+        return result or [None]
+    return result
+
+
 def moby_matrix(position, rotation, scale):
     if (not isinstance(position, list) or len(position) != 3 or
             not isinstance(rotation, list) or len(rotation) != 3 or
@@ -431,6 +467,10 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     bind_pose_report = {}
     if include_native_bind_previews:
         import prepare_native_skin
+        native_libraries = (Path(__file__).resolve().parent.parent / "build/native/Release" /
+                            "deadlocked_native_animation_diagnostic.dll",
+                            Path(__file__).resolve().parent.parent / "build/native/Release" /
+                            "deadlocked_native_model_diagnostic.dll")
         for class_id, matrices in sorted(mobys_by_class.items()):
             if class_id in {prototype.get("class_id") for _, _, prototype in prototypes
                             if prototype.get("kind") in ("dynamic-object-preview",
@@ -439,12 +479,10 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             if class_id not in moby_core_sources or class_id not in moby_source_definitions:
                 continue
             core, definition = moby_core_sources[class_id]
-            material_textures = sorted(core.parent.glob("*.png"), key=lambda path: int(path.stem) if path.stem.isdecimal() else path.name)
             try:
+                material_textures = native_material_textures(definition)
                 groups, skin_report = prepare_native_skin.read_mesh(
-                    core, material_textures,
-                    Path(__file__).resolve().parent.parent / "build/native/Release/deadlocked_native_animation_diagnostic.dll",
-                    Path(__file__).resolve().parent.parent / "build/native/Release/deadlocked_native_model_diagnostic.dll")
+                    core, material_textures, *native_libraries)
             except (ValueError, OSError) as error:
                 omitted_mobys[class_id] = {
                     "reason": "native core bind-pose diagnostic failed: " + str(error),
@@ -456,7 +494,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                                   "pose": "native core bind pose; no animation/game frame",
                                                   "game_pose_verified": False}))
             omitted_mobys.pop(class_id, None)
-            inputs.extend((core, definition, *material_textures))
+            inputs.extend((core, definition,
+                           *(path for path in material_textures if path is not None)))
             bind_pose_classes.add(class_id)
             bind_pose_report[class_id] = skin_report
             rendered_moby_placements += len(matrices)
@@ -466,7 +505,9 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         sky_prototypes, sky_inputs, sky_report = prepare_native_sky.sky_prototypes(level)
         prototypes.extend(sky_prototypes)
         inputs.extend(sky_inputs)
-    if dynamic_only and not any(row[2]["kind"] == "dynamic-object-preview" for row in prototypes):
+    if dynamic_only and not any(row[2]["kind"] in ("dynamic-object-preview",
+                                                     "dynamic-object-native-bind-pose-preview")
+                                for row in prototypes):
         raise ValueError("Selected dynamic class has no renderable placements in this mission")
     report = write_package(prototypes, output, inputs)
     report["static_object_placements"] = 0 if dynamic_only else len(ids)

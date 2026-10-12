@@ -120,6 +120,21 @@ class NativeLevelTests(unittest.TestCase):
         self.assertAlmostEqual(matrix[1],2,places=5)
         self.assertEqual(matrix[12:15],(3,4,5))
 
+    def test_native_material_slots_preserve_missing_diffuse_maps(self):
+        definition = self.level / "native-materials.asset"
+        texture = self.level / "0.png"
+        texture.write_bytes(b"fixture")
+        definition.write_text('''MobyClass native { id: 17 materials {
+          Material 0 { name: "textured" Texture diffuse { src: "0.png" } }
+          Material error { name: "error" }
+        } }''')
+        self.assertEqual(level.native_material_textures(definition), [texture.resolve(), None])
+
+    def test_native_material_table_without_slots_uses_untextured_slot(self):
+        definition = self.level / "empty-native-materials.asset"
+        definition.write_text('MobyClass native { id: 18 materials { } }')
+        self.assertEqual(level.native_material_textures(definition), [None])
+
     def test_moby_xyz_order_matches_transposed_native_actor_basis(self):
         x, y, z = 0.31, -0.72, 1.07
         sx, sy, sz = math.sin(x), math.sin(y), math.sin(z)

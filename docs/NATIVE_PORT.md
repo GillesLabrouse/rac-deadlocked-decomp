@@ -1534,12 +1534,15 @@ animation. The local `core.bin` files do contain skeleton and bind records for
 classes 2460, 8273, 8496, 8554 and 9427; class 511's core is in the global
 class directory. The opt-in `--include-native-bind-previews` path applies the
 native skeleton initialization, general-matrix and bind-pose stages, then the
-native vertex/topology diagnostic. It adds this static pose to a mission scene
-without changing the GLB preview path or default scene. This is useful for
-checking recovered geometry and placements, but it is not a live animation or
-game pose. Per-class axes, placement orientation, actor mask/LOD, visibility,
-and animation remain unverified, so the JSON explicitly marks
-`game_pose_verified: false`.
+native vertex/topology diagnostic. Across all 46 variants, this currently adds
+35 unique class IDs and 2,394 placement occurrences, including exact-hash core
+reuse between variants. Missing diffuse maps render as neutral gray, and an
+orphan trailing vertex is excluded from the viewer package and recorded in the
+per-class report. It adds this static pose to a mission scene without changing
+the GLB preview path or default scene. This is useful for checking recovered
+geometry and placements, but it is not a live animation or game pose. Per-class
+axes, placement orientation, actor mask/LOD, visibility, and animation remain
+unverified, so the JSON explicitly marks `game_pose_verified: false`.
 
 To inspect these native core previews in the mission-0 scene:
 
@@ -1553,10 +1556,15 @@ build/native/Release/deadlocked_native_scene_viewer.exe `
   --capture build/native-assets/dreadzone-mission-0-native-bind.png --software
 ```
 
-The batch totals above predate native core bind-pose previews and should not be
-read as the final recoverable geometry count. The 3,760 classes without editor
-meshes and 45 classes without drawable triangles still need independent source
-geometry or topology recovery.
+The earlier batch totals predate native core bind-pose previews. With this
+addition, the 46 variant reports sum to 23,050 previewed placements and 3,920
+omitted placements. These are variant-placement totals, not a single active
+level. The remaining omissions include 3,760 placements with no exported
+editor mesh, 80 where native skeleton initialization refuses the core, 45
+with unsupported core layouts, 24 where native bind application refuses the
+core, and seven with ambiguous cross-mission mesh variants; four more have no
+exported class definition. These still need independent source geometry,
+skeleton, or topology recovery.
 
 The batch rebuild also checks every other Dreadzone mission export for a
 matching class mesh. It reuses that mesh only when all exported GLB byte hashes
