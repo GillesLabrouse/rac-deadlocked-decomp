@@ -1,5 +1,49 @@
 # Local development progress
 
+## 2026-10-12 - Exact resident request state helpers accepted
+
+Added complete resident163928/30h,1638E8/3Ch and1639F0/8h from independently
+reviewed C recovery. Real HI16/LO16 globals resolve to21D940; real call
+relocations resolve to163928/1634F0. Full unmasked comparisons pass, including
+executed delay slots and excluding neighboring padding. The completion
+callback keeps its unused A0 argument and loads through A1. These predicates
+and the cancellation flag do not implement a disk read or completion.
+
+Central incremental C builds, actual-relocation audit321/0, full resolved
+game link271/0 and190-function resident reconstruction pass. Reconstructed
+section bytes equal the original. Progress321/15766,0.563% code; the last
+native suite remains108 passes, unchanged by these matching sources.
+No native frame, playable control, renderer change or push.
+
+Independent isolated linker Windows623 failures and one WSL compiler-launch
+failure were preserved, followed by successful authorized retries. These
+are infrastructure failures, not additional compiler/matching failures.
+Net exact recovery is5 functions in164.90min,
+1.82/hour including native work, provenance and reviews.
+Nine failed exact variants and one earlier matching compiler failure remain
+recorded; all three new candidates succeeded with one C variant each.
+Observed first public source to final verification:898.15s;
+includes parallel provenance work, excludes prior drafts/review preparation,
+and is not measured active integration labor. Keep two light workers and
+one independent reviewer; no additional recovery worker justified.
+
+Concrete startup edge: actual159AB0/178h reads2/1/5 sectors and copies
+C68/2A0/26F0 bytes into1CEBF0/1CF858/1CFAF8. The older159AA8 catalog
+container begins with orphan words before the actual prologue, not the
+preceding function delay. Initial request uses original selector; later
+two use its normalized form. Direct callers pass mutable21DE10 or distinct
+resident2212E0/L01222B80 values. Actual startup selection remains open.
+
+An explicit selector1 original-ISO fixture identifies metadata12D845,349,
+1E2F and its primary read12DB8E/1E2F sectors. Primary descriptor+10/+14
+selects540040/BCC0 serialized header, whose+8=0 and+34=2700. Descriptor
++50 supplies the actual WAD decoding to14214848 bytes; its true world
+source float+8=24, yielding original577990 vector144/96/48. This is data
+identity and extraction, not executed159A00/583980/loader completion.
+The earlier standalone gameplay-core+8 is a different source. Runtime
+world-record pointer223640, callback completion, full client initialization
+and first player frame remain the next gates. All retail inputs stay ignored.
+
 ## 2026-10-12 - Native client history copies accepted; loader producer route corrected
 
 Complete L01 00535200 RAM effects and both actual0055D470 copies are now in

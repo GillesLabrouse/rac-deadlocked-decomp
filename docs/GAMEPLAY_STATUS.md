@@ -1,3 +1,12 @@
+# Current checkpoint - 2026-10-12
+
+321 exact functions (0 mismatches,0.563% code); last108 native tests pass.
+Three matching request-state helpers are accepted; actual ISO metadata/header
+source for explicit Dreadzone selection is now identified. No complete client
+startup, repeated player frame or controlled Ratchet. Viewer remains scenery
+and prepared poses. Next: real provider/metadata initialization, complete player
+update, repeated input/movement/collision and live actor/camera rendering.
+
 # Native playable-opening checkpoint
 
 Current checkpoint: 2026-10-12. The Windows executable displays Dreadzone scenery
