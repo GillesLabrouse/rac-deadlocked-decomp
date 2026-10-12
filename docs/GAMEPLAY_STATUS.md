@@ -5,6 +5,20 @@ and a separate prepared animation diagnostic. It does not run a controllable
 Ratchet or a complete gameplay frame. Matching coverage is 318 functions of
 15,766 (0.561% code); this percentage does not measure playable readiness.
 
+The startup RNG31 RAM/return component now passes 1,034 production original
+cases and 328 independent original cases, including descriptor aliases and
+atomic refusals. All 107 native tests pass in 7.11 s. It supplies neither the
+Count source nor kernel activation; matching remains 318 and no player frame
+or visible renderer change is claimed.
+
+The latest explicit client diagnostic runs 696 EE / 118 VU after the complete
+projection component, then stops at 62829C because 223650/54/58 remain zero.
+The matrix routine genuinely writes its nonzero scale240070 beforehand. The
+loader577990 vector producer and its header-relative input are identified;
+authentic serialized parameters and runtime loading remain the immediate gate.
+The preceding descriptor entry has not returned and client+50 is still null.
+Private history-copy drafts remain unaccepted pending hardened bounds/review.
+
 The PC D3D11 completion/reset service now waits for actual submitted work and
 then clears pipeline bindings. It is used after scene uploads; real WARP
 clear/copy/readback tests and independent review pass. Its original 104-test checkpoint passed in 6.46s; the current 106-test suite

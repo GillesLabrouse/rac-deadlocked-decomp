@@ -1,3 +1,55 @@
+# Active checkpoint - 318 exact / 107 native tests
+
+## 2026-10-12 - Native startup RNG31 accepted; player initialization still open
+
+The resident 001633D0 seed/return component is now compiled into the native
+game_random archive. Actual MULT writes its RD destination, so the full uint32
+seed recurrence is seed*3359741+2531011, with a 31-bit masked return. The first
+memory72 arithmetic report omitted that RD write; its separate correction and
+the original failure evidence are retained. This API shares the existing
+validated seed/output preflight, supports unaligned seed storage and borrowed
+descriptors, and supplies no Count source, kernel service or startup invocation.
+
+Production proof passes 1,034 fresh original executions / 4,136 native mapped
+comparisons, 14,476 EE / 0 VU and six atomic refusals. Independent production
+review passes 328 fresh originals / 984 native comparisons, four descriptor
+aliases and eleven atomic guards, 4,592 EE / 0 VU. All 107 native tests pass
+in 7.11 s. No complete gameplay frame or visible renderer change is claimed.
+The production-prepare v1 rejected the intentionally extended public header;
+retained v2 verifies the reviewed HEAD header and only the added declaration
+and comment. The reviewed body, archive, bridge and DLL hashes are frozen.
+
+The actual client component chain now reaches 62829C after 696 EE / 118 VU,
+following the separately verified 135-EE projection component. At that divide,
+223650/54/58 remain zero. The real matrix routine writes nonzero 240070 at
+546EA4 before calling 628210; commands62's negative scan missed the DADDU
+base-register copy and is withdrawn by commands63 and a root raw/RAM audit.
+The vector producer 577990 is called at loader578D98 with A0=S5+[S3+8], where
+S3 is the level header and S5 the current allocation cursor. Authentic schema,
+runtime selected data and complete loader execution are still unresolved.
+The earlier descriptor entry has not returned; client+50 remains null.
+
+Private memory73/74 drafts for actual535200 reproduce four synthetic original
+RAM cases with both real55D470 copies. Original dataflow corrects publication
+to the history-copy destination+70, not client row+70. These drafts remain
+unaccepted: host-span hardening, authentic selected-table bounds and independent
+review are outstanding. The initial expected-model mismatch and native compiler
+environment failure are preserved. No matching credit is attached to drafts.
+
+Matching remains 318/0, 0.561% code. Commands61 adds two failed resolved exact
+RNG variants: this session now has nine failed exact variants and one initial
+matching compiler failure. Native harness/compiler preparation failures are
+recorded separately. No new exact function was accepted in these native lots.
+Build/proof/production-review integration took 191.26 s, excluding prior
+source preparation. Session net exact recovery is two functions in 115.16
+min (1.04/hour), including provenance, review and integration. Keep two
+light recovery workers and one independent reviewer; no extra worker is added.
+
+Next: genuine loader parameters and client history setup, then a complete
+player update, repeated input/movement/collision and live actor/camera/animation
+rendering. The existing executable remains a scenery/prepared-pose diagnostic.
+No push, destructive cleanup or extracted game data in tracked sources.
+
 # Active checkpoint - 318 exact / 106 native tests
 
 ## 2026-10-12 - Native client history lookup accepted; startup remains incomplete

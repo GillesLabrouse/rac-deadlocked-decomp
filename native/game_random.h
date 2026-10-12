@@ -17,6 +17,11 @@ enum { DEADLOCKED_RANDOM_COMPLETED=0, DEADLOCKED_RANDOM_INVALID=-1 };
  * This advances the real RNG state; it does not construct a game actor. */
 int deadlocked_random_00163408(const DeadlockedRandomState *,s32 *output);
 int deadlocked_random_0058FF38(const DeadlockedRandomState *,s32 lower,s32 upper,s32 *output);
+/* Complete001633D0 RAM seed/return algorithm using the same storage contract.
+ * The updated seed is returned with bit31 masked, rather than the15-bit
+ * result of00163408. No Count source, time units, machine-bank effects,
+ * kernel service or startup invocation is supplied by this component. */
+int deadlocked_random_001633D0(const DeadlockedRandomState *,s32 *output);
 /* Shared preflight used only by these recovered entry points. */
 int deadlocked_random_storage(const DeadlockedRandomState *,s32 *output,u8 **seed);
 #endif
