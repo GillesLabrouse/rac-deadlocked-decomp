@@ -1,3 +1,41 @@
+# Resume addendum - 2026-10-12 - Selected post-position leaf under independent review
+
+Main accepted state:HEAD36ffe5a,327exact/0bad,277resolved,195 resident
+reconstruction insertions; source report passes. Native sources/build remain
+unchanged with latest119 tests. No push or playable feature added.
+
+Independent166 reproduces684EF0 from its own captured entry in1281EE/0VU,
+all32,505,856 RAM bytes and recorded final banks. Use the post_entry RAM,
+not top-level pre-wrapper input_RAM. Actual extent152C,1530 includes padding.
+VU I was omitted from the entry snapshot; unused on this zero-VU trace, but
+not a complete general bank binding. Receipt:private/sol-post-position166.
+
+Rootv18 now captures actual686420 entry and returned state separately.
+Observed record226=0 and3CC=0 takes the genuine BEQL delay store214=0;
+no vector/length/callee executes, and original whole RAM remains unchanged
+because the reached214 was alreadyzero. Private native v2 implements this
+complete selected return plus actual scalar gate exits; it refuses reached
+length/vector branches atomically. Modified214 positive/NaN fixtures verify
+the real clear rather than a no-op. Eighteen fullRAM comparisons at offsets
+0/1/7 pass (585,105,408 bytes), plus three atomic numerical/dependency refusals.
+Positive scalar-gate arithmetic requires nearest rounding/gradual underflow.
+This is a private selected port, not exact PS2 C or full686420 acceptance.
+
+Draft:build/drafts/root-post-leaf-native-v2/post_leaf.c/.h and DLL.
+Root proof:private/root-post-leaf-native-v2-check.py/.json.
+Input/output capture:private/root-post-leaf-capture-v18/driver.py/result.json.
+Independent167 review in progress:private/sol-post-leaf167. Do not integrate
+before its review and root final archive/wholeRAM/required checks.
+Older v1 and all original failures remain private.
+
+Sphere165 remains held; original trace v16 confirms1905EE/425unique sphere
+PCs, true tree lookup/packed decode/face filters and generation write242350=13.
+Its observer produces the same final RAM and banks as independently reviewedv14.
+No terrain or static-body kernel is silently substituted. The two Luna recovery
+streams are now bounded; initializer168 checks actual canonical L00 separately.
+Root continues native composition, startup providers and first playable scene;
+the next milestone is the Dreadzone base. Active generator/frozen inputs untouched.
+
 # Current checkpoint - 2026-10-12 - Scene recovery and returned post-position component / 327 exact
 
 Two more historical proposals pass final acceptance: resident004D3AE0 (0x98,
