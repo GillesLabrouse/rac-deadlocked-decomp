@@ -1,3 +1,69 @@
+# Current checkpoint - 2026-10-12 - Native position wrapper integrated
+
+Previous goal turn was progress: native post-position control accepted at
+005cbdd. This turn adds bounded native L01 00684A60 position composition.
+It calls the accepted 0067F5E8 state-aware position step, real modulo-3 offset
+schedule, inclination and object predicate, modulo-5 resets and active near-wall
+probe. Wall miss or distance greater than 3 reaches the unsupported sphere
+path and refuses atomically. No callee result or contact is substituted.
+
+The API captures real caller high64, VF25..29 W and two ground/offset-local W
+inputs explicitly. Original API/storage identities and live ownership remain
+hypotheses. Only RAM, reported calls and selected W lanes are published; full
+GPR/FPR/VF/VI/ACC/Q/stack and physical flags/timing remain outside its scope.
+Nearest host binary32 and gradual underflow are required. Independent191 found
+the old private v4 succeeded under FE_UPWARD with nine incorrect RAM bytes.
+V5 adds the environment guard; FE_UPWARD and FTZ/DAZ now refuse atomically.
+
+Complete original-word references cover offset miss, cached inclination and
+active near-wall return. The object-path review initially held adoption because
+all three pointers were null. Root added three genuine complete wrapper replays
+with explicit cache/packet/pool/class inputs: outside range, class499 false and
+class500 true. Each naturally returns at JR684E24 with 109 VU pairs and
+3782/3796 EE steps; real JAL596E48 and delay reload execute. Byte225 is written
+before the predicate; byte224 is written only by the actual true likely branch.
+Independent193 reconstructs all mutation manifests and authenticates every
+body/hash before comparing its own DLL. No branch, bank or result repair.
+
+Final production archive passes 18 complete 32,505,856-byte RAM rows at host
+offsets0/1/7: 585,105,408 bytes, exact selected W/call counts and sentinels.
+All 126 rebuilt native tests pass in 26.33 seconds. New authored-flat-triangle
+regression checks real schedule selection, nested refusal and atomic publication.
+Root adds one test; four introduction diagnostics belong to concurrent work.
+Integration took 904.5 seconds. Accepted native failures: 0.
+Exact recovery this turn: 0 functions, 0/hour; playable additions: 0.
+Receipts: private/root-position-wrapper-production-v1/acceptance.json and
+private/sol-wrapper-production191, private/sol-wrapper-object193. Native source
+and header are native/dreadzone_actor_position_wrapper.c/.h. No push.
+
+190/192 identify the retained A0 high64 producer: actual LQ589660 reads
+70002400 after real DMA setup copies RAM4002C0 to scratch70002000. This is
+input resource data, not initial scratch poisoning or ABI bookkeeping. Immediate
+DMA is a software model; physical timing and resource identity remain unknown.
+194 static C60/caller audit finds W arithmetic lane-local and no W/status read
+in the selected basis matrix stores. W remains real ambient state; do not clear
+it or infer that later callees ignore flags. Original full caller still stops at
+67C224. Typed movement-basis RAM reuse is supported, not a full-bank replay.
+
+186's obsolete first-missing-E90 statement is corrected by its separate file.
+Existing sphere references already execute E90/E10. 189's isolated branch
+helper is unverified and unaccepted; eligible-face/Q geometry and actor paths
+remain required. No matching credit for these reports or partial drafts.
+
+Next: compose the real 67C010 RAM control/callee sequence with validated basis,
+position and post-position APIs, retain truthful caller/resource provenance,
+complete reached sphere paths, then repeated input, skin and camera binding.
+The executable still provides asset/pose viewing and a free camera; no complete
+controlled Ratchet frame is validated. First playable scene precedes Dreadzone.
+Keep two Luna streams and independent review within four slots, without a third
+recovery lane until accepted throughput justifies it. Root owns integration.
+
+Concurrent matching work remains preserved outside this commit. Report --check
+observed a transient unmatched row for func_L01_004D9A80; root neither regenerates
+nor stages that report and does not claim its original compiler validation.
+Sibling generator/benchmark and frozen inputs are untouched. Older entries are
+historical; the prior root matching checkpoint was 330 exact at f00e8a1.
+
 # Current checkpoint - 2026-10-12 - Native post-position control integrated
 
 The bounded native L01 00684EF0 component now composes orientation, visibility,
