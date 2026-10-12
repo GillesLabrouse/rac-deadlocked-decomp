@@ -1,3 +1,43 @@
+# Current checkpoint - 2026-10-12 - Resident initializer and genuine length returns / 328 exact
+
+Accepted resident00503B70 (24bytes) clears three words and returns its input
+pointer. Original SN build, actual relocation audit, exact resolved linking,
+reconstruction and source report pass:328exact/0bad,278resolved/0failures,
+196 resident reconstruction insertions; coverage0.572774302%. The L00
+69B810 occurrence is classified main (resident duplicate), deliberately
+excluded from canonical overlay coverage. Root verified the unique actual
+resident extent and its own callers; no frozen inventory edit or double credit.
+Higher-level storage identity remains unknown. Integration203.6s;1 accepted
+function this goal turn/0 candidate validation failures. No push.
+
+Independent167 validates private686420 zero-return portv2, wholeRAM/low-V0,
+borrowed descriptor alias, lazy GP delay, numerical-mode and atomic guards.
+Root continues the genuine active length branches rather than accepting only
+that exit. Reference169 firstlength case returns naturally after99EE/0VU,
+sets3CC=5 and returnsV0 low3F800000; secondlength case returns in44EE with
+no persistent writes and the same low-V0 bits. Only exact686490 MAXW site is
+added; existing actual SQRT/WAITQ execute. Unknown status/timing taint retained.
+
+Private nativev4 matches24 complete original RAM cases at offsets0/1/7
+(780,140,544 bytes), plus three atomic angle/vector/numeric refusals. It also
+matches the independently frozen169firstlength wholeRAM at three offsets.
+Nonzero3CC returns can carry float bits in V0; no blanket zero-return assumption.
+All executed W/Z squares remain validated even where XY sum omits them.
+A superseded harness still expected refusal on newly supported length cases;
+its failed script is preserved, corrected comparisons use actual original
+returns. The v3 draft had an unused-local /WX compile failure; v4 corrects only
+that declaration. No native source is adopted before independent171 review.
+
+Artifacts:build/drafts/root-post-leaf-native-v4/post_leaf.c/.h;
+private/root-post-leaf-native-v4-extended-check.py/.json and
+root-post-leaf-native-v4-length-check.py/.json. Original capturesv18 remain
+frozen; original169 reports live inprivate/sol-post-leaf-length169.
+Independent171 is running;172 investigates actual angle/integrator/C60 branch.
+Full686420 and684EF0 native composition are still incomplete. Native119/119
+remains the latest passing suite for unchanged native sources/build.
+No new viewer/playable behavior. Continue the first native playable scene,
+then the Dreadzone base; source generator/frozen inputs remain untouched.
+
 # Resume addendum - 2026-10-12 - Selected post-position leaf under independent review
 
 Main accepted state:HEAD36ffe5a,327exact/0bad,277resolved,195 resident
