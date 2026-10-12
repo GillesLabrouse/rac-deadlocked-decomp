@@ -1,5 +1,96 @@
 # Local development progress
 
+## 2026-10-12 - Six first-family startup leaves integrated after corrections
+
+The first-family native API now covers all six actual L01 leaves called by
+667668: 667988, 667AA0, 667BB8, 667CD0, 667DE8 and 667F00. Their complete
+280-byte bodies are checked independently against L01. Control/pool tables
+are 368B78 / 368BB0: LUI37 plus signed ADDIU8B78/8BB0 resolves into 36xxxx.
+Earlier Memory127 prose and repeated progress entries incorrectly named
+378B78 / 378BB0. This entry supersedes those address claims; the original
+reports and failed variants remain preserved. Count base is 3B0048 and stride
+base is 3B0110. Each leaf has its own verified pool address and +C identifier:
+pools 389C70/389C68/389C78/389C80/389C88/389C90 and tags
+3B00E0/3B00F8/3B00C8/3B15F0/3B00B0/3B1608. A single shared tag was wrong.
+
+Actual record order is +C tag, +8 previous, +4 next, with true first/last links.
+The supported RAM contract requires truthful exclusive linear backing <=16MiB
+below 2GiB, disjoint descriptor, mapped selected tables and positive-count
+record footprint, count <=4096, nonnegative word-divisible stride and no record
+overlap with this leaf's reread metadata cells. Strides 0/4/8 retain their real
+overlapping writes. Nonpositive counts publish only three table words and do
+not read stride. This API supplies neither allocation/BSS origin nor CPU/stack
+ABI, partial faults or the enclosing wrapper. Serialized maps contain a
+zero-NOBITS fixture; they are not proof of live initialization values.
+
+Worker Memory129 preserves wrong table bases, wrong record fields, shared-tag
+errors, two build-format failures and an invalid unaligned-host refusal test.
+Its additive receipt correctly separates 12 successful comparisons from six
+refusal checks. Its exploratory constant-pair scripts also retain a failed
+adjacency assumption and a syntax error. Root finds a further missing stride
+alignment guard: the old native candidate publishes odd-stride records while
+actual SW faults. Six executed witnesses confirm that domain failure.
+Separate corrected source refuses those strides, uses the true last-record+10
+footprint and fixes the stale store-order comment. No failing variant is adopted.
+
+Root's corrected private DLL passes 306 full-RAM comparisons (95,256,576 bytes),
+5,024,541 original EE instructions, 431,034 intended ordered-store checks and
+40 atomic refusals across all six leaves. All per-leaf table/pool/tag values
+are also checked against the actual executed store trace. A fresh independent
+review adds 18 native edge checks: short exact footprints, metadata overlap,
+and zero count with unmapped stride for every index. Its recorded check time
+covers execution only, not total review wall time. The minimal task context
+avoids replaying old reports as address evidence.
+
+The central build and all 114 native tests pass in 28.58s. A separate DLL linked
+from the final central archive repeats all 306 comparisons and 40 guards.
+Initial staging through build/tests/first archive proof takes 92.8s. The
+whitespace check catches doubled CR line endings copied from the private source.
+The old source is preserved; normalization removes only line-ending/EOF bytes,
+with unchanged C tokens. Rebuilt startup tests and a separate v2 final-archive
+proof repeat all 306 comparisons and 40 guards. Initial staging through that
+formatted final proof takes 583.6s, including intervening documentation and
+format repair; earlier recovery/review and later commit remain excluded. This adds one native API serving
+six original leaves, plus zero exact functions. Both pool families' eleven leaf
+behaviors are native; their wrapper/control effects, provider, full initializer
+and authentic PC startup are not thereby completed. Matching remains
+323 / 0 bad / 273 resolved / 0.564%. No push or new viewer behavior.
+
+## 2026-10-12 - Explicit position component reaches collision scalar clamp
+
+An explicit actual 684A60 diagnostic consumes the typed basis projection and
+completed radius RAM, while retaining v32 diagnostic machine banks. It does
+not supply authentic caller banks or advance the stopped full player oracle.
+Its genuine 67F5E8 call reaches canonical VF0 MAXW at 67F86C after 111 EE.
+The individually authenticated allowed-site addition writes VF2 = all ones;
+root checks complete passive banks/RAM/stack/Q uncertainty and four atomic
+noncanonical-VF0 refusals. Independent static review finds no defect but performs
+no execution. Its 231.2s interval exceeds the two-minute request by 111.2s.
+
+A fresh diagnostic reaches a second independently read canonical MAXW at
+67EFA0 after 210 EE. Its actual word, sources and VF2 destination are verified;
+the same complete-bank/four-refusal checks pass with pending uncertainty intact.
+Fresh v3 reaches scalar MAX at 67F2AC (word46006B68) after 293 EE / zero VU
+program pairs. That site remains refused pending proper operand/domain checks.
+No complete position wrapper, repeated player update or playable frame returns.
+The strict full-bank v32 movement C60 guard remains unchanged.
+
+Commands120 verifies complete L01 side-probe helper6708B0 (1A0 bytes), its two
+68A340 calls and actual 53DC70 query with mask2, null ignored actor/cache.
+Existing side-offset and full wall-probe APIs are useful dependencies, but real
+packet/tree/grid/pool data and supported geometry still matter. A missing
+canonical inventory name blocks exact recovery acceptance; it is a navigation
+issue, not a reason to invent a miss or to claim the native path is implemented.
+The final artifact audit is 374.6s from dispatch, 14.6s beyond six minutes; its
+bounded work/receipt freeze occurred earlier. No C or compiled variant results.
+
+Continue the actual collision/position path and close startup wrappers/provider.
+Live mesh/skin selection, full returned player update, repeated real input and
+follow-camera rendering remain open. Sources/docs stay English; human summaries
+remain French. Recovery rate is zero exact functions/hour for these lots, so no
+extra recovery worker is added on that evidence. Root retains shared integration
+and final validation; independent checks use exclusive immutable outputs.
+
 ## 2026-10-12 - Radius update validated after the defined movement basis
 
 The next actual 67C010 call is the radius/metadata helper 67B9B0, followed by

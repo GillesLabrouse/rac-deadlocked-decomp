@@ -1,3 +1,27 @@
+# Current checkpoint - 2026-10-12 - Both pool leaf families / 323 exact / 114 tests
+
+Five second-family and six first-family startup leaf behaviors are native.
+Actual first-family tables are368B78/368BB0, correcting earlier378B78 prose;
+per-leaf descriptors and word-aligned stride are independently verified.
+The final archive passes306 fullRAM cases/95,256,576bytes/40guards, with18
+additional independent native edges. All114 tests pass in28.58s. This covers
+leaves, not wrapper/control/provider/full initialization or authenticPC startup.
+Matching stays323/0bad,273resolved,0.564%.
+
+Current-frame animation and selected complete orientation matrices are native.
+Radius agrees on fullRAM after an explicit typedbasis projection. Separate
+position v3 reaches67F2AC scalarMAX after293EE/0VU; it is not a live player
+caller and has not returned. Strict full-bank v32 remains guarded at67C224.
+No controllable Ratchet, repeated gameplay loop or new live viewer behavior.
+Live animation links exist; actual render-side geometry/skin binding stays open.
+
+Next: validate the reached collision scalar dependency, complete position/contact
+and a returned player update; compose actual startup wrappers/control/provider.
+Then repeated real input and live actor/follow-camera rendering. No reliable ETA.
+Root owns integration/configs/reports/central build. Workers use exclusive new
+outputs and frozen failure corrections. No push. Read PROGRESS_LOG.md for scope.
+Older checkpoints below are retained as history.
+
 # Current checkpoint - 2026-10-12 - Movement basis / 323 exact / 114 tests
 
 Five independently validated startup pool leaves (indices 2..6) and the

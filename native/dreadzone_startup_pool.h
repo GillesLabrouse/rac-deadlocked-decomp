@@ -56,6 +56,20 @@ int dreadzone_startup_pool_006672E8_index4(const DreadzoneStartupPoolMemory *);
  * Serialized count0/stride24 is a leaf input, not proof of live startup.
  */
 int dreadzone_startup_pool_00667400_index5(const DreadzoneStartupPoolMemory *);
+/* Selected actual first-family leaf called by L01 00667668, index1..6:
+ * 667988,667AA0,667BB8,667CD0,667DE8,667F00. Same exclusive truthful
+ * backing/descriptor rules; one linear <=16MiB mapping below2GiB.
+ * Tables are368B78/368BB0, count3B0048+4*index, stride3B0110+4*index.
+ * Each leaf has its own independently verified pool address and +C tag.
+ * Positive count<=4096 requires a nonnegative stride divisible by4; mapped
+ * record footprint ends at the last record+10 and may not overlap this
+ * leaf's root/count/stride/pool cells. Strides0/4/8 retain ordered overlapping
+ * record writes (+C tag,+8 previous,+4 next). Signed nonpositive count
+ * publishes only three actual table words and does not require mapped stride.
+ * Return0 complete RAM effects,-1 atomic refusal. No allocation, runtime BSS
+ * origin, CPU/stack ABI, partial faults or enclosing wrapper is supplied.
+ */
+int dreadzone_startup_first_pool_leaf(const DreadzoneStartupPoolMemory *, uint32_t index);
 #ifdef __cplusplus
 }
 #endif

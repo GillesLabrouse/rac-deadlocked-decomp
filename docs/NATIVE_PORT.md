@@ -2,8 +2,8 @@
 
 Current checkpoint: 323 exact functions and 114 passing native tests. The
 viewer supports scenery and prepared animation; it has no controllable player
-or gameplay loop. Five startup pool components, a frame-aware native model helper and selected
-complete movement-basis matrices are integrated; bootstrap/player update remain open. See [GAMEPLAY_STATUS.md](GAMEPLAY_STATUS.md)
+or gameplay loop. Both startup pool leaf families, current-frame model transfer and selected
+complete movement-basis matrices are integrated; wrappers/bootstrap/player update remain open. See [GAMEPLAY_STATUS.md](GAMEPLAY_STATUS.md)
 and [PROGRESS_LOG.md](PROGRESS_LOG.md) for current validation and blockers.
 The component sections below retain their validation counts at integration.
 

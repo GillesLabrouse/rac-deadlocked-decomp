@@ -104,6 +104,29 @@ int main() {
         require(get(bytes,0x37F484)==0);
         put(bytes,0x3B00A4,1);snapshot=bytes;
         require(dreadzone_startup_pool_00667400_index5(&view)==-1 && bytes==snapshot);
+        const std::uint32_t first_pools[]={0x389C70,0x389C68,0x389C78,0x389C80,0x389C88,0x389C90};
+        const std::uint32_t first_tags[]={0x3B00E0,0x3B00F8,0x3B00C8,0x3B15F0,0x3B00B0,0x3B1608};
+        for(std::uint32_t index=1;index<=6;++index) {
+            const auto count_address=0x3B0048+4*index, stride_address=0x3B0110+4*index;
+            const auto node=first_pools[index-1];
+            put(bytes,count_address,0);put(bytes,stride_address,index==6?28U:16U);
+            snapshot=bytes;
+            require(dreadzone_startup_first_pool_leaf(&view,index)==0);
+            require(get(bytes,0x368B78+4*index)==0 && get(bytes,0x368B94+4*index)==node);
+            require(get(bytes,0x368BB0+4*index)==node && get(bytes,node+12)==get(snapshot,node+12));
+            put(bytes,count_address,2);put(bytes,stride_address,16);
+            require(dreadzone_startup_first_pool_leaf(&view,index)==0);
+            require(get(bytes,node+12)==first_tags[index-1] && get(bytes,node+8)==0 && get(bytes,node+4)==node+16);
+            require(get(bytes,node+28)==first_tags[index-1] && get(bytes,node+24)==node && get(bytes,node+20)==0);
+            put(bytes,stride_address,1);snapshot=bytes;
+            require(dreadzone_startup_first_pool_leaf(&view,index)==-1 && bytes==snapshot);
+            // The nonpositive path never reads its original stride table.
+            put(bytes,count_address,0);auto table_only=view;table_only.length=count_address+4-base;
+            require(dreadzone_startup_first_pool_leaf(&table_only,index)==0);
+        }
+        snapshot=bytes;
+        require(dreadzone_startup_first_pool_leaf(&view,0)==-1 && bytes==snapshot);
+        require(dreadzone_startup_first_pool_leaf(&view,7)==-1 && bytes==snapshot);
         std::cout << "Startup pool contract passed\n";
         return 0;
     } catch(const std::exception& error) {
