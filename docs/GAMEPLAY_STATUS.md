@@ -1,3 +1,48 @@
+# Current checkpoint - 2026-10-12 - Object predicate and private contact-angle wrapper / 323 exact / 119 tests
+
+Accepted native `dreadzone_object_predicate_00596E48` retains actual L01 pool
+bounds and lazy reads. Mode 1 is true only for a nonnull indirect object with
+type byte 9; null and other types return false without reading the class.
+Only other modes call the signed-halfword class leaf 596E38. Final archives
+pass 20 comparisons against actual L01 integer words, genuine JAL/LH delay
+slots and six atomic/read-only/alias guards. Independent fresh compilation
+also passes. All 119 native tests pass in 24.97 s. No matching coverage added.
+
+The first private predicate variant was rejected: its handwritten oracle and
+C incorrectly let mode-1 type 8 fall through to the class test. Raw instruction
+execution exposed two mismatches. Rejected source and failure receipts remain
+private; the correction passed raw-word comparisons before integration. Public
+regression tests use expected cases without a duplicate manual oracle.
+
+Private native wrapper v3 now implements its mode-zero angle path using the
+validated raw inclination kernel, genuine polynomial tables and corrected
+predicate. A constructed cache-hit case changes only three cache words on
+projected RAM and starts from pre-wrapper v32 diagnostic banks. Original
+instructions return at 684E24 after 3759 EE / 109 VU; normal Z maps to F12,
+XY length to F13, and angle word33800000 reaches record+220. Native comparison
+matches all 32,505,856 RAM bytes and five W at root offsets0/1/7 plus independent
+3/11, with a16 MiB writable prefix. Table/mode/W-overflow refusals are atomic.
+No normalization, instruction or callee result is supplied. Helper55D708 has
+extent0x118 including its secondary zero return; earlier first-return0x110
+and packet-address statements are corrected. Hardware flags/timing stay unknown.
+
+The wrapper remains private: packet object is zero here, so its object-marker
+path is not proved by the standalone predicate. Nonnull2F0 matrix/sphere paths
+remain unsupported. Actual sphere53EC88 spans0xC84 and branches to separately
+bounded53F954. Integer-only148 stops at its first VU call, proving no outcome.
+Next use the established mixed EE/VU reference with actual F12/local inputs,
+authenticated sphere save/restore sites and shared continuation; recover the
+real sphere effects before accepting the wrapper. Continue actual startup/
+provider and scene/skin binding for repeated input and camera frames.
+
+Coverage:323 exact /0bad /273resolved /0.564076755%. Exact rate:0 functions/hour.
+One native API integrated, one private variant rejected with two mismatching
+cases, no accepted native validation failure. Integration:425.2 s,
+first public mutation through acceptance audit. Two Luna streams and temporary
+QA fit four slots; no third matching-recovery stream. Full player remains
+protected67C224. No controllable Ratchet, new viewer behavior or playable loop.
+No reliable ETA or push. Older checkpoints below are historical.
+
 # Current checkpoint - 2026-10-12 - Native offset probe and private wrapper composition / 323 exact / 118 tests
 
 Accepted native `dreadzone_actor_offset_probe_006708B0` composes the two
