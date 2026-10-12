@@ -1,3 +1,48 @@
+# Current checkpoint - 2026-10-12 - Selected native idle control integrated
+
+Root adds bounded native RAM adapters for the real mode0 zero-planar early
+return of6840B8 and the complete selected state0 route of695570. They execute
+the recovered length, speed, accumulated-motion, wall and in-place height calls
+in authentic order, retain raw1970/19B0 copies, actual GP-relative/absolute
+timestep reads and explicit incoming W lanes, and publish only after success.
+Other states/table routes/nonzero planar motion remain explicit refusals.
+API/storage ownership remain hypotheses; hardware/full-bank/stack equivalence
+is excluded. These are native host-binary32 RAM models, not matching sources.
+
+Actual202 observer capture proves the genuine caller route and selected return
+RAM. Final207 constructed variants execute original words through JR+delay
+using a termination RA sentinel; they do not prove real caller/register/stack
+continuation. Its timestep/GPR provenance corrections are preserved separately.
+Final public archives pass21 whole32,505,856-byte RAM comparisons (682,622,976
+bytes) at offsets0/1/7, plus3 atomic alternate-table refusals. Independent208
+builds its own strict DLL and passes8 final full-RAM rows, aliases and late
+rollback guards. Corrected201 Z/W floor2^-40 excludes squared underflow, and
+main backing<=16MiB below10000000 separates captured original guest stack.
+
+The new target builds and42 regression checks pass. Filtered native suite:
+128/128 PASS in19.79s. Full central build FAILED on a concurrently introduced,
+untracked resident introduction address target's GNU attributes under MSVC;
+address/init targets are excluded from this suite, their work is preserved.
+Report consistency check passes (370 source entries reported by ongoing work);
+this is not root's fresh original-compiler/link/reconstruction audit of those
+concurrent sources. Root adds0 exact functions (0/hour),2 native APIs and0
+playable features. Integration elapsed989.9s. Receipt:
+private/root-idle-composition205/acceptance.json.
+
+209 authenticates690F18's selected dispatcher entry, real695570 call, ordered
+common-tail checks and return to67C104; it is a private composition blueprint.
+206 supplies an unaccepted private mode0 68A638 transform for nonzero-motion
+recovery. Next: integrate selected dispatcher, then complete67C010 and connect
+authentic startup/input/camera/rendering. Executable remains an asset/pose viewer;
+no controllable character or complete native gameplay loop yet. Dreadzone base
+follows the first playable scene. No push and no third recovery lane.
+
+Sibling tool live inspection:494786 occurrences traversed,447215 unverified
+bodies,1681 distinct audited context/name proposals at the observed checkpoint.
+These are tool review outputs, not main adoption/native gameplay or a proven
+independent >15% recovery rate. Frozen inputs and active validation untouched.
+Older entries below are historical.
+
 # Current checkpoint - 2026-10-12 - Native pre-basis histories integrated
 
 Previous goal turn was progress: selected position wrapper accepted at
