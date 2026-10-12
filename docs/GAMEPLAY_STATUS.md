@@ -5,6 +5,19 @@ and a separate prepared animation diagnostic. It does not run a controllable
 Ratchet or a complete gameplay frame. Matching coverage is 318 functions of
 15,766 (0.561% code); this percentage does not measure playable readiness.
 
+The native client history copy/setup component now passes192 production
+original cases (all four indices and48 slots),384 native comparisons and an
+independent16-case production review. All108 native tests pass in5.84s. Its
+actualB0/280 copies and final history-destination+70 publication are verified;
+the caller still must initialize the client pointer/table. There is no complete
+player frame, controllable actor or new visible renderer behavior yet.
+
+The actual loader cells are21DA24/21DA28 after signed-offset arithmetic. Real
+writers577EF0/578530 and the resident request transporter are identified.
+Runtime metadata selection and actual read completion remain unresolved. The
+private decoded gameplay-core header has not been proved to be the runtime
+header consumed by this chain; no parameters or successful reads were injected.
+
 The startup RNG31 RAM/return component now passes 1,034 production original
 cases and 328 independent original cases, including descriptor aliases and
 atomic refusals. All 107 native tests pass in 7.11 s. It supplies neither the

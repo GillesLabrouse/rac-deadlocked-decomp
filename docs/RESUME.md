@@ -1,3 +1,65 @@
+# Active checkpoint - 318 exact / 108 native tests
+
+## 2026-10-12 - Native client history copies accepted; loader producer route corrected
+
+Complete L01 00535200 RAM effects and both actual0055D470 copies are now in
+native/dreadzone_client_history_copy.c/h. Index0..3 reads the existing client
+row+50 pointer, constrained to one of its48 authentic history-table entries;
+copiesB0/280 bytes and publishes the bulk destination at history destination
++70. It does not write client row+70 or initialize the lookup/table/pointer.
+All bounded mappings are retained and preflighted before writes. The public
+API supports unaligned host storage, truthful exclusive backing and disjoint
+readable descriptors, with atomic refusal of unsupported numeric spans.
+
+The complete148-byte target was recovered using m2c. Production validation
+passes192 fresh original targets (four indices times48 slots),384 whole-mapped
+native comparisons,48,960 EE /0VU,16 atomic guards and normal child refusal of
+a wrapping descriptor. Independent production review passes16 fresh originals,
+32 native comparisons,4,080 EE /0VU and the same guard categories independently.
+All108 native tests pass in5.84s. Matching remains318/0,0.561% code; these native
+effects do not supply startup client selection or a complete player frame.
+
+Preserved draft failures/corrections include the expected final-store base,
+the stale Python BASE in a guard fixture, and descriptor dereference before
+its numeric wrap check. Actual55D470 readsC0 for the B0 output (final second
+load is lookahead), but reads/stores exactly280 for its other output, including
+both final quads. Root's first boundary hypothesis and review's initial
+assertion failed on280 and are retained; separately corrected actual-read
+probes pass. The public comment fixes the frozen draft's incorrect second-quad
+description. A truncated contiguous map refuses, but does not isolate the C0
+guard when it also omits the later bulk destination; no extra coverage claimed.
+Lookup5353C8 is only a separate fixture producer, not a reached target callee.
+
+Loader address correction: LUI22 plus signedDA24/DA28 refers to21DA24/21DA28,
+not22DA24/22DA28. Earlier negative searches and section claims for the latter
+are withdrawn in separate immutable commands66 and independent address
+corrections. Both correct cells are residentcore.bss, with real L01 writers
+577EF0 and578530. S3 remains the independently loaded header at[24370C].
+The true578A10 copy reads[21DA24]+[[21DA28]+10], size[[21DA28]+14].
+
+Root recovered577EF0 and641DC8 C and corrected578530's explicit11-entry
+jumptable at3AD160. Full55D3B8 includes shared return paths through55D46C;
+the generator's first88-byte fragment was insufficient. Earlier m2c failures
+remain frozen, then both extended-copy and jumptable recoveries exit0.
+These are private C recovery/provenance artifacts, not accepted functions.
+The resident read-request transporter163840 and busy predicate163928 are
+identified; actual callback completion and runtime level metadata remain open.
+577EF0 reads TOC words+668/+64C for sector94229 and+66C for count78B. An earlier
+report's+66C/+64C expression is wrong even though its numeric sector was right;
+the raw instructions use+668. No successful I/O or loader return was forced.
+
+Measured integration is224.03s from central configuration/test preparation
+through independent production review; prior publicC/header creation is
+excluded. Net exact recovery remains two functions in137.67min,
+0.87/hour including native work/provenance/review. Nine failed exact
+variants and one initial matching compiler failure remain recorded; the new
+memory78 busy-predicate exact lot is pending and outside those counts.
+Keep two light workers and one reviewer; root owns central outputs/reports.
+
+Next: actual read-provider/metadata initialization and complete client startup,
+then first full player update, repeated input/movement/collision and live visual
+binding. Viewer remains scenery/prepared poses. No playable frame or push.
+
 # Active checkpoint - 318 exact / 107 native tests
 
 ## 2026-10-12 - Native startup RNG31 accepted; player initialization still open
