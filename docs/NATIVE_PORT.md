@@ -1,3 +1,51 @@
+# Current checkpoint - 2026-10-12 - Native post-position length returns / 328 exact / 120 tests
+
+Accepted native dreadzone_actor_post_position_leaf_00686420 now executes the
+actual complete zero-timer and first/second-length returns. It retains the
+genuine optional3CC=5 mark,214 clear, GP delay read, lazy absolute clock,
+class predicates, all executed Z/W squares and low-V0 float bits. Reached
+angle/integrator/C60/vector paths refuse atomically; no step is bypassed.
+Request/backing aliases preserve capture and original read/store ordering.
+This is a bounded approximate native RAM/low-word API, not byte-exact C,
+full bank/hardware behavior, a complete player frame or a playable feature.
+
+Independent171 fresh DLL/raw instruction comparisons pass13 fullRAM rows,
+422,576,128 bytes, with different signs/W/state/clocks and narrow maps.
+Atomic angle/nonfinite/unmapped refusals, deferredmark, descriptoralias and
+nearest/gradual-underflow mode guards pass. Final central archive DLL matches
+24 original complete RAM cases plus3 independently frozen169firstlength rows:
+877,658,112 bytes at root0/1/7, exact low-V0/store counts. All120 native tests
+pass in25.16s. Production guard additionally refuses scratchpad overlap and
+checks host IEEE format; public naming/layout changes leave arithmetic intact.
+
+Native integration419.6s;1 API added,0 accepted native validation failures,
+0 exact credit or new playable feature. Earlier v3 compiler unused-local and
+superseded old refusal-expectation harness remain preserved. The frozen final
+check's inherited caption says no length branch; its named length cases and
+actual comparisons include them. Corrected scope is recorded in the final
+acceptance receipt. Full matching state remains328exact/0bad,278resolved,
+196 resident rebuild insertions and0.572774302%. No third recovery stream.
+
+Active branch172 reaches the real55D708 return. Isolated exact-site173
+COP1 annul authorization reaches594D28, then174's real594D90 comparison/
+annul reaches its overall return686674 and originalC60boundary686690.
+No condition, opcode, callee or return is substituted. The recorded A0 high64
+is00000000440B9EB8, retained through the real low-word clear686684; it must
+not be zeroed. Full boundary banks/RAM/stack/SPR and unknown Q/status/timing
+remain captured. Actual leaf extent2CC SHAe237..., paddedallocation2D0
+SHAa774...;174 corrects173's wording without overwriting old receipts.
+The active C60 call remains unrecovered;175 is running in an isolated folder.
+
+Current artifacts:public native/dreadzone_actor_post_position_leaf.c/.h;
+private/root-post-leaf-production-v1-acceptance.json,-check.json and
+-length-check.json; build/drafts/root-post-leaf-production-v1/ctest.log;
+independent private/sol-post-leaf-extended171/review.md. Next original active
+branch:private/luna-post-leaf-integrator174/receipt.md and preserved173/172.
+Root owns shared integration/configuration/reports/final validation. Native
+684EF0 composition and genuine startup/skin/input/camera binding remain open;
+then comes the Dreadzone base. No viewer change or controllable Ratchet yet.
+No push; active generator and frozen inputs untouched. Older entries historical.
+
 # Current checkpoint - 2026-10-12 - Resident initializer and genuine length returns / 328 exact
 
 Accepted resident00503B70 (24bytes) clears three words and returns its input
