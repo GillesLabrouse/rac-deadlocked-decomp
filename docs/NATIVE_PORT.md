@@ -1,3 +1,47 @@
+# Current checkpoint - 2026-10-12 - Native offset probe and private wrapper composition / 323 exact / 118 tests
+
+Accepted native `dreadzone_actor_offset_probe_006708B0` composes the two
+captured-local side-offset calls and the genuine mask-2 wall probe. It retains
+cache predicates, ordered cache writes, hit distance including the executed W
+square, optional final output aliases, original integer return and five W lanes.
+Cache hits avoid unreached mode/radius/local-W/geometry reads. Refusals preserve
+RAM and info atomically. Final central archives match every byte of the reached
+32,505,856-byte miss at host offsets 0/1/7, plus independent 3/11. A constructed
+positive terrain fixture reaches its original return in 887 EE / 86 VU and
+matches every byte of 4,194,304-byte RAM at root offsets 0/1/7, plus independent
+2/9 with local W=2 and W=0. The positive fixture is not live gameplay evidence.
+
+The private reference reuses the existing finite VI22/Q transport at 53E2DC
+and canonical VF0 MAXW at 6709B4, authenticated against actual L01 words and
+paths. Physical status, precision, readiness and timing remain unknown;
+no opcode, branch, callee return or machine bank is substituted. The earlier
+protected frontiers are preserved. This is a bounded host binary32 native API,
+not matching C and not a hardware proof. All 118 native tests pass in 24.80 s.
+
+Private native 684A60 wrapper composition also matches the complete observed
+32,505,856-byte return and W lanes at root offsets 0/1/7 plus independent 3/11,
+with a 16 MiB writable prefix and higher original RAM retained unchanged. Real
+position call, modulo gates, delay-slot stores, cache and null-2F0 exit execute.
+It remains outside accepted sources: reached positive angle/object work and
+nonnull-2F0 matrix/sphere branches are unsupported and refuse atomically.
+This does not recover authentic live caller-stack or full player entry state.
+
+Canonical coverage remains 323 exact / 0 bad / 273 resolved / 0.564076755%.
+Exact acceptance throughput this turn is 0 functions/hour; one native API was
+integrated and one wrapper draft remains held. Root native validation failures:
+0. Guarded reference frontiers are not counted as accepted functions or failed
+matching candidates. Two Luna audit streams and temporary independent QA use
+at most four slots; no third matching-recovery stream is added while exact
+acceptance is zero. Public integration took 177.1 seconds,
+measured from first public mutation through the acceptance audit.
+
+Next: recover the actual 596E48 object predicate and 55D708 angle branch, then
+matrix/sphere 53EC88 paths; validate the wrapper before accepting it. Continue
+actual startup/provider and scene/skin bindings for repeated input and camera
+frames. Full player v32 remains protected at 67C224. No controllable Ratchet,
+full gameplay loop or viewer behavior change yet. No reliable ETA. No push.
+Older checkpoints below are historical.
+
 # Native PC development
 
 Current checkpoint: 323 exact functions and 117 passing native tests. The
