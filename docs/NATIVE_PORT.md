@@ -1343,12 +1343,205 @@ build/native/Release/deadlocked_native_scene_viewer.exe `
   build/native-assets/dreadzone-static.dlscene --camera 600 480 203 -1.5707963 -0.05
 ```
 
-The current Dreadzone package contains both terrain chunks and 1,856 static object
-placements from 86 shared models: 197,412 shared vertices, 1,858 instances including
-the terrain, 440 textures, and 461 material draw batches. It submits 672,516
-triangles before GPU clipping. The second terrain export reuses the PNG material
-set in chunk zero; this shared texture directory is supplied explicitly by the
-level converter and recorded in its input hashes.
+The default Dreadzone package contains both terrain chunks, all 1,856 static
+object placements from 86 shared models, and all 694 exported vegetation
+placements from 12 shared GLB models. It contains 201,690 shared vertices, 2,552
+instances including the terrain, 459 textures, and 480 material draw batches.
+It submits 720,538 triangles before GPU clipping. The second terrain export
+reuses the PNG material set in chunk zero; this shared texture directory is
+supplied explicitly by the level converter and recorded in its input hashes.
+
+Rebuild and capture the safe terrain, static-object, and vegetation scene:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  -o build/native-assets/dreadzone-static.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-static.dlscene `
+  --capture build/native-assets/dreadzone-static-full.png --software `
+  --camera 600 480 203 -1.5707963 -0.05
+```
+
+Mission-specific objects are stored separately. Select one of the extracted
+mission variants with `--mission`; its Moby placements and mission-local meshes
+are available as experimental previews when `--include-dynamic-previews` is also
+supplied. Their instance rotation order is verified from the L01 loader, but
+class-local axes and game visibility/LOD are not, so the default package excludes
+them. A class filter reduces
+visual clutter but does not validate the object's orientation. To inspect one
+class at a time, select it from mission 0:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 0 --include-dynamic-previews --dynamic-class 501 `
+  -o build/native-assets/dreadzone-moby-class-501.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-moby-class-501.dlscene `
+  --capture build/native-assets/dreadzone-moby-class-501.png --software `
+  --camera 600 480 203 -1.5707963 -0.05
+```
+
+Mission 0 contains 342 mission Moby placements. Together with shared objects,
+631 placements have static mesh previews; 112 are omitted because they have no
+editor mesh, need skeletal deformation, or contain no drawable triangles.
+Mission variants are mutually exclusive and are loaded one at a time.
+
+The converter reads `Shrub` placements and their level-approved classes from
+`gameplay.instances` and `shrub_classes.asset`, resolves each GLB under the local
+extraction, and shares geometry across placements. It rejects missing classes,
+duplicate shrub IDs, escaping texture paths, unsupported GLB layouts, and bad
+transforms instead of silently dropping vegetation.
+
+Dynamic `Moby` previews require `--include-dynamic-previews`. An optional
+`--dynamic-class ID` limits a diagnostic capture to one Moby class, which helps
+identify geometry or placement problems without combining every class. The converter uses
+instance position, Euler rotation and uniform scale. The X-then-Y-then-Z
+rotation order is confirmed by the L01 placed-actor loader at `0057B788`, which
+copies each record's angles to actor+`F0` before calling transform `0058DF58`;
+that transform uses the recovered actor basis at `006824E8`. The scene report
+marks this rotation order as verified while leaving the complete preview
+transform unverified. Per-class mesh axes, skin deformation and game visibility
+still need validation, so an isolated capture is not proof that an object is
+correctly oriented or visible in that mission. The viewer also does not reproduce Moby AI,
+updates, pvars, lighting, mission behavior, visibility or LOD. The scene report
+lists omitted classes and reasons. The default package excludes all 401 common
+Moby placements. One common class carries joint attributes but no skeleton or
+animation; it is accepted in diagnostic previews only after validating that
+every vertex is rigidly assigned to joint zero at full weight. Other active skin
+weights are refused. Alternative LODs and bangle meshes are not included.
+
+For a preview without the terrain, static props, or vegetation, add
+`--dynamic-only` with a selected mission and one or more `--dynamic-class`
+filters. The viewer then frames only those Moby placements, which makes widely
+separated objects easier to inspect. These scenes remain diagnostic and do not
+imply that the game displays every selected placement at once.
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 40 --include-dynamic-previews --dynamic-class 8491 --dynamic-only `
+  -o build/native-assets/dreadzone-mission-40-class-8491.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-mission-40-class-8491.dlscene `
+  --capture build/native-assets/dreadzone-mission-40-class-8491.png --software
+```
+
+Mission 0's extracted inventory has 342 mission Moby placements: 268 use meshes
+that can be drawn as static previews, 21 have no exported editor mesh, and 53
+need unsupported deformation or contain no drawable triangles. These counts
+describe editor-mesh availability, not the game's visibility selection. For a
+class-level diagnostic, render one class while keeping the rest of the scene
+static:
+
+The extraction contains 46 mutually exclusive mission variants. Their class
+and per-instance position, rotation, scale, and coarse terrain-bound status are
+saved to
+`build/native-assets/dreadzone-all-missions-moby-inventory.json`. Individual
+test packages and software captures are generated as
+`build/native-assets/dreadzone-mission-ID-diagnostic.dlscene` and `.png` for
+IDs 0 through 45. Each package contains the shared static scene and vegetation
+plus only that mission's Moby placements; mission states are never combined.
+These are geometry diagnostics with verified instance rotation order but
+unverified class-local axes and visibility, not evidence that every rendered
+object is present in the game's active view.
+The per-scene counts, omission reasons, and source hashes are summarized in
+`build/native-assets/dreadzone-all-missions-scene-report.json`. Captures omit
+`--camera`, so the viewer frames each scene from its full exported bounds.
+For example, mission 44 has no mission-local class directory and is resolved
+using global class definitions. Missing class definitions and missing editor
+meshes are recorded as omissions rather than aborting the entire scene build.
+
+To rebuild one variant and capture it for inspection:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 39 --include-dynamic-previews `
+  -o build/native-assets/dreadzone-mission-39-diagnostic.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-mission-39-diagnostic.dlscene `
+  --capture build/native-assets/dreadzone-mission-39-diagnostic.png --software
+```
+
+The missing mission meshes are extraction gaps: 16 placed classes have no
+`Mesh` source in their class definition. Fourteen corresponding common class
+directories contain only a 98-byte `.asset` definition, without `mesh.glb` or
+`core.bin`; the other two are mission-local definitions containing no mesh.
+Their shapes cannot be inferred from these records. In mission 0, the models
+that export a mesh but require skinning are classes 511, 2460, 8273, 8496, 8554
+and 9427. Their GLBs contain joint-weighted meshes but no glTF skin, animation,
+or bind-pose hierarchy. Even single-joint bangle meshes lack the joint pose
+matrices, so these objects remain omitted rather than being placed in an
+unverified orientation.
+
+The batch rebuild also checks every other Dreadzone mission export for a
+matching class mesh. It reuses that mesh only when all exported GLB byte hashes
+for the class agree; the selected mission's own mesh and global class mesh keep
+precedence. This added 206 renderable placement occurrences across the mutually
+exclusive variants, covering 13 class IDs. Across all 46 variants, the current
+reports sum to 20,656 previewed placements and 6,314 omitted placements: 3,760
+have no exported editor mesh, 2,498 need unsupported skin deformation, 45 have
+no drawable triangles, seven have ambiguous cross-mission meshes, and four
+have no exported class definition. These are
+variant-placement totals, not unique objects in one simultaneously active
+level. Filtered-out placements are reported separately in each per-scene JSON.
+The JSON reports and PNG captures were rebuilt with these results.
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 0 --include-dynamic-previews --dynamic-class 8310 `
+  -o build/native-assets/dreadzone-moby-class-8310.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-moby-class-8310.dlscene `
+  --capture build/native-assets/dreadzone-moby-class-8310.png --software `
+  --camera 600 480 203 -1.5707963 -0.05
+```
+
+The generated JSON records `dynamic_preview_class_filter`, rendered placements,
+excluded classes and source hashes. Mission-0 rows for classes 8491–8494 and
+10016 are around world Y=118–195, outside the combined terrain chunks' Y bounds
+(317.96–923). Their models form coherent rows when viewed in isolation, but
+they do not overlap the exported terrain bounds and are not added automatically.
+This AABB check is only a coarse hint; it does not determine visibility. Class
+8310's two placements lie within the terrain bounds and overlap the common arena
+camera's view, obscuring the capture, so they remain excluded from the default
+scene. No dynamic class is enabled by default until its model axes and game
+visibility have been verified. The placed-actor loader and transform confirm
+the preview bridge's X-then-Y-then-Z instance rotation order, but do not resolve
+class-local mesh axes or visibility for each placement.
+
+For an explicit combined diagnostic, this capture command includes meshable
+mission-0 classes while excluding classes with a known camera obstruction,
+one-pixel edge-on result, or placements outside the terrain AABB:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 0 --include-dynamic-previews `
+  --exclude-dynamic-class 8310 --exclude-dynamic-class 8412 `
+  --exclude-dynamic-class 8480 --exclude-dynamic-class 8491 `
+  --exclude-dynamic-class 8492 --exclude-dynamic-class 8493 `
+  --exclude-dynamic-class 8494 --exclude-dynamic-class 10016 `
+  --exclude-dynamic-class 9277 `
+  -o build/native-assets/dreadzone-mission-0-audited-diagnostic.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-mission-0-audited-diagnostic.dlscene `
+  --capture build/native-assets/dreadzone-mission-0-audited-diagnostic.png `
+  --software --camera 600 480 203 -1.5707963 -0.05
+```
+
+This diagnostic draws 520 Moby mesh placements from 22 classes across the
+common scene and mission 0, and records 223 omitted placements in its JSON
+report. Its generated capture contains 3,072 scene instances and 841,854
+submitted triangles. It remains experimental:
+some classes use unsupported skin deformation, class-local axes and actual
+visibility are unverified, and mission variants are alternatives. The exported
+`occlusion` field controls occluder participation; it is not a visibility flag
+and is not used to suppress placements. The native viewer can also show the
+scene from above with `--camera 600 620 310 -1.5707963 -0.65` for inspection.
 
 The text parser rejects malformed blocks and duplicate attributes. Class
 resolution rejects unavailable level classes, duplicate instance IDs and mesh
@@ -1358,11 +1551,30 @@ checks that two copies of one textured triangle receive distinct transforms and
 tints, with the red copy to the left of the green copy. The authored texture also
 exercises PNG decoding and texture channel order without game assets.
 
-Static-object instance lighting is not reproduced: their exported ambient bytes
-are not yet decoded and their tint is currently white. Dynamic objects, vegetation,
-characters, collision, sky, original visibility/LOD rules and game behavior remain
-absent. The level converter fails on missing static models rather than dropping
-them, but does not claim to implement these excluded systems.
+Static-object, vegetation and Moby instance lighting is not reproduced: exported
+ambient bytes are not yet decoded and instance tint is currently white. The
+omitted Moby placements, character animation, collision, sky, original
+visibility/LOD rules, missions, and game behavior remain absent or approximate in
+this scene package. The level converter fails on missing static or vegetation
+meshes rather than dropping them, but records unavailable dynamic models explicitly.
+
+### Experimental Dreadzone sky-shell extraction
+
+The local L01 sky export defines four GLB meshes, `shell_0` through `shell_3`.
+`tools/prepare_native_sky.py` validates their order against `sky.asset` and can
+write one separate local diagnostic scene containing their combined geometry:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_sky.py `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --output-directory build/native-assets/dreadzone-sky
+```
+
+The JSON summary preserves each source angular velocity. The four shell meshes
+can be included in the main package only with `--include-sky`. Their world
+placement is unverified. The current viewer clips nearly transparent pixels and
+does not composite alpha, animate rotations, or apply bloom. This diagnostic is
+not a complete sky implementation.
 
 ## Recovered startup parameter initialization
 
