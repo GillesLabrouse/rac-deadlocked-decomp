@@ -1,3 +1,23 @@
+# Active checkpoint - exact total 317
+
+## 2026-10-12 - Exact resident startup polling function accepted
+
+Root independently verified and centrally compiled func_004E7830 (0x48 bytes).
+Its two real GP-relative reads resolve to 002206E8 and its delay call resolves
+to 004535E0. The true relocation comparison and complete resolved bytes both
+pass. Audit and regenerated progress agree: 317 exact, zero mismatches,
+0.561% code. The corresponding L01 poller uses different data/callee addresses;
+no cross-level address or behavior claim follows from this resident recovery.
+
+Memory67 recovery took 226s; root production integration took
+68.83s through receipt freeze. One accepted function in
+that successful recovery lot is 15.93 functions/hour, not sustained team
+throughput. The preceding five small lots yielded zero accepted functions,
+and four clear-loop variants plus the first wrong-level polling variant failed
+exact comparison. Keep the two light workers and reviewer on HOLD until the
+native startup integration queue is clear. All drafts and failures are retained.
+Native code is unchanged (last 103 passing tests); no playable frame or push.
+
 # Active checkpoint - 2026-10-12
 
 ## 2026-10-12 - Isolated recovery builds and genuine graphics frontier
