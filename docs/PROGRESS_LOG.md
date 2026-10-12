@@ -1,5 +1,53 @@
 # Local development progress
 
+## 2026-10-12 - Current pose decoder reaches its register-restore tail
+
+Fresh v21 reaches actual589920 after4646 EE / 2035 VU in the explicit player
+update. It completes65 micro160 calls / 1950 pairs at actual5896EC and589734;
+static58975C is independently supported but not reached by this image. Only
+the VI14=127 transport is reached from the earlier six-site register batch.
+No whole player update, complete startup or playable feature is claimed.
+
+The reviewed two-arm model passes362 independent fresh factory one-site bank
+cases / 10860 pairs,26 atomic checks and a separately labeled synthetic
+three-instruction alternating chain. The shared160 branch evaluates VI13
+before the168 delay negates it; positive/negative arms alternate accordingly.
+Original raw negative words and paired old operands are independently decoded.
+Review takes530.1s from its observed first tool,50.1s beyond eight minutes.
+Its synthetic chain does not establish original scheduling/producer inputs.
+
+Fresh v20 conservatively refuses a third call at5896EC: its genuine cache
+counter1 was outside the initial four-value domain. The complete original
+setup seedsT2/T3/T4=-32/-31/-30; the three actual paths increment their own
+counter by32 and pack it into the next vector. Root's raw inspection and
+Commands108 independently close the current producer: consumed SPR opcode48,
+A1=589658 -> target589688, T3+=32 produces1, PEXTLH5896BC packs it, QMTC2
+5896C8 writesVF11, MTIR/IAND produceVI9=1. No RAM/field patch is involved.
+
+Separate v4 admits the twelve bounded counter values from the three residue
+families. Independent focused145 cases /4350 pairs and24 atomic counter
+refusals pass, including the actual v20 bank. Old v3 cases are not rerun.
+Largest cache quad is254; no wrap or saved mod4=3 slot overwrite occurs.
+The focused review takes198.2s within four minutes, after one model-capacity
+failure and successful retry. Isolated domain proof and actual producer proof
+remain separate evidence. All prior refusal snapshots are preserved.
+
+Commands106 verifies the actual restore tail589920/B0 and589924/F0, then the
+58A258 ->58A440 ->58A648 return chain and subsequent589950 matrix call. B0/F0
+callable-through-E sizes are38/68 hex bytes; earlier40/70 hex spans included
+the following delay pair. The draft restore binding explicitly uses the
+software E+delay rule (8/14 pairs) and is awaiting independent clone/raw-bank
+review before execution. Physical completion, synchronization, flags and
+runtime MPG installation remain unproved; pending Q is never silently cleared.
+
+Matching remains323/0 bad,273 resolved,0.564%; latest native suite113/113
+in7.62s. No new public native source or executable behavior in this lot.
+The private frame-aware C still needs complete original model-helper output
+comparison, independent review and production-archive validation. The next
+gates are matrix completion and a returned whole player update, authentic
+bootstrap/client closure, then repeated inputs/movement/collision and live
+actor/follow-camera rendering. Root owns integration/shared reports; no push.
+
 ## 2026-10-12 - First pose branch returned and original model entry observed
 
 Fresh v19 completes the guarded positive micro160 branch and reaches the
