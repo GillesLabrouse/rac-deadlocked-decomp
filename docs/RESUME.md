@@ -1,3 +1,22 @@
+# Active checkpoint - 318 exact / 104 native tests
+
+## 2026-10-12 - Exact graphics syscall wrapper accepted
+
+func_00138590 now passes root independent review (44 frozen hashes), production
+compilation, zero-relocation full comparison and resolved 16-byte comparison.
+The original caller's A0-A3/T0 inputs and complete 0x374-byte caller are verified.
+The C wrapper binds those inputs and selector 0x80 around one inline syscall
+instruction; the actual kernel service is neither recovered nor run natively.
+Audit/progress: 318 exact, zero mismatches, 0.561% code. No gameplay credit.
+
+Recovery: 196.9s; root integration through receipt freeze: 91.69s.
+The initial wrong-section extraction and m2c syscall limitation remain frozen.
+Two successful exact recovery lots among eight small lots this session do not
+justify a third recovery worker; keep the light agents on HOLD. Native tests
+last pass104/6.46s. The projection RAM component passes32 whole10MiB comparisons
+but awaits independent review; its first portable pointer issue is corrected
+in a separate v2 draft, and all original evidence is preserved. No push.
+
 # Active checkpoint - 317 exact / 104 native tests
 
 ## 2026-10-12 - Real PC graphics completion/reset service

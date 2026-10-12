@@ -2,7 +2,7 @@
 
 Current checkpoint: 2026-10-12. The Windows executable displays Dreadzone scenery
 and a separate prepared animation diagnostic. It does not run a controllable
-Ratchet or a complete gameplay frame. Matching coverage is 317 functions of
+Ratchet or a complete gameplay frame. Matching coverage is 318 functions of
 15,766 (0.561% code); this percentage does not measure playable readiness.
 
 The PC D3D11 completion/reset service now waits for actual submitted work and
