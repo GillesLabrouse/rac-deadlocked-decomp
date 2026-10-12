@@ -2,8 +2,20 @@
 
 Current checkpoint: 2026-10-12. The Windows executable displays Dreadzone scenery
 and a separate prepared animation diagnostic. It does not run a controllable
-Ratchet or a complete gameplay frame. Matching coverage is 316 functions of
-15,766 (0.560% code); this percentage does not measure playable readiness.
+Ratchet or a complete gameplay frame. Matching coverage is 317 functions of
+15,766 (0.561% code); this percentage does not measure playable readiness.
+
+The PC D3D11 completion/reset service now waits for actual submitted work and
+then clears pipeline bindings. It is used after scene uploads; real WARP
+clear/copy/readback tests and independent review pass. All 104 native tests
+pass in 6.46s. The full original graphics initialization, display environment,
+projection descriptor and player client remain open. The native service adds
+no matching credit or playable frame. Its API follows Microsoft's
+[EVENT query](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_query),
+[GetData](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-getdata)
+and [ClearState](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-clearstate)
+contracts. Positive post-submission timeout and device-loss behavior have not
+been exercised; the polling budget does not impose a hard driver-call deadline.
 
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |

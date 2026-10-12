@@ -1,3 +1,28 @@
+# Active checkpoint - 317 exact / 104 native tests
+
+## 2026-10-12 - Real PC graphics completion/reset service
+
+The D3D11 backend now submits an EVENT query, flushes previously queued work,
+waits for real completion with a finite polling budget, and clears pipeline
+bindings only on success. The caller must own the immediate context exclusively.
+Zero budget and invalid contexts refuse without changing bindings. Driver calls
+and OS scheduling are outside a hard deadline; submitted work cannot roll back.
+The scene viewer runs this service after its constructor uploads.
+
+Real WARP tests submit two clears/copies, verify all readback pixels with
+DO_NOT_WAIT mapping, and verify reset bindings plus refusal preservation.
+Independent review passes; all 104 native tests pass in 6.46s, including renderer
+and pose regressions. Positive post-submission timeout, device removal and query
+allocation failure were not exercised. No cancellation or GPU completion of
+the reset commands themselves is promised. No PS2 register/VU/display reset or
+complete original graphics initializer is claimed; its strict frontier remains.
+
+Exact coverage stays 317/0, 0.561% code. commands56 took 102s and yielded no
+accepted function: an initial compile failure and incorrect call ABI are retained;
+the corrected variant still fails exact checks. Review took 126.1s. Keep failed
+recovery out of accepted sources and continue native projection/client startup.
+No controllable Ratchet, gameplay frame or push.
+
 # Active checkpoint - exact total 317
 
 ## 2026-10-12 - Exact resident startup polling function accepted

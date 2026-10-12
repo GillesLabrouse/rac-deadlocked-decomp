@@ -9,6 +9,7 @@
 #include "scene.h"
 #include "pose_sequence.h"
 #include "pose_clock.h"
+#include "graphics_completion_win.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -235,6 +236,7 @@ public:
         checked(device->CreateRasterizerState(&raster, &rasterizer), "Create rasterization state");
         textures.push_back(upload_texture({}));
         for (const auto& png : scene.pngs) textures.push_back(upload_texture(png));
+        checked(complete_and_reset_graphics(context.Get(), 5000), "Complete scene graphics startup");
     }
 
     void update_positions(const Scene& scene) {
