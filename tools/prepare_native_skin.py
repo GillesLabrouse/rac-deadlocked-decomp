@@ -13,17 +13,33 @@ U8 = C.c_uint8
 MAX_CORE_BYTES = 32 * 1024 * 1024
 
 
-def bind_matrices(core_path, animation_library, output):
+def bind_matrices(core_path, animation_library, output, flush_subnormal_translations=False):
     core_path = Path(core_path).resolve()
-    raw = core_path.read_bytes()
+    raw = bytearray(core_path.read_bytes())
     if not 0x30 <= len(raw) <= MAX_CORE_BYTES:
         raise ValueError("Unsupported native core container size")
     joints = raw[8]
     if not 1 <= joints <= 127:
         raise ValueError("Native core joint count is outside the supported range")
-    skeleton = region(raw, word(raw, 0x18), joints * 16)
+    skeleton = bytearray(region(raw, word(raw, 0x18), joints * 16))
+    flushed = 0
+    if flush_subnormal_translations:
+        for joint in range(joints):
+            for lane in range(3):
+                offset = joint * 16 + lane * 4
+                bits = struct.unpack_from("<I", skeleton, offset)[0]
+                if bits & 0x7F800000 == 0 and bits & 0x007FFFFF:
+                    struct.pack_into("<I", skeleton, offset, 0)
+                    flushed += 1
     bind_offset = word(raw, 0x14)
     region(raw, bind_offset, joints * 48)
+    if flush_subnormal_translations:
+        for index in range(joints * 12):
+            offset = bind_offset + index * 4
+            bits = struct.unpack_from("<I", raw, offset)[0]
+            if bits & 0x7F800000 == 0 and bits & 0x007FFFFF:
+                struct.pack_into("<I", raw, offset, 0)
+                flushed += 1
     dll = C.CDLL(str(Path(animation_library).resolve()))
     for name, request in (("dreadzone_local_pose_initialize", Init),
                           ("dreadzone_general_matrices_prepare", General),
@@ -46,17 +62,19 @@ def bind_matrices(core_path, animation_library, output):
         raise ValueError("Native bind-pose application refused")
     matrices = bytes(scratch[:joints * 64])
     Path(output).write_bytes(matrices)
-    return matrices, joints
+    return matrices, joints, flushed
 
 
-def read_mesh(core_path, textures, animation_library, model_library):
+def read_mesh(core_path, textures, animation_library, model_library,
+              flush_subnormal_translations=False):
     core_path = Path(core_path).resolve()
     textures = [Path(texture).resolve() if texture is not None else None for texture in textures]
     import tempfile
     with tempfile.TemporaryDirectory(prefix="native-bind-", dir=core_path.parent) as directory:
         work = Path(directory).resolve()
         matrices_path, scene_path = work / "matrices.bin", work / "model.dlscene"
-        matrices, joints = bind_matrices(core_path, animation_library, matrices_path)
+        matrices, joints, flushed = bind_matrices(
+            core_path, animation_library, matrices_path, flush_subnormal_translations)
         report = prepare_topology(core_path, matrices_path, False, textures,
                                   model_library, scene_path)
         groups = defaultdict(list)
@@ -100,6 +118,8 @@ def read_mesh(core_path, textures, animation_library, model_library):
     return groups, {"pose": "native bind pose; no animation selected", "game_pose_verified": False,
                     "joints": joints, "triangles": report["prototype_triangles"],
                     "vertices": report["vertices"], "unrenderable_trailing_vertices": trailing_vertices,
+                    "subnormal_values_zeroed": flushed,
+                    "subnormal_flush_assumption_enabled": flush_subnormal_translations,
                     "packets": report["packet_count"], "core_sha256": hashlib.sha256(core_path.read_bytes()).hexdigest(),
                     "native_triangles_sha256": report["native_triangles_sha256"],
                     "matrix_sha256": hashlib.sha256(matrices).hexdigest(),

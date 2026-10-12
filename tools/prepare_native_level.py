@@ -241,7 +241,8 @@ def write_package(prototypes, output, source_inputs):
 def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                   include_dynamic_previews=False, dynamic_class_id=None,
                   excluded_dynamic_class_ids=None, dynamic_only=False,
-                  include_native_bind_previews=False):
+                  include_native_bind_previews=False,
+                  include_native_subnormal_flush_previews=False):
     import prepare_native_moby as moby_mesh_import
 
     if dynamic_class_id is not None and not include_dynamic_previews:
@@ -259,6 +260,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         raise ValueError("A dynamic class cannot be both selected and excluded")
     if include_native_bind_previews and (mission_id is None or not include_dynamic_previews):
         raise ValueError("Native bind-pose previews require a selected mission and dynamic previews")
+    if include_native_subnormal_flush_previews and not include_native_bind_previews:
+        raise ValueError("Subnormal-flush previews require native bind-pose previews")
     if dynamic_only and (mission_id is None or not include_dynamic_previews or
                          dynamic_class_ids is None or include_sky):
         raise ValueError("Dynamic-only scenes require a selected mission and class, enabled previews, and no sky")
@@ -484,15 +487,29 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                 groups, skin_report = prepare_native_skin.read_mesh(
                     core, material_textures, *native_libraries)
             except (ValueError, OSError) as error:
-                omitted_mobys[class_id] = {
-                    "reason": "native core bind-pose diagnostic failed: " + str(error),
-                    "placements": len(matrices)}
-                continue
+                if (include_native_subnormal_flush_previews and isinstance(error, ValueError) and
+                        str(error) in ("Native skeleton initialization refused",
+                                       "Native bind-pose matrix preparation refused")):
+                    try:
+                        groups, skin_report = prepare_native_skin.read_mesh(
+                            core, material_textures, *native_libraries, flush_subnormal_translations=True)
+                    except (ValueError, OSError) as flushed_error:
+                        omitted_mobys[class_id] = {
+                            "reason": "native core bind-pose diagnostic failed: " + str(flushed_error),
+                            "placements": len(matrices)}
+                        continue
+                else:
+                    omitted_mobys[class_id] = {
+                        "reason": "native core bind-pose diagnostic failed: " + str(error),
+                        "placements": len(matrices)}
+                    continue
             prototypes.append((groups, matrices, {"kind": "dynamic-object-native-bind-pose-preview",
                                                   "class_id": class_id, "placements": len(matrices),
                                                   "core_source": str(core), "definition_source": str(definition),
                                                   "pose": "native core bind pose; no animation/game frame",
-                                                  "game_pose_verified": False}))
+                                                  "game_pose_verified": False,
+                                                  "subnormal_flush_assumption":
+                                                      skin_report["subnormal_flush_assumption_enabled"]}))
             omitted_mobys.pop(class_id, None)
             inputs.extend((core, definition,
                            *(path for path in material_textures if path is not None)))
@@ -536,6 +553,7 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     report["dynamic_preview_placements_disabled"] = disabled_dynamic_preview_placements
     report["dynamic_only_class_scene"] = dynamic_only
     report["native_bind_pose_previews_enabled"] = include_native_bind_previews
+    report["native_subnormal_flush_previews_enabled"] = include_native_subnormal_flush_previews
     if mission_path is not None:
         inputs = list(inputs) + [mission_path / "mission.instances"]
         report["source_inputs"] = [{"path": str(p.resolve()),
@@ -576,6 +594,8 @@ def main():
                         help="Build an isolated preview scene for one selected mission class")
     parser.add_argument("--include-native-bind-previews", action="store_true",
                         help="Include recoverable core.bin models in native bind pose")
+    parser.add_argument("--include-native-subnormal-flush-previews", action="store_true",
+                        help="Retry refused core poses with subnormal translations set to zero (explicit diagnostic assumption)")
     args = parser.parse_args()
     if args.dynamic_class is not None and not args.include_dynamic_previews:
         parser.error("--dynamic-class requires --include-dynamic-previews")
@@ -585,7 +605,8 @@ def main():
                                args.dynamic_class[0] if args.dynamic_class and len(args.dynamic_class) == 1
                                else args.dynamic_class,
                                args.exclude_dynamic_class, args.dynamic_only,
-                               args.include_native_bind_previews)
+                               args.include_native_bind_previews,
+                               args.include_native_subnormal_flush_previews)
     except (ValueError, KeyError, TypeError, OSError, struct.error, ET.ParseError) as error:
         parser.exit(1, str(error)+"\n")
     print("Prepared %d shared vertices, %d instances, %d batches, %d textures" %

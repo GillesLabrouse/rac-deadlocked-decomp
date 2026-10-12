@@ -135,6 +135,11 @@ class NativeLevelTests(unittest.TestCase):
         definition.write_text('MobyClass native { id: 18 materials { } }')
         self.assertEqual(level.native_material_textures(definition), [None])
 
+    def test_native_subnormal_flush_requires_bind_pose_previews(self):
+        with self.assertRaisesRegex(ValueError, "require native bind-pose previews"):
+            level.prepare_level(self.extracted, self.level, Path(self.temp.name) / "invalid.dlscene",
+                                include_native_subnormal_flush_previews=True)
+
     def test_moby_xyz_order_matches_transposed_native_actor_basis(self):
         x, y, z = 0.31, -0.72, 1.07
         sx, sy, sz = math.sin(x), math.sin(y), math.sin(z)

@@ -1544,6 +1544,15 @@ geometry and placements, but it is not a live animation or game pose. Per-class
 axes, placement orientation, actor mask/LOD, visibility, and animation remain
 unverified, so the JSON explicitly marks `game_pose_verified: false`.
 
+Two additional classes (8284 and 9465) contain subnormal values that the
+strict native diagnostic rejects. `--include-native-subnormal-flush-previews`
+is a separate, explicit experiment that sets those values to zero before
+retrying the native stages. Its report records how many values changed and
+sets `subnormal_flush_assumption_enabled: true`. The resulting isolated
+captures are diagnostic only; these poses are not included in the 46 standard
+mission scenes because the flush behavior and class orientation are not
+verified against a game frame.
+
 To inspect these native core previews in the mission-0 scene:
 
 ```powershell
