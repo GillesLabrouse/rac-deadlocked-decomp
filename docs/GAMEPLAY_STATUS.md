@@ -6,13 +6,13 @@ central-archive proofs. The113 native tests pass in7.62s. Matching unchanged:
 323exact/0bad,273resolved,0.564%code. Viewer remains scenery/prepared poses;
 no controllable Ratchet, complete player update or gameplay loop.
 
-Privatev18 reaches5896ECVCALLMSR after2129EE/85VU, using scoped integer
-register transports and explicitly software-only arithmetic/snapshot models.
+Privatev19 reaches589734VCALLMSR after2165EE/115VU, with the positive
+pose branch independently checked; the next negative branch is under review.
 Q readiness/physical flags/FCSR/timing remain unproved. Initializer is suspended and client partial. Privateframe-aware
 model C handles0.5 in a smoke invocation, but has no original full-helper proof
 and is not accepted. Preserve all failures and correction receipts separately.
 
-Next: independently review the private positive-arm micro160 binding before
+Next: independently review the private two-arm micro160 binding before
 continuation, complete frame-aware transfer/original RAM comparison; close
 actual first startup wrapper/sibling pools and provider, then repeated player
 input/movement/collision with live actor rendering. No reliable ETA/readiness

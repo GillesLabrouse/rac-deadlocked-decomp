@@ -1,5 +1,12 @@
 # Native PC development
 
+Current checkpoint: 323 exact functions and 113 passing native tests. The
+viewer supports scenery and prepared animation; it has no controllable player
+or gameplay loop. Two startup pool components are integrated, while the
+complete bootstrap and player update remain open. See [GAMEPLAY_STATUS.md](GAMEPLAY_STATUS.md)
+and [PROGRESS_LOG.md](PROGRESS_LOG.md) for current validation and blockers.
+The component sections below retain their validation counts at integration.
+
 The complete selected RAM-only orientation API now covers real L01 `683310`,
 `67CBC0` matrix composition and `596470` Euler extraction. Its separate request
 supplies RAM, guest mapping, record and GP; its result publishes only RAM and

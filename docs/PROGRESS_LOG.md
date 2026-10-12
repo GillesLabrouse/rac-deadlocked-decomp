@@ -1,5 +1,42 @@
 # Local development progress
 
+## 2026-10-12 - First pose branch returned and original model entry observed
+
+Fresh v19 completes the guarded positive micro160 branch and reaches the
+second actual VCALLMSR at 589734 after 2165 EE / 115 VU in the explicit player
+update. VI13 is FFFF, VI14 is 127 and VI27 is 2C. The next invocation selects
+the negative body, but its shared 168 ISUB delay changes VI13 to 1 before
+entry250. Static audits now state that distinction explicitly. No returned
+whole player update, repeated frame or gameplay feature is claimed.
+
+The first private binder's staged reference missed positive-zero ADD broadcasts
+of a negative-zero interpolated value. Independent review caught the resulting
+full-bank mismatch before publication. V1 remains frozen; separate v2 models
+the actual broadcasts while retaining signed VF5/VF6 interpolation. V2 passes
+97 independent fresh factory CPU one-site full-bank cases / 2910 VU pairs and
+21 atomic guards. Independent raw-word decoding checks the paired old operands
+and aliased cache stores without using root's reference. A fault after four
+genuine SQs leaves original banks and temporary kernel globals unchanged.
+The initial checker SyntaxError remains frozen separately from its corrected
+retry. Review wall time is 526.7s, 46.7s beyond its eight-minute target; no new
+exact function or public native integration comes from this private lot.
+
+The actual frame caller689170 reaches model helper58A648 after 794 EE / 63 VU.
+A separate observation freezes all entry banks before the first instruction,
+with real A0=700000 and actor44=0.5. No RAM field/resource return is injected.
+The private frame-aware C draft returns APPROXIMATE on this genuine entry
+snapshot and retains the explicit VU input bytes. This is stronger input
+provenance than the old mid-helper smoke fixture, but complete original helper
+output and independent native validation are still required before integration.
+
+The two-arm continuation draft remains under independent review. Software
+finite arithmetic/E-delay models preserve pending Q and all unknown physical
+flags/timing; resident payload authentication does not prove runtime upload.
+The initializer is still suspended and the client incomplete. Exact coverage
+remains 323 / 0 bad, 273 resolved, 0.564%; last native suite113/113 in7.62s.
+The viewer still presents scenery/prepared animation, without player controls.
+No push. Root owns accepted code, central builds, integration and shared logs.
+
 ## 2026-10-12 - Decoder register batch and isolated pose computation
 
 Matching remains 323 exact / 0 bad, 273 resolved, 0.564% code. Last central
