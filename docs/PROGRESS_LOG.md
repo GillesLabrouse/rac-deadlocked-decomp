@@ -1,5 +1,35 @@
 # Local development progress
 
+## 2026-10-12 - Movement basis draft remains outside accepted sources
+
+A bounded source-only RAM prefix draft and static journal are frozen after
+271.5s within six minutes. The three actual PlayerB0/B4/B8 angles are traced;
+current values are0,0,2.4898700714. The existing native angle-pair constants
+and operation order match the raw C60 XY computation, while its explicit
+subnormal-result flushing remains a separately labeled software approximation.
+Unknown Z/W registers, ACC lanes and hardware flags receive no bank guarantee.
+
+The prefix intentionally ends before67C3B0 JAL67B9B0. The last transpose-column
+store is the genuine67C3B4 delay slot, so the draft does not supply a completed
+transpose: Actor+80 retains the earlier untransposed row2 at this boundary.
+No native build, independent typed-known-output reference comparison, original
+CPU replay or acceptance has occurred. The frozen source also contains an
+unused static helper that requires a separate cleanup copy for strict compilation.
+Keep this draft out of public accepted source and all progress percentages.
+
+Next requires an independently derived typed XY/raw-MM I output reference,
+an explicit boundary contract (prefix or through the actual final delay store),
+isolated strict native build, mapping/alias/atomic checks and production proof.
+The guarded full-bank oracle stays atv32/67C224. No data or captured return is
+injected to bypass it. Startup/provider closure and geometry/skin selection
+remain independent unresolved gates to a genuinely playable first scene.
+
+Current accepted checkpoint remains four startup leaves, the frame-aware native
+model helper,323 exact/0bad/273resolved/0.564% and113/113 native tests in8.10s.
+No controllable player, complete repeated gameplay loop, new live viewer behavior
+or push. All tracked work is committed; exclusive failed/private artifacts stay
+preserved with their corrected receipts and scopes.
+
 ## 2026-10-12 - Input path progresses; movement macro remains guarded
 
 The actual zero-input SQRT/WAIT/ADDQ sequence passes independent raw-reference
