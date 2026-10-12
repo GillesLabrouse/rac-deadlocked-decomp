@@ -1,5 +1,49 @@
 # Local development progress
 
+## 2026-10-12 - Decoder register batch and isolated pose computation
+
+Matching remains 323 exact / 0 bad, 273 resolved, 0.564% code. Last central
+native suite remains 113/113 in 7.62s; unchanged native sources do not require
+a repeated suite. No controllable Ratchet or complete player update exists.
+
+The scoped decoder integer-register batch passed independent 2112 isolated
+CPU full-bank cases, 44 atomic negative checks and one actual frontier bank.
+Only VI14=127 is reached in fresh v18; the five other supported static sites
+receive no reached-path credit. Fresh v18 reaches 5896EC VCALLMSR after
+2129 EE / 85 VU in the explicit update. Initialization remains suspended;
+client state is partial, and constructor/update calls are explicitly invoked,
+not original scheduling. Q readiness and physical flags/FCSR/timing remain
+unknown. Six register transports do not establish physical synchronization.
+
+Commands103 independently verifies the actual selector 2C and positive VI13
+arm of micro160 against the resident payload. The stronger reviewer verifies
+the complete two-arm manifest, then executes the current positive arm on a
+clone: 30 pairs agree with independent whole-bank reconstruction; 12 consumed
+numeric refusals pass. Negative-arm execution is not validated by this lot.
+Root's positive-arm binding passes its actual current-bank isolated probe and
+is awaiting independent binding/atomicity review before any EE continuation.
+No new accepted source, native integration or matching coverage follows from
+these private software arithmetic models. Physical E retirement and runtime
+microprogram installation remain unobserved; unknown flags are retained.
+
+Memory117 verifies the actual L01 index3 startup leaf independently, including
+its A0=3 caller and serialized count0/stride84. Its available L00 navigation
+candidate differs at 12 words and uses another caller argument/address set.
+Two L00 variants failed both actual relocation and resolved-address checks;
+neither is accepted. This lot takes 299 wall seconds: 0 accepted/hour within
+the lot, 2 compiled-byte failures, 0 integration time. A compiler sandbox
+failure, missing extraction output and overwritten variant scratch are
+recorded separately. The unchanged v1 was rebuilt into isolated preserved
+paths; workers must reserve separate scratch per variant from the first run.
+Do not add these overlapping failure categories into one inflated counter.
+
+Current next gates: finish actual animation/model transfer and a returned
+whole player update; close authentic bootstrap/client roots/providers; repeat
+input, movement and collision with a live actor and follow-camera rendering.
+Private frame-aware C remains a smoke-tested draft without full original
+helper equivalence. No reliable playability ETA. Root retains integration and
+shared validation; worker artifacts remain private. No push.
+
 ## 2026-10-12 - Independently bound second startup pool and current frame frontier
 
 Added native/dreadzone_startup_pool_secondary.c: actual L01 6670B8 with A0=2.
