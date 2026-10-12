@@ -1,3 +1,56 @@
+# Current checkpoint - 2026-10-12 - Native pre-basis histories integrated
+
+Previous goal turn was progress: selected position wrapper accepted at
+3c581bb. This turn integrates the actual 68EFE8 position history and the
+ordered 67C1B0..67C208 angle-history block followed by its real callee.
+The adapters preserve raw scalar/quad words, source-before-store order,
+counter reloads, count-before-cursor stores and the JAL/JR delay effects.
+Cursors 0..31 and counts 0..32 are explicit adapter bounds, not original
+branches. Original API/storage and higher-level ownership remain hypotheses.
+Request/backing aliases are captured, and failures preserve all RAM and info.
+No float arithmetic, host rounding requirement or full-bank claim is added.
+
+Fresh198 observer-only replay freezes the genuinely reached entry67C1B0
+and return67C20C. The initializer remains partial and the subsequent original
+frame still stops at67C224; this is not an uninterrupted startup/playable run.
+Actual block92 bytes SHA4f42bedb... and helper88 bytes SHAe77cac66... are
+authenticated against L01. Independent integer-word execution reproduces the
+entire captured return, then checks explicit wrap/count/raw-NaN/signed-zero
+variants. Final public archive passes36 whole32,505,856-byte RAM rows at
+host offsets0/1/7:1,170,210,816 bytes, with actual selected slots/call order.
+Independent200 compiles its own candidate and repeats8 full-RAM rows at3/11,
+plus descriptor aliases, cursor/count refusals and late rollback after a
+tentative angle write. No concrete native implementation mismatch was found.
+All127 native tests pass in28.10 seconds; root adds one regression test.
+Integration time: 910.3 seconds from first private C source creation.
+New exact functions:0 (0/hour); new native component:1 with two APIs;
+new playable features:0. Root receipt:private/root-player-history198/acceptance.json.
+
+195 independently corrects194: C60 broadcasts X to Y, so its whole body is
+not universally lane-local. Live Z/W do not feed returned X/Y, and the three
+basis call sites extract only X/Y into scalar matrix arithmetic. Preserve
+ambient lanes/status; only the selected matrix RAM API can ignore them.
+196's original-C starting point mishandles negative count: correction is
+preserved separately. It is uncompiled, unaccepted and not matching credit.
+
+199 authenticates5A8628/5A8620 as eight-byte JR/NOP stubs and provides a
+private535A58 candidate/full-RAM capture for the real getter result zero.
+197/201 recover the actual zero-planar branch in6840B8; vertical Z/W inputs,
+bounded squares and final independent validation are being checked. Those
+drafts remain outside accepted sources and percentages. Root has not adopted
+either batch. Reuse existing native kernels rather than substitute results.
+
+Next: complete selected695570 idle control with its genuine6840B8 dependency,
+then state0/2 dispatch690F18 and67C010 using validated mode, history, basis,
+position and post-position calls. Follow actual callbacks and tail; retain
+truthful stack/resource provenance. Repeated input, collision sphere paths,
+skin/camera binding and the first playable scene remain required. The viewer
+and free camera remain the executable's visible behavior. Dreadzone follows
+the first playable scene. No push, no third recovery lane, no goal completion.
+Root owns integration/central builds. Concurrent matching/asset edits and the
+sibling tool's benchmark/frozen inputs remain preserved outside this commit.
+Older entries below are historical.
+
 # Current checkpoint - 2026-10-12 - Native position wrapper integrated
 
 Previous goal turn was progress: native post-position control accepted at
