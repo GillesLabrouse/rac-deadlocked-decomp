@@ -50,6 +50,12 @@ int dreadzone_startup_pool_006671D0_index3(const DreadzoneStartupPoolMemory *);
  * Serialized count0/stride80 does not imply a completed live initializer.
  */
 int dreadzone_startup_pool_006672E8_index4(const DreadzoneStartupPoolMemory *);
+/* Independently verified L01 00667400 with A0=5; same mapping/refusal rules.
+ * Tables366134/366150/36616C, count3B005C, stride3B00A4, workspace37F460,
+ * node identifier3B1588. Positive record footprint ends before3B005C.
+ * Serialized count0/stride24 is a leaf input, not proof of live startup.
+ */
+int dreadzone_startup_pool_00667400_index5(const DreadzoneStartupPoolMemory *);
 #ifdef __cplusplus
 }
 #endif

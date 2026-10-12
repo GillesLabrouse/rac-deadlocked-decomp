@@ -1,5 +1,41 @@
 # Local development progress
 
+## 2026-10-12 - Fifth startup leaf completes the second pool family
+
+Actual L01 leaf 667400 with A0=5 is integrated as a separate native RAM API.
+Independent bounds, caller and table validation establishes tables 366134 /
+366150 / 36616C, count 3B005C, stride 3B00A4, workspace 37F460 and node
+identifier 3B1588. These bindings come from this leaf's actual instructions.
+Serialized count 0 / stride 24 produces only the three table writes; diagnostic
+positive counts preserve its ordered +14 / +10 / +0C links. The established
+mapping, descriptor disjointness, bounds and atomic-refusal contract is retained.
+CPU ABI, allocation, callbacks and complete initialization remain excluded.
+
+The earlier private candidate and root comparison are frozen unchanged.
+The final central archive repeats all 50 complete-RAM cases: 15,564,800 bytes,
+691,056 original EE instructions and 59,292 ordered store checks. Twelve atomic
+mapping/domain guards pass. Public tests add independently verified index-5
+table-only, positive-link and refusal cases. All 114 native tests pass in 7.29s.
+Staging through tests and final archive proof takes 55.6s; earlier recovery
+and later documentation/commit are excluded. This adds one native component
+and zero exact functions. Matching remains 323 / 0 bad / 273 resolved / 0.564%.
+
+Leaves for indices 2 through 6 of the second startup pool family are now native.
+The wrapper's earlier 378B78 / 378BB0 family, complete initializer, provider
+and authentic PC startup remain open. This closes a dependency group, without
+claiming the original initializer returned or Ratchet became playable.
+
+Memory128 attempts the independently located first-family canonical L00 leaf
+6AA5F8, using actual L00 references after verifying L01 667988 navigation.
+Two isolated compiled variants fail both actual-relocation and resolved-address
+comparison (216/220 bytes instead of 280). Two transient linker launches fail
+with Windows error 623; separate retries complete and retain the real mismatch.
+Two assembly-parser formatting failures are preserved before corrected m2c input.
+Its 251s bounded lot yields zero accepted functions: exact recovery rate is
+0 functions/hour for this lot, with two failed compiled variants. Drafts stay
+outside accepted sources and progress. Root continues the actual player path
+while independent movement/radius reviews finish. No push or new viewer behavior.
+
 ## 2026-10-12 - Defined movement orientation matrices integrated natively
 
 The new movement-basis API consumes actual Player+B0/B4/B8 angles and publishes

@@ -1,12 +1,12 @@
 # Current checkpoint - 2026-10-12 - Movement basis / 323 exact / 114 tests
 
-Four independently validated startup pool leaves and the current-frame model
-helper remain integrated. The new selected movement-basis API produces the
+Five independently validated startup pool leaves (indices 2..6) and the
+current-frame model helper are integrated. The earlier pool family stays open. The new selected movement-basis API produces the
 two complete orientation matrices through the genuine67C3B4 delay store.
 Independent raw EE/MMI/defined C60XY projection and final central archives
 agree on39 fullRAM comparisons/37unique inputs/1267728384bytes. Unknown
 machine banks, physical precision/flags, stack/ABI/callee/frame remain excluded.
-All114 native tests pass in7.18s. Exact323/0bad,273resolved,0.564% unchanged.
+All114 native tests pass in7.29s. Exact323/0bad,273resolved,0.564% unchanged.
 
 The original full-bank diagnostic remains guarded at v32/67C224 after8237EE/
 5233VU; no complete player update has returned. Initializer/client/provider

@@ -91,6 +91,19 @@ int main() {
         require(get(bytes,0x37F4B4)==0);
         put(bytes,0x3B00A0,1);snapshot=bytes;
         require(dreadzone_startup_pool_006672E8_index4(&view)==-1 && bytes==snapshot);
+        // Index5 uses independently verified node1588 and stride24 bindings.
+        put(bytes,0x3B005C,0);put(bytes,0x3B00A4,24);put(bytes,0x366134,123);
+        snapshot=bytes;
+        require(dreadzone_startup_pool_00667400_index5(&view)==0);
+        require(get(bytes,0x366134)==0 && get(bytes,0x366150)==0x37F460 && get(bytes,0x36616C)==0x37F460);
+        require(get(bytes,0x37F474)==get(snapshot,0x37F474));
+        put(bytes,0x3B005C,2);
+        require(dreadzone_startup_pool_00667400_index5(&view)==0);
+        require(get(bytes,0x37F474)==0x3B1588 && get(bytes,0x37F470)==0);
+        require(get(bytes,0x37F46C)==0x37F478 && get(bytes,0x37F488)==0x37F460);
+        require(get(bytes,0x37F484)==0);
+        put(bytes,0x3B00A4,1);snapshot=bytes;
+        require(dreadzone_startup_pool_00667400_index5(&view)==-1 && bytes==snapshot);
         std::cout << "Startup pool contract passed\n";
         return 0;
     } catch(const std::exception& error) {
