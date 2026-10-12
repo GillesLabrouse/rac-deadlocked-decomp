@@ -28,6 +28,14 @@ typedef struct DreadzoneStartupPoolMemory {
  * invocation and the enclosing initializer are outside this contract.
  */
 int dreadzone_startup_pool_00667518_index6(const DreadzoneStartupPoolMemory *);
+/* Independently verified L01 006670B8 with A0=2, using the same mapping and
+ * atomic-refusal preconditions. Tables are366128/366144/366160, count3B0050,
+ * stride3B0098, workspace37F420 and descriptor3B0068. Positive counts<=4096
+ * use word-divisible strides; the full record footprint ends before3B0050.
+ * Signed nonpositive counts publish only the three table words. The actual
+ * serialized index2 count is0 and stride24. No runtime setup call is implied.
+ */
+int dreadzone_startup_pool_006670B8_index2(const DreadzoneStartupPoolMemory *);
 #ifdef __cplusplus
 }
 #endif

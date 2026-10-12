@@ -1,5 +1,62 @@
 # Local development progress
 
+## 2026-10-12 - Independently bound second startup pool and current frame frontier
+
+Added native/dreadzone_startup_pool_secondary.c: actual L01 6670B8 with A0=2.
+Its own count/stride/table/workspace/descriptor bindings were independently
+reread; no address is inferred from the accepted index6 helper. The same RAM
+mapping, bounded4096 count, aligned-stride and control-disjoint domain applies.
+Serialized count0/stride24 genuinely produces three table stores only. Positive
+counts in validation are labeled diagnostic inputs, not live startup state.
+The original leaf makes no calls, allocates nothing and does not close669D8.
+
+Root50 fresh originals pass691056EE,15564800 compared bytes,59292 actual
+ordered store checks and12 atomic guards. Independent54 fresh A0=2 originals/
+162 native comparisons pass49080168 bytes,1135844EE and16 guards. Root's first
+reused oracle harness incorrectly retained A0=6; its first comparison failed
+and is preserved, with the correctedA0=2 harness separate. Memory114's own
+prior model had an unaligned-stride domain gap; the root version uses the
+reviewed aligned-stride restriction instead. A private C++ prototype lacked
+externC linkage; the public declaration is inside the existing C block and the
+actual C++ contract test links the compiled C archive successfully. Source/DLL
+hashes and the initial report-encoding failure are preserved in private receipts.
+Public C differs from the reviewed root version only in its include. Central
+archive bridge repeats all50 cases/12 guards. Updated113-test native suite
+passes in7.62s. Integration wall timing/hashes are recorded separately; the
+wall interval includes concurrent analysis. Matching remains323/0bad,273 fully
+resolved,0.564%code. No push or new visible viewer behavior.
+
+Private frame-aware model transfer compiles and returns its approximate status
+on genuine partial-transform banks with frame0.5. This is only a smoke probe,
+not original-entry/caller equivalence; it remains outside public sources and
+coverage. The first ctypes model-view layout was wrong, causing an atomic
+UNMAPPED refusal; the corrected harness uses the public guest_base/bytes/storage
+order. Original complete frame/model comparison is still required.
+
+Private store0 continuation verifies22 raw SQ/NOP pairs and every canonical
+mnemonic, including padded vector names and E annotation. V1 deepcopy invoked
+an instance closure on its original CPU; its failed isolated run mutated only
+that ephemeral diagnostic bank. V2 fixed the closure but failed a text-mutation
+guard. V3/V4 conservatively rejected canonical formatting/annotation. All remain
+preserved and receive no credit. V5 executes the guarded class kernel on a
+clone, checks the actual raw-derived whole store journal, then publishes only
+memory/steps. Independent17 factory cases/374VU pairs and11 atomic negatives
+pass, including mid-clone failure. Q/pending and unknown flags remain unchanged.
+Freshv16 reaches5895A0 after2062EE/85VU; the saveCALLMS0 is the JR589918 delay,
+not an immediately sequential call to the B0/F0 restore routines. Commands101
+corrects that chronology with actual producerAT=160>>3=2C.
+
+Official immutable PCSX2 revision9fc90907c29294ac9db9aadd2d6c6bdf33403571
+identifies control register27 and a low32 CTC2 transfer; synchronization and
+physical pipe behavior remain outside the model. The exact selector-only
+binding passes256 independent CPU bank cases/17 atomic negatives plus one
+explicitly synthetic status-read guard. Freshv17 reaches589614 after2091EE/
+85VU, then refuses another CTC2. No further control write or microprogram is
+executed. The unknownQ/status guard is retained; pending is not cleared.
+No whole player update has returned, no startup/client has completed, and no
+input/movement/collision gameplay loop exists. Two light agents and a reviewer
+now audit a bounded decoder register batch and the real first setup wrapper.
+
 ## 2026-10-12 - Startup pool RAM component integrated; frame-aware pose remains private
 
 Integrated native/dreadzone_startup_pool.c/h for the complete selected L01

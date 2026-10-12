@@ -4,7 +4,8 @@ project(deadlocked_native LANGUAGES C CXX)
 include(CTest)
 
 find_package(Threads REQUIRED)
-add_library(deadlocked_native_dreadzone_startup_pool STATIC dreadzone_startup_pool.c)
+add_library(deadlocked_native_dreadzone_startup_pool STATIC
+    dreadzone_startup_pool.c dreadzone_startup_pool_secondary.c)
 target_include_directories(deadlocked_native_dreadzone_startup_pool PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_startup_pool PUBLIC c_std_11)
 if(MSVC)

@@ -52,6 +52,19 @@ int main() {
         put(bytes,0x366138,123);
         require(dreadzone_startup_pool_00667518_index6(&view)==0);
         require(get(bytes,0x366138)==0 && get(bytes,pool+0x14)==workspace);
+        // Independent index2 controls: its serialized path is table-only.
+        put(bytes,0x3B0050,0);put(bytes,0x3B0098,24);put(bytes,0x366128,123);
+        snapshot=bytes;
+        require(dreadzone_startup_pool_006670B8_index2(&view)==0);
+        require(get(bytes,0x366128)==0 && get(bytes,0x366144)==0x37F420 && get(bytes,0x366160)==0x37F420);
+        require(get(bytes,0x37F434)==get(snapshot,0x37F434));
+        // Positive count here is a diagnostic contract case, not live state.
+        put(bytes,0x3B0050,2);
+        require(dreadzone_startup_pool_006670B8_index2(&view)==0);
+        require(get(bytes,0x37F434)==0x3B0068 && get(bytes,0x37F430)==0);
+        require(get(bytes,0x37F42C)==0x37F438 && get(bytes,0x37F444)==0);
+        put(bytes,0x3B0098,1);snapshot=bytes;
+        require(dreadzone_startup_pool_006670B8_index2(&view)==-1 && bytes==snapshot);
         std::cout << "Startup pool contract passed\n";
         return 0;
     } catch(const std::exception& error) {

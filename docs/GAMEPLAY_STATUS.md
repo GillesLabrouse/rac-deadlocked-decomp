@@ -1,3 +1,23 @@
+# Current checkpoint - 2026-10-12 - Two startup pools / 323 exact / 113 tests
+
+Actual L01 startup pool leaves6670B8(index2) and667518(index6) are integrated
+with independent per-function original RAM/address/alias validation and final
+central-archive proofs. The113 native tests pass in7.62s. Matching unchanged:
+323exact/0bad,273resolved,0.564%code. Viewer remains scenery/prepared poses;
+no controllable Ratchet, complete player update or gameplay loop.
+
+Privatev17 reaches589614CTC2 after2091EE/85VU, using explicitly software-only
+arithmetic and raw VU snapshot models. Q readiness/physical flags/FCSR/timing
+remain unproved. Initializer is suspended and client partial. Privateframe-aware
+model C handles0.5 in a smoke invocation, but has no original full-helper proof
+and is not accepted. Preserve all failures and correction receipts separately.
+
+Next: independently audit all reached decoder integer-register writes and
+microprograms, complete frame-aware transfer/original RAM comparison; close
+actual first startup wrapper/sibling pools and provider, then repeated player
+input/movement/collision with live actor rendering. No reliable ETA/readiness
+percentage. Root owns integration, reports and central builds. No push.
+
 # Current checkpoint - 2026-10-12 - 323 exact / 113 native tests
 
 Native startup pool00667518(index6) is integrated after independent original
