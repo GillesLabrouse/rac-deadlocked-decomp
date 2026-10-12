@@ -1,3 +1,34 @@
+# Current checkpoint - 2026-10-12 - Startup initializer and reached static return / 323 exact / 116 tests
+
+Native callback006B4078 now initializes its bounded0x54-byte guest record,
+using the shared startup memory descriptor and byte-oriented little-endian
+stores. Root's final central-archive proof matches32 full RAM cases
+(52,953,088 compared bytes) and six atomic refusals. Independent QA adds
+three full RAM cases and four guards. All116 native tests pass in28.25s.
+This supplies selected callback RAM effects, not live provider allocation,
+invocation, authentic bootstrap, CPU/stack ABI or partial guest faults.
+
+The reached static correction542280 now returns to its actual caller67F318.
+Final native archive and original software replay agree on all32,505,856
+mapped bytes at host offsets0/1/7, with independent offset3. Return0, one
+selected group and zero tested faces: this proves the reached no-contact
+path, not an obstacle-contact case. Inputs remain typed projected RAM and
+diagnostic machine banks. The previous reached capsule proof remains valid.
+
+Reviewed packed integer operations and additional actual caller clamps move
+the explicit position diagnostic to67FB24 after3288EE/88VU. VRSQRT reads
+VF0.W=1 and VF2.X=0 and is still guarded. Full-bank player v32 remains at
+67C224. No complete position/player update, repeated frame or live controls
+is established. Viewer still shows scenery/prepared poses.
+
+Canonical exact coverage remains323 /0bad /273resolved /0.564% of code.
+Helper667058's three matching drafts fail; private/native work adds no exact
+percentage. Two small recovery streams remain the ceiling; no third stream
+while matching acceptance stays zero. Next: audit actual zero-denominator
+Q behavior and its consumers, finish position, then provider and real scene/
+skin bindings for repeated input/camera frames. No reliable playable ETA.
+No push. Older checkpoints below remain historical.
+
 # Current checkpoint - 2026-10-12 - Reached native capsule / 323 exact / 115 tests
 
 The actual reached capsule probe now returns to its real caller in the private

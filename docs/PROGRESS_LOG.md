@@ -1,5 +1,69 @@
 # Local development progress
 
+## 2026-10-12 - Integrate native startup callback and validate reached static return
+
+Native006B4078 is integrated into the existing startup-pool library with its
+memory view aliased to DreadzoneStartupPoolMemory. The independently authored
+0x54 record layout and16 ordered stores come from actual L01 bounds0x50;
+canonical L00 callback bytes are identical, but matching C drafts stay outside
+accepted matching sources. Backing may be byte-unaligned; guest records must
+be word-aligned in one truthful exclusive<=16MiB mapping below2GiB. The
+descriptor is disjoint and all refusals precede writes. Boundary and preserved
+field checks are public; original CPU comparisons stay private.
+
+Worker126's final16 full-RAM comparisons and six guards pass after replacing
+an unnecessary host alignment guard. Its earlier no-compiler assertion was
+incorrect: absolute installed BuildTools and elevated local execution work.
+The original typed-pointer variant and failed prerequisite explanation remain
+preserved with an additive correction. Worker receipt reports about250s;
+independent QA takes104s, verifies actual19 instructions/no calls/all16 stores,
+and compares3 full RAM cases plus4 guards. Root's final central-archive DLL
+passes32 cases at host offsets0/1/3/7, totaling52,953,088 bytes, plus6 guards.
+Shared ABI reuse and source normalization precede the final proof. MSVC/W4/WX
+build and all116 native tests pass; suite elapsed28.25s. Root integration
+window from first public source mutation to final archive receipt is127.4s,
+excluding earlier recovery/QA and later documentation. No initializer test or
+supported-domain differential failure occurred during root integration.
+
+The static diagnostic now authenticates PABSW, four DSRA32 sites, PSRAW and
+one PMULTH in actual542280..542808. PABSW saturates signed INT32_MIN; scalar
+shifts preserve upper64; packed signed halfword products replace RD/HI/LO.
+Public RetailIntegerCPU executes one actual word with budget1 and no memory,
+callee or synthetic return. Root suites cover23 PABSW cases/4 guards,48
+integer-site cases and10 product cases/3 guards. One earlier check script
+syntax error is preserved; corrected v2 check passes. Independent QA takes98s
+and confirms selectors, aliases, full product layout and passive Q taint.
+
+From the frozen actual v10 entry, complete static542280 returns to67F318 in
+868EE/44VU pairs without replacing instructions, entry registers or its real
+return address. Table[222BE0] is9D5700. Final native archive agrees on all
+32,505,856 RAM bytes at offsets0/1/7 (97,517,568 compared bytes), return0,
+one selected group and zero tested faces. Independent QA repeats offset3.
+Input and output RAM hashes are identical on this no-contact path; no face
+contact or live scene binding is inferred from it. Existing capsule proof
+still tests34 faces/8quads separately. Root static replay/comparison phase
+takes0.150s, excluding setup and DLL linking.
+
+Actual67FA50 canonical VF0 MAXW binds VF4 through unchanged reviewed code.
+Eight scalar clamps are authenticated from complete67F5E8 size950 and bound
+through the same finite normal/zero primitive. Root adds64 direct cases and
+64 atomic guards, including signed zeros and finite extremes. Independent
+combined caller QA takes157s and checks static return, MAXW, clamps and
+targeted refusals. Its guards do not separately compare every passive bank;
+the root clamp suite supplies the full before/after refusal checks.
+
+Fresh diagnostic v19 stops at actual67FB24 VRSQRT(1,0) after3288EE/88VU.
+Unknown physical FCSR/MAC/Q timing, diagnostic banks and typed projected RAM
+remain explicit. Whole player v32 stays guarded67C224. No complete position
+update, repeated gameplay or viewer behavior is claimed.
+
+Worker134 independently audits helper667058 size58/provider666B40 size110;
+three compiled variants fail actual-L01 resolved byte comparisons, with no
+true object relocations. Recovery elapsed380s; matching acceptance0/hour,
+3/3 validation failures. It remains HOLD and outside exact coverage. No
+third recovery stream is added. Root reserves shared integration and builds.
+Canonical coverage323 /0bad /273resolved /0.564% remains checked. No push.
+
 ## 2026-10-12 - Reached capsule returns and agrees with final native archive
 
 Actual upper-bound sign producer53FB90 writes VF2; CFC2 at53FBB8 is consumed by

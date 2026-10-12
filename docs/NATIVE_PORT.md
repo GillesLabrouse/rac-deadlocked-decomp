@@ -1,11 +1,22 @@
 # Native PC development
 
-Current checkpoint: 323 exact functions and 115 passing native tests. The
+Current checkpoint: 323 exact functions and 116 passing native tests. The
 viewer supports scenery and prepared animation; it has no controllable player
 or gameplay loop. Both startup pool leaf families, current-frame model transfer and selected
 complete movement-basis matrices are integrated; wrappers/bootstrap/player update remain open. See [GAMEPLAY_STATUS.md](GAMEPLAY_STATUS.md)
 and [PROGRESS_LOG.md](PROGRESS_LOG.md) for current validation and blockers.
 The component sections below retain their validation counts at integration.
+
+## Selected startup callback initialization
+
+`dreadzone_startup_initializer_006B4078` supplies the actual sixteen RAM
+stores in the index6 descriptor's callback. Its memory descriptor reuses
+`DreadzoneStartupPoolMemory`; its0x54 guest record is word-aligned while
+host backing can be byte-unaligned. Mapping and descriptor checks precede
+all writes. Unrelated bytes are preserved. Final archive proof passes32
+full RAM cases and six refusals, with independent3-case/four-guard review.
+All116 native tests pass. Live allocation/selection/invocation and complete
+startup remain open; this API establishes only the bounded RAM effect.
 
 ## Selected startup control composition
 
@@ -19,7 +30,8 @@ This closes selected wrapper RAM effects only; provider, complete initialization
 CPU/stack/BSS provenance and authentic playable bootstrap remain open.
 
 Private reached capsule replay returns to its actual caller and agrees with the
-final native archive on all mapped RAM; static correction remains guarded at542358.
+final native archive on all mapped RAM; reached static correction also returns.
+The explicit position diagnostic remains guarded at67FB24 VRSQRT(1,0).
 Typed projected RAM and diagnostic banks are explicit; no full player frame is proven.
 
 The complete selected RAM-only orientation API now covers real L01 `683310`,
