@@ -1,3 +1,28 @@
+# Current checkpoint - 2026-10-13 - Pre-locomotion RAM chain checked
+
+Previous goal turn progressed; root integration commitbb8db07 adds the bounded
+player prefix and corrected slot helper (127 accepted-scope tests PASS).
+Public archives now compose prefix, histories and basis with9 complete RAM
+boundary comparisons at host offsets0/1/7. The last boundary includes actual
+67C3B4 delay store, before67B9B0. Receipt:private/root-player-prefix222/
+chain-comparison.json. Basis uses the authenticated defined-XY projection;
+physical banks/status/timing and the callee execution remain excluded.
+
+Independent228 corrects225's double RAM offset: true B0/B4/B8 are0/0/401F5A08.
+The reported large angles/CE0 overflow were harness artifacts, preserved and
+rejected as evidence. No missing angle initialization is proved by that case.
+C60 microCD0 writesVF28.xyzw, so its W cannot be borrowed unchanged from a
+pre-basis capture. Private232 audits first consumers/overwrites and caller
+high64; full67C010 is still HOLD. Private227 cleanup has6 original-word cases
+and65 synthetic checks, awaits independent233 review outside accepted sources.
+Private229 records authentic665D58->15A170 arguments/delay; private234 will
+run that real callee in an isolated original-word namespace, without stubs.
+
+This diagnostic adds0 exact functions,0 native APIs and0 playable features.
+No controlled character or full native gameplay loop yet; Dreadzone base follows
+the first scene. Goal remains active, no push; foreign work/frozen inputs intact.
+Earlier checkpoints follow.
+
 # Current checkpoint - 2026-10-13 - Selected player prefix integrated
 
 Root integrates bounded native L01 535A58 slot-word effects and the 67C010
