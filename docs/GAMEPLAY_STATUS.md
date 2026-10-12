@@ -7,9 +7,10 @@ Ratchet or a complete gameplay frame. Matching coverage is 318 functions of
 
 The PC D3D11 completion/reset service now waits for actual submitted work and
 then clears pipeline bindings. It is used after scene uploads; real WARP
-clear/copy/readback tests and independent review pass. All 104 native tests
-pass in 6.46s. The full original graphics initialization, display environment,
-projection descriptor and player client remain open. The native service adds
+clear/copy/readback tests and independent review pass. Its original 104-test checkpoint passed in 6.46s; the current 106-test suite
+passes in 6.71s after the projection and history components. Full original
+graphics initialization, the live descriptor producer and player client remain
+open. The native service adds
 no matching credit or playable frame. Its API follows Microsoft's
 [EVENT query](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_query),
 [GetData](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3d11-id3d11devicecontext-getdata)
@@ -24,6 +25,20 @@ mappings and unsupported rounding. The production archive passes 32 whole
 pass in 7.10s. This supplies the projection component, not its live descriptor
 producer. The strict graphics frontier and zero-input client fixture are still
 unresolved. No machine-bank output or completed player frame is claimed.
+
+The client history lookup now passes 196 original cases and 44 independent
+production cases, including full signed markers and atomic mapping refusals.
+It returns a table entry address without initializing the table or client.
+Current native validation: 106 tests / 6.71 s; matching stays 318. Actual client
+setup iterates four indices. The actor accessor receives the index, and table
+markers originate in a count-bounded descriptor parser whose input/resource
+selection remains unresolved.
+
+An explicit diagnostic chain now compares the complete projection RAM effects
+using dimensions genuinely written by a partial original descriptor execution,
+then reaches MAX.S at00546D9C (575 client EE / 118 VU). The descriptor entry has not
+returned, so this chain does not establish live startup. The original zero-input
+fixture and strict MMIO refusal remain retained. client+50 is still null.
 
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |

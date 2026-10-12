@@ -1,5 +1,55 @@
 # Local development progress
 
+## 2026-10-12 - Native client history lookup accepted; startup remains incomplete
+
+The actual complete L01 005353C8 RAM lookup now searches the first matching
+signed marker among 48 records for indices 0..3, preserving every input byte.
+Production archive proof passes 196 original executions/392 mapped comparisons,
+30,368 EE / 0 VU and 5 atomic guards. Independent production review passes 44 fresh
+original executions/88 boundary comparisons/36 guards, 11,536 EE / 0 VU. Root replayed
+those independent cases separately; it does not add unique cases. All 106 native
+tests pass in 6.71 s. Matching remains 318/0, 0.561% code. This component returns
+a selected address; it does not initialize tables or publish client+50.
+
+Private draft and first review evidence remain immutable. The production
+review's first export-name assumption failed before cases; the retained v2
+checker uses the real bridge export and passes. The build/review integration
+interval, measured from artifact verification before the central build through
+independent production validation, is 199.83 s; source preparation is outside
+that interval. Two exact integrations earlier took 68.83 s/91.69 s. Net exact
+through this validation is 2 functions in 83.36 min,
+1.44 functions/hour; no new exact acceptance in these provenance
+lots, and no additional recovery worker is justified. The existing 7 failed exact
+variants and 1 initial compiler failure remain outside accepted sources.
+
+Memory70 and commands58 were bounded provenance-only lots: complete client
+callees are recovered as addresses/dataflow, but shared return tails and catalog
+identities block matching adoption. No C variants were compiled. Memory71 traces
+222990/222994 writes to 0057B498 and its actual caller 0057CD78; upstream selected
+cursor/resources and descriptor values remain open. Correction: client setup
+iterates 0..3 via a stack-saved next index; 538CD8 uses unsigned LHU before SH,
+538D0C separately uses signed LH; 6658C0 receives index in A0, not the row
+computed in the call delay. Original reports and separate corrections survive.
+Memory70's report timestamp conflicts with observed freeze; memory71 records
+127 s observed rather than silently rewriting the earlier report.
+
+The real descriptor component diagnostic executes 322 EE / 0 VU, writes 512/416
+at 206B90/92, then refuses an unverified shift at 138B6C. Its full entry has NOT
+returned. A new explicit component-chain diagnostic uses that genuine partial
+RAM as input, runs complete original 005469A0/00546918 and compares all 10 MiB with
+the production projection entry (135 EE / 0 VU, equal). It then runs the actual
+client entry 575 EE / 118 VU before refusing an unverified MAX.S at 546D9C. This is
+neither live startup nor a fulfilled descriptor constructor. Descriptor base/
+count and client+50 remain zero; no division result, helper return or pointer
+was injected. Integer DADDIU/MULT1 property reviews pass; writer shifts remain
+unreviewed and all original failing frontiers are preserved. No physical claim.
+
+Next primary work: bounded actual client/display matrix arithmetic and real
+descriptor/table/resource producers, then first complete player update,
+repeated input/movement/collision and live actor/camera rendering. The viewer
+still provides scenery/prepared animation diagnostics only. No playable frame,
+game data committed, push or third recovery worker.
+
 ## 2026-10-12 - Native RAM projection component accepted
 
 The bounded dreadzone_display_projection_ram_005469A0 entry now computes actual
