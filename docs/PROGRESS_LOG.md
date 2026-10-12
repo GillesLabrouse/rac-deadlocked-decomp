@@ -1,5 +1,52 @@
 # Local development progress
 
+## 2026-10-12 - Same-stage native pose agrees and matrix entry is reached
+
+Fresh v22 completes both actual decoder restore calls (8+14 raw pairs) and
+reaches589958/E90 after4689 EE /2057 VU in the explicit update. Independent
+Memory119 checks actualB0, separately labeled syntheticF0/pair and eight
+atomic refusal paths. Its helper replay is an explicit partial frame, not a
+returned whole frame; that distinction overrides the old result key wording.
+The class kernel runs on a clone, and raw NaN/nonfloat loads remain bitwise.
+
+Private frame-aware C initially differs at5883 bytes when its final matrix
+scratch is compared to original pre-matrix pose scratch. These are different
+stages; the preserved check is not full-helper equivalence or a native defect.
+A separately compiled private observation variant stops after decoder output,
+before matrices, using the same genuine58A648 input (frame0.5). Complete
+16384-byte scratch agrees with the actualv22 pre-matrix frontier, with zero
+differences. InputRAM and explicitVU bytes stay unchanged. This partial stage
+check strengthens native transfer/decoder evidence but does not accept the
+frame C draft; complete original helper output, review and production proof
+remain required. Isolated build and snapshots are preserved separately.
+
+E90/E10 pure snapshots are independently sourced from the real resident
+MPG148-pair packet; payloads14/8 SQ/NOP pairs authenticate raw and canonical
+tuples. The read-only preflight takes257s,17s beyond four minutes. Memory120
+starts from frozenv22 output/registers and executes one actual E90 instruction
+only, stopping58995C. No constructor/frame replay occurs. OnlyVU memory/steps
+change; syntheticE10/pair and passive raw-bit cases are separate. Eight atomic
+refusals pass. Freshv23 subsequently executes both actual snapshots and stops
+5899B8 CTC2.NI after4713 EE /2079 VU. No matrix arithmetic has yet executed.
+
+The numeric738/858 static audit includes both complete36-pair CFGs across a
+real packet-source discontinuity. LocalDIV writers dominate laterQ consumers,
+but there is no WAITQ or demonstrated physical readiness. Primary width facts
+also reveal that5899B8 suppliesfull32 FFFFFFFF toVI2, while VU integer writes
+and comparisons consume low16. Legacy list handlers discard high16. A separate
+logical32-container/low-half correction is under independent review; physical
+integer backups, synchronization/Q/flags/timing remain outside the model.
+The read-only numeric audit takes355.7s,115.7s beyond four minutes. No new
+numeric execution or acceptance follows from static feasibility.
+
+Commands109 independently verifies final F00/F40 raw load-only payloads and
+conditional final DMA-register store values, without claiming reached calls
+or device completion. Its218.7s lot stays within four minutes. Resource loading,
+initializer/client closure, returned whole player update, repeated inputs and
+collisions/live actor rendering remain open. Matching323/0bad,273resolved,
+0.564%; latest113/113 native suite7.62s unchanged. No new public native source,
+controllable Ratchet, gameplay loop or push. Root owns integration/final checks.
+
 ## 2026-10-12 - Current pose decoder reaches its register-restore tail
 
 Fresh v21 reaches actual589920 after4646 EE / 2035 VU in the explicit player

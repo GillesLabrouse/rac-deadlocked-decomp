@@ -6,14 +6,14 @@ central-archive proofs. The113 native tests pass in7.62s. Matching unchanged:
 323exact/0bad,273resolved,0.564%code. Viewer remains scenery/prepared poses;
 no controllable Ratchet, complete player update or gameplay loop.
 
-Privatev21 reaches589920 restore after4646EE/2035VU, with65 actual pose
-calls completed; restore and subsequent matrix generation remain open.
+Privatev23 reaches5899B8 CTC2 after4713EE/2079VU; decoder and register
+snapshots returned, but integer width and numeric matrices remain open.
 Q readiness/physical flags/FCSR/timing remain unproved. Initializer is suspended and client partial. Privateframe-aware
-model C handles0.5 in a smoke invocation, but has no original full-helper proof
-and is not accepted. Preserve all failures and correction receipts separately.
+model C at0.5 agrees on16384 decoded-pose scratch bytes before matrices,
+but has no original full-helper proof and is not accepted. Preserve all failures and correction receipts separately.
 
-Next: validate the raw restore binding, complete matrices and frame-aware
-transfer/original RAM comparison, then return a whole player update; close
+Next: review logical VI32/low-half semantics, complete bounded matrices and
+full model-helper RAM comparison, then return a whole player update; close
 actual first startup wrapper/sibling pools and provider, then repeated player
 input/movement/collision with live actor rendering. No reliable ETA/readiness
 percentage. Root owns integration, reports and central builds. No push.
