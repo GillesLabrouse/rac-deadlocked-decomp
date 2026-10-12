@@ -18,8 +18,9 @@ and11 atomic guards; independent QA adds5 host cases. All115 native tests pass.
 This closes selected wrapper RAM effects only; provider, complete initialization,
 CPU/stack/BSS provenance and authentic playable bootstrap remain open.
 
-Private collision continuation now reaches 53FBB8 after reviewed raw-bank saves
-and a bounded E0 sign projection; no new native API or gameplay frame is adopted.
+Private reached capsule replay returns to its actual caller and agrees with the
+final native archive on all mapped RAM; static correction remains guarded at542358.
+Typed projected RAM and diagnostic banks are explicit; no full player frame is proven.
 
 The complete selected RAM-only orientation API now covers real L01 `683310`,
 `67CBC0` matrix composition and `596470` Euler extraction. Its separate request

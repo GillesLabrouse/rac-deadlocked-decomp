@@ -1,5 +1,107 @@
 # Local development progress
 
+## 2026-10-12 - Reached capsule returns and agrees with final native archive
+
+Actual upper-bound sign producer53FB90 writes VF2; CFC2 at53FBB8 is consumed by
+ANDI E0 at53FBC0. The second projection authenticates the full observed suffix,
+keeps the first binding unchanged and preserves the existing pre-consumer taint
+guard. Root checks10 cases/8 atomic refusals. Independent review checks a direct
+VF2 sign case, five guards and execution through the real consumer, taking102s.
+The intervening FTOI VF3/VF4 operations do not update arithmetic flags in the
+declared [PCSX2 VUops.cpp model](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VUops.cpp):
+FTOI0 routes through applyUnaryFunction, and VUREGS_FTFS declares no VI writes.
+This source evidence does not establish physical MAC production or timing.
+
+Actual53FC00 word4B15C61B multiplies VF24.X by VF21.W. Root's finite normal/zero
+adapter passes30 full passive-state cases against an independent integer-
+significand rounding reference and eight atomic refusals. Independent QA adds
+four finite/zero/rounding cases and five guards. Actual probe restores540958/F00
+and54095C/F40 reuse the already reviewed raw restore implementation; root checks
+eight full banks and12 atomic guards, with independent full-bank checks and six
+guards. Combined independent review takes90s. Unknown physical precision, flags,
+timing and runtime micro upload/synchronization remain explicit.
+
+The complete reached53FAA8 probe is then replayed from the frozen actual v4
+arguments, RAM, scratch and stack without opcode/field/callee patches. Every
+word in its0xF88 body agrees with the actual L01 bytes. An observer stops only
+after the genuine return to67F2FC, before the caller executes; no synthetic
+return address or captured callee result is supplied. It returns0 in1816EE and
+44VU pairs. A fresh DLL linked from the final central native capsule/tree
+archives agrees on all32,505,856 mapped RAM bytes at host offsets0/1/7
+(97,517,568 compared bytes). Root's measured replay/comparison phase takes0.182s;
+module/input setup and archive linking precede that interval and are excluded.
+One selected cell,34 faces,8 quad faces,one tree lookup,one DMA memory-copy model
+and one actually ignored actor are processed. Native output is not a fabricated
+empty collision world. API parameters name packet242340, grid26FF20 and actor
+pool pointer222D14 explicitly. The count65536 is the complete unsigned16 index
+bound, not an inferred live allocation capacity.
+
+Independent QA repeats the complete RAM comparison at host offset3, verifies
+input/body hashes, request72-byte and info52-byte ABI layouts, real original
+caller return and intact host sentinels. Review takes163s; direct passing check
+takes2.376s. Its first attempt transposes the expected DLL hash; the correction
+changes that harness assertion only. Actual caller67F2FC loads a halfword at
+S1+39E, then67F300 branches on that value (observed0), not directly on probe V0.
+The proof excludes authentic runtime scene/pool bindings, complete CPU/VU banks,
+FCSR/status/physical precision/timing and hardware DMA synchronization. Reached
+scratch/memory copying is modeled explicitly; no live scheduler is established.
+
+The subsequent real67F310 call enters542280 static-body correction. Its full
+0x588-byte scope and four bank dispatches are authenticated:542280/E90,
+5422A8/E10,542770/F00 and542774/F40. Copies and restores reuse the existing
+validated code objects with private exact-site maps. Root checks12 full-bank
+cases and12 VU-atomic guards; independent review repeats all four profiles,
+passive state and12 guards in63s. The return restores have direct/static proof
+but have not yet been reached by this actual diagnostic. Preserve sourcev1 and
+failed diagnosticv11: an unpack/unpack_from offset error fails before execution;
+new sourcev2 and diagnosticv12 correct only that reader and reach5422D0.
+
+Actual5422D0 word4BE002FC subtracts canonical VF0 from itself and writes four
+positive zeros to ACC. This is executed instruction behavior, not pre-run state
+clearing. Root checks three incoming ACC states (including nonfinite values)
+and six atomic guards; independent direct/interpreter checks and four guards
+take51s. Actual542308 word4A3E07CC then writes VF31.W=ACC.W-1*VF30.X. With the
+observed positive-zero ACC.W and positive normal radius, its exact result is the
+negative radius word. Root checks16 cases/nine guards; independent direct and
+one-instruction checks plus five guards take43s. All other banks and Q/status
+uncertainty remain unchanged. New explicit positionv14 stops at542358 PABSW
+after2181EE/66VU. Static correction and full position/player update remain open.
+
+Parallel reset133 bounds666A28/666F08 and proves wrapper store order and seven-
+root traversal, mutable next pointers, filters and667768 callback. Empty-root
+and unequal-selector runs take88/27 integer steps. Three real exact-link checks
+fail; four draft sources remain outside accepted code. The nonempty callback
+path still needs a verified implementation. This lot's full recorded interval
+is300s. Provider123 proves6B41D0 arguments and the220890 publication/+2C byte
+write after666B40, but cannot supply a live returned object. Its50s timing covers
+only extraction-freeze-to-receipt, not full task wall time. Follow-up124 proves
+the actual leaf-written index6 tag3B15C8 resolves through descriptor+8 to6B4078
+in mapped L01 data. That callback is bounded and deterministic; actual live
+object selection remains unproved. Helpers667058/667768 are bounded separately.
+
+Callback125 finds available canonical L00_006F5840, byte-identical to actual L01
+6B4078 (0x50 bytes). Initial Docker/MSYS/SN launch failures remain preserved;
+outside-sandbox SN execution resolves the infrastructure problem. Retry1's
+missing overlay object prefix yields invalid placement. Correctly tagged retry2
+and volatile retry3 resolve against actual L00 but both fail exact comparison.
+All three objects have zero true relocations; no broad masking can excuse their
+ordinary instruction differences. The bounded variant limit is reached and
+all drafts stay unaccepted. Compiler runs require outside-sandbox execution here;
+this is distinct from a permission-review rejection (none occurred).
+
+Observed batch window13:17:11 UTC through13:54:32 UTC:
+2241.0s. Accepted canonical functions0, hence0/hour; five real resolved
+candidate mismatches across reset133/callback125, plus one invalid-placement
+launch and preserved earlier infrastructure/harness errors. Accepted native API
+integrations0; accepted-source integration time is not applicable. Existing
+native capsule is now validated on the actual reached component input instead.
+Keep two bounded recovery/audit lots and use the third slot for independent QA;
+do not expand matching concurrency given the measured throughput. Central code
+and builds are unchanged; no additional full suite is needed for ignored
+diagnostics/docs. Last full suite115/115 in8.44s, post-format two startup tests
+and final archive proof remain valid. Exact323/0bad/273resolved/0.564% unchanged.
+No new viewer behavior, controllable Ratchet or complete gameplay loop. No push.
+
 ## 2026-10-12 - Native startup control composition accepted
 
 New native/dreadzone_startup_compose.c implements selected complete RAM effects

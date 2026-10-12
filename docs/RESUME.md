@@ -1,3 +1,36 @@
+# Current checkpoint - 2026-10-12 - Reached native capsule / 323 exact / 115 tests
+
+The actual reached capsule probe now returns to its real caller in the private
+position diagnostic. Existing final native archive and original software replay
+agree on all 32,505,856 mapped RAM bytes and return0, at root host offsets0/1/7
+plus independent offset3. The probe tests34 faces/8quads, executes one tree lookup
+and memory-copy model, and ignores one actual candidate. No empty list or captured
+result is substituted. Inputs remain typed projected RAM and diagnostic banks;
+runtime bindings, physical flags/timing/DMA synchronization and a full player
+frame remain unproved. The immediate caller branches on its actor halfword,
+not directly on the probe return. Full-bank v32 remains guarded at67C224.
+
+The explicit position component reaches the static-body correction and stops at
+542358 PABSW after2181EE/66VU. Second E0 sign projection, finite multiply, probe
+and static bank sites, actual ACC initialization and negative-radius operation
+pass independent checks. Static correction, position completion and repeated
+player frames remain open. Viewer still shows scenery/prepared poses; no live
+Ratchet controls, complete gameplay loop or new viewer behavior exists.
+
+Native startup control composition remains accepted (115 tests, unchanged).
+Actual index6 descriptor binds callback6B4078, whose canonical L00 equivalent
+is byte-identical but compiled drafts remain nonmatching. Reset walker and
+provider allocation/callback dependencies remain open. Canonical coverage stays
+323 /0bad /273resolved /0.564%; private diagnostics and drafts add no percentage.
+
+Next: validate reached packed absolute-value operation and complete static/body
+position path; connect existing native APIs using actual caller state. Then close
+startup/provider and scene/skin geometry binding for repeated input/camera frames.
+Keep two small worker lots at most, with bounded independent QA; no extra recovery
+stream while accepted matching throughput remains zero. No reliable playable ETA.
+No push. Read PROGRESS_LOG.md for proof scopes, failures and timing.
+Older checkpoints below remain historical.
+
 # Current checkpoint - 2026-10-12 - Native startup control / 323 exact / 115 tests
 
 The native L01 6669D8 RAM-effect API now composes two real control stores and
