@@ -1,5 +1,81 @@
 # Local development progress
 
+## 2026-10-12 - Complete reached position agrees with existing native composition
+
+The actual first67F5E8 call from684AA8 is captured after the genuine call-delay
+instruction. A0 is368F60, RA is684AB0 and incoming high64 isF0ECE8E4E0DCD8D4.
+Its inputs are the prior typed basis/radius RAM plus inherited diagnostic banks;
+they do not establish entry from an authentic complete player update. A passive
+observer stops at the real684AB0 return after the67FF30 JR and67FF34 delay,
+without replacing RA or returning a captured result. The complete original
+component executes3553EE/109VU. Every wrapper/component word remains actual
+L01. Prior failure snapshots and all model variants remain private and preserved.
+
+The first newly reached67FB24 RSQRT(+1,+0) is executed in the declared PCSX2
+numerical model, producing7F7FFFFF with unknown physical status/timing retained.
+The real branch skips its immediate Q consumer. The authenticated29-PC suffix
+reaches67FBA8 RSQRT(+0,+0), modeled as+0. Pending readiness is retained, and
+subsequent Q consumers still require actual WAITQ. Helper68AC58 size120 has
+actual0/0 sites68AC9C and68AD18; the latter is authenticated but not reached.
+Two actual68AC9C calls occur. The26-PC repeated-helper suffix and21-PC return
+to positive67FC34 permit only unused-Q replacement at their exact writers.
+No status guard is cleared and unknown flags remain explicit. Active instruction
+maps are checked: v3 corrects v2's parent-map-only authorization; old v2 is
+preserved. Nine actual canonical VF0 MAXW words share unchanged existing code.
+Root containment checks24 writer cases/15 complete before-after refusals.
+Independent Q-chain QA takes187s, adds direct numeric checks/seven targeted
+guards and verifies all actual sites/suffixes. Its refusal checks do not compare
+every bank; root's containment checks supply those atomic writer checks.
+
+The numerical source references are the primary
+[PCSX2 interpreter](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/VUops.cpp)
+and [Q dependency analyzer](https://github.com/PCSX2/pcsx2/blob/master/pcsx2/x86/microVU_Analyze.inl).
+Their zero-input results and pending-writer scheduling are software-model
+provenance, not hardware measurements. Worker127 preserves its first report and
+adds a correction when the later writer is actually0/0 rather than the presumed
+positive case. No emulator execution or game BIOS is involved in these tests.
+
+Reached heading C60 at68A424 binds the unchanged guarded resident-program
+implementation and executes21 pairs. Actual67EED0 canonical MAXW in the
+67EEA0 settling helper likewise binds unchanged code, with real body/word
+checks. No arithmetic kernel is replaced. Position then returns. Wrapper684A60
+continues to6708B0/68A340 and stops at68A358 C60 with rawVF15.Z=1; no flush,
+epsilon replacement, bank initialization or fabricated return crosses that guard.
+
+An isolated fresh DLL is linked from existing final native libraries. Both
+position RAM and tracked-high64 entries return their own adapter status1 and
+agree on all32,505,856 original RAM bytes plus five outgoingVF25..29 W words,
+at host offsets0/4/12 (195,035,136 compared bytes). Native request declares its
+supported16MiB prefix, preserving all original higher bytes and checking the
+whole backing. Boundsactors/blocks65536 are structural index limits, not live
+capacity claims. The actual selected capsule reads remain mapped; ground has
+no probes on this path, so its block bound is unused. Side-local priorW is
+captured before ground from actualSP-160+8C/9C (10000C1C/10000C2C); both zero
+words are unused because the side branch is not reached. Future side-probe
+cases need capture/provenance at their actual consumption point.
+
+Independent QA takes87s and reruns the complete component from the captured
+entry with the same real RA. Both native entries at fresh host offset8 agree
+on full RAM/W and preserve host sentinels (65,011,712 additional bytes).
+Counters agree with real calls: one object exit/capsule resolve/ground/settle/
+capsule/static, zero ground probes/contacts, position changed. Exactly26 RAM
+bytes differ from input; Z184.171875 becomes184.15687561035156, with XY unchanged.
+Original output RAM SHA256 is
+adc29cb212cd7789883347fa662ffae35ad297049563b5e25a2ede328ecfeab5.
+The native adapter success1 is not claimed to be the game's return value.
+
+No public native source or configuration changed; last full suite remains
+116/116 in28.25s. Existing final archives supply the tested APIs; there is no
+new native function integration or unnecessary central rebuild. Matching
+acceptance stays0/hour for this continuation (no matching candidates attempted).
+Root comparison has6/6 RAM/W passes, no native validation rejection, with two
+additional independent passes. Private unhandled frontiers are recorded
+dependencies, not matching validation failures. Recovery/integration remains
+bounded to two small streams; no third agent stream is added. Canonical323 /
+0bad /273resolved /0.564% is unchanged. The next gate is the complete wrapper,
+then genuine player-bank/startup/provider/scene binding and repeated inputs.
+No complete playable loop, viewer behavior change or push is claimed.
+
 ## 2026-10-12 - Integrate native startup callback and validate reached static return
 
 Native006B4078 is integrated into the existing startup-pool library with its

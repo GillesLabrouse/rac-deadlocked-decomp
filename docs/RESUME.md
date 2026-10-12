@@ -1,3 +1,34 @@
+# Current checkpoint - 2026-10-12 - Complete reached position RAM comparison / 323 exact / 116 tests
+
+The actual selected67F5E8 position component returns to its real684AB0 caller
+in3553EE/109VU. Frozen entry arguments and diagnostic banks are retained;
+no callee result, instruction or return address is substituted. Both existing
+native entries, linked from final central archives, agree on all32,505,856
+RAM bytes and five outgoing W words at host offsets0/4/12; independent QA
+repeats offset8. The native writable span is a16MiB prefix; original higher
+RAM remains present and unchanged. Input data are not truncated or rewritten.
+
+This case changes26 RAM bytes and moves position Z from184.171875 to
+184.15687561035156 (X558.47998046875/Y330.260009765625 unchanged). It executes
+one object exit, capsule resolve, ground update, settling, capsule and static
+correction, with no ground probe/contact. Bounds65536 are index-space limits,
+not live allocation capacities. Ground side-local W captures are unused here.
+Incoming A0 high64 is genuinely captured within the diagnostic, not asserted
+to be an authentic full-player bank. Typed projected RAM and software numerical
+models remain explicit; physical flags/readiness/timing are not established.
+
+The parent684A60 wrapper continues after this position return, then stops at
+68A358/C60 with raw VF15.Z=1. That subnormal operand is still guarded. Full
+player v32 remains at67C224. No complete wrapper/player frame, repeated live
+input, follow camera or controllable Ratchet exists. Viewer behavior is unchanged.
+
+Native startup callback/control integration remains accepted; last full suite
+116/116 in28.25s. No public native source changed in this checkpoint. Canonical
+coverage remains323 /0bad /273resolved /0.564%. Private model/trace work adds
+no exact percentage. Next: establish the reached C60 subnormal case, finish
+the wrapper, then actual startup/provider and scene/skin bindings for repeated
+input/camera frames. No reliable playable ETA. No push. Older entries are historical.
+
 # Current checkpoint - 2026-10-12 - Startup initializer and reached static return / 323 exact / 116 tests
 
 Native callback006B4078 now initializes its bounded0x54-byte guest record,

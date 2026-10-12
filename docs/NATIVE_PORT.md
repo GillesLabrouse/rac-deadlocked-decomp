@@ -7,6 +7,19 @@ complete movement-basis matrices are integrated; wrappers/bootstrap/player updat
 and [PROGRESS_LOG.md](PROGRESS_LOG.md) for current validation and blockers.
 The component sections below retain their validation counts at integration.
 
+## Reached complete position reference
+
+Both existing67F5E8 native position entries now agree with a complete original
+software replay captured at its actual684AA8 call and684AB0 return. All mapped
+32,505,856 RAM bytes and five outgoingW words agree at offsets0/4/12 plus
+independent8. The declared native span is16MiB; higher original RAM is retained
+and unchanged. This scenario moves Z down0.015, with26 changed RAM bytes.
+It remains typed projected RAM and diagnostic banks. Physical flags, complete
+player entry and repeated input/render frames are separate. Parent684A60 still
+stops68A358/C60 on raw subnormalVF15.Z=1. The source-derived zero-Q models stay
+private and add no matching coverage. Existing public APIs and116-test suite
+are unchanged. See the current status and progress log for proof boundaries.
+
 ## Selected startup callback initialization
 
 `dreadzone_startup_initializer_006B4078` supplies the actual sixteen RAM
@@ -31,7 +44,7 @@ CPU/stack/BSS provenance and authentic playable bootstrap remain open.
 
 Private reached capsule replay returns to its actual caller and agrees with the
 final native archive on all mapped RAM; reached static correction also returns.
-The explicit position diagnostic remains guarded at67FB24 VRSQRT(1,0).
+The selected position component returns; its parent wrapper remains guarded at68A358 C60.
 Typed projected RAM and diagnostic banks are explicit; no full player frame is proven.
 
 The complete selected RAM-only orientation API now covers real L01 `683310`,
