@@ -1,3 +1,40 @@
+# Current checkpoint - 2026-10-13 - Bounded player cleanup integrated
+
+Root adds native L01 535A30 cleanup: real unsigned-byte getter index0..255,
+actual230280/470 table binding, null skip, ordered P load and P+98 zero store,
+and only the original low32 V0 result. Descriptor capture/disjoint info and
+<=16MiB main-view checks preserve caller RAM/info on every refusal.
+Pointer arithmetic is modular: high P=FFFFFF68 can clear guest0 if mapped;
+neither a low pointer bound nor full sign-extended return parity is asserted.
+API/storage ownership remains hypothetical. L00 navigation bytes differ and
+its canonical identity/relocations are not transferred into L01.
+
+Independent233 builds its own unchanged-code DLL and fresh actual-word oracle.
+Final public archive passes19 whole3MiB RAM comparisons:18 true caller/getter/
+cleanup rows (6 constructed cases at offsets0/1/7), plus1 direct high-pointer
+modular leaf row. Descriptor alias comparisons rerun real original words with
+the actual descriptor bytes instead of hiding them. Nonnull stores start from
+DEADBEEF, proving a real4-byte change. Portable synthetic regression39/0 PASS;
+new CTest target1/1 PASS0.58s. The preceding127 accepted-scope tests are unchanged
+and were green earlier in this turn; no new whole-codebase build claim.
+
+This lot adds0 matching functions (0/hour),1 bounded native component and0
+playable features. No src/progress adoption, original SN/resolved-address match,
+physical stack/bank/state proof or genuine full-frame tail is claimed.
+Elapsed integration365.3s; receipt:private/root-player-tail235/acceptance.json.
+
+234 now executes the actual665D58 caller JAL/delay and resident15A170 through
+real JR/delay to665D8C:155 EE steps,65 writes, no reached nested call or injected
+answer. This is the existing constructed mode1/state0/levelFFFFFFFF fixture,
+not authentic campaign startup. Its93 changed RAM bytes and post-return banks
+are private. Next initializer callee and authentic entry/resource ownership
+still need work. 232 audits consumed vector lanes/high64 after the basis.
+The corrected prefix/history/basis RAM chain remains valid through67C3B4;
+full67C010 and a controlled character remain unverified. Dreadzone base follows
+the first playable scene. Prior commitsbb8db07/d17a7a3 preserve prefix validation.
+Foreign work/frozen tool inputs remain intact; no push or goal completion.
+Earlier checkpoints follow.
+
 # Current checkpoint - 2026-10-13 - Pre-locomotion RAM chain checked
 
 Previous goal turn progressed; root integration commitbb8db07 adds the bounded
