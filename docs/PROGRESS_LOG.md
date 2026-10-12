@@ -1,3 +1,31 @@
+# Current continuation - 2026-10-13 - Opaque-bank player handoff in preparation
+
+Latest root integrationc2fb0a9 completes the bounded535A30 cleanup dependency;
+earlierbb8db07 integrates the selected prefix. Root has added3 native components,
+0 exact functions and0 playable features in this work period. Prefix lot127/127
+accepted-scope tests PASS; cleanup new target1/1 and39 checks PASS. No push.
+
+232 authenticates selected liveness across3743PCs to first53DC70: old basis
+VF15/16/17/18/19/28 Z/W, ACC.W and A0.high64 are replaced before relevant read.
+Its marker runs borrow prior banks and do not prove post-basis state. Root238
+also matches3 full-RAM radius boundaries on corrected basis RAM; banks excluded.
+Root240 v2 exposes known/opaque partial banks while preserving all21 verified
+basis stores and3 C60 XY paths. v1's inherited assertion failure is preserved;
+no draft bank values are accepted or used downstream yet. Independent242 checks
+writer/transport facts; strong239 prepares fail-closed opaque bit/lane transport.
+Next root step is the actual selected-word continuation with refusal on unknown
+numeric/address/control/store inputs, then genuine wrapper/post/tail return.
+
+236 extends the same original665D58 fixture naturally through15A170/15AA58
+and reaches real15B498 after its JAL delay (246 EE steps,95 writes). 243 continues
+that callee with no register reset/substitution. This remains constructed mode1/
+levelFFFFFFFF component evidence. Independent237/241 find campaign1 producer
+4661D8, but descriptor/menu/transition loader provenance is not captured; no
+authentic campaign fixture is asserted. Frozen tool inputs/runs remain intact.
+The executable remains an asset/pose viewer, not a controlled character or full
+native gameplay loop. Dreadzone base remains the next scene target afterward.
+Earlier checkpoints follow.
+
 # Current checkpoint - 2026-10-13 - Bounded player cleanup integrated
 
 Root adds native L01 535A30 cleanup: real unsigned-byte getter index0..255,
