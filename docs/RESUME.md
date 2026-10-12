@@ -1,3 +1,57 @@
+# Current checkpoint - 2026-10-12 - Scene recovery and returned post-position component / 327 exact
+
+Two more historical proposals pass final acceptance: resident004D3AE0 (0x98,
+scene-state callback/request dispatch) and0053FAC8 (0xA0, cached scene count).
+Original C hashes are preserved. Actual callers, GP globals, callback address,
+stack buffer and call relocations were reviewed; original SN build, actual
+relocation audit and unmasked link pass. Full audit:327exact/0bad;
+277resolved/0mismatches/0object failures;195 resident C functions reconstruct
+the original section stream. Coverage0.572328274%. Source API/storage types
+remain hypotheses. For0053FAC8 the actual index comparison is signed<11 with
+no lower-bound check; valid data ownership/index domain is required, not
+inferred from exact bytes. Native request dispatch remains a missing dependency.
+
+Four historical handoff functions are now adopted by the main task across
+batches157/160. Tool-generated counts are not main coverage. Additional156
+package inputs and active whole-source generation remain untouched. Last live
+read:47.69% source traversal,212485 draft bodies and947 audited context/name
+proposals. No general independent>15% result or playable addition is implied.
+
+Independent161 review confirms constructed sphere-path referencev14 reaches
+the actual wrapper return684E24 (6826EE/197VU), real53EC88 returns0, and whole
+RAM hashes match. Two E0 sign projections, finite alias VMULW, ACC subtraction
+and final clamp retain unknown physical status/timing;27 negative guards pass.
+Actual record writes: +228=409F8520,+22C=3D4CCCC8,+230=1. Native sphere162
+remains held: true terrain/actor traversal and ordered persistent effects are
+required before a native wrapper can claim this branch. No miss was invented.
+
+A separate684EF0 component starts from the returned constructed wrapper RAM,
+with actual67C3C4 DADDU low64 A0 transport and an explicit component return
+sentinel. Original full152C extent (1530 enclosing padding) returns at686418;
+1281 additionalEE, zero additionalVU. Selected calls include orientation,
+visibility, word/half/float timers, real callback enqueue, input query,
+686420 and height offset68A178. This is an original diagnostic component,
+not native composition, original complete67C010 execution, constructor or
+repeated frame. Reuse audit163 is in progress. Referencev15 is preserved.
+
+Observed main acceptance count in the current60-minute window:4 exact functions;
+0 candidate validation failures. Root integration times157/160:158.7s/126.8s,
+285.5s combined. Small-batch phase estimates are not sustained workflow rates.
+Two Luna streams and temporary QA; no third recovery worker. Latest native
+suite119/119 (24.97s) remains valid for unchanged native sources/build.
+No new viewer behavior, controllable Ratchet or playable loop. Next native
+work: genuine sphere effects and post-position composition, actual startup
+providers, scene/skin/input/camera binding. Then the Dreadzone base area.
+No push. Older checkpoints below are historical.
+
+Latest receipts: private/root-handoff-resident160-acceptance-v1.json and
+private/luna-handoff-resident160/receipt.md. Main previous commit9cfff01.
+Sphere reference: private/root-wrapper-sphere-v14/driver.py/result.json;
+independent private/sol-sphere-path161/review.md. No native sphere acceptance.
+Separate next component: private/root-player-post-position-v15/driver.py/result.json.
+Read private/luna-post-position163/report.md when complete; native draft162 HOLD.
+Root owns all shared integration and final validation. Never alter frozen sibling inputs.
+
 # Current checkpoint - 2026-10-12 - Reviewed recovery handoff / 325 exact / 119 native tests
 
 Two historical handoff proposals are accepted as exact PS2 C: resident
