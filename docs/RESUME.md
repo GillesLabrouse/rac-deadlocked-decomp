@@ -1,3 +1,37 @@
+# Active checkpoint - 318 exact / 105 native tests
+
+## 2026-10-12 - Native RAM projection component accepted
+
+The bounded dreadzone_display_projection_ram_005469A0 entry now computes actual
+L01 005469A0 and 00546918 RAM effects from positive signed descriptor dimensions.
+It retains every untouched byte and raw screen-vector Z/W, prepares both output
+areas before publication, and refuses invalid mappings/dimensions/host rounding.
+Production archive proof:32 complete10MiB comparisons,335,544,320 bytes,4320EE;
+independent production review:24 mapped comparisons,7atomic mapping refusals,
+8genuine original executions/1080EE/0VU. All105 native tests pass in7.10s.
+
+The first private version's portable pointer-association defect remains frozen;
+v2 fixes exactly six offsets. Review's first production checker wrote a future
+timestamp; that output remains preserved with a separately corrected checker
+and result. Root integration through receipt freeze took 235.55s. No original
+helper result was captured and no hardware/oracle semantics were extended.
+
+Explicit descriptor dimensions are component inputs, not live-startup evidence.
+The genuine graphics path still stops before MMIO, the original client fixture
+still has zero projection inputs, and client+50 has not been initialized. Next:
+actual descriptor/display producer integration and the complete client init,
+then full successive player updates and renderer binding. No playable frame.
+
+Exact audit/progress remains318/0 (0.561% code). Session net recovery from
+00:30:01UTC through this freeze is2 accepted functions in54.95min,
+or2.18accepted functions/hour including provenance, tooling,
+review and integration time. The two exact function integrations took68.83s and
+91.69s (80.26s mean). Failed comparisons:4clear-loop variants,1wrong-level poller,
+2graphics-packer variants; additionally1initial compiler failure. No accepted
+artifact mismatch. Eight small lots yielded2functions; no third recovery worker.
+Light agents now collect separate bounded client provenance, not more variants.
+No game data committed, controllable character or push.
+
 # Active checkpoint - 318 exact / 104 native tests
 
 ## 2026-10-12 - Exact graphics syscall wrapper accepted

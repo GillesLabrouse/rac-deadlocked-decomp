@@ -17,6 +17,14 @@ and [ClearState](https://learn.microsoft.com/en-us/windows/win32/api/d3d11/nf-d3
 contracts. Positive post-submission timeout and device-loss behavior have not
 been exercised; the polling budget does not impose a hard driver-call deadline.
 
+The bounded projection RAM entry now reproduces actual L01 `005469A0` and
+`00546918` for positive descriptor dimensions, with atomic refusal of invalid
+mappings and unsupported rounding. The production archive passes 32 whole
+10 MiB comparisons and 24 independent mapped comparisons; all 105 native tests
+pass in 7.10s. This supplies the projection component, not its live descriptor
+producer. The strict graphics frontier and zero-input client fixture are still
+unresolved. No machine-bank output or completed player frame is claimed.
+
 | Required gate | Verified pieces | Remaining integration |
 | --- | --- | --- |
 | Authentic scene loading | Original ISO gameplay-core provenance, terrain/static geometry and collision data; actual entry-to-loader/pool call edges; original mission0 binary placement list with all342 text records crossvalidated. | Execute the allocation/layout and parser chain with its real cursor, globals, runtime selected records and resources; close the producer of mission pointer24375C. |
