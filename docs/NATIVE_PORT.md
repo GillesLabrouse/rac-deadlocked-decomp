@@ -1,3 +1,48 @@
+# Current checkpoint - 2026-10-13 - Selected player prefix integrated
+
+Root integrates bounded native L01 535A58 slot-word effects and the 67C010
+prefix through PRE67C1B0. The prefix invokes the genuine recovered getter,
+slot helper, mode helper and selected dispatcher in their original order;
+it checks actual vtable bindings, requires GP22597F, copies raw A0 to110,
+stores only the mode result's low byte and retains the final F0 caller-local
+quad. One outer shadow publishes only on complete selected-path success.
+The corrected null slot return is230280 for all unsigned-byte indices.
+Original API/storage ownership remains hypothetical; alternate routes refuse.
+
+Final public archives pass24 prefix and21 slot comparisons of complete
+32,505,856-byte RAM (1,462,763,520 compared bytes; baseline is also repeated).
+The prefix cases include genuine213/220 original-word caller boundaries,
+constructed indices1/255, result256/SB0, raw exceptional vector words and
+nonnull P/Q aliasing F0. Retained stack+10 quad matches the declared field.
+Direct slot checks execute real integer words through JR/delay, also checking
+low V0 and load/store order. Independent223 accepts the unchanged code with
+14 prefix and4 direct-slot rows. Synthetic224 regression fixtures use no
+retail data; root removes unaligned descriptor dereferences from those tests.
+Both added targets build; accepted-scope native suite127/127 PASS in45.72s.
+Concurrent unintegrated intro/scene targets are outside that test scope.
+
+This lot adds0 exact functions (0/hour),2 native components and0 playable
+features. Integration elapsed882.3s. No source enters src/, no original
+compiler/relocation/resolved-byte/reconstruction match is claimed for these
+host RAM adapters, and progress/report.json is not changed by this lot.
+Receipt:private/root-player-prefix222/acceptance.json. Rejected215 is preserved.
+
+Full67C010 still lacks a genuine continuation across first67C224 C60 with
+ambient Z/W intact, then radius, position wrapper, post-position and tail.
+Independent226 authenticates the conditional tail: zero226/2FCB would skip
+the heavy predicate, but the after-post values must be observed; getter,
+535A30 cleanup,5A8620 and real JR/delay remain mandatory. Private225 examines
+the lane frontier; private227 recovers the cleanup. Neither is accepted yet.
+The executable remains an asset/pose viewer; no controlled Ratchet or complete
+native gameplay loop is verified. Dreadzone base follows the first scene.
+
+Read-only sibling inspector now reports447215 draft C bodies from494786
+occurrences and1681 distinct audited context/name proposals. These are not
+main adoption, native features or a proven general15% recovery rate. Its
+stopped compiler-error run and frozen inputs remain untouched. All foreign
+source/config/asset/document work is preserved outside this root commit.
+No push, no third recovery stream, no goal completion. Older entries follow.
+
 # Current checkpoint - 2026-10-12 - Selected native player dispatcher integrated
 
 Previous goal turn made progress at6f7c8d0 (selected idle). Root now integrates
