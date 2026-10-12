@@ -1471,10 +1471,34 @@ directories contain only a 98-byte `.asset` definition, without `mesh.glb` or
 `core.bin`; the other two are mission-local definitions containing no mesh.
 Their shapes cannot be inferred from these records. In mission 0, the models
 that export a mesh but require skinning are classes 511, 2460, 8273, 8496, 8554
-and 9427. Their GLBs contain joint-weighted meshes but no glTF skin, animation,
-or bind-pose hierarchy. Even single-joint bangle meshes lack the joint pose
-matrices, so these objects remain omitted rather than being placed in an
-unverified orientation.
+and 9427. Their GLBs contain joint-weighted meshes but no glTF skin or
+animation. The local `core.bin` files do contain skeleton and bind records for
+classes 2460, 8273, 8496, 8554 and 9427; class 511's core is in the global
+class directory. The opt-in `--include-native-bind-previews` path applies the
+native skeleton initialization, general-matrix and bind-pose stages, then the
+native vertex/topology diagnostic. It adds this static pose to a mission scene
+without changing the GLB preview path or default scene. This is useful for
+checking recovered geometry and placements, but it is not a live animation or
+game pose. Per-class axes, placement orientation, actor mask/LOD, visibility,
+and animation remain unverified, so the JSON explicitly marks
+`game_pose_verified: false`.
+
+To inspect these native core previews in the mission-0 scene:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 0 --include-dynamic-previews --include-native-bind-previews `
+  -o build/native-assets/dreadzone-mission-0-native-bind.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-mission-0-native-bind.dlscene `
+  --capture build/native-assets/dreadzone-mission-0-native-bind.png --software
+```
+
+The batch totals above predate native core bind-pose previews and should not be
+read as the final recoverable geometry count. The 3,760 classes without editor
+meshes and 45 classes without drawable triangles still need independent source
+geometry or topology recovery.
 
 The batch rebuild also checks every other Dreadzone mission export for a
 matching class mesh. It reuses that mesh only when all exported GLB byte hashes

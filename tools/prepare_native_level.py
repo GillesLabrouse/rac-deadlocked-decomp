@@ -92,6 +92,34 @@ def unambiguous_mission_moby_meshes(level_directory):
             {class_id: len(variants) for class_id, variants in candidates.items()})
 
 
+def unambiguous_mission_moby_cores(level_directory):
+    """Find core containers safe to reuse when every mission copy is byte-identical."""
+    candidates = defaultdict(dict)
+    mission_root = Path(level_directory) / "missions"
+    if not mission_root.is_dir():
+        return {}
+    for directory in sorted(mission_root.glob("*/moby_classes")):
+        if not directory.is_dir() or not directory.parent.name.isdecimal():
+            continue
+        for definition in sorted(directory.rglob("*.asset")):
+            for root in asset_text.read(definition):
+                if root.kind != "MobyClass" or type(root.attributes.get("id")) is not int:
+                    continue
+                core_nodes = [node for node in root.children
+                              if node.kind == "Binary" and node.name == "core"]
+                if len(core_nodes) > 1:
+                    raise ValueError("Mission dynamic object has duplicate core binaries")
+                if not core_nodes:
+                    continue
+                core = (definition.parent / core_nodes[0].attributes.get("src", "")).resolve()
+                if not core.is_relative_to(directory.resolve()) or not core.is_file():
+                    raise ValueError("Mission dynamic object core is missing or escapes its class directory")
+                digest = hashlib.sha256(core.read_bytes()).hexdigest()
+                candidates[root.attributes["id"]].setdefault(digest, (core, definition.resolve()))
+    return {class_id: next(iter(variants.values()))
+            for class_id, variants in candidates.items() if len(variants) == 1}
+
+
 def class_meshes(directory):
     return exported_class_meshes(directory, "TieClass", ".dae", "static object")
 
@@ -176,7 +204,8 @@ def write_package(prototypes, output, source_inputs):
 
 def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                   include_dynamic_previews=False, dynamic_class_id=None,
-                  excluded_dynamic_class_ids=None, dynamic_only=False):
+                  excluded_dynamic_class_ids=None, dynamic_only=False,
+                  include_native_bind_previews=False):
     import prepare_native_moby as moby_mesh_import
 
     if dynamic_class_id is not None and not include_dynamic_previews:
@@ -192,6 +221,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         raise ValueError("Excluded dynamic classes need nonnegative integer IDs")
     if dynamic_class_ids is not None and dynamic_class_ids & excluded_dynamic_class_ids:
         raise ValueError("A dynamic class cannot be both selected and excluded")
+    if include_native_bind_previews and (mission_id is None or not include_dynamic_previews):
+        raise ValueError("Native bind-pose previews require a selected mission and dynamic previews")
     if dynamic_only and (mission_id is None or not include_dynamic_previews or
                          dynamic_class_ids is None or include_sky):
         raise ValueError("Dynamic-only scenes require a selected mission and class, enabled previews, and no sky")
@@ -221,6 +252,19 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         extracted / "moby_classes", "MobyClass", ".glb", "dynamic object", allow_missing=True)
     moby_sources = dict(moby_classes)
     moby_source_definitions = dict(moby_definitions)
+    moby_core_sources = {}
+    for definition in sorted((extracted / "moby_classes").rglob("*.asset")):
+        for root in asset_text.read(definition):
+            if root.kind != "MobyClass" or type(root.attributes.get("id")) is not int:
+                continue
+            cores = [node for node in root.children if node.kind == "Binary" and node.name == "core"]
+            if len(cores) > 1:
+                raise ValueError("Global dynamic object class has duplicate core binaries")
+            if cores:
+                source = (definition.parent / cores[0].attributes.get("src", "")).resolve()
+                if not source.is_relative_to((extracted / "moby_classes").resolve()) or not source.is_file():
+                    raise ValueError("Global dynamic object core binary is missing or escapes its class directory")
+                moby_core_sources[root.attributes["id"]] = (source, definition.resolve())
     allowed_mobys = set()
     for root in asset_text.read(moby_classes_file):
         for ref in root.children:
@@ -257,6 +301,21 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             mission_moby_classes, mission_moby_definitions = {}, {}
         moby_sources.update(mission_moby_classes)
         moby_source_definitions.update(mission_moby_definitions)
+        if mission_classes_directory.is_dir():
+            for definition in sorted(mission_classes_directory.rglob("*.asset")):
+                for root in asset_text.read(definition):
+                    if root.kind != "MobyClass" or type(root.attributes.get("id")) is not int:
+                        continue
+                    cores = [node for node in root.children if node.kind == "Binary" and node.name == "core"]
+                    if len(cores) > 1:
+                        raise ValueError("Dynamic object class has duplicate core binaries")
+                    if cores:
+                        source = (definition.parent / cores[0].attributes.get("src", "")).resolve()
+                        if not source.is_relative_to(mission_classes_directory.resolve()) or not source.is_file():
+                            raise ValueError("Dynamic object core binary is missing or escapes its mission")
+                        moby_core_sources[root.attributes["id"]] = (source, definition.resolve())
+        for class_id, source in unambiguous_mission_moby_cores(level).items():
+            moby_core_sources.setdefault(class_id, source)
         reusable_mission_meshes, mission_moby_variant_counts = unambiguous_mission_moby_meshes(level)
         for class_id, (mesh, definition) in reusable_mission_meshes.items():
             if class_id not in moby_sources:
@@ -368,6 +427,39 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         rendered_moby_classes += 1
         if mesh_report["ignored_static_joint_attributes"]:
             static_joint_attribute_classes += 1
+    bind_pose_classes = set()
+    bind_pose_report = {}
+    if include_native_bind_previews:
+        import prepare_native_skin
+        for class_id, matrices in sorted(mobys_by_class.items()):
+            if class_id in {prototype.get("class_id") for _, _, prototype in prototypes
+                            if prototype.get("kind") in ("dynamic-object-preview",
+                                                          "dynamic-object-native-bind-pose-preview")}:
+                continue
+            if class_id not in moby_core_sources or class_id not in moby_source_definitions:
+                continue
+            core, definition = moby_core_sources[class_id]
+            material_textures = sorted(core.parent.glob("*.png"), key=lambda path: int(path.stem) if path.stem.isdecimal() else path.name)
+            try:
+                groups, skin_report = prepare_native_skin.read_mesh(
+                    core, material_textures,
+                    Path(__file__).resolve().parent.parent / "build/native/Release/deadlocked_native_animation_diagnostic.dll",
+                    Path(__file__).resolve().parent.parent / "build/native/Release/deadlocked_native_model_diagnostic.dll")
+            except (ValueError, OSError) as error:
+                omitted_mobys[class_id]["reason"] = "native core bind-pose diagnostic failed: " + str(error)
+                omitted_mobys[class_id]["placements"] += len(matrices)
+                continue
+            prototypes.append((groups, matrices, {"kind": "dynamic-object-native-bind-pose-preview",
+                                                  "class_id": class_id, "placements": len(matrices),
+                                                  "core_source": str(core), "definition_source": str(definition),
+                                                  "pose": "native core bind pose; no animation/game frame",
+                                                  "game_pose_verified": False}))
+            omitted_mobys.pop(class_id, None)
+            inputs.extend((core, definition, *material_textures))
+            bind_pose_classes.add(class_id)
+            bind_pose_report[class_id] = skin_report
+            rendered_moby_placements += len(matrices)
+            rendered_moby_classes += 1
     if include_sky:
         import prepare_native_sky
         sky_prototypes, sky_inputs, sky_report = prepare_native_sky.sky_prototypes(level)
@@ -381,6 +473,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     report["vegetation_classes"] = 0 if dynamic_only else len(shrubs_by_class)
     report["dynamic_object_preview_placements"] = rendered_moby_placements
     report["dynamic_object_preview_classes"] = rendered_moby_classes
+    report["native_bind_pose_preview_classes"] = sorted(bind_pose_classes)
+    report["native_bind_pose_diagnostics"] = bind_pose_report
     report["static_joint_attribute_classes"] = static_joint_attribute_classes
     report["reused_cross_mission_mesh_classes"] = sorted({
         prototype["class_id"] for prototype in report["prototypes"]
@@ -399,6 +493,7 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     report["dynamic_preview_rotation_order_verified"] = True
     report["dynamic_preview_placements_disabled"] = disabled_dynamic_preview_placements
     report["dynamic_only_class_scene"] = dynamic_only
+    report["native_bind_pose_previews_enabled"] = include_native_bind_previews
     if mission_path is not None:
         inputs = list(inputs) + [mission_path / "mission.instances"]
         report["source_inputs"] = [{"path": str(p.resolve()),
@@ -437,6 +532,8 @@ def main():
                         help="Exclude this class from diagnostic Moby previews; may be repeated")
     parser.add_argument("--dynamic-only", action="store_true",
                         help="Build an isolated preview scene for one selected mission class")
+    parser.add_argument("--include-native-bind-previews", action="store_true",
+                        help="Include recoverable core.bin models in native bind pose")
     args = parser.parse_args()
     if args.dynamic_class is not None and not args.include_dynamic_previews:
         parser.error("--dynamic-class requires --include-dynamic-previews")
@@ -445,7 +542,8 @@ def main():
                                args.mission, args.include_dynamic_previews,
                                args.dynamic_class[0] if args.dynamic_class and len(args.dynamic_class) == 1
                                else args.dynamic_class,
-                               args.exclude_dynamic_class, args.dynamic_only)
+                               args.exclude_dynamic_class, args.dynamic_only,
+                               args.include_native_bind_previews)
     except (ValueError, KeyError, TypeError, OSError, struct.error, ET.ParseError) as error:
         parser.exit(1, str(error)+"\n")
     print("Prepared %d shared vertices, %d instances, %d batches, %d textures" %

@@ -232,6 +232,21 @@ class NativeLevelTests(unittest.TestCase):
         self.assertIn("missions\\1\\", class_row["mesh_source"])
         self.assertTrue(any(row["path"].endswith("mesh.glb") for row in report["source_inputs"]))
 
+    def test_mission_reuses_only_byte_identical_native_cores(self):
+        first = self.level / "missions" / "0" / "moby_classes" / "77"
+        second = self.level / "missions" / "1" / "moby_classes" / "77"
+        first.mkdir(parents=True)
+        second.mkdir(parents=True)
+        (first / "core.bin").write_bytes(b"same native core")
+        (second / "core.bin").write_bytes(b"same native core")
+        for directory in (first, second):
+            (directory / "moby.asset").write_text(
+                'MobyClass reused { id: 77 Binary core { src: "core.bin" } }')
+        reusable = level.unambiguous_mission_moby_cores(self.level)
+        self.assertEqual(reusable[77][0], (first / "core.bin").resolve())
+        (second / "core.bin").write_bytes(b"different native core")
+        self.assertNotIn(77, level.unambiguous_mission_moby_cores(self.level))
+
     def test_mission_does_not_guess_between_different_variant_meshes(self):
         mission = self.level / "missions" / "0"
         mission.mkdir(parents=True)
