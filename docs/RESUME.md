@@ -1,3 +1,45 @@
+# Current checkpoint - 2026-10-12 - 323 exact / 113 native tests
+
+Native startup pool00667518(index6) is integrated after independent original
+whole-RAM/alias/guard checks and repeated production-archive proof. All113
+native tests pass in7.47s. Exact323/0bad,273 resolved,0.564%code unchanged.
+No controllable Ratchet, whole player frame, startup completion or new viewer
+behavior. Existing model-transform APIs are still initial-frame only.
+
+Privatev15 completes the genuine primary animation clock and reaches58991C
+VCALLMS after2057EE/63VU in an explicit update. Numeric continuations remain
+software models with unknown physical rounding/status/timing; the Q/flags
+uncertainty guard refuses this new dispatch. Initializer remains suspended,
+client partial. Frame-aware pose transfer is a private draft awaiting original
+RAM and independent validation. Preserve all frozen variants/corrections.
+
+Next: audit the reached matrix VU program; close actual frame-aware model
+transfer and initializer sibling pools, then prove a complete update and repeat
+input/movement/collision with live rendering. No reliable ETA or readiness
+percentage. Root owns shared builds, accepted sources, reports and integration;
+agents write exclusive private outputs. No push. Details: PROGRESS_LOG.md.
+
+# Current checkpoint - 2026-10-12 - Resumed: 323 exact / 112 native tests
+
+No new accepted source or executable behavior in this checkpoint. Exact count
+323, resolved count273, code0.564%; last native suite112/112 in7.19s. Viewer
+shows scenery/prepared poses; Ratchet is not controllable and no player loop
+has returned.
+
+Fresh private v11 reaches589D44 SUBA.S after609EE/63VU, with all three C60
+calls completed using separately attributed software numeric models. Console
+arithmetic/status/timing remain unproved. Initialization remains suspended and
+client partial. This is an explicit component diagnostic, not full startup or
+native gameplay. Existing native animation clock/layer arithmetic is being
+reviewed for bounded reuse; no new continuation credit yet.
+
+Remaining playable gates: complete authentic PC bootstrap/client; returned
+whole player update then repeated input/movement/collision; live actor animation
+and follow-camera rendering. No reliable ETA. Static menu selector handoff is
+feasible but not a verified runtime transition. Root owns integration, shared
+reports and central builds; agents use private outputs. Preserve frozen files.
+Read PROGRESS_LOG.md for validation scopes and corrections. No push.
+
 # Current checkpoint - 2026-10-12 - 323 exact / 112 native tests
 
 Matching:323 exact,0 bad,273 fully resolved,0.564% code. Last central native

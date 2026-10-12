@@ -1,5 +1,115 @@
 # Local development progress
 
+## 2026-10-12 - Startup pool RAM component integrated; frame-aware pose remains private
+
+Integrated native/dreadzone_startup_pool.c/h for the complete selected L01
+00667518 index-6 RAM effects. Actual caller666A14 sets A0=6 in its delay. The
+leaf has no callees and builds the real BSS workspace links from mapped count
+and stride globals. It allocates nothing and does not close665D58 or create a
+host callback. Guest descriptor identifiers are not host pointers. Descriptor
+and backing must be truthful, stable, exclusive and disjoint; bounded counts,
+word-aligned strides and disjoint controlling fields make unsupported domains
+refuse before mutation. Original GPR/HI/LO and partial guest faults are excluded.
+
+Memory113 first compares one actual section-initialized scenario:512 records,
+stride84,17941EE and full mapped RAM equality. Root broadens this to50 fresh
+original comparisons,708975EE,15564800 compared bytes,60828 journaled store
+checks and12 atomic guards. Independent review passes54 fresh originals/162
+native comparisons,49080168 bytes,1153763EE and16 guards, including overlapping
+record strides and signed nonpositive counts. Its fixture called serialized is
+patterned component data with real512/84 controls, not an authentic whole ELF
+image; the separate failed ELF-gap attempts are preserved and receive no credit.
+Root central CMake archive bridge repeats all50 cases and12 guards. Public C
+changes only the include name; header clarifies readable descriptor and guest
+identifier scope. All113 native tests pass in7.47s. Integration wall seconds and
+file hashes are in private/root-startup-pool-integration-final.json; this wall
+interval includes concurrent diagnostic work and is not active coding time.
+
+Reviewed animation continuation now completes actual589CE0 on the evolved
+component bank:73EE, original store order, all32505856 main-RAM bytes equal
+v13. Existing native clock agrees on all256 actor bytes: real metadata400220,
+frame0 to0.5, rate1, duration2. The corrected scalar hook passes160 actual
+isolated CPU cases/40 guards. V1 mixed rounding is rejected and preserved.
+VFTOI4 narrow sites pass1024 independent whole-bank cases/4096 numeric checks
+and30 guards; root's first destination-field bug was caught before execution
+and retained separately. Current event count0 genuinely skips the second site.
+
+v14 reaches58A25C after1936EE/63VU and refuses the old diagnostic-only zero
+frame guard. Its real caller supplies frame0.5. A separately labeled finite
+truncation model passes512 independent isolated cases/13 guards, retains F12
+and unknown physical FCSR/status. Freshv15 reaches58991C after2057EE/63VU,
+then refuses VCALLMS under the inherited RSQRT uncertainty guard. No unknown
+flags/Q readiness are cleared and no further program is dispatched. Frame-aware
+current/next stream selection is being drafted outside public sources; existing
+model-transform APIs remain initial-frame only. No whole player update returned.
+
+Two root matching variants for canonicalL00 6AA0D8 fail real relocation and
+resolved-address checks. Both remain private. The first Git Bash sandbox launch
+and initial linker DLL loads failed before comparisons; isolated escalated
+retries compile/link successfully and reveal two genuine byte failures. Latest
+matching acceptance remains zero; these are two variants of one function, not
+two recovered functions. Keep failures by validation stage rather than summing
+overlapping counters. Exact totals unchanged323/0bad,273 resolved,0.564%code.
+No viewer control/rendering change, playable Ratchet, full initialization or
+repeated gameplay loop. Two light workers plus one reviewer; no third light
+worker, no push. Earlier checkpoints and all drafts remain preserved.
+
+## 2026-10-12 - Resumed player frame analysis and startup provenance
+
+Matching remains 323 exact functions, 0 bad comparisons, 273 fully resolved
+functions and 0.564% code. The last native suite remains 112/112 in 7.19 s.
+No new accepted function, executable behavior, controllable Ratchet, returned
+whole player update or repeated gameplay loop has been added in this checkpoint.
+
+The independent exact-0x7F operand review passes 120 full-bank software-model
+comparisons, 11 atomic guards, seven isolated site cases and eight binding
+refusals. It admits the actual third C60 operand without altering incoming raw
+banks. This is a conditional PCSX2 non-INT_VUDOUBLEHACK operand rule combined
+with our existing host arithmetic, not console accuracy or proof of an actual
+emulator configuration. Its comparison helper is supported only in the admitted
+C60 domain; it is not a general implementation of emulator MIN/MAX ordering.
+Fresh v11 completes three C60 calls (63 VU pairs) and reaches 0x00589D44 after
+609 EE instructions in the explicit player update. It stops at SUBA.S F10,F8,
+with F10=-12582912 and F8=+0. Scalar COP1 ACC differs from VU ACC. No whole
+frame has returned. Physical status, Q readiness and timing remain unproved.
+The initializer is still suspended and the client image partial; explicit
+component invocation is not original scheduling or a completed boot.
+
+The next helper is already represented by native animation clock/layer
+components. A private, raw-site-guarded reuse of their finite chopped arithmetic
+is prepared for independent review. It models all scalar arithmetic within the
+actual 589CE0 callable, requires a real SUBA/MULA producer for scalar ACC, and
+refuses unsupported floats and negative fractional extraction. Root's 384
+isolated cases check write masks/guards, not independent numerical equivalence.
+No continuation or native integration is credited before the review succeeds.
+
+Commands96 independently verifies the actual frame continuation: third C60
+returns within 6A7E90, whose caller resumes at 6A6730 after JAL/delay6728/672C.
+Constructor callsite6A8568 is a separate stage. The post-C60 tail consumes X/Y
+locally and no Q/status, without discharging inherited uncertainty. The observed
+next chain is 689090 -> 589F98 -> 589CE0. Later model helpers remain unexecuted.
+The report's incorrect claim that v11 saved no post-error RAM is being corrected
+separately; v11 preserves RAM/SPR/stack/VU files and hashes after the exception.
+
+Memory110 proves a feasible static menu CFG for selector1 and the persistent
+21DE10 store before L01 initialization. Actual branch inputs, intervening side
+effects, session selection and overlay-loader execution remain unobserved.
+Menu code is replaced by L01; its 2212E0 selector must not be reused as a level
+field. Memory111 inventories the genuine 665D58 sequence and the remaining
+setup callees/object producer. Callback-table installation alone is RAM writes;
+host bindings become necessary when an actual callback dispatch is reached.
+
+Latest commands94: two compiled variants, two relocation-stage failures, one
+resolved-byte failure and one GP-relative link representation failure. These
+stage counts overlap and are not distinct accepted functions. Older aggregate
+failure counters retain their prior definition. No exact delivery from the
+latest recovery lots. Commands95/96 and memory110/111 are provenance reviews,
+not matching recovery. Their measured durations are 91/389 s and 238/126 s;
+independent operand review 289 s. Integration acceptance count and integration
+time for these private diagnostics are zero. Keep two light agents plus one
+reviewer, with exclusive outputs and root-only central validation. No third
+light worker is justified by recent exact acceptance throughput. No push.
+
 ## 2026-10-12 - Native callback registration RAM component and orientation diagnosis
 
 Integrated native/dreadzone_callback_table.c/h: complete game-RAM writes of
