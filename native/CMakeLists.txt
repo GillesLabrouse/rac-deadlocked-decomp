@@ -756,6 +756,8 @@ endif()
 add_library(deadlocked_native_dreadzone_actor_post_position_leaf STATIC dreadzone_actor_post_position_leaf.c)
 target_include_directories(deadlocked_native_dreadzone_actor_post_position_leaf PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(deadlocked_native_dreadzone_actor_post_position_leaf PUBLIC c_std_11)
+target_link_libraries(deadlocked_native_dreadzone_actor_post_position_leaf PUBLIC
+    deadlocked_native_dreadzone_input deadlocked_native_dreadzone_angle_pair)
 if(MSVC)
     target_compile_options(deadlocked_native_dreadzone_actor_post_position_leaf PRIVATE /W4 /WX /fp:strict)
 elseif(UNIX)

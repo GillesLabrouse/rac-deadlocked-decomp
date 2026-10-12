@@ -1,3 +1,64 @@
+# Current checkpoint - 2026-10-12 - Active post-position movement / 330 exact / 120 tests
+
+Accepted bounded native686420 now executes the genuine XY heading, taken or
+annulled B8 selection, scalar594A88/594D28 progression and snap clear, then
+the existing approximate C60 angle pair and final214/140 stores. It preserves
+140.W verbatim, exact low-V0 bits in the tested cases, captured descriptor
+aliases, and atomic refusal. The pending3CC mark overlays later clock/table
+reads. Intermediate scalar stores are counted but committed transactionally.
+Guest heading tables must match; unsupported numeric/table inputs refuse.
+Original API/storage identities and stack-local ownership remain hypotheses.
+
+Independent176 proves only two exact underflow-product value equivalences;
+strict parent remains unchanged.179 follows seven genuine full leaf returns
+from captured banks with explicit constructed RAM inputs:240/241 EE and21 VU
+pairs, real caller6862B8, actual angle/scalar calls, no forced return/branch.
+Its own DLL passes14 wholeRAM comparisons (455,081,984 bytes), exact low-V0,
+both likely-branch outcomes, snap clear, prior rate, retained finite/NaN W,
+unread B8 NaN and guards/descriptor aliases. Negative heading/arbitrary B8
+remain HOLD in the exact-witness reference. Broader native angles retain the
+documented approximation, not extra exact or physical-hardware proof.
+
+Final central archive DLL passes21 active+24 old zero/length+3 independently
+frozen length wholeRAM rows:1,560,281,088 bytes. All120 native tests pass in
+30.85s. Native integration387.7s;1 branch extension,0 accepted native
+validation failures,0 exact credit or playable additions. Root final receipt:
+private/root-post-leaf-active-production-v1-acceptance.json and sibling folder;
+independent private/sol-active-leaf179/review.md. Public implementation/header
+and native/tests/dreadzone_actor_post_position_leaf_tests.c are current.
+
+Also accepted resident00438C88 and004D3EF0:each8bytes, genuine GP-relative
+zero stores to21E1E8/21FB80 in file-backed lit, with real relocations/callers.
+004D3EF0 is reached by the accepted scene-state worker004D3AE0; its ignored
+return declaration is now compatible and revalidated. Both source identities
+remain address-based hypotheses. Original SN build/audit/actual linking and
+reconstruction pass330exact/0bad,280resolved/0mismatches/0object failures,
+198 resident insertions and0.573071654% main exact code. Commitf00e8a1.
+Integration177:400.3s;181:178.4s.
+
+Observed production window since previous native acceptance:2 exact functions
+in51.3minutes (2.34/hour), alongside the native branch
+work; not a sustained recovery benchmark. No exact mismatch.178 dataflow
+report and180 ownership-HOLD errors were corrected before acceptance. The
+restricted native build stalled MSBuild workers; only its verified process
+tree was stopped, all outputs preserved, elevated retry passed. No generator
+restart or frozen-input change. Keep two recovery lanes; no third recovery
+worker until actual throughput improves. Shared final integration is root-only.
+
+Recovery inspector snapshot:281947/494786 spans56.98%,254004 generated C
+bodies, activeL41/running,949 audited distinct proposals. Latest read handoff
+package348a0b5e has167 additional proposals (947 combined at its snapshot).
+These occurrence/draft counts are neither accepted main coverage nor native
+features; general independent>15% remains unproved. Earlier packages preserved.
+
+Next:compose actual684EF0 post-position control with its reached native
+dependencies, then complete native67C010/frame input/collisions/camera and
+authentic startup/skin/scene resource ownership. Selected numeric replays and
+RAM component APIs still do not establish a controllable Ratchet or a repeated
+playable frame. Dreadzone base follows the first playable scene. No push.
+Unrelated run-native.cmd and tools/prepare_native_moby.py edits appeared
+during work and remain preserved outside our integration commits. Older entries below are historical.
+
 # Current checkpoint - 2026-10-12 - Native post-position length returns / 328 exact / 120 tests
 
 Accepted native dreadzone_actor_post_position_leaf_00686420 now executes the
