@@ -2,7 +2,7 @@
 
 Current checkpoint: 323 exact functions and 113 passing native tests. The
 viewer supports scenery and prepared animation; it has no controllable player
-or gameplay loop. Three startup pool components and a frame-aware native model helper are
+or gameplay loop. Four startup pool components and a frame-aware native model helper are
 integrated, while the complete bootstrap and player update remain open. See [GAMEPLAY_STATUS.md](GAMEPLAY_STATUS.md)
 and [PROGRESS_LOG.md](PROGRESS_LOG.md) for current validation and blockers.
 The component sections below retain their validation counts at integration.

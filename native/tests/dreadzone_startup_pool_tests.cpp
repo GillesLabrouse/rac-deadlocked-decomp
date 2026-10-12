@@ -79,6 +79,18 @@ int main() {
         require(get(bytes,0x37F4B0)==0);
         put(bytes,0x3B009C,1);snapshot=bytes;
         require(dreadzone_startup_pool_006671D0_index3(&view)==-1 && bytes==snapshot);
+        put(bytes,0x3B0058,0);put(bytes,0x3B00A0,80);put(bytes,0x366130,123);
+        snapshot=bytes;
+        require(dreadzone_startup_pool_006672E8_index4(&view)==0);
+        require(get(bytes,0x366130)==0 && get(bytes,0x36614C)==0x37F458 && get(bytes,0x366168)==0x37F458);
+        require(get(bytes,0x37F46C)==get(snapshot,0x37F46C));
+        put(bytes,0x3B0058,2);
+        require(dreadzone_startup_pool_006672E8_index4(&view)==0);
+        require(get(bytes,0x37F46C)==0x3B1538 && get(bytes,0x37F468)==0);
+        require(get(bytes,0x37F464)==0x37F4A8 && get(bytes,0x37F4B8)==0x37F458);
+        require(get(bytes,0x37F4B4)==0);
+        put(bytes,0x3B00A0,1);snapshot=bytes;
+        require(dreadzone_startup_pool_006672E8_index4(&view)==-1 && bytes==snapshot);
         std::cout << "Startup pool contract passed\n";
         return 0;
     } catch(const std::exception& error) {

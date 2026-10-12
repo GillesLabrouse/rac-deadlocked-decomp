@@ -1,5 +1,53 @@
 # Local development progress
 
+## 2026-10-12 - Input path progresses; movement macro remains guarded
+
+The actual zero-input SQRT/WAIT/ADDQ sequence passes independent raw-reference
+and nine atomic checks, preserving all inherited pendingQ/flags uncertainty.
+Review194.1s from first tool is within four minutes, but freezes about two
+seconds after the requested dispatch-based deadline; both time scopes remain
+explicit. Fresh v30 reaches67C5B4 after7675EE/5233VU. A cloned existing finite
+MIN primitive passes one actual and three finite cases plus four guards in
+98.1s. Fresh v31 completes the reached input bridge and continues67C010 state
+logic through690F18/695570, reaching594AF4 after7987EE/5233VU. Two additional
+actual direction-progress clamp sites pass full-bank and six finite/four guard
+checks in86.6s. No primitive arithmetic or parent map is changed.
+
+Fresh v32 reaches67C224 CALLMSC60 after8237EE/5233VU. Actualfunction67C010
+contains three individually verified C60 sites224/268/2AC. The current first
+input has knownXYzero but diagnostic GPR upper64 seed wordsE0DCD8D4/F0ECE8E4
+transport intoVF15.Z/W. These huge lanes exceed the strict model's domain;
+their C60 square would overflow binary32. A read-only audit keeps the refusal,
+with no micro execution, no lane repair and no full-bank continuation claim.
+Its additive corrected report uses the actualPI constant, correcting an earlier
+2PI label; the overflow conclusion is unchanged. Immediate scalar consumers
+useXY, but later register/flag/unknown-lane effects require explicit tracking.
+A separately bounded RAM-only angle-basis block is being evaluated using the
+existing validated angle-pair component. It is not an oracle bypass or frame.
+
+The live player-to-animation binding is independently documented: player2EF0
+points to700000, whose class23F7 definition/animation0, live107-joint skeleton
+and matrix output are directly linked in captured RAM. Geometry/skin influence
+selection remains unproved. Existing Armor0 prepared vertex poses are a labeled
+diagnostic, and the viewer cannot consume these new live joint matrices directly.
+The class definition has no geometry; joint counts alone do not establish an
+appearance binding. No new live character render follows from matrix agreement.
+
+Actual L01 startup leaf6672E8/A0=4 is integrated after independent body/caller/
+global verification, six private original-RAM cases and three guards, then
+root's50 full-RAM cases/15564800bytes/691056EE/59292 ordered stores/12 guards.
+The final central archive repeats those50 cases and12 refusals. Its own real
+bindings are tables366130/36614C/366168, count3B0058, stride3B00A0, workspace
+37F458 and node3B1538. Actualserialized count0/stride80 is not a live startup
+claim. All113 native tests pass in8.10s. Staging through final archive proof
+takes226.7s, excluding prior recovery/review and later documentation/commit.
+
+Matching323/0bad,273resolved,0.564%; new exact functions remain zero in this
+resume. Four native startup leaves and the frame-aware model helper are now
+integrated. Drafts, diagnostics and native approximations remain outside exact
+coverage. Full startup/provider closure, returned whole player update, repeated
+real inputs/collisions and live actor/camera rendering remain open. No push.
+
 ## 2026-10-12 - Frame-aware native model component integrated
 
 The frame-aware normal model helper is now a public native API, consuming the

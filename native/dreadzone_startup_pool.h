@@ -44,6 +44,12 @@ int dreadzone_startup_pool_006670B8_index2(const DreadzoneStartupPoolMemory *);
  * outside the RAM-only contract.
  */
 int dreadzone_startup_pool_006671D0_index3(const DreadzoneStartupPoolMemory *);
+/* Independently verified L01 006672E8 with A0=4; same mapping/refusal rules.
+ * Tables366130/36614C/366168, count3B0058, stride3B00A0, workspace37F458,
+ * node identifier3B1538. Positive record footprint ends before3B0058.
+ * Serialized count0/stride80 does not imply a completed live initializer.
+ */
+int dreadzone_startup_pool_006672E8_index4(const DreadzoneStartupPoolMemory *);
 #ifdef __cplusplus
 }
 #endif

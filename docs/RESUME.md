@@ -1,22 +1,23 @@
-# Current checkpoint - 2026-10-12 - Three startup pools / 323 exact / 113 tests
+# Current checkpoint - 2026-10-12 - Four startup pools / 323 exact / 113 tests
 
-Actual L01 startup pool leaves6670B8(index2),6671D0(index3) and667518(index6)
-are integrated with independent per-function original RAM/address/alias
-validation and final central-archive proofs. The113 native tests pass in10.72s. Matching unchanged:
+Actual L01 startup pool leaves6670B8(index2),6671D0(index3),6672E8(index4)
+and667518(index6) are integrated with independent original-RAM/address/alias
+validation and final central-archive proofs. The113 native tests pass in8.10s. Matching unchanged:
 323exact/0bad,273resolved,0.564%code. Viewer remains scenery/prepared poses;
 no controllable Ratchet, complete player update or gameplay loop.
 
-Private v29 completes the animation helper and reaches67C590 SQRT in the
-real input bridge after7666EE/5233VU. Whole player update remains open.
+Private v32 completes the reached input bridge and reaches67C224 C60 in
+movement/state logic after8237EE/5233VU. Huge diagnostic upper lanes keep
+the full-bank model guarded. Whole player update remains open.
 The frame-aware native helper is integrated after independent/production proof.
 Q readiness/physical flags/FCSR/timing remain unproved. Initializer is suspended and client partial. Privateframe-aware
 model C at0.5 agrees on32505856 RAM and16384 scratch bytes after the
 complete helper; native acceptance covers selected RAM/scratch effects only. Preserve all failures and correction receipts separately.
 
-Next: validate the reached input-magnitude dependency, complete a returned
-player update and repeated real input/movement/collision with live rendering; close
-actual first startup wrapper/sibling pools and provider, then repeated player
-input/movement/collision with live actor rendering. No reliable ETA/readiness
+Next: validate a strictly scoped movement angle-basis component, establish
+actual mesh/skin binding, and close the remaining startup wrapper/pools/provider.
+Then complete a returned player update and repeated real input/movement/
+collision with live actor/camera rendering. No reliable ETA/readiness
 percentage. Root owns integration, reports and central builds. No push.
 
 # Current checkpoint - 2026-10-12 - 323 exact / 113 native tests
