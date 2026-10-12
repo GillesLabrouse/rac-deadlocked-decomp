@@ -1,5 +1,41 @@
 # Local development progress
 
+## 2026-10-12 - Third independently bound native startup pool integrated
+
+Actual L01 006671D0 with A0=3 is now a native RAM-only component. Its actual
+caller, complete 0x118-byte body and level-specific addresses are verified:
+tables36612C/366148/366164, count3B0054, stride3B009C, workspace37F450 and
+node3B1510. Static serialized count is0 and stride84; no live startup claim.
+Memory123's six full-RAM comparisons and three guards are followed by root's
+50 fresh original CPU comparisons, 15564800 RAM bytes, 691056 EE instructions,
+59292 ordered stores and 12 atomic refusal checks. The same 50 cases and
+12 guards pass again against the final central native archive. Public tests
+check separate index3 binding and refusal; all113 native tests pass in29.68s.
+
+The initial root extraction harness incorrectly selected an empty body after
+an overlapping textual replacement. The raw hash guard refuses before any
+native comparison; separate v2 fixes only the extraction start. Earlier agent
+guard-fixture errors are also preserved. Memory117's old node identifier3B0068
+is corrected additively to3B1510, verified from original LUI/ADDIU/SW words;
+its historical report is not overwritten. No failed source is counted exact.
+
+Staged-source creation through build/tests/production proof takes 85.0s;
+this excludes prior recovery/review and later documentation/commit time.
+The model allocates no game workspace, invokes no callbacks, and excludes
+guest CPU/partial-fault effects. Positive-count diagnostic domains remain
+bounded and disjoint from reread controls. Three startup leaves are integrated,
+but their enclosing initializer and live player loop are still incomplete.
+Matching remains323/0bad,273resolved,0.564%; zero new exact functions in this
+resume. Viewer still shows scenery/prepared poses, with no playable Ratchet.
+
+Commands112 establishes the next post-matrix gate68FDC0 as a separate0x1C
+wrapper with an actual branch into neighboring68FDDC/0x8C. The observed mode
+prefix can select its nonzero-mode path; this remains static evidence pending
+actual reached execution. No matching variants are attempted for the boundary
+transfer. Complete player-input/movement/collision and live animation remain
+the root priority. Private micro858 current-bank feasibility matches one raw
+reference on29 pairs; no full-helper or whole-frame acceptance follows yet.
+
 ## 2026-10-12 - First numeric matrix reached in the partial player update
 
 Scoped micro738 arithmetic passes the actual v24 bank and 24 synthetic valid

@@ -1,8 +1,8 @@
-# Current checkpoint - 2026-10-12 - Two startup pools / 323 exact / 113 tests
+# Current checkpoint - 2026-10-12 - Three startup pools / 323 exact / 113 tests
 
-Actual L01 startup pool leaves6670B8(index2) and667518(index6) are integrated
-with independent per-function original RAM/address/alias validation and final
-central-archive proofs. The113 native tests pass in7.62s. Matching unchanged:
+Actual L01 startup pool leaves6670B8(index2),6671D0(index3) and667518(index6)
+are integrated with independent per-function original RAM/address/alias
+validation and final central-archive proofs. The113 native tests pass in29.68s. Matching unchanged:
 323exact/0bad,273resolved,0.564%code. Viewer remains scenery/prepared poses;
 no controllable Ratchet, complete player update or gameplay loop.
 

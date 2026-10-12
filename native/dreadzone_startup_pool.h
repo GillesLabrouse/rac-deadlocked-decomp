@@ -36,6 +36,14 @@ int dreadzone_startup_pool_00667518_index6(const DreadzoneStartupPoolMemory *);
  * serialized index2 count is0 and stride24. No runtime setup call is implied.
  */
 int dreadzone_startup_pool_006670B8_index2(const DreadzoneStartupPoolMemory *);
+/* Independently verified L01 006671D0 with A0=3; same mapping and refusal
+ * preconditions. Tables are36612C/366148/366164, count3B0054, stride3B009C,
+ * workspace37F450 and node identifier3B1510. The positive record footprint
+ * ends before3B0054. Serialized count is0 and stride84; this does not prove
+ * a live initialization call. Original CPU and partial fault effects remain
+ * outside the RAM-only contract.
+ */
+int dreadzone_startup_pool_006671D0_index3(const DreadzoneStartupPoolMemory *);
 #ifdef __cplusplus
 }
 #endif

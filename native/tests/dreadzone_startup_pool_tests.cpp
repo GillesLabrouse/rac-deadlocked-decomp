@@ -65,6 +65,20 @@ int main() {
         require(get(bytes,0x37F42C)==0x37F438 && get(bytes,0x37F444)==0);
         put(bytes,0x3B0098,1);snapshot=bytes;
         require(dreadzone_startup_pool_006670B8_index2(&view)==-1 && bytes==snapshot);
+        // Actual index3 serialized count is zero; preserve its workspace.
+        put(bytes,0x3B0054,0);put(bytes,0x3B009C,84);put(bytes,0x36612C,123);
+        snapshot=bytes;
+        require(dreadzone_startup_pool_006671D0_index3(&view)==0);
+        require(get(bytes,0x36612C)==0 && get(bytes,0x366148)==0x37F450 && get(bytes,0x366164)==0x37F450);
+        require(get(bytes,0x37F464)==get(snapshot,0x37F464));
+        // Diagnostic positive case checks the separately verified node binding.
+        put(bytes,0x3B0054,2);
+        require(dreadzone_startup_pool_006671D0_index3(&view)==0);
+        require(get(bytes,0x37F464)==0x3B1510 && get(bytes,0x37F460)==0);
+        require(get(bytes,0x37F45C)==0x37F4A4 && get(bytes,0x37F4B4)==0x37F450);
+        require(get(bytes,0x37F4B0)==0);
+        put(bytes,0x3B009C,1);snapshot=bytes;
+        require(dreadzone_startup_pool_006671D0_index3(&view)==-1 && bytes==snapshot);
         std::cout << "Startup pool contract passed\n";
         return 0;
     } catch(const std::exception& error) {
