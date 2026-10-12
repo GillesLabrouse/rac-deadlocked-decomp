@@ -1,5 +1,38 @@
 # Local development progress
 
+## 2026-10-12 - First numeric matrix reached in the partial player update
+
+Scoped micro738 arithmetic passes the actual v24 bank and 24 synthetic valid
+cases covering both authenticated sites, parent-cache alternatives, metadata
+branches and quaternion scales. Fourteen atomic refusal checks pass. The staged
+raw-field reference reuses an earlier independent calculation; reuse is not a
+new independent arithmetic proof. Review takes 245.2 seconds, 5.2 beyond its
+four-minute target. Repeated checks are recorded separately from 25 unique cases.
+
+The review finds that the first guard recognizes MSUB but not actual MSUBw.
+The whole transaction already refuses subnormal ACC.W at the next MADDw, but
+the claimed before-consumption guard is too narrow. Separate v2 recognizes all
+MSUB variants. Focused independent review verifies refusal before micro748 is
+executed, full original-bank/event/uncertainty preservation, restored float
+globals, and one unchanged actual-bank result. It takes 105.1 seconds. The first
+source-equivalence probe rejects a changed diagnostic label; its failure and
+the explicitly bounded retry are preserved. No earlier source or proof changes.
+
+Fresh v25 executes the first actual micro738 call and reaches 589A38 before
+micro858 after 4745 EE / 2108 VU instructions in the explicit partial update.
+The actual mode-prefix and explicit constructor still return the same results.
+No full player update returns. Local numeric DIV does not prove physical Q
+readiness, flags, rounding, integer pipeline behavior or microcode upload.
+The next review uses only frozen current output banks at this new frontier.
+
+Matching remains 323 exact / 0 bad, 273 resolved, 0.564% code; this resumed
+batch adds zero exact functions. Last native suite remains 113/113 in 7.62s;
+no public executable changed since that run. Private frame-aware native C has
+only the verified 16384-byte before-matrix pose stage, not full-helper proof.
+No controllable player or gameplay loop. Two light agents have exclusive lots
+for the actual index-3 startup pool and the next post-matrix player dependency;
+root reserves acceptance, shared reports, central builds and final validation.
+
 ## 2026-10-12 - Logical integer-container binding corrected
 
 The first logicalVI32 correction passes one actual setter, five refusals and
