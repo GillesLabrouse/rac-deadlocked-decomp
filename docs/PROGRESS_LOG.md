@@ -1,5 +1,95 @@
 # Local development progress
 
+## 2026-10-12 - Complete wrapper reference, reached wall and native captured vectors
+
+Actual684A60 size3C8 now completes the explicit selected component after
+6587EE/195VU. Its top-level RAFFF0000 is the declared component ABI, not an
+authenticated player-call return. Nested returns are genuine, including
+67F5E8->684AB0 and53DC70->6709A4. Inputs remain typed basis/radius RAM and
+inherited diagnostic banks. No retail instruction, dependency result or branch
+is replaced. Unreached53EC88 is not claimed; its eligible sphere path remains
+an atomic refusal in native composition until recovered.
+
+At actual68A358, the inputVF15.Z is raw00000001 carried by the preserved
+upper64 of T0 through scalar MFC1; A2=1 is a separate selector. This is
+diagnostic register residue, not proven live-player bank state. The private adapter changes only four literals in the reviewed exact7F arithmetic
+decoder and binds this exact site. It preserves incoming raw banks, MINI/MAX
+raw comparisons and every actual resident C60 instruction. Arithmetic decoding
+of exact1 follows the conditional non-INT_VUDOUBLEHACK PCSX2 operand model;
+hardware precision/status/readiness/timing remain unknown. Root compares120
+full micro banks with a separate decoder, adds the actual snapshot and11 atomic
+guards. Independent111s review checks literal-only delta, actual scalar/pack
+provenance, a fresh21-pair direct/EE dispatch and5 atomic refusals. Its binding
+checks share the evaluator; independent numeric coverage is the root decoder.
+
+Four actual wall53DC70 sites reuse raw saves at53DC70/E90,53DC98/E10 and
+restores53EC18/F00,53EC1C/F40. Root12 full-bank cases/12 guards pass, including
+arbitrary raw NaN/subnormal passive data. Existing E0-only sign projections
+are authorized at53DD28/DD60 through exact11-/13-PC producer prefixes,
+actual raw maps and canonicalVF0. The first import guard omitted a real LUI
+from the second prefix's permitted operations; that v1 failure is retained,
+and v2 adds only the verified integer instruction. Root20 cases/16 atomic
+guards check signs, signed zero, preserved GPR high64 and passive banks.
+No full MAC value or physical producer/read timing is invented.
+
+From the genuine v28 wall entry, original53DC70 sizeFE0 returns0 to6709A4 in
+2794EE/44VU. Final native vector probe matches all32,505,856 RAM bytes at
+offsets0/1/7 (97,517,568 compared), with independent offset3. Four grid records,
+three terrain cells,48 faces/12quads,one dynamic cell andone filtered/marked
+actor are processed; two words are written. This is not an empty fixture.
+Root replay/comparison phase0.154s excludes module setup/linking. Independent
+review130s authenticates1016 bound words, banks, E0 paths and6 atomic guards,
+and reruns the whole wall call. Full-wrapper v31 is inspected there, not freshly
+replayed by that reviewer; worker129 separately replays it for local captures.
+
+Wall uses actual caller mask2. An earlier commentary incorrectly described a
+different mask before verifying its arguments; actual audit corrected it. The
+wall API's maximum grid bound is3072. Prior position proof supplied65536 for
+an unused ground block bound (no ground probes); that did not establish an
+actual grid extent. Current wall uses3072, while actor65536 is its u16 index
+bound. Neither value is claimed as runtime allocation capacity.
+
+Worker135 verifies L01 bounds/calls and136 runs the established m2c workflow
+for684A60/3C8 and6708B0/1A0. Blueprints retain M2C_ERROR for VU/packs; computed
+vector results are not accepted C. Raw scalar dataflow corrects135's initial
+argument description: wrapper F12=.7,F13=4. First68A340 gets F12=record204-.02,
+F13=0,F14=.7; second gets5,0,.7. No multiplication occurs in the first offset.
+Original135 receipt is retained with additive correction. Fresh worker129
+capture confirms first F12 bits3EDC28F5 (about.43), then40A00000 (5), with real
+returns67096C/67098C. The observer does not mutate state. All private raw
+assembly/m2c data stay ignored and contribute no matching percentage.
+
+Native captured-quad129 reuses GroundRun arithmetic/trig/record methods and
+has an actual record2659 mode0 guard. It reads a truthful <=64MiB backing below
+2GiB, captures input words before work and requires output/info disjointness
+from request/backing. Input may alias output. No guest scratch address is
+created; RAM is never copied back. Output/info publish only on success; five
+incoming W words are preserved. Existing mapped operation7 and its real
+intermediate alias writes remain unchanged. Original CPU/stack/other-bank
+effects and physical floating behavior are outside the contract.
+
+Both genuine mode0 quads match, including in-place capture, with full
+32,505,856-byte RAM unchanged. Worker129 reports15:11..15:17UTC; its initial
+compile lacked stdint and direct links lacked dependencies. Those failures
+remain documented. Final private link retains CRT warnings. Independent108s
+review builds the same source in separate outputs, compares both calls
+separately/in-place, and checks9 atomic mapping/mode/numeric/alias refusals.
+Root appends only the validated function to the shared ground implementation,
+adds the prototype/contract and public identity/ignored-XYZ/raw-W/in-place/
+refusal test. Final central-archive DLL repeats both original quads and NaN/
+mode refusals without worker object reuse. Final central link has only normal
+archive-only LNK4001; public compilation/W4/WX/fp:strict and117/117 tests pass
+in25.71s. Root integration window is228.7s from first public mutation to
+the last required suite/archive receipt, excluding recovery/QA/docs. No root
+compile, supported vector or public test failure occurred in this integration.
+
+Canonical matching acceptance0/hour (no new matching candidates attempted),
+native integration1 function, unchanged323 /0bad /273resolved /0.564%. No
+third recovery stream is added; two small streams plus bounded independent
+QA remain sufficient. Next main work is complete native offset-probe/wrapper
+composition, then authentic player-bank/startup/provider and render binding.
+There is no complete player frame, controllable Ratchet, changed viewer or push.
+
 ## 2026-10-12 - Complete reached position agrees with existing native composition
 
 The actual first67F5E8 call from684AA8 is captured after the genuine call-delay

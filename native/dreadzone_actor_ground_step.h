@@ -82,4 +82,19 @@ int dreadzone_actor_ground_step(const DreadzoneGroundRequest *,DreadzoneGroundIn
  * retain their original bounded behavior. */
 int dreadzone_actor_ground_registers(const DreadzoneGroundRequest *,const u32 incoming_high64[2],
     DreadzoneProbeRegisters *,DreadzoneGroundInfo *);
+/* Selected mode-zero68A340 effect on a captured caller-local quad. Operation
+ * must be SIDE_OFFSET; scalar0/1/2 and integer0 are the actual distance, angle,
+ * local Z and add-position inputs. target_guest/value_guest are unused.
+ * No temporary guest mapping is created. RAM is read-only and byte-unaligned
+ * host backing is allowed; the existing guest/domain checks still apply.
+ * Request and input words are captured before computation. Input may alias
+ * output, request, info or backing. Output is disjoint from request/info/backing;
+ * info is disjoint from request/backing/output. Both publish only on success.
+ * Original mapped operation7 and its intermediate alias writes are unchanged.
+ * Five incoming W words are preserved; other machine banks, physical precision,
+ * status/timing and live caller binding remain outside this numeric contract.
+ * Return1 complete adapter effects, negative on atomic domain/mapping refusal.
+ */
+int dreadzone_side_offset_captured_quad(const DreadzoneGroundRequest *,
+    const u32 input_quad[4],u32 output_quad[4],DreadzoneGroundInfo *);
 #endif

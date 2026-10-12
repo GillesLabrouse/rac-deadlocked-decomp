@@ -1,11 +1,24 @@
 # Native PC development
 
-Current checkpoint: 323 exact functions and 116 passing native tests. The
+Current checkpoint: 323 exact functions and 117 passing native tests. The
 viewer supports scenery and prepared animation; it has no controllable player
 or gameplay loop. Both startup pool leaf families, current-frame model transfer and selected
 complete movement-basis matrices are integrated; wrappers/bootstrap/player update remain open. See [GAMEPLAY_STATUS.md](GAMEPLAY_STATUS.md)
 and [PROGRESS_LOG.md](PROGRESS_LOG.md) for current validation and blockers.
 The component sections below retain their validation counts at integration.
+
+## Captured local side-offset vectors
+
+`dreadzone_side_offset_captured_quad` supplies selected mode0 `68A340` output
+from actual caller-local quad words. It reuses ground request types and methods,
+reads real mapped RAM and creates no guest scratch locations. Input is captured
+before work and may alias output. Successful output/info publication is atomic;
+RAM and incomingVF25..29 W are preserved. Other record modes and unsupported
+numeric/mapping domains refuse. Original mapped operation7 is unchanged.
+Both reached quads match in the final archive; independent QA adds9 guards.
+All117 native tests pass. This closes the local-vector interface needed by
+6708B0, not its full native composition or a playable frame. The private
+684A60 reference now returns on the selected case; sphere53EC88 remains open.
 
 ## Reached complete position reference
 
@@ -15,8 +28,8 @@ software replay captured at its actual684AA8 call and684AB0 return. All mapped
 independent8. The declared native span is16MiB; higher original RAM is retained
 and unchanged. This scenario moves Z down0.015, with26 changed RAM bytes.
 It remains typed projected RAM and diagnostic banks. Physical flags, complete
-player entry and repeated input/render frames are separate. Parent684A60 still
-stops68A358/C60 on raw subnormalVF15.Z=1. The source-derived zero-Q models stay
+player entry and repeated input/render frames are separate. Parent684A60 now
+returns in the private conditional numerical model; native wrapper composition remains open. The source-derived zero-Q models stay
 private and add no matching coverage. Existing public APIs and116-test suite
 are unchanged. See the current status and progress log for proof boundaries.
 

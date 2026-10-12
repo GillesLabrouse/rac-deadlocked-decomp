@@ -1,3 +1,34 @@
+# Current checkpoint - 2026-10-12 - Returned wrapper reference and native local vectors / 323 exact / 117 tests
+
+The explicit684A60 component now completes in6587EE/195VU on typed projected
+RAM and diagnostic banks. Its selected path runs position67F5E8, offset probe
+6708B0, two68A340 calls and wall53DC70. No opcode/callee/captured return is
+substituted; the top-level host-stop ABI remains explicit. This proves a
+software reference for the selected component, not authentic full player entry,
+physical flags/readiness/DMA timing or a native684A60 wrapper implementation.
+Sphere53EC88 is unreached here and remains unsupported when reached.
+
+The actual reached wall call returns to6709A4 and agrees with final native
+archives on all32,505,856 RAM bytes at host offsets0/1/7 plus independent3.
+It traverses4 grid records,3 terrain cells,48 faces/12quads and1 dynamic cell;
+one actor is filtered/marked. Return0 and two word writes agree. Actor65536
+and grid3072 are explicit API bounds, not proven live capacities.
+
+New accepted native dreadzone_side_offset_captured_quad supplies actual mode0
+68A340 local-vector effects without making guest scratch addresses. Captures
+input before computation, allows in-place output, preserves all RAM and five
+caller W words, and publishes output/info atomically. Final archive matches
+both real captured quads; independent QA adds in-place/separate comparisons
+and9 guards. All117 native tests pass in25.71s. The mapped operation7 is unchanged.
+
+Matching stays323 /0bad /273resolved /0.564%; native APIs and private models
+add no exact coverage. Private m2c blueprints retain explicit VU placeholders
+and are not accepted. Next: compose6708B0/684A60 in native C through validated
+APIs, then connect authentic startup/provider and scene/skin data for repeated
+input/camera frames. Full player v32 remains guarded67C224. No controllable
+Ratchet, full gameplay loop or viewer behavior change yet. No ETA or push.
+Older checkpoints below are historical.
+
 # Current checkpoint - 2026-10-12 - Complete reached position RAM comparison / 323 exact / 116 tests
 
 The actual selected67F5E8 position component returns to its real684AB0 caller

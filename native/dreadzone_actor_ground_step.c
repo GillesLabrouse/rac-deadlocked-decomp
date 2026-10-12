@@ -467,3 +467,89 @@ int dreadzone_actor_ground_step(const DreadzoneGroundRequest *request,DreadzoneG
 int dreadzone_actor_ground_registers(const DreadzoneGroundRequest *request,const u32 incoming[2],DreadzoneProbeRegisters *output,DreadzoneGroundInfo *info){
     return ground_execute(request,incoming,output,info,1);
 }
+
+int dreadzone_side_offset_captured_quad(
+    const DreadzoneGroundRequest *request,
+    const u32 input_quad[4],
+    u32 output_quad[4],
+    DreadzoneGroundInfo *info)
+{
+    GroundRun r;
+    DreadzoneGroundRequest captured;
+    u32 original[4], raw[4], matrix[4][4], i, j, b, end;
+    u8 *shadow;
+    f32 pair[2], in[4], out[4], acc, distance, a, z;
+    int status;
+
+    if (!span(request, sizeof(*request)) || !span(input_quad, 16) ||
+        !span(output_quad, 16) || !span(info, sizeof(*info)) ||
+        overlap(request, sizeof(*request), info, sizeof(*info)) ||
+        overlap(output_quad, 16, request, sizeof(*request)) ||
+        overlap(output_quad, 16, info, sizeof(*info)))
+        return DREADZONE_GROUND_INVALID;
+
+    memcpy(&captured, request, sizeof(captured));
+    memcpy(original, input_quad, sizeof(original)); /* capture before any write */
+    if (captured.operation != DREADZONE_GROUND_SIDE_OFFSET ||
+        !captured.storage_bytes || captured.storage_bytes > 64U * 1024U * 1024U ||
+        !span(captured.storage, captured.storage_bytes) || captured.guest_base >= 0x80000000U ||
+        captured.storage_bytes > 0x80000000U - captured.guest_base ||
+        (captured.record_guest & 15U) || captured.actor_pool_count > 65536U ||
+        overlap(info, sizeof(*info), captured.storage, captured.storage_bytes) ||
+        overlap(output_quad, 16, captured.storage, captured.storage_bytes))
+        return DREADZONE_GROUND_INVALID;
+    end = captured.guest_base + captured.storage_bytes;
+    b = captured.record_guest;
+    if (b < captured.guest_base || b > end || end - b < 0x31F0U ||
+        (captured.guest_base < 0x70004000U && end > 0x70000000U))
+        return DREADZONE_GROUND_INVALID;
+
+    memset(&r, 0, sizeof(r));
+    r.request = captured;
+    r.status = 1;
+    shadow = (u8 *)malloc(captured.storage_bytes);
+    if (!shadow) return DREADZONE_GROUND_TRANSACTION_MEMORY;
+    memcpy(shadow, captured.storage, captured.storage_bytes);
+    r.request.storage = shadow;
+    if (byte(&r, b + 0x2659U) != 0) {
+        free(shadow);
+        return DREADZONE_GROUND_UNSUPPORTED_PATH;
+    }
+    memcpy(r.info.outgoing_vf25_29_w, captured.incoming_vf25_29_w,
+        sizeof(r.info.outgoing_vf25_29_w));
+
+    distance = bounded(&r, bits(&r, captured.scalar[0]), 16.f, 0x1p-40f);
+    a = bounded(&r, bits(&r, captured.scalar[1]), 3.1415927410125732421875f, 0x1p-40f);
+    z = bounded(&r, bits(&r, captured.scalar[2]), 8192.f, 0x1p-40f);
+    if (r.status > 0 && trig(&r, a, pair)) {
+        in[0] = mul(&r, pair[1], distance);
+        in[1] = mul(&r, pair[0], distance);
+        in[2] = add(&r, 0.f, z);
+        in[3] = floating(&r, original[3]);
+        for (j = 0; j < 4 && r.status > 0; ++j)
+            quad(&r, b + 0x20U + j * 16U, matrix[j]);
+        for (i = 0; i < 4 && r.status > 0; ++i) {
+            acc = mul(&r, bounded(&r, matrix[0][i], 16.f, 0x1p-40f), in[0]);
+            for (j = 1; j < 4; ++j)
+                acc = add(&r, acc, mul(&r,
+                    bounded(&r, matrix[j][i], 16.f, 0x1p-40f), in[j]));
+            out[i] = acc;
+            raw[i] = bits(&r, acc);
+        }
+        if (r.status > 0 && captured.integer0) {
+            u32 position[4];
+            quad(&r, b + 0xA0U, position);
+            for (i = 0; i < 3; ++i)
+                raw[i] = bits(&r, add(&r, out[i],
+                    bounded(&r, position[i], 8192.f, 0x1p-40f)));
+        }
+    }
+
+    status = r.status;
+    if (status > 0) {
+        memcpy(output_quad, raw, sizeof(raw));
+        memcpy(info, &r.info, sizeof(r.info));
+    }
+    free(shadow);
+    return status;
+}
