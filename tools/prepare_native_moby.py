@@ -60,7 +60,7 @@ def read_glb(path):
     return document, chunks[1][1][:length]
 
 
-def accessor(document, binary, identifier, expected_type, allowed_components):
+def accessor(document, binary, identifier, expected_type, allowed_components, allow_integer=False):
     record = index(document.get("accessors", []), identifier, "accessor")
     if record.get("type") != expected_type or record.get("componentType") not in allowed_components:
         raise ValueError("Unsupported accessor type/component")
@@ -84,7 +84,8 @@ def accessor(document, binary, identifier, expected_type, allowed_components):
     normalized = record.get("normalized", False)
     if type(normalized) is not bool or (normalized and record["componentType"] not in (5121, 5123)):
         raise ValueError("Invalid normalized accessor")
-    if expected_type != "SCALAR" and record["componentType"] != 5126 and not normalized:
+    if (expected_type != "SCALAR" and record["componentType"] != 5126 and
+            not normalized and not allow_integer):
         raise ValueError("Integer vertex attributes must be normalized")
     decoder = struct.Struct("<" + code * width)
     values = [decoder.unpack_from(binary, view_offset + offset + i * stride) for i in range(count)]
@@ -96,9 +97,10 @@ def accessor(document, binary, identifier, expected_type, allowed_components):
     return values
 
 
-def material(document, identifier, directory):
+def material(document, identifier, directory, allow_blended_alpha=False):
     record = {} if identifier is None else index(document.get("materials", []), identifier, "material")
-    if record.get("extensions") or record.get("alphaMode", "OPAQUE") not in ("OPAQUE", "MASK"):
+    alpha_mode = record.get("alphaMode", "OPAQUE")
+    if record.get("extensions") or alpha_mode not in (("OPAQUE", "MASK", "BLEND") if allow_blended_alpha else ("OPAQUE", "MASK")):
         raise ValueError("Unsupported material extension or blended alpha")
     pbr = record.get("pbrMetallicRoughness", {})
     color = pbr.get("baseColorFactor", [1, 1, 1, 1])
@@ -137,7 +139,7 @@ def triangle_indices(indices, mode):
         raise ValueError("Only triangles and triangle strips are supported")
 
 
-def read_mesh(path, mesh_index=0):
+def read_mesh(path, mesh_index=0, allow_blended_alpha=False, allow_unskinned_static_joints=False):
     path = Path(path)
     document, binary = read_glb(path)
     mesh = index(document.get("meshes", []), mesh_index, "mesh")
@@ -149,13 +151,27 @@ def read_mesh(path, mesh_index=0):
     if any(selected in node.get("children", []) for node in all_nodes):
         raise ValueError("Parented editor meshes require a hierarchy-aware importer")
     groups = defaultdict(list)
+    ignored_static_joint_attributes = False
     for primitive in mesh.get("primitives", []):
         attributes = primitive.get("attributes", {})
-        if primitive.get("targets") or primitive.get("extensions") or any(
-                key not in ("POSITION", "NORMAL", "TEXCOORD_0", "COLOR_0") for key in attributes):
+        extra = set(attributes) - {"POSITION", "NORMAL", "TEXCOORD_0", "COLOR_0"}
+        inert_joint_pair = extra == {"JOINTS_0", "WEIGHTS_0"}
+        if (primitive.get("targets") or primitive.get("extensions") or
+                (extra and not (allow_unskinned_static_joints and inert_joint_pair))):
             raise ValueError("Unsupported deformation or primitive attribute")
         positions = accessor(document, binary, attributes.get("POSITION"), "VEC3", (5126,))
-        texture, factor = material(document, primitive.get("material"), path.parent)
+        if inert_joint_pair:
+            joints = accessor(document, binary, attributes["JOINTS_0"], "VEC4", (5121, 5123),
+                              allow_integer=True)
+            weights = accessor(document, binary, attributes["WEIGHTS_0"], "VEC4", (5126, 5121, 5123))
+            if len(joints) != len(positions) or len(weights) != len(positions):
+                raise ValueError("Static joint attribute counts differ from positions")
+            if any(row != (0, 0, 0, 0) for row in joints) or any(
+                    abs(row[0] - 1) > 1e-6 or any(abs(weight) > 1e-6 for weight in row[1:])
+                    for row in weights):
+                raise ValueError("Static preview only supports inert joint-zero weights")
+            ignored_static_joint_attributes = True
+        texture, factor = material(document, primitive.get("material"), path.parent, allow_blended_alpha)
         if texture is not None and "TEXCOORD_0" not in attributes:
             raise ValueError("Textured mesh needs UV coordinates")
         uvs = accessor(document, binary, attributes["TEXCOORD_0"], "VEC2", (5126, 5121, 5123)) if "TEXCOORD_0" in attributes else [(0, 0)] * len(positions)
@@ -187,7 +203,8 @@ def read_mesh(path, mesh_index=0):
         raise ValueError("Selected mesh contains no drawable triangles")
     return groups, {"kind": "editor-mesh", "mesh_index": mesh_index,
                     "mesh_name": mesh.get("name", ""), "omitted_meshes": len(document["meshes"]) - 1,
-                    "placements": 1, "exported_coordinates_preserved": True}
+                    "placements": 1, "exported_coordinates_preserved": True,
+                    "ignored_static_joint_attributes": ignored_static_joint_attributes}
 
 
 def main():

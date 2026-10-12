@@ -132,6 +132,43 @@ class NativeMobyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "no drawable"):
             moby.read_mesh(self.path, 1)
 
+    def test_blended_alpha_requires_an_explicit_preview_option(self):
+        self.document["materials"][0]["alphaMode"] = "BLEND"
+        self.path.write_bytes(encode(self.document, self.binary))
+        with self.assertRaisesRegex(ValueError, "blended alpha"):
+            moby.read_mesh(self.path)
+        groups, _ = moby.read_mesh(self.path, allow_blended_alpha=True)
+        self.assertEqual(len(groups[None]), 6)
+
+    def test_unskinned_joint_zero_weights_are_only_allowed_for_static_preview(self):
+        self.document, self.binary = fixture()
+        joint_offset = len(self.binary)
+        self.binary += bytes(16)
+        weight_offset = len(self.binary)
+        self.binary += bytes((255,0,0,0) * 4)
+        self.document["buffers"][0]["byteLength"] = len(self.binary)
+        self.document["bufferViews"].extend([
+            {"buffer":0,"byteOffset":joint_offset,"byteLength":16},
+            {"buffer":0,"byteOffset":weight_offset,"byteLength":16},
+        ])
+        self.document["accessors"].extend([
+            {"bufferView":2,"componentType":5121,"count":4,"type":"VEC4"},
+            {"bufferView":3,"componentType":5121,"normalized":True,"count":4,"type":"VEC4"},
+        ])
+        attributes=self.document["meshes"][0]["primitives"][0]["attributes"]
+        attributes.update({"JOINTS_0":3,"WEIGHTS_0":4})
+        self.path.write_bytes(encode(self.document,self.binary))
+        with self.assertRaisesRegex(ValueError,"deformation"):
+            moby.read_mesh(self.path)
+        groups,report=moby.read_mesh(self.path,allow_unskinned_static_joints=True)
+        self.assertEqual(len(groups[None]),6)
+        self.assertTrue(report["ignored_static_joint_attributes"])
+        self.binary=bytearray(self.binary)
+        self.binary[joint_offset]=1
+        self.path.write_bytes(encode(self.document,bytes(self.binary)))
+        with self.assertRaisesRegex(ValueError,"inert joint-zero"):
+            moby.read_mesh(self.path,allow_unskinned_static_joints=True)
+
 
 if __name__ == "__main__":
     unittest.main()
