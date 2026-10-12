@@ -1,5 +1,46 @@
 # Local development progress
 
+## 2026-10-12 - Reviewed position scalar and status checkpoint
+
+The private actual L01 capsule body at 67EF00 has verified extent 0x618. Its
+67F2AC word 46006B68 selects FS13, FT0 and FD13 for MAX.S. The site adapter reuses
+the existing finite clamp implementation. Root checks the actual input plus
+seven finite/signed-zero/extreme cases and eight atomic operand refusals, with
+passive banks, RAM, stack and uncertainty state unchanged. A fresh independent
+review passes six direct cases and four site/word/operand refusals. That review
+takes 153 seconds wall time; its direct check execution takes 2.049 seconds.
+These checks exclude FCSR, physical timing and the whole position behavior.
+
+A fresh explicit 684A60 component reaches 53FAA8 VCALLMS after 304 EE instructions
+and zero VU instructions, where the existing control/status uncertainty guard
+refuses execution. Inputs retain typed projected basis/radius RAM and diagnostic
+machine banks. No instruction, field or callee is patched, and no complete
+original player update or authentic gameplay frame is claimed. The strict
+full-bank v32 diagnostic remains guarded at 67C224.
+
+Worker startup-wrapper-130 produces a pure C private L01 variant at 667668,
+size 0x48, calling the six actual first-family leaves with arguments 1..6. Its
+isolated established-tool link reports exact bytes after resolving addresses.
+Root independently verifies the extent, six actual R_MIPS_26 object relocations
+and their symbols, call arguments, 68 compiled bytes and four zero padding bytes,
+and passes the relocation-aware comparison. Two isolated root relink attempts
+fail before assembly with Windows WinError 623 (system DLL relocation). Both
+scripts and partial output directories remain preserved. Root final resolved
+validation therefore remains pending. Keep this per-level variant private: the
+canonical common L00 wrapper is already recovered, so no progress row or source
+is added and canonical coverage cannot be counted twice.
+
+The independent collision producer audit distinguishes packet 242340, actor
+membership grid 26FF20 and pool globals 222D14/222D2C. Projected RAM does not prove
+the live packet root publisher, authentic grid population or actor bindings.
+Those producer dependencies remain required for the opening scene.
+
+This checkpoint adds zero accepted exact functions and zero native APIs. Last
+full native suite: 114/114 passed in 28.58 seconds. Matching: 323 exact, zero bad,
+273 resolved, 0.564% of code. No new native suite is required for documentation
+and ignored diagnostic files. Viewer behavior is unchanged; no controllable
+Ratchet or repeated gameplay loop exists. No push.
+
 ## 2026-10-12 - Six first-family startup leaves integrated after corrections
 
 The first-family native API now covers all six actual L01 leaves called by

@@ -1,3 +1,29 @@
+# Current checkpoint - 2026-10-12 - Collision scalar review / 323 exact / 114 tests
+
+Eleven startup pool leaf behaviors, selected orientation matrices and the
+current-frame model transform are native. The last full suite passed all 114
+tests; canonical matching remains 323 functions / 0.564% of code. No controllable
+Ratchet, complete returned player update, repeated gameplay loop or new viewer
+behavior exists yet. The viewer shows scenery and prepared poses.
+
+The separate position diagnostic now passes a reviewed finite scalar MAX at
+67F2AC and reaches a guarded vector dispatch at 53FAA8 after 304 EE instructions.
+It consumes typed projected RAM and diagnostic machine banks; it does not prove
+an authentic player frame. The strict full-bank path remains guarded at 67C224.
+A private L01 startup wrapper has worker exact-link evidence. Root verifies six
+actual object call relocations and the masked comparison; two fresh link launches
+fail with Windows error 623, so root final resolved validation remains pending.
+This variant is already represented by a canonical common function and adds no
+coverage. Private work is not adopted or counted as accepted sources.
+
+Next: resolve the reached vector dependency and complete position/contact and a
+returned update; close authentic startup/control/provider; bind live actor skin
+geometry, input and follow camera, then validate repeated gameplay frames.
+Collision packet/root and membership-grid initialization also need live producer
+evidence. No reliable playable ETA. Root owns shared integration and validation.
+No push. Read PROGRESS_LOG.md for evidence and preserved failures.
+Older checkpoints below remain historical.
+
 # Current checkpoint - 2026-10-12 - Both pool leaf families / 323 exact / 114 tests
 
 Five second-family and six first-family startup leaf behaviors are native.
