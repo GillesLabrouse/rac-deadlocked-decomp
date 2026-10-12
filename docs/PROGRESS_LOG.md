@@ -1,5 +1,50 @@
 # Local development progress
 
+## 2026-10-12 - Complete animation helper returns with native RAM agreement
+
+The separately authenticated micro858 binder passes one actual v25 input and
+12 synthetic cache/metadata/quaternion alternatives, 377 pairs and 15 atomic
+refusals. An orthogonal normalized-result scale property also passes. Review
+takes186.4s within four minutes. Initial import fails because a mechanical
+creation changed the parent path; separate v2 fixes that path. An independent
+raw-field calculation verifies the actual858 register assignments and route;
+its staged reuse is not another independent arithmetic proof. Physical flags,
+Q readiness, integer backups, rounding and microcode upload remain unproved.
+
+Fresh v26 executes54 actual738 and54 actual858 calls and reaches589AF8 before
+the final raw restore after7515EE/5211VU in the explicit partial update.
+Independent final-restore review checks actualF00/F40 sites, 22 raw pairs,
+complete VU journals, synthetic passive bit patterns and ten atomic guards.
+It takes171.2s within three minutes and stops before the final DMA sequence.
+These pure loads preserve inherited uncertainty; no hardware readiness claim.
+
+Fresh v27 follows the actual helper return to689178 after7547EE/5233VU. Its
+complete32505856-byte RAM and16384-byte scratch agree exactly with the private
+compiled frame-aware C output from the genuine58A648 entry atframe0.5. This
+is a same-stage complete memory comparison, unlike the earlier cross-stage
+check. Original machine banks and physical DMA timing are outside the native
+contract. Independent native delta/atomicity review and production proof are
+still pending; the C draft is not yet an accepted public API.
+
+Fresh v28 resumes beyond that helper and reaches67C574 canonicalVF0MAXW in
+the actual6A7D48 input bridge after7659EE/5233VU. No complete player update
+returns. Its existing native input bridge remains a useful supported component,
+but subsequent original instruction/domain dependencies require actual checks.
+A light reviewer first uses an internal base allocator that bypasses the final
+namespace binding; the resulting pre-instruction refusal is preserved, with
+no claimed successfulbank result. A focused retry uses the public factory.
+
+Commands113 verifies the main-overlay gate alias as resident00526470/0x1C
+by actualsize/raw bytes, not canonical spelling alone. Main rows are omitted
+from progress to prevent duplicate resident counting. Commands114's isolated
+m2c translation refuses the cross-function branch to0052648C; zero compiler
+variants or exact acceptances follow. The guard must retain deduplicated
+ownership and per-level reference checks. All failed diagnostics stay separate.
+
+Matching323/0bad,273resolved,0.564%; last113/113 native suite29.68s. No new
+viewer behavior, controllable player or gameplay loop. Root continues native
+frame integration and the actual input/movement/collision chain. No push.
+
 ## 2026-10-12 - Third independently bound native startup pool integrated
 
 Actual L01 006671D0 with A0=3 is now a native RAM-only component. Its actual
