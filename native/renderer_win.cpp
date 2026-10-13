@@ -58,7 +58,7 @@ Output vs_main(Input input) {
 float4 ps_main(Output input) : SV_TARGET {
     float4 value = image.Sample(image_sampler, input.uv) * input.color;
     clip(value.a - 0.05);
-    return float4(value.rgb, 1);
+    return value;
 }
 )";
 
@@ -102,12 +102,16 @@ class Renderer {
     ComPtr<ID3D11InputLayout> layout;
     ComPtr<ID3D11SamplerState> sampler;
     ComPtr<ID3D11RasterizerState> rasterizer;
+    ComPtr<ID3D11BlendState> sky_blend;
+    ComPtr<ID3D11DepthStencilState> sky_depth;
     ComPtr<IWICImagingFactory> imaging;
     std::vector<ComPtr<ID3D11ShaderResourceView>> textures;
     std::vector<DrawBatch> batches;
     unsigned width, height;
     bool software;
     bool mutable_geometry;
+    std::size_t sky_shell_count;
+    std::vector<Instance> render_instances;
     std::size_t vertex_count;
 
     ComPtr<ID3DBlob> compile(const char* entry, const char* profile) {
@@ -154,9 +158,20 @@ class Renderer {
     }
 
 public:
-    Renderer(const Scene& scene, unsigned w, unsigned h, bool use_software, HWND window=nullptr, bool animated=false)
+    Renderer(const Scene& scene, unsigned w, unsigned h, bool use_software, HWND window=nullptr,
+             bool animated=false, std::size_t sky_shells=0)
         : batches(scene.batches), width(w), height(h), software(use_software),
-          mutable_geometry(animated), vertex_count(scene.vertices.size()) {
+          mutable_geometry(animated), sky_shell_count(sky_shells),
+          render_instances(scene.instances), vertex_count(scene.vertices.size()) {
+        if (sky_shell_count > scene.instances.size())
+            throw std::runtime_error("Sky shell count exceeds scene instances");
+        const auto first_sky_instance = scene.instances.size() - sky_shell_count;
+        for (const auto& batch : scene.batches) {
+            const bool starts_as_sky = batch.first_instance >= first_sky_instance;
+            const bool ends_as_sky = batch.first_instance + batch.instance_count > first_sky_instance;
+            if (sky_shell_count && starts_as_sky != ends_as_sky)
+                throw std::runtime_error("A draw batch mixes sky and world instances");
+        }
         checked(CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
                                  IID_PPV_ARGS(&imaging)), "Create image codec factory");
         const D3D_FEATURE_LEVEL level = D3D_FEATURE_LEVEL_11_0;
@@ -220,8 +235,8 @@ public:
         D3D11_SUBRESOURCE_DATA data{scene.vertices.data(), 0, 0};
         checked(device->CreateBuffer(&buffer, &data, &geometry), "Upload scene vertices");
         buffer.ByteWidth=static_cast<UINT>(scene.instances.size()*sizeof(Instance));
-        buffer.Usage=D3D11_USAGE_IMMUTABLE;
-        data.pSysMem=scene.instances.data();
+        buffer.Usage=sky_shell_count ? D3D11_USAGE_DEFAULT : D3D11_USAGE_IMMUTABLE;
+        data.pSysMem=render_instances.data();
         checked(device->CreateBuffer(&buffer, &data, &instance_buffer), "Upload scene instances");
         buffer.ByteWidth=sizeof(XMFLOAT4X4); buffer.Usage=D3D11_USAGE_DEFAULT; buffer.BindFlags=D3D11_BIND_CONSTANT_BUFFER;
         checked(device->CreateBuffer(&buffer, nullptr, &camera_buffer), "Create scene camera buffer");
@@ -234,6 +249,21 @@ public:
         D3D11_RASTERIZER_DESC raster{};
         raster.FillMode=D3D11_FILL_SOLID; raster.CullMode=D3D11_CULL_NONE; raster.DepthClipEnable=TRUE;
         checked(device->CreateRasterizerState(&raster, &rasterizer), "Create rasterization state");
+        D3D11_BLEND_DESC blend{};
+        blend.RenderTarget[0].BlendEnable=TRUE;
+        blend.RenderTarget[0].SrcBlend=D3D11_BLEND_SRC_ALPHA;
+        blend.RenderTarget[0].DestBlend=D3D11_BLEND_INV_SRC_ALPHA;
+        blend.RenderTarget[0].BlendOp=D3D11_BLEND_OP_ADD;
+        blend.RenderTarget[0].SrcBlendAlpha=D3D11_BLEND_ONE;
+        blend.RenderTarget[0].DestBlendAlpha=D3D11_BLEND_INV_SRC_ALPHA;
+        blend.RenderTarget[0].BlendOpAlpha=D3D11_BLEND_OP_ADD;
+        blend.RenderTarget[0].RenderTargetWriteMask=D3D11_COLOR_WRITE_ENABLE_ALL;
+        checked(device->CreateBlendState(&blend, &sky_blend), "Create sky alpha blend state");
+        D3D11_DEPTH_STENCIL_DESC sky_depth_desc{};
+        sky_depth_desc.DepthEnable=FALSE;
+        sky_depth_desc.DepthWriteMask=D3D11_DEPTH_WRITE_MASK_ZERO;
+        sky_depth_desc.DepthFunc=D3D11_COMPARISON_ALWAYS;
+        checked(device->CreateDepthStencilState(&sky_depth_desc, &sky_depth), "Create sky depth state");
         textures.push_back(upload_texture({}));
         for (const auto& png : scene.pngs) textures.push_back(upload_texture(png));
         checked(complete_and_reset_graphics(context.Get(), 5000), "Complete scene graphics startup");
@@ -267,7 +297,29 @@ public:
         context->VSSetShader(vertex_shader.Get(),nullptr,0);
         context->PSSetShader(pixel_shader.Get(),nullptr,0);
         auto* sampling = sampler.Get(); context->PSSetSamplers(0,1,&sampling);
+        if (sky_shell_count) {
+            const auto first_sky_instance = render_instances.size() - sky_shell_count;
+            for (std::size_t i=first_sky_instance; i<render_instances.size(); ++i) {
+                render_instances[i].transform[12]=camera.position.x;
+                render_instances[i].transform[13]=camera.position.y;
+                render_instances[i].transform[14]=camera.position.z;
+            }
+            context->UpdateSubresource(instance_buffer.Get(),0,nullptr,render_instances.data(),0,0);
+            const float blend_factor[4]={0,0,0,0};
+            context->OMSetBlendState(sky_blend.Get(),blend_factor,0xffffffff);
+            context->OMSetDepthStencilState(sky_depth.Get(),0);
+            for (const auto& batch : batches) {
+                if (batch.first_instance < first_sky_instance) continue;
+                auto* texture = textures[batch.texture].Get();
+                context->PSSetShaderResources(0,1,&texture);
+                context->DrawInstanced(batch.count,batch.instance_count,batch.first,batch.first_instance);
+            }
+            context->OMSetBlendState(nullptr,nullptr,0xffffffff);
+            context->OMSetDepthStencilState(nullptr,0);
+        }
         for (const auto& batch : batches) {
+            if (sky_shell_count && batch.first_instance >= render_instances.size()-sky_shell_count)
+                continue;
             auto* texture = textures[batch.texture].Get();
             context->PSSetShaderResources(0,1,&texture);
             context->DrawInstanced(batch.count,batch.instance_count,batch.first,batch.first_instance);
@@ -353,6 +405,7 @@ int wmain(int argc,wchar_t** argv) {
     try {
         std::filesystem::path input, output, pose_path, pose_clock_path;
         bool software=false, self_test=false, pose_self_test=false, explicit_camera=false;
+        std::size_t sky_shell_count=0;
         std::optional<std::uint32_t> fixed_pose_frame;
         std::optional<std::uint32_t> fixed_clock_ticks;
         unsigned width=1280,height=720;
@@ -361,6 +414,13 @@ int wmain(int argc,wchar_t** argv) {
             const std::wstring arg=argv[i];
             if (arg==L"--capture" && i+1<argc) output=argv[++i];
             else if (arg==L"--software") software=true;
+            else if (arg==L"--sky-shell-count" && i+1<argc) {
+                const std::wstring value=argv[++i];std::size_t consumed=0;
+                const auto count=std::stoull(value,&consumed);
+                if (value.empty() || value[0]==L'-' || consumed!=value.size() || count>64)
+                    throw std::runtime_error("Invalid bounded sky shell count");
+                sky_shell_count=static_cast<std::size_t>(count);
+            }
             else if (arg==L"--self-test") self_test=true;
             else if (arg==L"--pose-self-test") { self_test=true; pose_self_test=true; }
             else if (arg==L"--poses" && i+1<argc) pose_path=argv[++i];
@@ -384,6 +444,7 @@ int wmain(int argc,wchar_t** argv) {
                 camera.yaw=std::stof(argv[++i]); camera.pitch=std::stof(argv[++i]); explicit_camera=true;
             } else if (arg==L"--help") {
                 std::cout << "Usage: deadlocked_native_scene_viewer scene.dlscene [--capture frame.png] [--software]\n"
+                             "       [--sky-shell-count shell_instances]\n"
                              "       [--camera x y z yaw_radians pitch_radians]\n"
                              "       [--poses samples.dlposes] [--pose-frame sample_index]\n"
                              "       [--pose-clock metadata.dlclock] [--pose-clock-ticks tick_count]\n"
@@ -403,6 +464,8 @@ int wmain(int argc,wchar_t** argv) {
         if (fixed_clock_ticks && (pose_clock_path.empty() || output.empty()))
             throw std::runtime_error("--pose-clock-ticks requires --pose-clock and --capture");
         auto scene=self_test ? test_triangle() : load_scene(input);
+        if (sky_shell_count && (self_test || !pose_path.empty()))
+            throw std::runtime_error("Sky shell rendering cannot be combined with renderer self-tests or pose sequences");
         std::optional<PoseSequence> poses;
         std::optional<PoseClock> pose_clock;
         std::uint32_t pose_frame=fixed_pose_frame.value_or(0);
@@ -438,7 +501,7 @@ int wmain(int argc,wchar_t** argv) {
             if (!window) throw std::runtime_error("Cannot create native scene window");
             ShowWindow(window,SW_SHOW);
         }
-        Renderer renderer(scene,width,height,software,window,poses.has_value());
+        Renderer renderer(scene,width,height,software,window,poses.has_value(),sky_shell_count);
         std::uint64_t submitted_triangles=0;
         for (const auto& batch:scene.batches) submitted_triangles+=std::uint64_t(batch.count/3)*batch.instance_count;
         std::cout << "Native scene: " << scene.vertices.size()/3 << " prototype triangles, " << scene.instances.size()
