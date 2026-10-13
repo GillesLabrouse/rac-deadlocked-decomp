@@ -72,6 +72,24 @@ class SceneWadIndexTests(unittest.TestCase):
             "core_path": str(core), "scene_index": 9, "offset": 6,
         }])
 
+    def test_reports_exact_core_header_matches_in_scene_chunks(self):
+        build_directory = Path(__file__).resolve().parents[1] / "build"
+        with tempfile.TemporaryDirectory(dir=build_directory) as directory:
+            core = Path(directory) / "class" / "core.bin"
+            core.parent.mkdir()
+            signature = bytes(range(64))
+            core.write_bytes(signature + b"core payload")
+            report = audit.scan_exact_core_headers_in_chunks(
+                [Path(directory)], [(20, 5, b"prefix" + signature)]
+            )
+        self.assertEqual(report["global_and_mission_core_files_scanned"], 1)
+        self.assertEqual(report["exact_first_64_byte_core_header_matches"], [{
+            "core_path": str(core.resolve()),
+            "scene_index": 20,
+            "chunk_index": 5,
+            "offset": 6,
+        }])
+
 
 if __name__ == "__main__":
     unittest.main()

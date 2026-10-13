@@ -142,8 +142,11 @@ therefore remains a position-only marker. Recreate the inventory with
 `python tools/audit_dreadzone_scene_wad.py --output
 build/native-assets/dreadzone-scene-wad-audit.json`. The parser validates the
 WAD sector ranges, row spans, PIF headers, chunk streams, and descriptor bounds
-without assigning provisional IDs to a model namespace. Terrain fragments from chunks 0 and 1 are
-included in the primary review scene. Collision meshes from those same chunks
+without assigning provisional IDs to a model namespace. A separate exact
+header scan across the decoded chunks found no 64-byte core-prefix matches in
+1,102 exported global and mission-local Moby cores. This does not rule out
+partial or transformed core data. Terrain fragments from extracted level
+chunks 0 and 1 are included in the primary review scene. Collision meshes from those same chunks
 are now available as a separate, testable scene: `run-dreadzone-collision.cmd`
 prepares `build/native-assets/dreadzone-mission-0-collision.dlscene`, which
 contains 38,806 extracted collision triangles across both chunks. It intentionally

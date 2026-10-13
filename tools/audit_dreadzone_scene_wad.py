@@ -148,6 +148,36 @@ def scan_exact_core_headers(core_root, scene_streams):
     }
 
 
+def scan_exact_core_headers_in_chunks(core_roots, chunk_streams):
+    """Search decoded scene chunks for exact prefixes of exported Moby cores."""
+    core_files = set()
+    for root in core_roots:
+        root = Path(root)
+        if root.is_dir():
+            core_files.update(path.resolve() for path in root.rglob("core.bin"))
+    matches = []
+    scanned = 0
+    for core_path in sorted(core_files):
+        raw = core_path.read_bytes()
+        if len(raw) < 64:
+            continue
+        scanned += 1
+        signature = raw[:64]
+        for scene_index, chunk_index, decoded in chunk_streams:
+            offset = decoded.find(signature)
+            if offset >= 0:
+                matches.append({
+                    "core_path": str(core_path),
+                    "scene_index": scene_index,
+                    "chunk_index": chunk_index,
+                    "offset": offset,
+                })
+    return {
+        "global_and_mission_core_files_scanned": scanned,
+        "exact_first_64_byte_core_header_matches": matches,
+    }
+
+
 def audit_scene_wad(path):
     """Return a bounded inventory of Dreadzone's LevelSceneWad streams."""
     path = Path(path)
@@ -170,6 +200,7 @@ def audit_scene_wad(path):
     decoded_chunk_count = 0
     chunk_resource_ids = {}
     chunk_inventory = []
+    decoded_chunk_streams = []
     for scene_index in range(SCENE_COUNT):
         record_offset = SCENE_HEADER_OFFSET + scene_index * SCENE_HEADER_SIZE
         chunk_table_offset = record_offset + SCENE_CHUNK_TABLE_OFFSET
@@ -198,6 +229,7 @@ def audit_scene_wad(path):
                     f"Scene {scene_index} chunk {chunk_index} has an invalid size"
                 )
             decoded_chunk = decompress(data, chunk_offset)
+            decoded_chunk_streams.append((scene_index, chunk_index, decoded_chunk))
             resource_entries = parse_chunk_resource_entries(
                 decoded_chunk, scene_index, chunk_index
             )
@@ -261,6 +293,10 @@ def audit_scene_wad(path):
         path.parent.parent.parent.parent / "moby_classes",
         decoded_streams,
     )
+    chunk_core_scan = scan_exact_core_headers_in_chunks(
+        [path.parent.parent.parent.parent / "moby_classes", path.parent],
+        decoded_chunk_streams,
+    )
     return {
         "kind": "dreadzone-scene-wad-partial-audit",
         "source": str(path.resolve()),
@@ -282,6 +318,7 @@ def audit_scene_wad(path):
             "chunks": chunk_inventory,
         },
         "global_moby_core_scan": core_scan,
+        "scene_chunk_moby_core_scan": chunk_core_scan,
         "unresolved_class_ids": sorted(UNRESOLVED_CLASS_IDS),
         "scenes": scenes,
     }
