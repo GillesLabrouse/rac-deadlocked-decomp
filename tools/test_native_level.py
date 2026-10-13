@@ -62,6 +62,9 @@ class NativeLevelTests(unittest.TestCase):
             directory = self.level / "chunks" / str(index) / "tfrags"
             directory.mkdir(parents=True)
             (directory / "mesh.dae").write_text(mesh_text(recover=True))
+            collision = self.level / "chunks" / str(index) / "collision"
+            collision.mkdir(parents=True)
+            (collision / "collision.dae").write_text(mesh_text())
         (self.level / "tie_classes").mkdir()
         (self.level / "tie_classes" / "tie_classes.asset").write_text('classes { Reference 7 { asset: "authored" } }')
         (self.level / "shrub_classes").mkdir()
@@ -87,6 +90,19 @@ class NativeLevelTests(unittest.TestCase):
         self.assertFalse(report["rendered_as_game_objects"])
         self.assertEqual(report["entries"][1]["source_attributes"]["spline"],
                          [[1, 2, 3, -1], [4, 5, 6, -1]])
+
+    def test_collision_preview_adds_tinted_static_meshes_without_runtime_behavior(self):
+        output = Path(self.temp.name) / "collision-preview.dlscene"
+        report = level.prepare_level(
+            self.extracted, self.level, output, include_collision_previews=True)
+        self.assertTrue(report["collision_geometry_preview_enabled"])
+        self.assertEqual(report["collision_geometry_preview_chunks"], ["0", "1"])
+        self.assertEqual(report["instances"], 7)
+        collisions = [prototype for prototype in report["prototypes"]
+                      if prototype["kind"] == "diagnostic-collision-geometry"]
+        self.assertEqual([prototype["chunk"] for prototype in collisions], ["0", "1"])
+        self.assertTrue(all(not prototype["runtime_collision_enabled"]
+                            for prototype in collisions))
 
     def test_level_preserves_prototype_sharing_and_matrices(self):
         output = Path(self.temp.name) / "authored.dlscene"

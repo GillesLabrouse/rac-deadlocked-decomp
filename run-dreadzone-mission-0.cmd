@@ -2,7 +2,7 @@
 setlocal
 set "root=%~dp0"
 set "viewer=%root%build\native\Release\deadlocked_native_scene_viewer.exe"
-set "scene=%root%build\native-assets\dreadzone-mission-0-review.dlscene"
+set "scene=%root%build\native-assets\dreadzone-mission-0-collision-review.dlscene"
 set "python=%root%venv\Scripts\python.exe"
 if not exist "%viewer%" (
     echo Native scene viewer is missing. Build deadlocked_native_scene_viewer from docs\NATIVE_PORT.md.
@@ -13,9 +13,10 @@ if not exist "%root%private\overlays\levels\campaign\1_dreadzone_station\gamepla
     exit /b 1
 )
 if not exist "%python%" set "python=python"
-"%python%" "%root%tools\prepare_native_level.py" --extracted "%root%private\overlays" --level "%root%private\overlays\levels\campaign\1_dreadzone_station" --mission 0 --include-dynamic-previews --include-native-bind-previews -o "%scene%"
+"%python%" "%root%tools\prepare_native_level.py" --extracted "%root%private\overlays" --level "%root%private\overlays\levels\campaign\1_dreadzone_station" --mission 0 --include-dynamic-previews --include-native-bind-previews --include-sky --include-collision-previews -o "%scene%"
 if errorlevel 1 exit /b 1
 echo Opening the Dreadzone mission 0 geometry review scene.
+echo Cyan surfaces show exported collision geometry; collision behavior is not simulated.
 echo W/A/S/D move, Q/E down/up, arrow keys look, Shift moves faster, Escape exits.
 "%viewer%" "%scene%" %*
 exit /b %errorlevel%
