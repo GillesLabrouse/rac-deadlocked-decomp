@@ -17,6 +17,11 @@ uses 87,160 prototype triangles. These are editor geometry previews; the
 viewer does not run mission behavior, visibility rules, lighting, AI, or
 animation.
 
+The adjacent JSON report indexes all 743 Moby placements in the selected scene
+variant. Each row preserves its source instance ID, position, rotation, scale,
+pvars, draw distance, occlusion value, mesh availability, and whether the
+preview rendered or was filtered or omitted.
+
 The current extraction has no drawable mesh for 60 mission Moby placements
 across 17 classes. Those placements are omitted from this review scene rather
 than represented with guessed object shapes. To inspect their source positions,

@@ -441,6 +441,7 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     moby_ids = set()
     selected_dynamic_instance_count = 0
     selected_dynamic_instance = None
+    dynamic_placement_inventory = []
     mission_nodes = []
     mission_path = None
     mission_moby_classes = {}
@@ -522,6 +523,25 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             class_id = node.attributes.get("class")
             if type(class_id) is not int or class_id < 0:
                 raise ValueError("Dynamic object references an unavailable level class")
+            selected_by_preview_filters = (
+                (dynamic_class_ids is None or class_id in dynamic_class_ids) and
+                class_id not in excluded_dynamic_class_ids and
+                (dynamic_instance_id is None or node.name == str(dynamic_instance_id)))
+            dynamic_placement_inventory.append({
+                "mission_id": mission_id,
+                "instance_id": node.name,
+                "class_id": class_id,
+                "position_xyz": node.attributes.get("pos"),
+                "rotation_xyz": node.attributes.get("rot"),
+                "uniform_scale": node.attributes.get("scale"),
+                "pvars": node.attributes.get("pvars"),
+                "draw_distance": node.attributes.get("draw_dist"),
+                "occlusion": node.attributes.get("occlusion"),
+                "uid": node.attributes.get("uid"),
+                "mesh_source_available": class_id in moby_sources,
+                "geometry_source_available": class_id in reusable_mission_geometries,
+                "selected_by_preview_filters": selected_by_preview_filters,
+            })
             if dynamic_instance_id is not None:
                 if class_id not in dynamic_class_ids or node.name != str(dynamic_instance_id):
                     continue
@@ -742,6 +762,20 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                                      "dynamic-object-native-bind-pose-preview")
                                 for row in prototypes):
         raise ValueError("Selected dynamic class has no renderable placements in this mission")
+    rendered_dynamic_classes = {
+        prototype["class_id"] for _, _, prototype in prototypes
+        if prototype.get("kind") in ("dynamic-object-preview",
+                                      "dynamic-object-geometry-only-preview",
+                                      "dynamic-object-native-bind-pose-preview")}
+    for placement in dynamic_placement_inventory:
+        class_id = placement["class_id"]
+        if not placement["selected_by_preview_filters"]:
+            placement["preview_status"] = "excluded_by_preview_filter"
+        elif class_id in rendered_dynamic_classes:
+            placement["preview_status"] = "rendered"
+        else:
+            placement["preview_status"] = omitted_mobys.get(class_id, {}).get(
+                "reason", "no drawable geometry")
     report = write_package(prototypes, output, inputs)
     report["static_object_placements"] = 0 if dynamic_only else len(ids)
     report["vegetation_placements"] = 0 if dynamic_only else len(shrub_ids)
@@ -768,6 +802,7 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                                if dynamic_class_ids is not None else None)
     report["dynamic_preview_instance_filter"] = dynamic_instance_id
     report["dynamic_preview_instance"] = selected_dynamic_instance
+    report["dynamic_placement_inventory"] = dynamic_placement_inventory
     report["dynamic_preview_excluded_classes"] = sorted(excluded_dynamic_class_ids)
     report["dynamic_preview_transforms_verified"] = False
     report["dynamic_preview_rotation_order_verified"] = True

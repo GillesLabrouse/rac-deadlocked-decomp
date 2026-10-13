@@ -434,6 +434,12 @@ class NativeLevelTests(unittest.TestCase):
             "occlusion": 0,
             "uid": None,
         })
+        inventory = report["dynamic_placement_inventory"]
+        by_instance = {row["instance_id"]: row for row in inventory}
+        self.assertEqual(by_instance["3"]["preview_status"], "excluded_by_preview_filter")
+        self.assertEqual(by_instance["4"]["preview_status"], "rendered")
+        self.assertEqual(by_instance["4"]["rotation_xyz"], [0, 0, 1.57079632679])
+        self.assertEqual(by_instance["4"]["pvars"], [7, 8])
 
     def test_dynamic_instance_filter_requires_mission_class_and_dynamic_only(self):
         with self.assertRaisesRegex(ValueError, "one mission, class, and instance filter"):
