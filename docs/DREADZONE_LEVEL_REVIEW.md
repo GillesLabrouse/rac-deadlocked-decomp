@@ -130,11 +130,19 @@ missing Moby classes is unverified. The audit also searches the decoded streams
 for exact 64-byte prefixes from all 363 exported global Moby cores and finds no
 matches. This rules out those exact core headers in the decoded `moby_load`
 streams, but does not rule out transformed, repacked, or partial model data.
-These streams therefore have not resolved any missing model. Recreate this
-partial inventory with `python tools/audit_dreadzone_scene_wad.py --output
+These streams therefore have not resolved any missing model. The same audit
+now inventories the 69 compressed chunk references in each of the 30 scene
+records: 648 references are nonzero, 40 point at empty sectors, and 608 decode
+as WAD streams. A four-entry table at decoded offset `0x50` points to
+descriptor records in these streams. Their first words match 39 distinct
+resource IDs; unresolved class ID 9207 appears in 28 descriptors. This is a
+useful lead, but the descriptor namespace is not confirmed, and the referenced
+payloads have not been decoded into triangle topology. The 9207 placement
+therefore remains a position-only marker. Recreate the inventory with
+`python tools/audit_dreadzone_scene_wad.py --output
 build/native-assets/dreadzone-scene-wad-audit.json`. The parser validates the
-WAD sector ranges, row spans, and PIF headers without assigning the provisional
-record IDs to an asset namespace. Terrain fragments from chunks 0 and 1 are
+WAD sector ranges, row spans, PIF headers, chunk streams, and descriptor bounds
+without assigning provisional IDs to a model namespace. Terrain fragments from chunks 0 and 1 are
 included in the primary review scene. Collision meshes from those same chunks
 are now available as a separate, testable scene: `run-dreadzone-collision.cmd`
 prepares `build/native-assets/dreadzone-mission-0-collision.dlscene`, which

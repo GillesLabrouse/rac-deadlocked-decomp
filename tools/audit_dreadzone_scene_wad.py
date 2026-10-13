@@ -18,6 +18,9 @@ SCENE_COUNT = 30
 SCENE_HEADER_SIZE = 0x38 + 69 * 4
 SCENE_HEADER_OFFSET = 8
 SCENE_MOBY_LOAD_OFFSET = 0x30
+SCENE_CHUNK_TABLE_OFFSET = 0x38
+SCENE_CHUNK_COUNT = 69
+CHUNK_RESOURCE_TABLE_OFFSET = 0x50
 SCENE_WAD_HEADER_SIZE = 8 + SCENE_COUNT * SCENE_HEADER_SIZE
 INDEX_ENTRY = struct.Struct("<4I")
 PIF_HEADER = struct.Struct("<8I")
@@ -77,6 +80,48 @@ def parse_pif_headers(decoded, scene_index):
     return result
 
 
+def parse_chunk_resource_entries(decoded, scene_index, chunk_index):
+    """Read candidate resource descriptors from a decoded scene chunk.
+
+    The entry IDs resemble Moby class IDs in several chunks, but their namespace
+    and payload format are not fully identified. Preserve raw offsets and do not
+    interpret payload bytes as geometry.
+    """
+    if len(decoded) < CHUNK_RESOURCE_TABLE_OFFSET + 16:
+        raise ValueError(
+            f"Scene {scene_index} chunk {chunk_index} is shorter than its header"
+        )
+    offsets = struct.unpack_from("<4I", decoded, CHUNK_RESOURCE_TABLE_OFFSET)
+    entries = []
+    for descriptor_offset in offsets:
+        if descriptor_offset == 0:
+            continue
+        if descriptor_offset < CHUNK_RESOURCE_TABLE_OFFSET + 16:
+            raise ValueError(
+                f"Scene {scene_index} chunk {chunk_index} has an invalid "
+                f"resource descriptor offset 0x{descriptor_offset:x}"
+            )
+        if descriptor_offset + 8 > len(decoded):
+            raise ValueError(
+                f"Scene {scene_index} chunk {chunk_index} has an out-of-range "
+                f"resource descriptor offset 0x{descriptor_offset:x}"
+            )
+        resource_id, payload_offset = struct.unpack_from(
+            "<2I", decoded, descriptor_offset
+        )
+        if not resource_id or not (descriptor_offset + 8 <= payload_offset < len(decoded)):
+            raise ValueError(
+                f"Scene {scene_index} chunk {chunk_index} has an invalid "
+                f"resource entry at 0x{descriptor_offset:x}"
+            )
+        entries.append({
+            "descriptor_offset": descriptor_offset,
+            "resource_id": resource_id,
+            "payload_offset": payload_offset,
+        })
+    return entries
+
+
 def scan_exact_core_headers(core_root, scene_streams):
     """Find exact 64-byte prefixes of exported global cores in decoded streams."""
     core_root = Path(core_root)
@@ -120,8 +165,60 @@ def audit_scene_wad(path):
     decoded_streams = []
     total_index_records = 0
     total_pif_headers = 0
+    chunk_references = 0
+    empty_chunk_references = 0
+    decoded_chunk_count = 0
+    chunk_resource_ids = {}
+    chunk_inventory = []
     for scene_index in range(SCENE_COUNT):
         record_offset = SCENE_HEADER_OFFSET + scene_index * SCENE_HEADER_SIZE
+        chunk_table_offset = record_offset + SCENE_CHUNK_TABLE_OFFSET
+        chunk_sectors = struct.unpack_from(
+            f"<{SCENE_CHUNK_COUNT}I", data, chunk_table_offset
+        )
+        for chunk_index, chunk_sector in enumerate(chunk_sectors):
+            if not chunk_sector:
+                continue
+            chunk_references += 1
+            chunk_offset = chunk_sector * SECTOR_SIZE
+            if chunk_offset + 16 > len(data):
+                raise ValueError(
+                    f"Scene {scene_index} chunk {chunk_index} exceeds the WAD"
+                )
+            if data[chunk_offset:chunk_offset + 3] != b"WAD":
+                if data[chunk_offset:chunk_offset + SECTOR_SIZE] != bytes(SECTOR_SIZE):
+                    raise ValueError(
+                        f"Scene {scene_index} chunk {chunk_index} is neither WAD nor empty"
+                    )
+                empty_chunk_references += 1
+                continue
+            compressed_bytes = struct.unpack_from("<I", data, chunk_offset + 3)[0]
+            if not 16 <= compressed_bytes <= len(data) - chunk_offset:
+                raise ValueError(
+                    f"Scene {scene_index} chunk {chunk_index} has an invalid size"
+                )
+            decoded_chunk = decompress(data, chunk_offset)
+            resource_entries = parse_chunk_resource_entries(
+                decoded_chunk, scene_index, chunk_index
+            )
+            decoded_chunk_count += 1
+            for entry in resource_entries:
+                resource_id = entry["resource_id"]
+                chunk_resource_ids[resource_id] = (
+                    chunk_resource_ids.get(resource_id, 0) + 1
+                )
+                entry["unresolved_class_id_match"] = (
+                    resource_id in UNRESOLVED_CLASS_IDS
+                )
+            chunk_inventory.append({
+                "scene_index": scene_index,
+                "chunk_index": chunk_index,
+                "sector": chunk_sector,
+                "compressed_bytes": compressed_bytes,
+                "decoded_bytes": len(decoded_chunk),
+                "resource_entries": resource_entries,
+            })
+
         wad_sector, wad_sector_count = struct.unpack_from(
             "<II", data, record_offset + SCENE_MOBY_LOAD_OFFSET
         )
@@ -172,6 +269,18 @@ def audit_scene_wad(path):
         "nonempty_moby_load_streams": len(scenes),
         "index_record_count": total_index_records,
         "pif2_header_count": total_pif_headers,
+        "scene_chunk_inventory": {
+            "chunk_reference_count": chunk_references,
+            "empty_chunk_reference_count": empty_chunk_references,
+            "decoded_chunk_count": decoded_chunk_count,
+            "candidate_resource_id_counts": dict(sorted(chunk_resource_ids.items())),
+            "unresolved_class_id_matches": {
+                str(resource_id): count
+                for resource_id, count in sorted(chunk_resource_ids.items())
+                if resource_id in UNRESOLVED_CLASS_IDS
+            },
+            "chunks": chunk_inventory,
+        },
         "global_moby_core_scan": core_scan,
         "unresolved_class_ids": sorted(UNRESOLVED_CLASS_IDS),
         "scenes": scenes,
@@ -200,3 +309,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

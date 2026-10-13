@@ -9,6 +9,26 @@ import audit_dreadzone_scene_wad as audit
 
 
 class SceneWadIndexTests(unittest.TestCase):
+    def test_reads_provisional_chunk_resource_entries(self):
+        decoded = bytearray(0x100)
+        struct.pack_into("<4I", decoded, 0x50, 0x80, 0, 0, 0)
+        struct.pack_into("<2I", decoded, 0x80, 9207, 0xC0)
+        self.assertEqual(
+            audit.parse_chunk_resource_entries(decoded, 20, 5),
+            [{
+                "descriptor_offset": 0x80,
+                "resource_id": 9207,
+                "payload_offset": 0xC0,
+            }],
+        )
+
+    def test_rejects_chunk_resource_payload_outside_stream(self):
+        decoded = bytearray(0x100)
+        struct.pack_into("<4I", decoded, 0x50, 0x80, 0, 0, 0)
+        struct.pack_into("<2I", decoded, 0x80, 9207, 0x100)
+        with self.assertRaisesRegex(ValueError, "invalid resource entry"):
+            audit.parse_chunk_resource_entries(decoded, 20, 5)
+
     def test_reads_records_until_all_ones_sentinel(self):
         decoded = (
             struct.pack("<4I", 9300, 0x10, 0x20, 0)
@@ -55,3 +75,4 @@ class SceneWadIndexTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
