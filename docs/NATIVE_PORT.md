@@ -1,3 +1,54 @@
+# Current checkpoint - 2026-10-13 - Selected native player update integrated
+
+The main task now exposes dreadzone_player_frame_0067C010: prefix, histories,
+basis, radius, position, post-position and actual getter/slot cleanup execute
+inside one outer RAM transaction. Seven existing kernels share additive tagged
+interfaces; their concrete request/info layouts and legacy entries are retained.
+Unknown words remain provenance tokens. A reached numeric or packet-store use
+requires known bits and otherwise refuses without publishing RAM or info.
+The API reports W only at the position-return boundary, not final/full VU banks.
+
+Final production CMake Release build uses isolated output directory
+build/drafts/root-player-production274. Twelve relevant CTest targets PASS in
+3.82 seconds: seven unchanged legacy suites and five new targets (111 new C
+checks). C++ linkage to the public frame header also PASS. A DLL linked from
+the final public archives matches all 32,505,856 RAM bytes on three baseline
+host alignments and three independently replayed yaw/clock variants. No byte
+diff is hidden or excluded. The original reference executes the complete
+selected 67C010 body continuously through its genuine JR/delay to 6A685C.
+Root atomic refusal cases and an independent eight-kernel build/review PASS.
+Frame null-object and descriptor-disjointness guards are explicit.
+
+This lot adds one bounded native RAM component, eight partial dependency APIs,
+zero accepted PS2 exact functions (zero/hour), and zero playable features.
+No matching source, configuration or percentage was adopted by root. These
+host-binary32 comparisons are against the bounded software original-word
+reference on a constructed fixture. Physical precision/flags/timing, full
+machine banks/stack, original API/storage ownership, authentic boot/resources,
+input/state2 movement and repeated playable updates remain unproven.
+Ground partial UPDATE still permits only its checked scheduled-return domain;
+other routes refuse. Offset-local W are captured inputs, not universal zeroes.
+
+Private audit and final hashes:root-player-shared271/acceptance.json,
+final-frame-comparison.json and final-variants.json; independent reports under
+sol-partial-api-review267,sol-ground-partial-review268,sol-shared-frame-review272;
+original variant snapshots under luna-frame-variants273. Preserve all older
+prototypes and compile/fixture failures. A copied final-comparison script
+mistakenly rewrote the old273 receipt: final data is preserved separately and
+prior semantic fields were restored from recorded evidence. Its earlier byte
+serialization hash is not claimed; original snapshots are untouched. See
+variant-receipt-repair.json.266 also records its earlier receipt-path repair.
+
+Next main work: close controller/state2/nonzero motion and original caller
+ownership, then repeated updates, actor/scene binding and rendering. The first
+controlled scene remains the goal; Dreadzone base follows it. Startup still
+needs campaign/loader/platform provenance; no CP0 Count value is fabricated.
+The native viewer is not claimed playable by this integration. Existing
+concurrent preview/recovery work and frozen tool inputs remain preserved.
+This is a native-only checkpoint: no fresh whole SN/link reconstruction or
+whole-codebase native build is claimed. No push; detailed elapsed time and
+validation failures are in acceptance.json. Earlier checkpoints follow.
+
 # Current checkpoint - 2026-10-13 - Complete selected native RAM update reviewed
 
 The private compiled frame257 experiment now composes prefix, history, basis,
@@ -1590,6 +1641,66 @@ core` definitions for those IDs. Class 9207's `core.bin` has no packet-table
 pointer in the expected model header, and its GLB has no drawable triangles.
 These shapes need a fuller asset extraction or another independent model
 source; the current files cannot establish them.
+
+### Full-disc asset cross-check (2026-10-13)
+
+The NTSC-U ISO was unpacked in full with the local Wrench 0.6 build into an
+ignored draft directory. SHA-256 comparison against `private/overlays` found
+identical source files for every global Moby, TIE, and shrub class (1,973,
+6,358, and 1,361 files), plus every mission-0 Moby class file (105), both
+terrain chunks (76 files), all FX and particle textures (112 and 156 files),
+and all sky assets (7 files). The ISO therefore does not supply additional
+meshes or textures for the current Dreadzone scene export.
+
+The full-disc output also confirms the 17 mission-0 classes with no preview
+mesh: sixteen have only a 98-byte class definition or no class directory;
+class 9207 has an 813,184-byte core and a 320-byte GLB with no drawable
+triangles. Position markers remain the only honest preview for those omitted
+placements until their model data can be recovered from a different source.
+No extracted game binary or asset is committed to the repository.
+
+For placement review without inventing those missing shapes, rebuild a mission
+scene with the optional position-only markers:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 0 --include-dynamic-previews --include-native-bind-previews `
+  --include-unresolved-moby-markers `
+  -o build/native-assets/dreadzone-mission-0-unresolved-markers.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-mission-0-unresolved-markers.dlscene `
+  --capture build/native-assets/dreadzone-mission-0-unresolved-markers.png --software
+```
+
+The magenta three-axis locators show the source positions of omitted Mobys.
+They use a fixed diagnostic size and do not encode an object's shape, rotation,
+scale, visibility or gameplay role. The scene report lists the marker classes,
+each original instance ID, XYZ position, rotation, scale, pvars, draw distance,
+occlusion field and original omission reason.
+The option requires dynamic previews and an unfiltered scene; it does not
+change the default scene output.
+
+The companion scene report also preserves source attributes for non-mesh editor
+data, including volumes, areas, paths, cameras, lights, sounds and instance
+groups. These entries remain an editor-data inventory; they are not drawn or
+represented as gameplay objects by the static viewer.
+
+Dreadzone's two exported chunk collision meshes can be inspected separately,
+so their surfaces do not cover the visual scene:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_collision.py `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  -o build/native-assets/dreadzone-collision.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-collision.dlscene `
+  --capture build/native-assets/dreadzone-collision.png --software
+```
+
+This diagnostic preserves the exported collision vertex positions and shows
+each chunk in a distinct color. It does not preserve collision material IDs or
+run collision response.
 
 The batch rebuild also checks every other Dreadzone mission export for a
 matching class mesh. It reuses that mesh only when all exported GLB byte hashes

@@ -76,6 +76,17 @@ class NativeLevelTests(unittest.TestCase):
         Moby 0 { class: 11 pos: [3 4 5] rot: [0 0 1.57079632679] scale: 2 occlusion: 1 }
         Moby 1 { class: 12 pos: [6 7 8] rot: [0 0 0] scale: 1 }''')
 
+    def test_editor_data_inventory_preserves_volume_and_path_source_values(self):
+        nodes = asset_text.Parser('''Cuboid 4 { matrix: [1 0 0 0 0 1 0 0 0 0 1 0 3 4 5 1] }
+        Path 9 { spline: [[1 2 3 -1] [4 5 6 -1]] }
+        Area 2 { pos: [3 4 5] cuboids: [4] }''').parse()
+        report = level.editor_data_inventory(nodes)
+        self.assertEqual(report["counts_by_kind"], {"Area": 1, "Cuboid": 1, "Path": 1})
+        self.assertTrue(report["source_values_preserved"])
+        self.assertFalse(report["rendered_as_game_objects"])
+        self.assertEqual(report["entries"][1]["source_attributes"]["spline"],
+                         [[1, 2, 3, -1], [4, 5, 6, -1]])
+
     def test_level_preserves_prototype_sharing_and_matrices(self):
         output = Path(self.temp.name) / "authored.dlscene"
         report = level.prepare_level(self.extracted,self.level,output,
@@ -109,6 +120,40 @@ class NativeLevelTests(unittest.TestCase):
         self.assertAlmostEqual(moby[1],2,places=5)
         self.assertEqual(moby[12:15],(3,4,5))
         self.assertEqual(level.BATCH.unpack_from(data,len(data)-level.BATCH.size),(24,6,0,5,1))
+
+    def test_unresolved_moby_markers_show_positions_without_implying_shapes(self):
+        output = Path(self.temp.name) / "unresolved-markers.dlscene"
+        report = level.prepare_level(
+            self.extracted, self.level, output, include_dynamic_previews=True,
+            include_unresolved_moby_markers=True)
+        self.assertEqual(report["dynamic_object_preview_placements"], 1)
+        self.assertEqual(report["omitted_dynamic_object_placements"], 1)
+        self.assertEqual(report["unresolved_moby_marker_placements"], 1)
+        self.assertEqual(report["unresolved_moby_marker_classes"], [12])
+        marker = next(row for row in report["prototypes"]
+                      if row["kind"] == "diagnostic-unresolved-moby-position-marker")
+        self.assertEqual(marker["class_id"], 12)
+        self.assertEqual(marker["instances"], [{
+            "instance_id": "1", "position_xyz": [6.0, 7.0, 8.0],
+            "rotation_xyz": [0, 0, 0], "uniform_scale": 1,
+            "pvars": None, "draw_distance": None, "occlusion": None,
+            "mission_id": None, "uid": None,
+        }])
+        self.assertTrue(marker["diagnostic_only"])
+        self.assertFalse(marker["object_shape_rotation_scale_visibility_assumed"])
+
+        data = output.read_bytes()
+        _, version, vertex_count, batch_count, texture_count, instance_count, *_ = (
+            level.HEADER.unpack_from(data))
+        self.assertEqual((version, vertex_count, batch_count, texture_count, instance_count),
+                         (2, 102, 6, 0, 7))
+        instances_start = level.HEADER.size + vertex_count * level.mesh_import.VERTEX.size
+        marker_matrix = level.INSTANCE.unpack_from(
+            data, instances_start + 6 * level.INSTANCE.size)
+        self.assertEqual(marker_matrix[:12], (1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0))
+        self.assertEqual(marker_matrix[12:15], (6, 7, 8))
+        marker_batch = level.BATCH.unpack_from(data, len(data) - level.BATCH.size)
+        self.assertEqual(marker_batch, (30, 72, 0, 6, 1))
 
     def test_column_major_rotation_scale_and_translation(self):
         matrix=level.affine_matrix([0,2,0,0, -3,0,0,0, 0,0,-1,0, 10,20,30,1])
