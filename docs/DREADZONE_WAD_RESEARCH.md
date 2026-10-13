@@ -83,9 +83,10 @@ does not rule out resized, cropped, or otherwise transformed variants.
 ## Correlating chunk resources with mission placements
 
 The optional `--correlate-mission-root` audit compares up to 49 finite
-`(x, y, z, 0)` rows after each direct chunk resource entry with positions in the
-extracted `mission.instances` files, using a 0.01-unit tolerance. This is
-coordinate evidence only; unmatched rows and resource IDs remain provisional.
+`(x, y, z, 0)` rows after each direct chunk resource entry and aligned nested
+candidate with positions in the extracted `mission.instances` files, using a
+0.01-unit tolerance. This is coordinate evidence only; unmatched rows and
+resource IDs remain provisional.
 
 For resource ID 9387, the audit compares 3,286 rows from 68 chunk entries and
 all 3,286 match one coordinate, `(207.998, 467.993, 126.891)`. That coordinate
@@ -94,6 +95,14 @@ confirms the class-and-position relationship for this resource pattern, but it
 does not establish that other IDs share the same meaning or reveal any
 orientation. No new placement is emitted: these records already exist in the
 mission data.
+
+The same check finds a second relationship among nested candidates: ID 9277
+has 121 records with 5,841 comparable rows. Of these, 4,656 match 45 Moby 9277
+placement records across mission variants at three coordinates:
+`(186.644, 468.004, 132.906)`, `(192.764, 482.803, 132.906)`, and
+`(207.416, 488.882, 132.906)`. This supports a class-and-position link for
+these ID 9277 records. It does not recover rotations or add geometry; the
+matching objects are already represented in mission data.
 
 Run the coordinate cross-check with:
 

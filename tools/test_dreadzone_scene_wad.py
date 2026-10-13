@@ -19,13 +19,17 @@ class SceneWadIndexTests(unittest.TestCase):
             mission_directory = temporary / "missions" / "0"
             mission_directory.mkdir(parents=True)
             (mission_directory / "mission.instances").write_text(
-                "Moby 7 { class: 9387 pos: [1 2 3] }\n", encoding="utf-8"
+                "Moby 7 { class: 9387 pos: [1 2 3] }\n"
+                "Moby 8 { class: 9277 pos: [4 5 6] }\n",
+                encoding="utf-8",
             )
             scene_wad = temporary / "scene.wad"
             scene_wad.write_bytes(b"fixture")
             decoded = bytearray(0x100)
             for offset in range(0x40, 0x90, 16):
                 struct.pack_into("<4f", decoded, offset, 1.0, 2.0, 3.0, 0.0)
+            for offset in range(0xA0, 0x100, 16):
+                struct.pack_into("<4f", decoded, offset, 4.0, 5.0, 6.0, 0.0)
             report = {
                 "scene_chunk_inventory": {
                     "chunks": [{
@@ -42,6 +46,8 @@ class SceneWadIndexTests(unittest.TestCase):
                         "scene_index": 0,
                         "chunk_index": 0,
                         "descriptor_offset": 0x90,
+                        "resource_id": 9277,
+                        "data_offset": 0xA0,
                     }],
                 },
             }
@@ -50,12 +56,16 @@ class SceneWadIndexTests(unittest.TestCase):
                     scene_wad, report, temporary / "missions"
                 )
 
-        correlated = result["resource_ids"]["9387"]
-        self.assertEqual(correlated["resource_entry_count"], 1)
-        self.assertEqual(correlated["compared_position_row_count"], 5)
-        self.assertEqual(correlated["matching_position_row_count"], 5)
-        self.assertEqual(correlated["unique_matching_positions"], 1)
-        self.assertEqual(correlated["matching_placement_count"], 1)
+        direct = result["resource_ids"]["direct_resource_ids"]["9387"]
+        self.assertEqual(direct["record_count"], 1)
+        self.assertEqual(direct["compared_position_row_count"], 5)
+        self.assertEqual(direct["matching_position_row_count"], 5)
+        self.assertEqual(direct["unique_matching_positions"], 1)
+        self.assertEqual(direct["matching_placement_count"], 1)
+        nested = result["resource_ids"]["nested_candidate_ids"]["9277"]
+        self.assertEqual(nested["record_count"], 1)
+        self.assertEqual(nested["compared_position_row_count"], 6)
+        self.assertEqual(nested["matching_position_row_count"], 6)
 
     def test_decodes_psmt8_pif_palette_swizzle_and_alpha(self):
         palette = bytearray(256 * 4)

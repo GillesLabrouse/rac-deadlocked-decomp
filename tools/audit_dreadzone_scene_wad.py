@@ -583,16 +583,34 @@ def correlate_resource_position_rows(path, report, mission_root, tolerance=0.01)
 
     data = Path(path).read_bytes()
     nested_by_chunk = {}
+    nested_records_by_chunk = {}
     for candidate in report["scene_chunk_inventory"]["nested_candidates"]:
         nested_by_chunk.setdefault(
             (candidate["scene_index"], candidate["chunk_index"]), []
         ).append(candidate["descriptor_offset"])
+        nested_records_by_chunk.setdefault(
+            (candidate["scene_index"], candidate["chunk_index"]), []
+        ).append(candidate)
 
-    totals = {}
+    totals = {"direct_resource_ids": {}, "nested_candidate_ids": {}}
     for chunk in report["scene_chunk_inventory"]["chunks"]:
         scene_index, chunk_index = chunk["scene_index"], chunk["chunk_index"]
-        relevant = [entry for entry in chunk["resource_entries"]
-                    if entry["resource_id"] in placements]
+        direct_records = [
+            (entry, entry["payload_offset"])
+            for entry in chunk["resource_entries"]
+            if entry["resource_id"] in placements
+        ]
+        nested_records = [
+            (candidate, candidate["data_offset"])
+            for candidate in nested_records_by_chunk.get(
+                (scene_index, chunk_index), []
+            )
+            if candidate["resource_id"] in placements
+        ]
+        relevant = [("direct_resource_ids", record, offset)
+                    for record, offset in direct_records]
+        relevant.extend(("nested_candidate_ids", record, offset)
+                        for record, offset in nested_records)
         if not relevant:
             continue
         decoded = decompress(data, chunk["sector"] * SECTOR_SIZE)
@@ -600,20 +618,19 @@ def correlate_resource_position_rows(path, report, mission_root, tolerance=0.01)
             [entry["descriptor_offset"] for entry in chunk["resource_entries"]]
             + nested_by_chunk.get((scene_index, chunk_index), [])
         )
-        for entry in relevant:
+        for source_kind, entry, start in relevant:
             resource_id = entry["resource_id"]
-            start = entry["payload_offset"]
             end = next((offset for offset in descriptor_offsets if offset > start),
                        len(decoded))
             row_count = min(49, max(0, (end - start) // 16))
-            summary = totals.setdefault(resource_id, {
-                "resource_entry_count": 0,
+            summary = totals[source_kind].setdefault(resource_id, {
+                "record_count": 0,
                 "compared_position_row_count": 0,
                 "matching_position_row_count": 0,
                 "matching_positions": {},
                 "matching_placements": set(),
             })
-            summary["resource_entry_count"] += 1
+            summary["record_count"] += 1
             for row_index in range(row_count):
                 x, y, z, w = struct.unpack_from("<4f", decoded, start + row_index * 16)
                 if (w != 0.0 or not all(math.isfinite(value) for value in (x, y, z))):
@@ -639,15 +656,18 @@ def correlate_resource_position_rows(path, report, mission_root, tolerance=0.01)
         "position_match_tolerance": tolerance,
         "maximum_rows_per_resource_entry": 49,
         "resource_ids": {
-            str(resource_id): {
-                "resource_entry_count": summary["resource_entry_count"],
-                "compared_position_row_count": summary["compared_position_row_count"],
-                "matching_position_row_count": summary["matching_position_row_count"],
-                "unique_matching_positions": len(summary["matching_positions"]),
-                "matching_positions": summary["matching_positions"],
-                "matching_placement_count": len(summary["matching_placements"]),
+            source_kind: {
+                str(resource_id): {
+                    "record_count": summary["record_count"],
+                    "compared_position_row_count": summary["compared_position_row_count"],
+                    "matching_position_row_count": summary["matching_position_row_count"],
+                    "unique_matching_positions": len(summary["matching_positions"]),
+                    "matching_positions": summary["matching_positions"],
+                    "matching_placement_count": len(summary["matching_placements"]),
+                }
+                for resource_id, summary in sorted(resources.items())
             }
-            for resource_id, summary in sorted(totals.items())
+            for source_kind, resources in totals.items()
         },
     }
 
