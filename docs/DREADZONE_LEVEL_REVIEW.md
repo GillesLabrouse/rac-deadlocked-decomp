@@ -51,3 +51,12 @@ packets and its editor GLB has no drawable triangles. The other 59 have no
 native core source in the indexed exports. Wrench's level unpacker creates a
 class core only when its level-core entry has a nonzero asset offset; see its
 [Moby class extraction code](https://github.com/chaoticgd/wrench/blob/master/src/wrenchbuild/level/level_classes.cpp).
+
+The placement-audit launcher prefers native core bind-pose geometry for class
+8554. Its mission-local GLB contains nontrivial skin weights, so the static
+editor-mesh path cannot safely treat its vertices as an unskinned model. The
+native core produces a 6,550-triangle diagnostic preview with 107 joints and
+67 packets. This is the bind pose with no selected animation; it does not
+confirm the in-game pose, local axes, or mission visibility. The launcher keeps
+the other native bind-pose previews enabled and retains position-only markers
+for unresolved placements.

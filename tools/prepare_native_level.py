@@ -350,7 +350,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                   include_native_bind_previews=False,
                   include_native_subnormal_flush_previews=False,
                   include_unresolved_moby_markers=False,
-                  dynamic_instance_id=None):
+                  dynamic_instance_id=None,
+                  native_bind_class_ids=None):
     import prepare_native_moby as moby_mesh_import
 
     if dynamic_class_id is not None and not include_dynamic_previews:
@@ -366,6 +367,11 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         raise ValueError("Excluded dynamic classes need nonnegative integer IDs")
     if dynamic_class_ids is not None and dynamic_class_ids & excluded_dynamic_class_ids:
         raise ValueError("A dynamic class cannot be both selected and excluded")
+    native_bind_class_ids = set(native_bind_class_ids or [])
+    if any(type(class_id) is not int or class_id < 0 for class_id in native_bind_class_ids):
+        raise ValueError("Native bind-pose class IDs need nonnegative integers")
+    if native_bind_class_ids and not include_native_bind_previews:
+        raise ValueError("Native bind-pose class selection requires native bind-pose previews")
     if include_native_bind_previews and (mission_id is None or not include_dynamic_previews):
         raise ValueError("Native bind-pose previews require a selected mission and dynamic previews")
     if include_native_subnormal_flush_previews and not include_native_bind_previews:
@@ -641,6 +647,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     rendered_moby_classes = 0
     static_joint_attribute_classes = 0
     for class_id, matrices in sorted(mobys_by_class.items()):
+        if class_id in native_bind_class_ids:
+            continue
         try:
             groups, mesh_report = moby_mesh_import.read_mesh(
                 moby_sources[class_id], allow_unskinned_static_joints=True)
@@ -813,6 +821,7 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     report["unresolved_moby_marker_placements"] = unresolved_marker_placements
     report["unresolved_moby_marker_classes"] = unresolved_marker_classes
     report["native_bind_pose_previews_enabled"] = include_native_bind_previews
+    report["native_bind_pose_preferred_classes"] = sorted(native_bind_class_ids)
     report["native_subnormal_flush_previews_enabled"] = include_native_subnormal_flush_previews
     if mission_path is not None:
         inputs = list(inputs) + [mission_path / "mission.instances"]
@@ -856,6 +865,8 @@ def main():
                         help="Build an isolated preview scene for one selected mission class")
     parser.add_argument("--include-native-bind-previews", action="store_true",
                         help="Include recoverable core.bin models in native bind pose")
+    parser.add_argument("--native-bind-class", type=int, action="append",
+                        help="Prefer native core bind-pose geometry for this Moby class; may be repeated")
     parser.add_argument("--include-native-subnormal-flush-previews", action="store_true",
                         help="Retry refused core poses with subnormal translations set to zero (explicit diagnostic assumption)")
     parser.add_argument("--include-unresolved-moby-markers", action="store_true",
@@ -874,7 +885,8 @@ def main():
                                args.include_native_bind_previews,
                                args.include_native_subnormal_flush_previews,
                                args.include_unresolved_moby_markers,
-                               args.dynamic_instance)
+                               args.dynamic_instance,
+                               args.native_bind_class)
     except (ValueError, KeyError, TypeError, OSError, struct.error, ET.ParseError) as error:
         parser.exit(1, str(error)+"\n")
     print("Prepared %d shared vertices, %d instances, %d batches, %d textures" %

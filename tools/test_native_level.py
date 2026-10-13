@@ -3,6 +3,7 @@ import math
 import struct
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 import asset_text
@@ -228,6 +229,51 @@ class NativeLevelTests(unittest.TestCase):
         self.assertEqual(report["omitted_dynamic_object_placements"], 1)
         self.assertTrue(any(row["path"].endswith("mission.instances")
                             for row in report["source_inputs"]))
+
+    def test_selected_native_bind_class_replaces_glb_and_keeps_unresolved_markers(self):
+        import prepare_native_skin
+        mission = self.level / "missions" / "0"
+        model = mission / "moby_classes" / "23"
+        model.mkdir(parents=True)
+        document, binary = glb_fixture()
+        (model / "mesh.glb").write_bytes(encode_glb(document, binary))
+        (model / "core.bin").write_bytes(b"fixture native core")
+        (model / "moby23.asset").write_text(
+            'MobyClass local { id: 23 Mesh mesh { src: "mesh.glb" } '
+            'Binary core { src: "core.bin" } }')
+        (mission / "mission.instances").write_text(
+            'Moby 2 { class: 23 pos: [9 8 7] rot: [0 0 0] scale: 1 } '
+            'Moby 3 { class: 404 pos: [1 2 3] rot: [0 0 0] scale: 1 }')
+        output = Path(self.temp.name) / "native-bind-preferred.dlscene"
+        native_groups = {None: [(0, 0, 0, 0, 0, 1, 0, 0, 0),
+                                (1, 0, 0, 0, 0, 1, 1, 0, 0),
+                                (0, 1, 0, 0, 0, 1, 0, 1, 0)]}
+        native_report = {"pose": "native bind pose; no animation selected",
+                         "game_pose_verified": False, "joints": 1,
+                         "triangles": 1, "vertices": 3,
+                         "unrenderable_trailing_vertices": 0,
+                         "subnormal_values_zeroed": 0,
+                         "subnormal_flush_assumption_enabled": False,
+                         "packets": 1, "core_sha256": "fixture",
+                         "native_triangles_sha256": "fixture",
+                         "matrix_sha256": "fixture", "textures": [None]}
+        with patch.object(prepare_native_skin, "read_mesh",
+                          return_value=(native_groups, native_report)):
+            report = level.prepare_level(
+                self.extracted, self.level, output, mission_id=0,
+                include_dynamic_previews=True, include_native_bind_previews=True,
+                include_unresolved_moby_markers=True, native_bind_class_ids=[23])
+        kinds = [row["kind"] for row in report["prototypes"]]
+        self.assertEqual(kinds.count("dynamic-object-native-bind-pose-preview"), 1)
+        self.assertFalse(any(row.get("class_id") == 23 and
+                             row["kind"] == "dynamic-object-preview"
+                             for row in report["prototypes"]))
+        self.assertTrue(any(row.get("class_id") == 23 and
+                            row["kind"] == "dynamic-object-native-bind-pose-preview"
+                            for row in report["prototypes"]))
+        self.assertEqual(report["native_bind_pose_preferred_classes"], [23])
+        self.assertEqual(report["unresolved_moby_marker_placements"], 2)
+        self.assertEqual(report["omitted_dynamic_objects"][404]["placements"], 1)
 
     def test_mission_can_use_global_moby_class_outside_level_class_list(self):
         model = self.extracted / "moby_classes" / "unlisted-global"
