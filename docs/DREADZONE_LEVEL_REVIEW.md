@@ -94,8 +94,9 @@ match some placed Moby instance IDs, but their field schema is unverified; the
 matches are not treated as model references. Keep class 8321 as unresolved
 position-only markers until its model link or geometry is recovered.
 
-The class IDs 8246 and 8247 also exist in the separate TIE asset namespace, with
-TIE meshes and textures present in the extraction. Their Moby class definitions
-have no materials or exported mesh. Numeric ID equality across TIE and Moby
-classes does not establish asset equivalence, so the TIE meshes are not used for
-the mission's unresolved Moby placements.
+The class IDs 8246, 8247, 8520, 9207, 9213, 9340, and 9918 also exist in the
+separate TIE asset namespace, with TIE meshes and textures present in the
+extraction. Their mission Moby definitions have no exported drawable mesh;
+class 9207's Moby core has no primary packets. Numeric ID equality across TIE
+and Moby classes does not establish asset equivalence, so the TIE meshes are
+not used for the mission's unresolved Moby placements.
