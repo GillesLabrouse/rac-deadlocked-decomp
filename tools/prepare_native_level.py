@@ -120,6 +120,70 @@ def unambiguous_mission_moby_cores(level_directory):
             for class_id, variants in candidates.items() if len(variants) == 1}
 
 
+def unambiguous_mission_moby_geometries(level_directory, class_ids):
+    """Reuse an untextured geometry only when all exported variant triangles match."""
+    if not class_ids:
+        return {}
+    import prepare_native_moby as moby_mesh_import
+    candidates = defaultdict(list)
+    invalid = set()
+    mission_root = Path(level_directory) / "missions"
+    for directory in sorted(mission_root.glob("*/moby_classes")):
+        if not directory.is_dir() or not directory.parent.name.isdecimal():
+            continue
+        for definition in sorted(directory.rglob("*.asset")):
+            for root in asset_text.read(definition):
+                class_id = root.attributes.get("id")
+                if root.kind != "MobyClass" or class_id not in class_ids:
+                    continue
+                mesh_nodes = []
+                pending = list(root.children)
+                while pending:
+                    node = pending.pop()
+                    if node.kind == "Mesh" and isinstance(node.attributes.get("src"), str):
+                        mesh_nodes.append(node)
+                    pending.extend(node.children)
+                if not mesh_nodes:
+                    continue
+                if len(mesh_nodes) != 1:
+                    invalid.add(class_id)
+                    continue
+                mesh = (definition.parent / mesh_nodes[0].attributes["src"]).resolve()
+                if not mesh.is_relative_to(definition.parent.resolve()) or not mesh.is_file():
+                    invalid.add(class_id)
+                    continue
+                try:
+                    groups, _ = moby_mesh_import.read_mesh(mesh)
+                    triangles = []
+                    geometry = defaultdict(list)
+                    for vertices in groups.values():
+                        if len(vertices) % 3:
+                            raise ValueError("Moby geometry contains an incomplete triangle")
+                        for offset in range(0, len(vertices), 3):
+                            triangle = vertices[offset:offset + 3]
+                            signature = tuple(sorted(struct.pack("<3f", *vertex[:3])
+                                                     for vertex in triangle))
+                            triangles.append(signature)
+                            for vertex in triangle:
+                                geometry[None].append((*vertex[:5], 0.5, 0.5, 0.5, 1.0))
+                    digest = hashlib.sha256(b"".join(sorted(
+                        struct.pack("<I", len(part)) + b"".join(part) for part in triangles))).hexdigest()
+                    candidates[class_id].append((digest, mesh, definition.resolve(), geometry))
+                except (ValueError, OSError, struct.error):
+                    invalid.add(class_id)
+    result = {}
+    for class_id, rows in candidates.items():
+        if class_id in invalid or len({hashlib.sha256(row[1].read_bytes()).digest()
+                                       for row in rows}) < 2:
+            continue
+        if len({row[0] for row in rows}) != 1:
+            continue
+        first = rows[0]
+        result[class_id] = (first[3], [row[1] for row in rows],
+                            [row[2] for row in rows], first[0])
+    return result
+
+
 def class_meshes(directory):
     return exported_class_meshes(directory, "TieClass", ".dae", "static object")
 
@@ -292,6 +356,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     moby_sources = dict(moby_classes)
     moby_source_definitions = dict(moby_definitions)
     moby_core_sources = {}
+    reusable_mission_geometries = {}
+    geometry_only_mobys = defaultdict(list)
     for definition in sorted((extracted / "moby_classes").rglob("*.asset")):
         for root in asset_text.read(definition):
             if root.kind != "MobyClass" or type(root.attributes.get("id")) is not int:
@@ -361,6 +427,10 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                 moby_sources[class_id] = mesh
                 moby_source_definitions.setdefault(class_id, definition)
                 reused_cross_mission_mesh_classes.add(class_id)
+        unresolved_ambiguous = {class_id for class_id, count in mission_moby_variant_counts.items()
+                                if count > 1 and class_id not in moby_sources}
+        reusable_mission_geometries = unambiguous_mission_moby_geometries(
+            level, unresolved_ambiguous)
     combined_nodes = [*nodes, *mission_nodes]
     for node_index, node in enumerate(combined_nodes):
         namespace = 0 if node_index < len(nodes) else 1
@@ -394,7 +464,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             class_id = node.attributes.get("class")
             if type(class_id) is not int or class_id < 0:
                 raise ValueError("Dynamic object references an unavailable level class")
-            if class_id not in moby_source_definitions:
+            if (class_id not in moby_source_definitions and
+                    class_id not in reusable_mission_geometries):
                 omitted_mobys[class_id]["reason"] = (
                     "ambiguous cross-mission mesh variants"
                     if mission_moby_variant_counts.get(class_id, 0) > 1
@@ -410,6 +481,14 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                 omitted_mobys[class_id]["placements"] += 1
                 continue
             if class_id not in moby_sources:
+                if class_id in reusable_mission_geometries:
+                    try:
+                        geometry_only_mobys[class_id].append(
+                            moby_matrix(node.attributes.get("pos"), node.attributes.get("rot"),
+                                        node.attributes.get("scale")))
+                    except ValueError as error:
+                        raise ValueError("Invalid dynamic object transform: " + str(error)) from error
+                    continue
                 omitted_mobys[class_id]["reason"] = (
                     "ambiguous cross-mission mesh variants"
                     if mission_moby_variant_counts.get(class_id, 0) > 1
@@ -466,6 +545,24 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         rendered_moby_classes += 1
         if mesh_report["ignored_static_joint_attributes"]:
             static_joint_attribute_classes += 1
+    geometry_only_placements = 0
+    geometry_only_classes = []
+    for class_id, matrices in sorted(geometry_only_mobys.items()):
+        groups, source_meshes, source_definitions, geometry_hash = reusable_mission_geometries[class_id]
+        prototypes.append((groups, matrices, {"kind": "dynamic-object-geometry-only-preview",
+                                              "class_id": class_id, "placements": len(matrices),
+                                              "source_meshes": [str(path) for path in source_meshes],
+                                              "source_definitions": [str(path) for path in source_definitions],
+                                              "untextured_geometry_sha256": geometry_hash,
+                                              "geometry_identical_across_variants": True,
+                                              "material_textures_omitted": True,
+                                              "class_axes_and_game_visibility_verified": False}))
+        inputs.extend(source_meshes)
+        inputs.extend(source_definitions)
+        geometry_only_placements += len(matrices)
+        geometry_only_classes.append(class_id)
+    rendered_moby_placements += geometry_only_placements
+    rendered_moby_classes += len(geometry_only_classes)
     bind_pose_classes = set()
     bind_pose_report = {}
     if include_native_bind_previews:
@@ -523,6 +620,7 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         prototypes.extend(sky_prototypes)
         inputs.extend(sky_inputs)
     if dynamic_only and not any(row[2]["kind"] in ("dynamic-object-preview",
+                                                     "dynamic-object-geometry-only-preview",
                                                      "dynamic-object-native-bind-pose-preview")
                                 for row in prototypes):
         raise ValueError("Selected dynamic class has no renderable placements in this mission")
@@ -534,6 +632,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     report["dynamic_object_preview_classes"] = rendered_moby_classes
     report["native_bind_pose_preview_classes"] = sorted(bind_pose_classes)
     report["native_bind_pose_diagnostics"] = bind_pose_report
+    report["geometry_only_preview_classes"] = geometry_only_classes
+    report["geometry_only_preview_placements"] = geometry_only_placements
     report["static_joint_attribute_classes"] = static_joint_attribute_classes
     report["reused_cross_mission_mesh_classes"] = sorted({
         prototype["class_id"] for prototype in report["prototypes"]

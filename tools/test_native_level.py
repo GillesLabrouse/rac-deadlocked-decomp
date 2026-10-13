@@ -267,7 +267,40 @@ class NativeLevelTests(unittest.TestCase):
         (second / "core.bin").write_bytes(b"different native core")
         self.assertNotIn(77, level.unambiguous_mission_moby_cores(self.level))
 
-    def test_mission_does_not_guess_between_different_variant_meshes(self):
+    def test_mission_reuses_only_geometry_identical_variant_meshes_without_textures(self):
+        selected = self.level / "missions" / "0"
+        selected.mkdir(parents=True)
+        (selected / "moby_classes").mkdir()
+        (selected / "mission.instances").write_text(
+            'Moby 0 { class: 77 pos: [1 2 3] rot: [0 0 0] scale: 1 }')
+        document, binary = glb_fixture()
+        for mission_id, marker in ((1, "first"), (2, "second")):
+            directory = self.level / "missions" / str(mission_id) / "moby_classes" / "77"
+            directory.mkdir(parents=True)
+            variant = dict(document)
+            variant["extras"] = {"variant": marker}
+            (directory / "mesh.glb").write_bytes(encode_glb(variant, binary))
+            (directory / "moby.asset").write_text(
+                'MobyClass variant { id: 77 Mesh mesh { src: "mesh.glb" } }')
+        output = Path(self.temp.name) / "geometry-only.dlscene"
+        report = level.prepare_level(self.extracted, self.level, output, mission_id=0,
+                                     include_dynamic_previews=True, dynamic_class_id=77,
+                                     dynamic_only=True)
+        self.assertEqual(report["geometry_only_preview_classes"], [77])
+        self.assertEqual(report["geometry_only_preview_placements"], 1)
+        self.assertNotIn(77, report["omitted_dynamic_objects"])
+        prototype = next(row for row in report["prototypes"]
+                         if row["kind"] == "dynamic-object-geometry-only-preview")
+        self.assertTrue(prototype["geometry_identical_across_variants"])
+        self.assertTrue(prototype["material_textures_omitted"])
+
+        changed = bytearray(binary)
+        struct.pack_into("<f", changed, 0, 2)
+        (self.level / "missions" / "2" / "moby_classes" / "77" / "mesh.glb").write_bytes(
+            encode_glb(document, bytes(changed)))
+        self.assertNotIn(77, level.unambiguous_mission_moby_geometries(self.level, {77}))
+
+    def test_mission_reuses_geometry_when_variant_materials_differ(self):
         mission = self.level / "missions" / "0"
         mission.mkdir(parents=True)
         (mission / "mission.instances").write_text(
@@ -283,8 +316,9 @@ class NativeLevelTests(unittest.TestCase):
         report = level.prepare_level(self.extracted, self.level,
                                      Path(self.temp.name) / "ambiguous-mission-class.dlscene",
                                      mission_id=0, include_dynamic_previews=True)
-        self.assertEqual(report["omitted_dynamic_objects"][404], {
-            "placements": 1, "reason": "ambiguous cross-mission mesh variants"})
+        self.assertEqual(report["geometry_only_preview_classes"], [404])
+        self.assertEqual(report["geometry_only_preview_placements"], 1)
+        self.assertNotIn(404, report["omitted_dynamic_objects"])
 
     def test_missing_mission_fails(self):
         with self.assertRaises(ValueError):

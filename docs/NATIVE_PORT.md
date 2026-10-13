@@ -1536,13 +1536,16 @@ class directory. The opt-in `--include-native-bind-previews` path applies the
 native skeleton initialization, general-matrix and bind-pose stages, then the
 native vertex/topology diagnostic. Across all 46 variants, this currently adds
 35 unique class IDs and 2,394 placement occurrences, including exact-hash core
-reuse between variants. Missing diffuse maps render as neutral gray, and an
-orphan trailing vertex is excluded from the viewer package and recorded in the
-per-class report. It adds this static pose to a mission scene without changing
-the GLB preview path or default scene. This is useful for checking recovered
-geometry and placements, but it is not a live animation or game pose. Per-class
-axes, placement orientation, actor mask/LOD, visibility, and animation remain
-unverified, so the JSON explicitly marks `game_pose_verified: false`.
+reuse between variants. A separate geometry-only path adds one more placement
+for class 9786: its source GLBs have different bytes, but every decoded variant
+has the same triangle position set. It is rendered gray without a borrowed
+texture. Missing diffuse maps render as neutral gray, and an orphan trailing
+vertex is excluded from the viewer package and recorded in the per-class
+report. These previews add geometry without changing the default scene. They
+are useful for checking recovered geometry and placements, but they are not
+live animation or game poses. Per-class axes, placement orientation, actor
+mask/LOD, visibility, and animation remain unverified, so the JSON explicitly
+marks `game_pose_verified: false`.
 
 Two additional classes (8284 and 9465) contain subnormal values that the
 strict native diagnostic rejects. `--include-native-subnormal-flush-previews`
@@ -1552,6 +1555,12 @@ sets `subnormal_flush_assumption_enabled: true`. The resulting isolated
 captures are diagnostic only; these poses are not included in the 46 standard
 mission scenes because the flush behavior and class orientation are not
 verified against a game frame.
+
+Full scene variants with that explicit assumption are also generated for the
+21 missions that place either class. They add 104 more placements. The index
+`build/native-assets/dreadzone-native-scene-index.json` links all 46 standard
+scenes and captures, plus every available subnormal-flush scene, with per-
+mission class lists and omission reasons.
 
 To inspect these native core previews in the mission-0 scene:
 
@@ -1566,12 +1575,12 @@ build/native/Release/deadlocked_native_scene_viewer.exe `
 ```
 
 The earlier batch totals predate native core bind-pose previews. With this
-addition, the 46 variant reports sum to 23,050 previewed placements and 3,920
+addition, the 46 variant reports sum to 23,051 previewed placements and 3,919
 omitted placements. These are variant-placement totals, not a single active
 level. The remaining omissions include 3,760 placements with no exported
 editor mesh, 80 where native skeleton initialization refuses the core, 45
 with unsupported core layouts, 24 where native bind application refuses the
-core, and seven with ambiguous cross-mission mesh variants; four more have no
+core, and six with ambiguous cross-mission mesh variants; four more have no
 exported class definition. These still need independent source geometry,
 skeleton, or topology recovery.
 
@@ -1583,10 +1592,11 @@ exclusive variants, covering 13 class IDs. Across all 46 variants, the current
 reports sum to 20,656 previewed placements and 6,314 omitted placements: 3,760
 have no exported editor mesh, 2,498 need unsupported skin deformation, 45 have
 no drawable triangles, seven have ambiguous cross-mission meshes, and four
-have no exported class definition. These are
-variant-placement totals, not unique objects in one simultaneously active
-level. Filtered-out placements are reported separately in each per-scene JSON.
-The JSON reports and PNG captures were rebuilt with these results.
+have no exported class definition. These are historical variant-placement
+totals from before native core recovery; the newer totals and every emitted
+scene hash are in the index above. Variant totals do not represent unique
+objects in one simultaneously active level. Filtered-out placements are
+reported separately in each per-scene JSON.
 
 ```powershell
 venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
