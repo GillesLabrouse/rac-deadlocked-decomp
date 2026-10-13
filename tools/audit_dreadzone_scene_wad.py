@@ -252,6 +252,39 @@ def summarize_candidate_payload(decoded, candidate):
     }
 
 
+def summarize_direct_resource_payloads(decoded, entries, nested_candidates):
+    """Summarize aligned rows up to the next direct or nested descriptor."""
+    boundaries = sorted(
+        [entry["descriptor_offset"] for entry in entries]
+        + [candidate["descriptor_offset"] for candidate in nested_candidates]
+    )
+    for entry in entries:
+        start = entry["payload_offset"]
+        next_descriptor = next(
+            (offset for offset in boundaries if offset > start), None
+        )
+        end = next_descriptor if next_descriptor is not None else len(decoded)
+        row_count = max(0, (end - start) // 16)
+        rows = [bytes(decoded[start + i * 16:start + (i + 1) * 16])
+                for i in range(row_count)]
+        repeated_prefix_rows = 0
+        if rows:
+            first = rows[0]
+            repeated_prefix_rows = 1
+            while (repeated_prefix_rows < row_count
+                   and rows[repeated_prefix_rows] == first):
+                repeated_prefix_rows += 1
+        entry["payload_layout"] = {
+            "row_size": 16,
+            "next_descriptor_offset": next_descriptor,
+            "available_row_count": row_count,
+            "unique_row_count": len(set(rows)),
+            "repeated_first_row_count": repeated_prefix_rows,
+            "rows_after_repeated_prefix": row_count - repeated_prefix_rows,
+            "first_row_hex": rows[0].hex() if rows else None,
+        }
+
+
 def annotate_next_candidate_descriptors(candidates):
     """Record the nearest candidate descriptor following each data pointer."""
     descriptor_offsets = sorted(
@@ -422,6 +455,9 @@ def audit_scene_wad(path):
                 {entry["descriptor_offset"] for entry in resource_entries},
             )
             annotate_next_candidate_descriptors(nested_candidates)
+            summarize_direct_resource_payloads(
+                decoded_chunk, resource_entries, nested_candidates
+            )
             decoded_chunk_count += 1
             for entry in resource_entries:
                 resource_id = entry["resource_id"]

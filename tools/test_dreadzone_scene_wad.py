@@ -129,6 +129,26 @@ class SceneWadIndexTests(unittest.TestCase):
         self.assertEqual(summary["rows_after_repeated_prefix"], 1)
         self.assertEqual(summary["first_row_hex"], rows[:16].hex())
 
+    def test_summarizes_direct_rows_only_to_next_resource_descriptor(self):
+        decoded = bytearray(0x120)
+        row = bytes.fromhex("0102030405060708090a0b0c0d0e0f10")
+        decoded[0xC0:0xD0] = row
+        decoded[0xD0:0xE0] = row
+        entries = [{"descriptor_offset": 0x80, "payload_offset": 0xC0}]
+        nested = [{"descriptor_offset": 0xE0}]
+
+        audit.summarize_direct_resource_payloads(decoded, entries, nested)
+
+        self.assertEqual(entries[0]["payload_layout"], {
+            "row_size": 16,
+            "next_descriptor_offset": 0xE0,
+            "available_row_count": 2,
+            "unique_row_count": 1,
+            "repeated_first_row_count": 2,
+            "rows_after_repeated_prefix": 0,
+            "first_row_hex": row.hex(),
+        })
+
     def test_records_next_candidate_descriptor_distance_without_linking_assets(self):
         candidates = [
             {"descriptor_offset": 0x60, "data_offset": 0x80},
