@@ -13,9 +13,11 @@ a camera, for example:
 The scene combines mission 0's static geometry and vegetation with available
 Moby editor meshes and recoverable native bind-pose previews. The current
 review scene contains 3,235 placements, including 683 Moby placements, and
-uses 87,160 prototype triangles. These are editor geometry previews; the
-viewer does not run mission behavior, visibility rules, lighting, AI, or
-animation.
+uses 87,160 prototype triangles. The primary visual scene excludes collision
+surfaces so they do not cover the rendered level; run `run-dreadzone-collision.cmd`
+to open the extracted collision meshes in a separate native viewer scene.
+These are editor geometry previews; the viewer does not run mission behavior,
+visibility rules, lighting, AI, or animation.
 
 The adjacent JSON report indexes all 743 Moby placements in the selected scene
 variant. Each row preserves its source instance ID, position, rotation, scale,
@@ -63,6 +65,8 @@ confirm the in-game pose, local axes, or mission visibility. The launcher keeps
 the other native bind-pose previews enabled and retains position-only markers
 for unresolved placements.
 
+The level Moby table independently confirms that every class listed below is a real level reference. The extracted global class assets for these IDs do not provide drawable meshes: 59 have no indexed native core, while class 9207 has a core with zero high-detail packets and an editor GLB with no triangles. Mission-local exports contain only empty stubs for classes 8321 and 8520. The extracted level chunks contain terrain fragments and collision geometry, which are already included in the review scene; they do not supply replacement Moby triangles. The `moby_load` audit below also found no unresolved class ID in the leading resource-index records. This does not establish whether every class is behavior-only, but no source inspected so far provides geometry for these 60 placements; their markers remain position-only diagnostics and are not approximations of the original objects.
+
 The remaining 60 marker placements belong to these classes:
 
 | Class | Placements | Class | Placements |
@@ -87,7 +91,6 @@ block as armor percentages, flags, prior hit points, and armor bits. It does
 not identify a model resource or prove that the generic Armor0 mesh belongs to
 these placements; see the upstream
 [ArmorVars definition](https://github.com/chaoticgd/wrench/blob/75f6d86ad055dad5955cf9d771dd8146cbf7d6f6/data/overlay/src/game_dl/mobyutil.h).
-
 A focused inspection of the arena cluster rendered class 8432's four placements
 as a separate fixture and class 8519's nearby placement as a separate console
 prop. Their proximity to the five class 8321 placements does not establish that
@@ -108,11 +111,24 @@ the TIE meshes are not used for the mission's unresolved Moby placements.
 The raw level `scene.wad` contains 30 per-scene records with audio, binary
 `moby_load` ranges, and compressed chunk references, as shown in Wrench's
 [Deadlocked scene WAD parser](https://github.com/chaoticgd/wrench/blob/75f6d86ad055dad5955cf9d771dd8146cbf7d6f6/src/wrenchbuild/level/level_scene_wad.cpp).
-I decoded the 20 nonempty `moby_load` ranges (7,586,336 bytes combined).
-Scene index 0 contains two `PIF2` signatures in its decoded stream; exact
-searches found no embedded core bytes or first 64-byte core headers for sampled
-classes 10016, 2460, or 9207. The terrain and collision DAE files under level
-chunks 0 and 1 are separate and remain included in the native scene. The opaque
-`moby_load` format is not fully decoded, so these streams are not treated as
-recovered model geometry.
-
+I decoded the 20 nonempty `moby_load` ranges (7,586,336 bytes combined). A
+partial parser finds 58 leading 16-byte index records across those streams; each
+record has an in-range start/end span and the sequence ends at an all-ones
+sentinel. None of the 17 unresolved Moby class IDs appears in the first field
+of these records. The record namespace is not fully documented, so this is a
+negative lead rather than proof that the records identify Moby classes. The
+streams contain 105 `PIF2` signatures total; scene index 0 has two. The PIF
+headers describe indexed textures with mipmaps, but their association to the
+missing Moby classes is unverified. Exact searches found no embedded core bytes
+or first 64-byte core headers for sampled classes 10016, 2460, or 9207. These
+streams therefore have not resolved any missing model. Recreate this partial
+inventory with `python tools/audit_dreadzone_scene_wad.py --output
+build/native-assets/dreadzone-scene-wad-audit.json`. The parser validates the
+WAD sector ranges, row spans, and PIF headers without assigning the provisional
+record IDs to an asset namespace. Terrain fragments from chunks 0 and 1 are
+included in the primary review scene. Collision meshes from those same chunks
+are now available as a separate, testable scene: `run-dreadzone-collision.cmd`
+prepares `build/native-assets/dreadzone-mission-0-collision.dlscene`, which
+contains 38,806 extracted collision triangles across both chunks. It intentionally
+contains collision surfaces only; mission visuals are available from the primary
+review launcher.
