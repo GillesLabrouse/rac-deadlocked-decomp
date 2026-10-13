@@ -29,6 +29,19 @@ class SceneWadIndexTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invalid resource entry"):
             audit.parse_chunk_resource_entries(decoded, 20, 5)
 
+    def test_finds_nested_zero_reserved_resource_candidate(self):
+        decoded = bytearray(0x200)
+        struct.pack_into("<4I", decoded, 0x80, 9207, 0xC0, 0, 0)
+        struct.pack_into("<4I", decoded, 0xC0, 9227, 0x180, 0, 0)
+        self.assertEqual(
+            audit.scan_nested_resource_candidates(decoded, 20, 5, {0x80}),
+            [{
+                "descriptor_offset": 0xC0,
+                "resource_id": 9227,
+                "data_offset": 0x180,
+            }],
+        )
+
     def test_collects_next_sector_boundaries_from_all_scene_records(self):
         data = bytearray(10000)
         record = audit.SCENE_HEADER_OFFSET

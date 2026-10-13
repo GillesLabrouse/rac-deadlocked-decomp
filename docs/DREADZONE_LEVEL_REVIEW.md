@@ -138,7 +138,11 @@ descriptor records in these streams. Their first words match 39 distinct
 resource IDs; unresolved class ID 9207 appears in 28 descriptors. This is a
 useful lead, but the descriptor namespace is not confirmed, and the referenced
 payloads have not been decoded into triangle topology. The 9207 placement
-therefore remains a position-only marker. Recreate the inventory with
+therefore remains a position-only marker. A separate aligned scan for
+zero-reserved 16-byte records found 1,430 nested-resource candidates. Candidate
+IDs 9227 and 9314 each occur in the same 28 chunks as 9207, but neither is
+mapped to a class or mesh section. Treat these as investigation leads, not
+identified scene objects. Recreate the inventory with
 `python tools/audit_dreadzone_scene_wad.py --output
 build/native-assets/dreadzone-scene-wad-audit.json`. The parser validates the
 WAD sector ranges, row spans, PIF headers, chunk streams, and descriptor bounds

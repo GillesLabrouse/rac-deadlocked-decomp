@@ -123,6 +123,33 @@ def parse_chunk_resource_entries(decoded, scene_index, chunk_index):
     return entries
 
 
+def scan_nested_resource_candidates(decoded, scene_index, chunk_index, known_offsets):
+    """Find aligned zero-reserved records that may reference nested resources.
+
+    This is a structural heuristic for follow-up analysis, not an asset parser:
+    candidate IDs and data pointers are reported without assigning a namespace.
+    """
+    candidates = []
+    for descriptor_offset in range(CHUNK_RESOURCE_TABLE_OFFSET + 16, len(decoded) - 23, 16):
+        if descriptor_offset in known_offsets:
+            continue
+        resource_id, data_offset, reserved_a, reserved_b = struct.unpack_from(
+            "<4I", decoded, descriptor_offset
+        )
+        if (
+            0 < resource_id < 0x10000
+            and descriptor_offset + 24 <= data_offset < len(decoded)
+            and reserved_a == 0
+            and reserved_b == 0
+        ):
+            candidates.append({
+                "descriptor_offset": descriptor_offset,
+                "resource_id": resource_id,
+                "data_offset": data_offset,
+            })
+    return candidates
+
+
 def scan_exact_core_headers(core_root, scene_streams):
     """Find exact 64-byte prefixes of exported global cores in decoded streams."""
     core_root = Path(core_root)
@@ -223,6 +250,8 @@ def audit_scene_wad(path):
     chunk_resource_ids = {}
     chunk_inventory = []
     decoded_chunk_streams = []
+    nested_resource_ids = {}
+    nested_resource_inventory = []
     sector_starts = scene_sector_starts(data)
     for scene_index in range(SCENE_COUNT):
         record_offset = SCENE_HEADER_OFFSET + scene_index * SCENE_HEADER_SIZE
@@ -263,6 +292,12 @@ def audit_scene_wad(path):
             resource_entries = parse_chunk_resource_entries(
                 decoded_chunk, scene_index, chunk_index
             )
+            nested_candidates = scan_nested_resource_candidates(
+                decoded_chunk,
+                scene_index,
+                chunk_index,
+                {entry["descriptor_offset"] for entry in resource_entries},
+            )
             decoded_chunk_count += 1
             for entry in resource_entries:
                 resource_id = entry["resource_id"]
@@ -272,6 +307,17 @@ def audit_scene_wad(path):
                 entry["unresolved_class_id_match"] = (
                     resource_id in UNRESOLVED_CLASS_IDS
                 )
+            for candidate in nested_candidates:
+                resource_id = candidate["resource_id"]
+                nested_resource_ids[resource_id] = (
+                    nested_resource_ids.get(resource_id, 0) + 1
+                )
+                candidate["unresolved_class_id_match"] = (
+                    resource_id in UNRESOLVED_CLASS_IDS
+                )
+                candidate["scene_index"] = scene_index
+                candidate["chunk_index"] = chunk_index
+                nested_resource_inventory.append(candidate)
             chunk_inventory.append({
                 "scene_index": scene_index,
                 "chunk_index": chunk_index,
@@ -345,6 +391,14 @@ def audit_scene_wad(path):
                 for resource_id, count in sorted(chunk_resource_ids.items())
                 if resource_id in UNRESOLVED_CLASS_IDS
             },
+            "nested_candidate_count": len(nested_resource_inventory),
+            "nested_candidate_id_counts": dict(sorted(nested_resource_ids.items())),
+            "nested_unresolved_class_id_matches": {
+                str(resource_id): count
+                for resource_id, count in sorted(nested_resource_ids.items())
+                if resource_id in UNRESOLVED_CLASS_IDS
+            },
+            "nested_candidates": nested_resource_inventory,
             "chunks": chunk_inventory,
         },
         "global_moby_core_scan": core_scan,
