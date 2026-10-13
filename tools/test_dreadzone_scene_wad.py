@@ -3,12 +3,48 @@
 import struct
 import tempfile
 import unittest
+import zlib
 from pathlib import Path
 
 import audit_dreadzone_scene_wad as audit
 
 
 class SceneWadIndexTests(unittest.TestCase):
+    def test_decodes_psmt8_pif_palette_swizzle_and_alpha(self):
+        palette = bytearray(256 * 4)
+        palette[0:4] = bytes((12, 34, 56, 50))
+        palette[4:8] = bytes((200, 150, 100, 200))
+        header = struct.pack("<8I", 0x50494632, 0, 2, 1, 0x13, 0, 0, 3)
+        decoded = header + palette + bytes((0, 1))
+        width, height, rgba, mip_levels = audit.decode_pif2_rgba(decoded, 0)
+        self.assertEqual((width, height, mip_levels), (2, 1, 3))
+        self.assertEqual(rgba, bytes((12, 34, 56, 100, 200, 150, 100, 255)))
+
+    def test_decodes_psmt4_pif_high_nibble_first(self):
+        palette = bytearray(16 * 4)
+        palette[4:8] = bytes((10, 20, 30, 64))
+        palette[8:12] = bytes((40, 50, 60, 128))
+        header = struct.pack("<8I", 0x50494632, 0, 2, 1, 0x94, 0, 0, 1)
+        width, height, rgba, mip_levels = audit.decode_pif2_rgba(
+            header + palette + b"\x12", 0
+        )
+        self.assertEqual((width, height, mip_levels), (2, 1, 1))
+        self.assertEqual(rgba, bytes((10, 20, 30, 128, 40, 50, 60, 255)))
+
+    def test_encodes_rgba_png_with_valid_chunks_and_pixels(self):
+        png = audit.encode_rgba_png(1, 1, bytes((1, 2, 3, 4)))
+        self.assertEqual(png[:8], audit.PNG_SIGNATURE)
+        pos = 8
+        chunks = {}
+        while pos < len(png):
+            size = struct.unpack_from(">I", png, pos)[0]
+            kind = png[pos + 4:pos + 8]
+            chunks[kind] = png[pos + 8:pos + 8 + size]
+            pos += size + 12
+        self.assertEqual(struct.unpack(">IIBBBBB", chunks[b"IHDR"]), (1, 1, 8, 6, 0, 0, 0))
+        self.assertEqual(zlib.decompress(chunks[b"IDAT"]), b"\x00\x01\x02\x03\x04")
+        self.assertEqual(chunks[b"IEND"], b"")
+
     def test_reads_provisional_chunk_resource_entries(self):
         decoded = bytearray(0x100)
         struct.pack_into("<4I", decoded, 0x50, 0x80, 0, 0, 0)

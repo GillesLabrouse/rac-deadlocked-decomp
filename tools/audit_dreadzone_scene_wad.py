@@ -8,8 +8,10 @@ those entries to Moby classes or infer geometry from texture data.
 
 import argparse
 import bisect
+import binascii
 import json
 import struct
+import zlib
 from pathlib import Path
 
 from unpack_wad import decompress
@@ -25,6 +27,7 @@ CHUNK_RESOURCE_TABLE_OFFSET = 0x50
 SCENE_WAD_HEADER_SIZE = 8 + SCENE_COUNT * SCENE_HEADER_SIZE
 INDEX_ENTRY = struct.Struct("<4I")
 PIF_HEADER = struct.Struct("<8I")
+PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 UNRESOLVED_CLASS_IDS = {
     3107, 3168, 3174, 3305, 3950, 8226, 8246, 8247, 8321,
     8355, 8520, 9207, 9213, 9271, 9340, 9453, 9918,
@@ -79,6 +82,81 @@ def parse_pif_headers(decoded, scene_index):
         })
         pos += 4
     return result
+
+
+def decode_pif2_rgba(decoded, offset):
+    """Decode the base mip of a supported indexed PIF2 texture to RGBA8."""
+    if offset < 0 or offset + PIF_HEADER.size > len(decoded):
+        raise ValueError("PIF2 header is outside the decoded stream")
+    magic, _file_size, width, height, fmt, _clut_fmt, _clut_order, mip_levels = (
+        PIF_HEADER.unpack_from(decoded, offset)
+    )
+    if magic != 0x50494632 or not 0 < width <= 2048 or not 0 < height <= 2048:
+        raise ValueError("PIF2 header has invalid magic or dimensions")
+    if fmt == 0x13:
+        palette_count = 256
+        pixel_bytes = width * height
+    elif fmt == 0x94:
+        palette_count = 16
+        pixel_bytes = (width * height + 1) // 2
+    else:
+        raise ValueError(f"Unsupported PIF2 pixel format 0x{fmt:x}")
+    palette_offset = offset + PIF_HEADER.size
+    pixels_offset = palette_offset + palette_count * 4
+    if pixels_offset + pixel_bytes > len(decoded):
+        raise ValueError("PIF2 palette or base mip exceeds the decoded stream")
+
+    palette = [
+        decoded[palette_offset + i * 4:palette_offset + (i + 1) * 4]
+        for i in range(palette_count)
+    ]
+    if fmt == 0x13:
+        original_palette = palette
+        palette = [
+            original_palette[map_palette_index(i)]
+            for i in range(palette_count)
+        ]
+    rgba = bytearray(width * height * 4)
+    pixels = decoded[pixels_offset:pixels_offset + pixel_bytes]
+    for i in range(width * height):
+        if fmt == 0x13:
+            index = pixels[i]
+        else:
+            packed = pixels[i // 2]
+            index = packed >> 4 if i % 2 == 0 else packed & 0x0F
+        r, g, b, alpha = palette[index]
+        alpha = alpha * 2 if alpha < 0x80 else 0xFF
+        rgba[i * 4:i * 4 + 4] = bytes((r, g, b, alpha))
+    return width, height, bytes(rgba), mip_levels
+
+
+def map_palette_index(index):
+    """Apply the PSMT8 CLUT ordering used by Deadlocked PIF textures."""
+    return index ^ 0x18 if (((index & 16) >> 1) != (index & 8)) else index
+
+
+def encode_rgba_png(width, height, rgba):
+    """Encode an unfiltered, non-interlaced 8-bit RGBA PNG."""
+    if width <= 0 or height <= 0 or len(rgba) != width * height * 4:
+        raise ValueError("RGBA image dimensions do not match its pixel data")
+
+    def chunk(kind, data):
+        body = kind + data
+        return struct.pack(">I", len(data)) + body + struct.pack(
+            ">I", binascii.crc32(body) & 0xFFFFFFFF
+        )
+
+    rows = b"".join(
+        b"\x00" + rgba[y * width * 4:(y + 1) * width * 4]
+        for y in range(height)
+    )
+    header = struct.pack(">IIBBBBB", width, height, 8, 6, 0, 0, 0)
+    return (
+        PNG_SIGNATURE
+        + chunk(b"IHDR", header)
+        + chunk(b"IDAT", zlib.compress(rows, 9))
+        + chunk(b"IEND", b"")
+    )
 
 
 def parse_chunk_resource_entries(decoded, scene_index, chunk_index):
@@ -456,6 +534,27 @@ def audit_scene_wad(path):
     }
 
 
+def extract_scene_pif_textures(path, report, output_directory):
+    """Export supported scene moby_load PIF base mips as PNG diagnostic assets."""
+    path = Path(path)
+    data = path.read_bytes()
+    output_directory = Path(output_directory)
+    output_directory.mkdir(parents=True, exist_ok=True)
+    output_paths = []
+    for scene in report["scenes"]:
+        decoded = decompress(data, scene["moby_load_sector"] * SECTOR_SIZE)
+        for pif in scene["pif2_headers"]:
+            width, height, rgba, _mip_levels = decode_pif2_rgba(
+                decoded, pif["offset"]
+            )
+            output = output_directory / (
+                f"scene-{scene['scene_index']:02d}-pif-{pif['offset']:08x}.png"
+            )
+            output.write_bytes(encode_rgba_png(width, height, rgba))
+            output_paths.append(output)
+    return output_paths
+
+
 def main():
     root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
@@ -466,8 +565,18 @@ def main():
         default=root / "private/overlays/levels/campaign/1_dreadzone_station/scene.wad",
     )
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--extract-pif-dir",
+        type=Path,
+        help="export supported PIF2 base mips as PNG diagnostic textures",
+    )
     args = parser.parse_args()
     report = audit_scene_wad(args.scene_wad)
+    if args.extract_pif_dir:
+        for output_path in extract_scene_pif_textures(
+            args.scene_wad, report, args.extract_pif_dir
+        ):
+            print(f"Extracted {output_path}")
     output = json.dumps(report, indent=2) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)

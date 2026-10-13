@@ -49,3 +49,33 @@ python tools/audit_dreadzone_scene_wad.py --output build/native-assets/dreadzone
 
 The JSON output retains raw candidate offsets and the structural summary so
 later format work can be checked against the same source data.
+
+## Scene 0 PIF2 textures and repeated coordinate rows
+
+Scene record 0 has a `moby_load` stream of 180,512 decoded bytes and one index
+record with ID 8333 spanning offsets 32 through 45,680. The stream contains two
+128-by-128 PSMT8 PIF2 images at offsets `0x30` and `0x5950`, each declaring four
+mip levels. The images decode as an armored character texture and an orange
+character texture. This supports that the stream contains character-related
+texture data; it does not identify a mesh, Moby class, or placement.
+
+In scene 0 chunks 0 through 22, a provisional chunk resource entry with ID 8333
+points to 16-byte rows. For chunks 0 through 21, 49 rows are available before
+the decoded chunk ends. Their first-to-last points form a continuous sequence:
+each chunk's last row exactly matches the next chunk's first row (22 matching
+boundaries). Chunk 22 has 153 rows available to the end of its chunk, so its
+resource boundary is unknown. The other two entries recurring beside ID 8333
+hold repeated points. Although the 8333 sequence is coordinate-shaped, its role
+and coordinate frame are unverified. It is not treated as a path, vertices, or
+renderable geometry.
+
+Export supported base mips for inspection with:
+
+```powershell
+python tools/audit_dreadzone_scene_wad.py --extract-pif-dir build/native-assets/dreadzone-scene-pif --output build/native-assets/dreadzone-scene-wad-audit.json
+```
+
+Only PSMT8 and PSMT4 base mips are exported. These PNGs are diagnostic textures,
+not scene geometry. No exact pixel match was found for the two scene 0 images in
+the currently extracted Moby-class and Dreadzone-mission PNG collections; this
+does not rule out resized, cropped, or otherwise transformed variants.
