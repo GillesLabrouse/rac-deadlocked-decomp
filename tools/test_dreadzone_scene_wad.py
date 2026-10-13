@@ -33,7 +33,28 @@ class SceneWadIndexTests(unittest.TestCase):
         self.assertEqual(summary["available_row_count"], 3)
         self.assertEqual(summary["unique_row_count"], 2)
         self.assertEqual(summary["repeated_first_row_count"], 2)
+        self.assertEqual(summary["rows_after_repeated_prefix"], 1)
         self.assertEqual(summary["first_row_hex"], rows[:16].hex())
+
+    def test_records_next_candidate_descriptor_distance_without_linking_assets(self):
+        candidates = [
+            {"descriptor_offset": 0x60, "data_offset": 0x80},
+            {"descriptor_offset": 0x140, "data_offset": 0x180},
+        ]
+        audit.annotate_next_candidate_descriptors(candidates)
+        by_data_offset = {candidate["data_offset"]: candidate for candidate in candidates}
+        self.assertEqual(
+            by_data_offset[0x80]["next_candidate_descriptor_offset"], 0x140
+        )
+        self.assertEqual(
+            by_data_offset[0x80]["rows_before_next_candidate_descriptor"], 12
+        )
+        self.assertEqual(
+            by_data_offset[0x180]["next_candidate_descriptor_offset"], None
+        )
+        self.assertEqual(
+            by_data_offset[0x180]["rows_before_next_candidate_descriptor"], None
+        )
 
     def test_rejects_chunk_resource_payload_outside_stream(self):
         decoded = bytearray(0x100)
