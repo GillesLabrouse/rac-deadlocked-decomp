@@ -53,6 +53,14 @@ class NativeMobyTests(unittest.TestCase):
         self.assertTrue(all(v[5:] == (0.5,1,0.25,1) for v in vertices))
         self.assertEqual(report["omitted_meshes"], 0)
 
+    def test_wrench_exported_vertices_are_restored_to_game_axes(self):
+        self.document["asset"]["generator"] = "Wrench Build Tool v0.6"
+        groups, report = self.read()
+        vertices = groups[None]
+        self.assertEqual([v[:3] for v in vertices],
+                         [(0,0,0),(0,1,0),(0,0,1),(0,0,1),(0,1,0),(0,1,1)])
+        self.assertTrue(report["wrench_gltf_axes_converted"])
+
     def test_degenerate_connector_retains_strip_parity(self):
         self.assertEqual(list(moby.triangle_indices([0,1,2,2,3,4], 5)), [(0,1,2),(3,2,4)])
 
