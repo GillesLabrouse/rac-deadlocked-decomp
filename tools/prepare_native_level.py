@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 #!/usr/bin/env python3
 """Prepare extracted terrain and static-object placements for native rendering.
 
@@ -248,30 +249,6 @@ def moby_matrix(position, rotation, scale):
     ])
 
 
-def unresolved_marker_geometry():
-    """Build a position-only diagnostic marker without implying object shape or rotation."""
-    vertices = []
-    radius, half_length = 0.055, 0.65
-    axes = ((0, 1, 2), (1, 0, 2), (2, 0, 1))
-    for axis, side_a, side_b in axes:
-        endpoints = []
-        for sign in (-1, 1):
-            point = [0.0, 0.0, 0.0]
-            point[axis] = sign * half_length
-            endpoints.append(tuple(point))
-        ring = []
-        for side, sign in ((side_a, 1), (side_b, 1), (side_a, -1), (side_b, -1)):
-            point = [0.0, 0.0, 0.0]
-            point[side] = sign * radius
-            ring.append(tuple(point))
-        for endpoint in endpoints:
-            for index in range(4):
-                triangle = (endpoint, ring[index], ring[(index + 1) % 4])
-                vertices.extend((*point, 0.0, 0.0, 1.0, 0.1, 0.95, 1.0)
-                                for point in triangle)
-    return {None: vertices}
-
-
 def write_package(prototypes, output, source_inputs):
     """prototypes: (material->vertices, matrices, source description)."""
     textures = sorted({texture for groups, _, _ in prototypes for texture in groups if texture is not None}, key=str)
@@ -326,32 +303,12 @@ def write_package(prototypes, output, source_inputs):
     return report
 
 
-def editor_data_inventory(nodes):
-    """Preserve non-mesh editor objects and their source attributes in the scene report."""
-    spatial_kinds = {"Cuboid", "Cylinder", "Area", "Path", "GrindPath", "Camera",
-                     "DirLight", "PointLight", "Sound", "MobyGroup", "TieGroup",
-                     "ShrubGroup"}
-    entries = []
-    counts = defaultdict(int)
-    for node in nodes:
-        if node.kind not in spatial_kinds:
-            continue
-        counts[node.kind] += 1
-        entries.append({"kind": node.kind, "id": node.name, "source_attributes": node.attributes})
-    return {"kind": "level-editor-data-inventory", "format_version": 1,
-            "counts_by_kind": dict(sorted(counts.items())), "entries": entries,
-            "source_values_preserved": True,
-            "rendered_as_game_objects": False}
-
-
 def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                   include_dynamic_previews=False, dynamic_class_id=None,
                   excluded_dynamic_class_ids=None, dynamic_only=False,
                   include_native_bind_previews=False,
                   include_native_subnormal_flush_previews=False,
-                  include_unresolved_moby_markers=False,
-                  dynamic_instance_id=None,
-                  native_bind_class_ids=None):
+                  dynamic_instance_id=None):
     import prepare_native_moby as moby_mesh_import
 
     if dynamic_class_id is not None and not include_dynamic_previews:
@@ -367,29 +324,17 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         raise ValueError("Excluded dynamic classes need nonnegative integer IDs")
     if dynamic_class_ids is not None and dynamic_class_ids & excluded_dynamic_class_ids:
         raise ValueError("A dynamic class cannot be both selected and excluded")
-    native_bind_class_ids = set(native_bind_class_ids or [])
-    if any(type(class_id) is not int or class_id < 0 for class_id in native_bind_class_ids):
-        raise ValueError("Native bind-pose class IDs need nonnegative integers")
-    if native_bind_class_ids and not include_native_bind_previews:
-        raise ValueError("Native bind-pose class selection requires native bind-pose previews")
     if include_native_bind_previews and (mission_id is None or not include_dynamic_previews):
         raise ValueError("Native bind-pose previews require a selected mission and dynamic previews")
     if include_native_subnormal_flush_previews and not include_native_bind_previews:
         raise ValueError("Subnormal-flush previews require native bind-pose previews")
-    if include_unresolved_moby_markers and not include_dynamic_previews:
-        raise ValueError("Unresolved Moby markers require dynamic previews")
-    if include_unresolved_moby_markers and (dynamic_class_ids is not None or
-                                              excluded_dynamic_class_ids or dynamic_only):
-        raise ValueError("Unresolved Moby markers require an unfiltered full scene")
-    if dynamic_instance_id is not None:
-        if type(dynamic_instance_id) is not int or dynamic_instance_id < 0:
-            raise ValueError("Dynamic instance filters need a nonnegative instance ID")
-        if (mission_id is None or not include_dynamic_previews or dynamic_only is not True or
-                dynamic_class_ids is None or len(dynamic_class_ids) != 1 or include_sky):
-            raise ValueError("Instance-only previews require one mission, class, and instance filter")
     if dynamic_only and (mission_id is None or not include_dynamic_previews or
                          dynamic_class_ids is None or include_sky):
         raise ValueError("Dynamic-only scenes require a selected mission and class, enabled previews, and no sky")
+    if dynamic_instance_id is not None and (
+            mission_id is None or dynamic_class_ids is None or len(dynamic_class_ids) != 1 or
+            not isinstance(dynamic_instance_id, str) or not dynamic_instance_id.isdecimal()):
+        raise ValueError("Dynamic instance filters require a mission, one selected class, and a numeric instance ID")
 
     extracted, level = Path(extracted).resolve(), Path(level).resolve()
     if not level.is_relative_to(extracted):
@@ -439,15 +384,11 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     by_class = defaultdict(list)
     shrubs_by_class = defaultdict(list)
     mobys_by_class = defaultdict(list)
-    moby_positions_by_class = defaultdict(list)
     omitted_mobys = defaultdict(lambda: {"placements": 0, "reason": ""})
     disabled_dynamic_preview_placements = 0
     ids = set()
     shrub_ids = set()
     moby_ids = set()
-    selected_dynamic_instance_count = 0
-    selected_dynamic_instance = None
-    dynamic_placement_inventory = []
     mission_nodes = []
     mission_path = None
     mission_moby_classes = {}
@@ -529,59 +470,6 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             class_id = node.attributes.get("class")
             if type(class_id) is not int or class_id < 0:
                 raise ValueError("Dynamic object references an unavailable level class")
-            selected_by_preview_filters = (
-                (dynamic_class_ids is None or class_id in dynamic_class_ids) and
-                class_id not in excluded_dynamic_class_ids and
-                (dynamic_instance_id is None or node.name == str(dynamic_instance_id)))
-            dynamic_placement_inventory.append({
-                "mission_id": mission_id,
-                "instance_id": node.name,
-                "class_id": class_id,
-                "position_xyz": node.attributes.get("pos"),
-                "rotation_xyz": node.attributes.get("rot"),
-                "uniform_scale": node.attributes.get("scale"),
-                "pvars": node.attributes.get("pvars"),
-                "draw_distance": node.attributes.get("draw_dist"),
-                "occlusion": node.attributes.get("occlusion"),
-                "uid": node.attributes.get("uid"),
-                "mesh_source_available": class_id in moby_sources,
-                "geometry_source_available": class_id in reusable_mission_geometries,
-                "native_core_source_available": class_id in moby_core_sources,
-                "selected_by_preview_filters": selected_by_preview_filters,
-            })
-            if dynamic_instance_id is not None:
-                if class_id not in dynamic_class_ids or node.name != str(dynamic_instance_id):
-                    continue
-                selected_dynamic_instance_count += 1
-                selected_dynamic_instance = {
-                    "mission_id": mission_id,
-                    "instance_id": node.name,
-                    "class_id": class_id,
-                    "position_xyz": node.attributes.get("pos"),
-                    "rotation_xyz": node.attributes.get("rot"),
-                    "uniform_scale": node.attributes.get("scale"),
-                    "pvars": node.attributes.get("pvars"),
-                    "draw_distance": node.attributes.get("draw_dist"),
-                    "occlusion": node.attributes.get("occlusion"),
-                    "uid": node.attributes.get("uid"),
-                }
-            if include_unresolved_moby_markers:
-                position = node.attributes.get("pos")
-                if (not isinstance(position, list) or len(position) != 3 or
-                        not all(type(value) in (int, float) and math.isfinite(value)
-                                for value in position)):
-                    raise ValueError("Unresolved Moby marker needs three finite position values")
-                moby_positions_by_class[class_id].append({
-                    "instance_id": node.name,
-                    "position_xyz": list(map(float, position)),
-                    "rotation_xyz": node.attributes.get("rot"),
-                    "uniform_scale": node.attributes.get("scale"),
-                    "pvars": node.attributes.get("pvars"),
-                    "draw_distance": node.attributes.get("draw_dist"),
-                    "occlusion": node.attributes.get("occlusion"),
-                    "mission_id": node.attributes.get("mission"),
-                    "uid": node.attributes.get("uid"),
-                })
             if (class_id not in moby_source_definitions and
                     class_id not in reusable_mission_geometries):
                 omitted_mobys[class_id]["reason"] = (
@@ -592,6 +480,10 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                 continue
             if dynamic_class_ids is not None and class_id not in dynamic_class_ids:
                 omitted_mobys[class_id]["reason"] = "excluded by diagnostic class filter"
+                omitted_mobys[class_id]["placements"] += 1
+                continue
+            if dynamic_instance_id is not None and node.name != dynamic_instance_id:
+                omitted_mobys[class_id]["reason"] = "excluded by diagnostic instance filter"
                 omitted_mobys[class_id]["placements"] += 1
                 continue
             if class_id in excluded_dynamic_class_ids:
@@ -619,8 +511,6 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             except ValueError as error:
                 raise ValueError("Invalid dynamic object transform: " + str(error)) from error
             mobys_by_class[class_id].append(matrix)
-    if dynamic_instance_id is not None and selected_dynamic_instance_count != 1:
-        raise ValueError("Selected class and instance must match exactly one placed Moby")
     prototypes = []
     inputs = [placements, tie_classes_file, shrub_classes_file, moby_classes_file]
     if not dynamic_only:
@@ -647,8 +537,6 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     rendered_moby_classes = 0
     static_joint_attribute_classes = 0
     for class_id, matrices in sorted(mobys_by_class.items()):
-        if class_id in native_bind_class_ids:
-            continue
         try:
             groups, mesh_report = moby_mesh_import.read_mesh(
                 moby_sources[class_id], allow_unskinned_static_joints=True)
@@ -736,31 +624,6 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             bind_pose_report[class_id] = skin_report
             rendered_moby_placements += len(matrices)
             rendered_moby_classes += 1
-    unresolved_marker_placements = 0
-    unresolved_marker_classes = []
-    if include_unresolved_moby_markers:
-        marker_geometry = unresolved_marker_geometry()
-        for class_id, omission in sorted(omitted_mobys.items()):
-            placements_for_class = moby_positions_by_class.get(class_id, [])
-            if len(placements_for_class) != omission["placements"]:
-                raise ValueError("Unresolved Moby marker count differs from omitted placements")
-            matrices = [affine_matrix([1, 0, 0, 0, 0, 1, 0, 0,
-                                       0, 0, 1, 0, *placement["position_xyz"], 1])
-                        for placement in placements_for_class]
-            if not matrices:
-                continue
-            prototypes.append((marker_geometry, matrices, {
-                "kind": "diagnostic-unresolved-moby-position-marker",
-                "class_id": class_id,
-                "placements": len(matrices),
-                "instances": placements_for_class,
-                "marker": "fixed-size three-axis locator at the source position",
-                "diagnostic_only": True,
-                "object_shape_rotation_scale_visibility_assumed": False,
-                "omission_reason": omission["reason"],
-            }))
-            unresolved_marker_placements += len(matrices)
-            unresolved_marker_classes.append(class_id)
     if include_sky:
         import prepare_native_sky
         sky_prototypes, sky_inputs, sky_report = prepare_native_sky.sky_prototypes(level)
@@ -771,20 +634,6 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                                      "dynamic-object-native-bind-pose-preview")
                                 for row in prototypes):
         raise ValueError("Selected dynamic class has no renderable placements in this mission")
-    rendered_dynamic_classes = {
-        prototype["class_id"] for _, _, prototype in prototypes
-        if prototype.get("kind") in ("dynamic-object-preview",
-                                      "dynamic-object-geometry-only-preview",
-                                      "dynamic-object-native-bind-pose-preview")}
-    for placement in dynamic_placement_inventory:
-        class_id = placement["class_id"]
-        if not placement["selected_by_preview_filters"]:
-            placement["preview_status"] = "excluded_by_preview_filter"
-        elif class_id in rendered_dynamic_classes:
-            placement["preview_status"] = "rendered"
-        else:
-            placement["preview_status"] = omitted_mobys.get(class_id, {}).get(
-                "reason", "no drawable geometry")
     report = write_package(prototypes, output, inputs)
     report["static_object_placements"] = 0 if dynamic_only else len(ids)
     report["vegetation_placements"] = 0 if dynamic_only else len(shrub_ids)
@@ -802,7 +651,6 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
         prototype.get("reused_cross_mission_mesh")})
     report["omitted_dynamic_objects"] = dict(sorted(omitted_mobys.items()))
     report["omitted_dynamic_object_placements"] = sum(v["placements"] for v in omitted_mobys.values())
-    report["editor_data_inventory"] = editor_data_inventory(combined_nodes)
     report["mission_id"] = mission_id
     report["mission_object_placements"] = sum(1 for node in mission_nodes if node.kind == "Moby")
     report["dynamic_preview_class_filter"] = (sorted(dynamic_class_ids)
@@ -810,18 +658,12 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                                else next(iter(dynamic_class_ids))
                                                if dynamic_class_ids is not None else None)
     report["dynamic_preview_instance_filter"] = dynamic_instance_id
-    report["dynamic_preview_instance"] = selected_dynamic_instance
-    report["dynamic_placement_inventory"] = dynamic_placement_inventory
     report["dynamic_preview_excluded_classes"] = sorted(excluded_dynamic_class_ids)
     report["dynamic_preview_transforms_verified"] = False
     report["dynamic_preview_rotation_order_verified"] = True
     report["dynamic_preview_placements_disabled"] = disabled_dynamic_preview_placements
     report["dynamic_only_class_scene"] = dynamic_only
-    report["unresolved_moby_markers_enabled"] = include_unresolved_moby_markers
-    report["unresolved_moby_marker_placements"] = unresolved_marker_placements
-    report["unresolved_moby_marker_classes"] = unresolved_marker_classes
     report["native_bind_pose_previews_enabled"] = include_native_bind_previews
-    report["native_bind_pose_preferred_classes"] = sorted(native_bind_class_ids)
     report["native_subnormal_flush_previews_enabled"] = include_native_subnormal_flush_previews
     if mission_path is not None:
         inputs = list(inputs) + [mission_path / "mission.instances"]
@@ -857,25 +699,22 @@ def main():
                         help="Include experimental Moby meshes with unverified local axes and visibility")
     parser.add_argument("--dynamic-class", type=int, action="append",
                         help="Limit diagnostic Moby previews to this class ID; may be repeated")
-    parser.add_argument("--dynamic-instance", type=int,
-                        help="Select one instance ID in a single-class --dynamic-only scene")
+    parser.add_argument("--dynamic-instance",
+                        help="Include one numeric instance ID from a single selected Moby class")
     parser.add_argument("--exclude-dynamic-class", type=int, action="append",
                         help="Exclude this class from diagnostic Moby previews; may be repeated")
     parser.add_argument("--dynamic-only", action="store_true",
                         help="Build an isolated preview scene for one selected mission class")
     parser.add_argument("--include-native-bind-previews", action="store_true",
                         help="Include recoverable core.bin models in native bind pose")
-    parser.add_argument("--native-bind-class", type=int, action="append",
-                        help="Prefer native core bind-pose geometry for this Moby class; may be repeated")
     parser.add_argument("--include-native-subnormal-flush-previews", action="store_true",
                         help="Retry refused core poses with subnormal translations set to zero (explicit diagnostic assumption)")
-    parser.add_argument("--include-unresolved-moby-markers", action="store_true",
-                        help="Add fixed-size position-only markers for omitted Mobys; no shape, rotation, scale or visibility is implied")
     args = parser.parse_args()
     if args.dynamic_class is not None and not args.include_dynamic_previews:
         parser.error("--dynamic-class requires --include-dynamic-previews")
-    if args.dynamic_instance is not None and not args.dynamic_only:
-        parser.error("--dynamic-instance requires --dynamic-only")
+    if args.dynamic_instance is not None and (
+            args.mission is None or not args.dynamic_class or len(args.dynamic_class) != 1):
+        parser.error("--dynamic-instance requires --mission and exactly one --dynamic-class")
     try:
         report = prepare_level(args.extracted, args.level, args.output, args.include_sky,
                                args.mission, args.include_dynamic_previews,
@@ -884,9 +723,7 @@ def main():
                                args.exclude_dynamic_class, args.dynamic_only,
                                args.include_native_bind_previews,
                                args.include_native_subnormal_flush_previews,
-                               args.include_unresolved_moby_markers,
-                               args.dynamic_instance,
-                               args.native_bind_class)
+                               args.dynamic_instance)
     except (ValueError, KeyError, TypeError, OSError, struct.error, ET.ParseError) as error:
         parser.exit(1, str(error)+"\n")
     print("Prepared %d shared vertices, %d instances, %d batches, %d textures" %
@@ -895,3 +732,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
