@@ -120,7 +120,7 @@ for class 10, two for class 8297, thirteen for class 9387, three for class 9419,
 and four for class 9575. One of the class 9387 texture matches is also present
 in the global export for class 5745. Seven more PIFs match a texture shared by
 classes 8554, 9870, 9872, 9873, and 9875, so those images alone cannot
- distinguish the five classes.
+distinguish the five classes.
 
 Classes 5745 and 9419 have no placements in the extracted Dreadzone
 `mission.instances` files; their global texture matches alone do not show that
