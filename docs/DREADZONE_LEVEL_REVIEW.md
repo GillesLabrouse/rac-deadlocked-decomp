@@ -36,3 +36,10 @@ Moby placements. The markers use source positions only and do not imply object
 shape, orientation, scale, or visibility. Moby preview rotations and in-game
 visibility remain unverified. The adjacent JSON report retains the original
 per-instance metadata and omission reasons.
+
+Two omitted classes have known gameplay-control layouts in Wrench's Deadlocked
+overlay definitions: class 3950 stores objective and cutscene state, and class
+8355 stores mission and cutscene data. Their 26 markers are source-position
+diagnostics, not evidence of missing physical meshes. See the upstream
+[class 3950 layout](https://github.com/chaoticgd/wrench/blob/master/data/overlay/src/game_dl/update/moby3950.h)
+and [class 8355 layout](https://github.com/chaoticgd/wrench/blob/master/data/overlay/src/game_dl/update/moby8355_mission_control.h).
