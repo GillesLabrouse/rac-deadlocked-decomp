@@ -150,6 +150,28 @@ def scan_nested_resource_candidates(decoded, scene_index, chunk_index, known_off
     return candidates
 
 
+def summarize_candidate_payload(decoded, candidate):
+    """Summarize a candidate's pointed-to 16-byte rows without decoding them."""
+    data_offset = candidate["data_offset"]
+    row_count = (len(decoded) - data_offset) // 16
+    if row_count <= 0:
+        return None
+    rows = [decoded[data_offset + i * 16:data_offset + (i + 1) * 16]
+            for i in range(row_count)]
+    first = rows[0]
+    repeated_prefix_rows = 1
+    while (repeated_prefix_rows < row_count
+           and rows[repeated_prefix_rows] == first):
+        repeated_prefix_rows += 1
+    return {
+        "row_size": 16,
+        "available_row_count": row_count,
+        "unique_row_count": len(set(rows)),
+        "repeated_first_row_count": repeated_prefix_rows,
+        "first_row_hex": first.hex(),
+    }
+
+
 def scan_exact_core_headers(core_root, scene_streams):
     """Find exact 64-byte prefixes of exported global cores in decoded streams."""
     core_root = Path(core_root)
@@ -317,6 +339,9 @@ def audit_scene_wad(path):
                 )
                 candidate["scene_index"] = scene_index
                 candidate["chunk_index"] = chunk_index
+                candidate["payload_layout"] = summarize_candidate_payload(
+                    decoded_chunk, candidate
+                )
                 nested_resource_inventory.append(candidate)
             chunk_inventory.append({
                 "scene_index": scene_index,
@@ -430,4 +455,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
