@@ -10,6 +10,7 @@ import argparse
 import bisect
 import binascii
 import json
+import math
 import struct
 import zlib
 from pathlib import Path
@@ -555,6 +556,102 @@ def extract_scene_pif_textures(path, report, output_directory):
     return output_paths
 
 
+def correlate_resource_position_rows(path, report, mission_root, tolerance=0.01):
+    """Compare bounded 16-byte resource rows with extracted mission Moby positions.
+
+    This reports exact coordinate matches as evidence only. Resource IDs and
+    unmatched row semantics remain provisional.
+    """
+    from asset_text import read as read_asset
+
+    mission_root = Path(mission_root)
+    placements = {}
+    for instances_path in sorted(mission_root.glob("*/mission.instances")):
+        mission_id = instances_path.parent.name
+        for node in read_asset(instances_path):
+            if node.kind != "Moby":
+                continue
+            class_id = node.attributes.get("class")
+            position = node.attributes.get("pos")
+            if (type(class_id) is not int or not isinstance(position, list)
+                    or len(position) != 3
+                    or not all(type(value) in (int, float) for value in position)):
+                continue
+            placements.setdefault(class_id, []).append((
+                mission_id, node.name, tuple(float(value) for value in position)
+            ))
+
+    data = Path(path).read_bytes()
+    nested_by_chunk = {}
+    for candidate in report["scene_chunk_inventory"]["nested_candidates"]:
+        nested_by_chunk.setdefault(
+            (candidate["scene_index"], candidate["chunk_index"]), []
+        ).append(candidate["descriptor_offset"])
+
+    totals = {}
+    for chunk in report["scene_chunk_inventory"]["chunks"]:
+        scene_index, chunk_index = chunk["scene_index"], chunk["chunk_index"]
+        relevant = [entry for entry in chunk["resource_entries"]
+                    if entry["resource_id"] in placements]
+        if not relevant:
+            continue
+        decoded = decompress(data, chunk["sector"] * SECTOR_SIZE)
+        descriptor_offsets = sorted(
+            [entry["descriptor_offset"] for entry in chunk["resource_entries"]]
+            + nested_by_chunk.get((scene_index, chunk_index), [])
+        )
+        for entry in relevant:
+            resource_id = entry["resource_id"]
+            start = entry["payload_offset"]
+            end = next((offset for offset in descriptor_offsets if offset > start),
+                       len(decoded))
+            row_count = min(49, max(0, (end - start) // 16))
+            summary = totals.setdefault(resource_id, {
+                "resource_entry_count": 0,
+                "compared_position_row_count": 0,
+                "matching_position_row_count": 0,
+                "matching_positions": {},
+                "matching_placements": set(),
+            })
+            summary["resource_entry_count"] += 1
+            for row_index in range(row_count):
+                x, y, z, w = struct.unpack_from("<4f", decoded, start + row_index * 16)
+                if (w != 0.0 or not all(math.isfinite(value) for value in (x, y, z))):
+                    continue
+                summary["compared_position_row_count"] += 1
+                position = (x, y, z)
+                matches = [placement for placement in placements[resource_id]
+                           if math.dist(position, placement[2]) <= tolerance]
+                if not matches:
+                    continue
+                summary["matching_position_row_count"] += 1
+                key = ",".join(f"{value:.3f}" for value in position)
+                summary["matching_positions"][key] = (
+                    summary["matching_positions"].get(key, 0) + 1
+                )
+                summary["matching_placements"].update(
+                    (mission_id, instance_id)
+                    for mission_id, instance_id, _placement_position in matches
+                )
+
+    return {
+        "kind": "provisional-resource-position-correlation",
+        "position_match_tolerance": tolerance,
+        "maximum_rows_per_resource_entry": 49,
+        "resource_ids": {
+            str(resource_id): {
+                "resource_entry_count": summary["resource_entry_count"],
+                "compared_position_row_count": summary["compared_position_row_count"],
+                "matching_position_row_count": summary["matching_position_row_count"],
+                "unique_matching_positions": len(summary["matching_positions"]),
+                "matching_positions": summary["matching_positions"],
+                "matching_placement_count": len(summary["matching_placements"]),
+            }
+            for resource_id, summary in sorted(totals.items())
+        },
+    }
+
+
 def main():
     root = Path(__file__).resolve().parent.parent
     parser = argparse.ArgumentParser(description=__doc__)
@@ -570,8 +667,17 @@ def main():
         type=Path,
         help="export supported PIF2 base mips as PNG diagnostic textures",
     )
+    parser.add_argument(
+        "--correlate-mission-root",
+        type=Path,
+        help="compare bounded resource rows with mission.instances Moby positions",
+    )
     args = parser.parse_args()
     report = audit_scene_wad(args.scene_wad)
+    if args.correlate_mission_root:
+        report["moby_position_correlations"] = correlate_resource_position_rows(
+            args.scene_wad, report, args.correlate_mission_root
+        )
     if args.extract_pif_dir:
         for output_path in extract_scene_pif_textures(
             args.scene_wad, report, args.extract_pif_dir
