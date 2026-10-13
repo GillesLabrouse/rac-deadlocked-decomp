@@ -130,3 +130,30 @@ pixel identity does not recover geometry, placements, rotations, or visibility.
 
 Recreate the PIF images with `--extract-pif-dir` and compare them with exported
 class textures before assigning any new resource semantics.
+
+## Scene 20 resource 9228 coordinate stream
+
+The 28 direct resource entries with candidate ID 9228 in scene record 20,
+chunks 5–32, contain 1,333 bounded 16-byte rows when each payload is capped at
+the next direct resource descriptor. Chunks 5–31 each contribute 49 rows and
+chunk 32 contributes 10. Each chunk's final row exactly repeats the first row
+of the next chunk, producing a continuous ordered sequence. Every row decodes
+as four little-endian floats, with the fourth component zero. The first three
+components range approximately over X 10.127–11.188, Y 9.253–11.019, and Z
+1.226–2.691.
+
+The 9228 coordinates vary along all three axes and have many short steps; they
+do not form a simple monotonic path. Comparing these rows with mission
+placements finds no coordinate matches. Direct candidate IDs 9207 and 8484 in
+the same chunks also have no direct coordinate matches to their similarly
+numbered Moby placements. These checks do not establish whether 9228 holds
+vertices, another local coordinate buffer, or unrelated data; no associated
+index stream, packet header, transform, or triangle topology has been verified.
+The sequence is not rendered or assigned to an object.
+
+Candidate IDs 9227 and 9314 also recur as nested candidates in these chunks.
+The bounded 9227 region is a repeated point block in each chunk (truncated to
+10 rows in chunk 32). The 9314 region begins with a second repeated point
+block and has varied trailing rows in some chunks. These regularities link the
+buffers structurally to the same repeated chunk set, but do not identify their
+object or role.
