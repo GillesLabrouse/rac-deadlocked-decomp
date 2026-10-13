@@ -86,10 +86,17 @@ no drawable GLB or native core for these 59 placements, except class 9207's
 core. That core has 107 joints but a zero primary packet count, so the native
 topology stage has no primary geometry to render. The empty class stubs for
 8321, 8520, 9213, and 9271 do not reference any mesh or binary resources.
-Class 8321's update structure includes `ArmorVars`, but Wrench defines that
-block as armor percentages, flags, prior hit points, and armor bits. It does
-not identify a model resource or prove that the generic Armor0 mesh belongs to
-these placements; see the upstream
+I also checked the Dreadzone split-screen exports and the other campaign level
+exports for these class IDs. Dreadzone classes 8321 and 8520 remain meshless
+mission-local stubs in the split-screen variant, and classes 9213 and 9271
+remain meshless stubs across the three Control Level missions and their
+split-screen copies. A global HUD texture named `3168_0c60_pif.png` depicts a
+character, but it is one entry in a consecutively numbered HUD texture series;
+no class table or model definition links it to Moby class 3168, so it is not
+used as replacement geometry. Class 8321's update structure includes
+`ArmorVars`, but Wrench defines that block as armor percentages, flags, prior
+hit points, and armor bits. It does not identify a model resource or prove that
+the generic Armor0 mesh belongs to these placements; see the upstream
 [ArmorVars definition](https://github.com/chaoticgd/wrench/blob/75f6d86ad055dad5955cf9d771dd8146cbf7d6f6/data/overlay/src/game_dl/mobyutil.h).
 A focused inspection of the arena cluster rendered class 8432's four placements
 as a separate fixture and class 8519's nearby placement as a separate console
