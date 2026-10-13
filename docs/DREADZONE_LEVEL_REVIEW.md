@@ -96,7 +96,9 @@ position-only markers until its model link or geometry is recovered.
 
 The class IDs 8246, 8247, 8520, 9207, 9213, 9340, and 9918 also exist in the
 separate TIE asset namespace, with TIE meshes and textures present in the
-extraction. Their mission Moby definitions have no exported drawable mesh;
-class 9207's Moby core has no primary packets. Numeric ID equality across TIE
-and Moby classes does not establish asset equivalence, so the TIE meshes are
-not used for the mission's unresolved Moby placements.
+extraction. The level's TIE class table references 86 classes, none of these
+seven; its Moby class table references the unresolved mission Moby IDs except
+for mission-local classes. Their mission Moby definitions have no exported
+drawable mesh, and class 9207's Moby core has no primary packets. Numeric ID
+equality across TIE and Moby classes does not establish asset equivalence, so
+the TIE meshes are not used for the mission's unresolved Moby placements.
