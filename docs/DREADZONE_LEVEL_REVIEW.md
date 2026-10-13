@@ -43,3 +43,11 @@ overlay definitions: class 3950 stores objective and cutscene state, and class
 diagnostics, not evidence of missing physical meshes. See the upstream
 [class 3950 layout](https://github.com/chaoticgd/wrench/blob/master/data/overlay/src/game_dl/update/moby3950.h)
 and [class 8355 layout](https://github.com/chaoticgd/wrench/blob/master/data/overlay/src/game_dl/update/moby8355_mission_control.h).
+
+The placement inventory now reports native-core availability separately from
+editor-mesh and reusable-geometry availability. Of the 60 omitted placements,
+only class 9207 has an indexed native core; its source has zero high-detail
+packets and its editor GLB has no drawable triangles. The other 59 have no
+native core source in the indexed exports. Wrench's level unpacker creates a
+class core only when its level-core entry has a nonzero asset offset; see its
+[Moby class extraction code](https://github.com/chaoticgd/wrench/blob/master/src/wrenchbuild/level/level_classes.cpp).

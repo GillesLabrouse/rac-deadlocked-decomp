@@ -540,6 +540,7 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                 "uid": node.attributes.get("uid"),
                 "mesh_source_available": class_id in moby_sources,
                 "geometry_source_available": class_id in reusable_mission_geometries,
+                "native_core_source_available": class_id in moby_core_sources,
                 "selected_by_preview_filters": selected_by_preview_filters,
             })
             if dynamic_instance_id is not None:

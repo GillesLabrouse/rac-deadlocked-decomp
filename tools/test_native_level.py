@@ -440,6 +440,7 @@ class NativeLevelTests(unittest.TestCase):
         self.assertEqual(by_instance["4"]["preview_status"], "rendered")
         self.assertEqual(by_instance["4"]["rotation_xyz"], [0, 0, 1.57079632679])
         self.assertEqual(by_instance["4"]["pvars"], [7, 8])
+        self.assertFalse(by_instance["4"]["native_core_source_available"])
 
     def test_dynamic_instance_filter_requires_mission_class_and_dynamic_only(self):
         with self.assertRaisesRegex(ValueError, "one mission, class, and instance filter"):
