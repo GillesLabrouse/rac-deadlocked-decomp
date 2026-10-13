@@ -79,3 +79,24 @@ Only PSMT8 and PSMT4 base mips are exported. These PNGs are diagnostic textures,
 not scene geometry. No exact pixel match was found for the two scene 0 images in
 the currently extracted Moby-class and Dreadzone-mission PNG collections; this
 does not rule out resized, cropped, or otherwise transformed variants.
+
+## Correlating chunk resources with mission placements
+
+The optional `--correlate-mission-root` audit compares up to 49 finite
+`(x, y, z, 0)` rows after each direct chunk resource entry with positions in the
+extracted `mission.instances` files, using a 0.01-unit tolerance. This is
+coordinate evidence only; unmatched rows and resource IDs remain provisional.
+
+For resource ID 9387, the audit compares 3,286 rows from 68 chunk entries and
+all 3,286 match one coordinate, `(207.998, 467.993, 126.891)`. That coordinate
+matches 15 extracted Moby 9387 placement records across mission variants. This
+confirms the class-and-position relationship for this resource pattern, but it
+does not establish that other IDs share the same meaning or reveal any
+orientation. No new placement is emitted: these records already exist in the
+mission data.
+
+Run the coordinate cross-check with:
+
+```powershell
+python tools/audit_dreadzone_scene_wad.py --correlate-mission-root private/overlays/levels/campaign/1_dreadzone_station/missions --output build/native-assets/dreadzone-scene-wad-correlated-audit.json
+```

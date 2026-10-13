@@ -4,12 +4,59 @@ import struct
 import tempfile
 import unittest
 import zlib
+from unittest import mock
 from pathlib import Path
 
 import audit_dreadzone_scene_wad as audit
 
 
 class SceneWadIndexTests(unittest.TestCase):
+    def test_correlates_resource_position_rows_to_mission_mobys(self):
+        with tempfile.TemporaryDirectory(
+            dir=Path(__file__).resolve().parent
+        ) as temporary_directory:
+            temporary = Path(temporary_directory)
+            mission_directory = temporary / "missions" / "0"
+            mission_directory.mkdir(parents=True)
+            (mission_directory / "mission.instances").write_text(
+                "Moby 7 { class: 9387 pos: [1 2 3] }\n", encoding="utf-8"
+            )
+            scene_wad = temporary / "scene.wad"
+            scene_wad.write_bytes(b"fixture")
+            decoded = bytearray(0x100)
+            for offset in range(0x40, 0x90, 16):
+                struct.pack_into("<4f", decoded, offset, 1.0, 2.0, 3.0, 0.0)
+            report = {
+                "scene_chunk_inventory": {
+                    "chunks": [{
+                        "scene_index": 0,
+                        "chunk_index": 0,
+                        "sector": 1,
+                        "resource_entries": [{
+                            "descriptor_offset": 0x10,
+                            "resource_id": 9387,
+                            "payload_offset": 0x40,
+                        }],
+                    }],
+                    "nested_candidates": [{
+                        "scene_index": 0,
+                        "chunk_index": 0,
+                        "descriptor_offset": 0x90,
+                    }],
+                },
+            }
+            with mock.patch.object(audit, "decompress", return_value=bytes(decoded)):
+                result = audit.correlate_resource_position_rows(
+                    scene_wad, report, temporary / "missions"
+                )
+
+        correlated = result["resource_ids"]["9387"]
+        self.assertEqual(correlated["resource_entry_count"], 1)
+        self.assertEqual(correlated["compared_position_row_count"], 5)
+        self.assertEqual(correlated["matching_position_row_count"], 5)
+        self.assertEqual(correlated["unique_matching_positions"], 1)
+        self.assertEqual(correlated["matching_placement_count"], 1)
+
     def test_decodes_psmt8_pif_palette_swizzle_and_alpha(self):
         palette = bytearray(256 * 4)
         palette[0:4] = bytes((12, 34, 56, 50))
