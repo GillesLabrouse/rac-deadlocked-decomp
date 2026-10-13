@@ -102,3 +102,14 @@ for mission-local classes. Their mission Moby definitions have no exported
 drawable mesh, and class 9207's Moby core has no primary packets. Numeric ID
 equality across TIE and Moby classes does not establish asset equivalence, so
 the TIE meshes are not used for the mission's unresolved Moby placements.
+
+The raw level `scene.wad` also contains per-scene stream data. Wrench's
+[Deadlocked scene WAD parser](https://github.com/chaoticgd/wrench/blob/75f6d86ad055dad5955cf9d771dd8146cbf7d6f6/src/wrenchbuild/level/level_scene_wad.cpp)
+defines 30 scene records with audio, a binary `moby_load` range, and compressed
+chunks. In the extracted level, only two chunk assets are present and both are
+sound banks. I decoded the 20 nonempty `moby_load` ranges (7,586,336 bytes
+combined); exact searches found no embedded core bytes or first 64-byte core
+headers for sampled classes 10016, 2460, or 9207. This does not fully decode the
+opaque `moby_load` format, so those streams remain under investigation and are
+not treated as recovered model geometry.
+
