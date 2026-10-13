@@ -17,6 +17,13 @@ from prepare_native_level import IDENTITY, write_package
 
 COMPONENTS = {5121: ("B", 1), 5123: ("H", 2), 5125: ("I", 4), 5126: ("f", 4)}
 WIDTHS = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4}
+WRENCH_GLTF_GENERATORS = {"Wrench Build Tool v0.6"}
+
+
+def wrench_gltf_position_to_ratchet(position):
+    """Undo Wrench's Ratchet-to-glTF axis permutation for exported Moby meshes."""
+    x, y, z = position
+    return z, x, y
 
 
 def index(items, value, description):
@@ -142,6 +149,7 @@ def triangle_indices(indices, mode):
 def read_mesh(path, mesh_index=0, allow_blended_alpha=False, allow_unskinned_static_joints=False):
     path = Path(path)
     document, binary = read_glb(path)
+    convert_wrench_axes = document.get("asset", {}).get("generator") in WRENCH_GLTF_GENERATORS
     mesh = index(document.get("meshes", []), mesh_index, "mesh")
     all_nodes = document.get("nodes", [])
     nodes = [node for node in all_nodes if node.get("mesh") == mesh_index]
@@ -160,6 +168,8 @@ def read_mesh(path, mesh_index=0, allow_blended_alpha=False, allow_unskinned_sta
                 (extra and not (allow_unskinned_static_joints and inert_joint_pair))):
             raise ValueError("Unsupported deformation or primitive attribute")
         positions = accessor(document, binary, attributes.get("POSITION"), "VEC3", (5126,))
+        if convert_wrench_axes:
+            positions = [wrench_gltf_position_to_ratchet(position) for position in positions]
         if inert_joint_pair:
             joints = accessor(document, binary, attributes["JOINTS_0"], "VEC4", (5121, 5123),
                               allow_integer=True)
@@ -203,7 +213,8 @@ def read_mesh(path, mesh_index=0, allow_blended_alpha=False, allow_unskinned_sta
         raise ValueError("Selected mesh contains no drawable triangles")
     return groups, {"kind": "editor-mesh", "mesh_index": mesh_index,
                     "mesh_name": mesh.get("name", ""), "omitted_meshes": len(document["meshes"]) - 1,
-                    "placements": 1, "exported_coordinates_preserved": True,
+                    "placements": 1, "exported_coordinates_preserved": not convert_wrench_axes,
+                    "wrench_gltf_axes_converted": convert_wrench_axes,
                     "ignored_static_joint_attributes": ignored_static_joint_attributes}
 
 
