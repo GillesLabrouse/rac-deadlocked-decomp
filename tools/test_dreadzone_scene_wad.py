@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 """Tests for the bounded Dreadzone scene-WAD audit parser."""
 
 import struct
@@ -241,3 +242,4 @@ class SceneWadIndexTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
