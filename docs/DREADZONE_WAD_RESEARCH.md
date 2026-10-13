@@ -180,3 +180,19 @@ The companion JSON report records the selected source rows and keeps the
 coordinate-frame, topology, and object-mesh flags false. Keep this scene
 separate from playable level packages until those properties are established.
 
+## Scene 20 direct resource 9207 row pattern
+
+The direct resource descriptor with candidate ID 9207 appears in each of
+chunks 5–32. Bounded by the next direct or nested candidate descriptor, the
+payload regions contain 1,333 aligned 16-byte rows: 49 rows in chunks 5–31 and
+10 rows in chunk 32. Every row across all 28 chunks is byte-identical and
+decodes as `(11.305635, 11.062163, 1.188676, 0)`. None matches a mission Moby
+placement coordinate. This repeated point does not establish that the region
+is geometry or that the descriptor identifies class 9207; the resource and
+coordinate namespaces remain provisional.
+
+The WAD audit JSON now includes a bounded `payload_layout` summary for each
+direct resource entry. It reports the next descriptor offset, aligned row
+count, unique-row count, identical leading run, and first row bytes without
+interpreting row semantics.
+
