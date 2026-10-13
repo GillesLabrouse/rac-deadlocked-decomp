@@ -33,9 +33,11 @@ For a ready-to-open placement audit, run `run-dreadzone-mission-0-placement-audi
 It builds a separate scene with the static level geometry, available Moby
 previews, native bind-pose previews, and fixed-size markers for the 60 omitted
 Moby placements. The markers use source positions only and do not imply object
-shape, orientation, scale, or visibility. Moby preview rotations and in-game
-visibility remain unverified. The adjacent JSON report retains the original
-per-instance metadata and omission reasons.
+shape, orientation, scale, or visibility. The source Euler rotation order
+matches the recovered L01 placed-actor loader, but Moby mesh-local axes, the
+final game pose, and in-game visibility remain unverified; preview orientations
+are provisional. The adjacent JSON report retains the original per-instance
+metadata and omission reasons.
 
 Two omitted classes have known gameplay-control layouts in Wrench's Deadlocked
 overlay definitions: class 3950 stores objective and cutscene state, and class
