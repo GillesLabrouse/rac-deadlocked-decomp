@@ -110,18 +110,23 @@ Run the coordinate cross-check with:
 python tools/audit_dreadzone_scene_wad.py --correlate-mission-root private/overlays/levels/campaign/1_dreadzone_station/missions --output build/native-assets/dreadzone-scene-wad-correlated-audit.json
 ```
 
-## Cross-checking PIF textures against extracted Moby textures
+## Matching scene PIF textures against extracted Moby textures
 
-A pixel-by-pixel comparison of the 105 supported PIF base-mip exports against
-1,421 extracted Moby and TIE PNGs found 27 exact Moby texture matches. The
-matched PIFs correspond to class 10 (one texture), class 8297 (two), class 9387
-(thirteen), and class 9575 (four). Seven additional PIFs match a texture shared
-by the exported Moby classes 8554, 9870, 9872, 9873, and 9875, so that texture
-alone cannot distinguish those classes.
+The audit exports 105 supported PIF base mips. An exact RGBA pixel comparison
+against 1,421 Moby and TIE PNGs within the Dreadzone level extraction found 27
+PIF matches. Expanding the comparison to 12,336 Moby and TIE PNGs under
+`private/overlays` found 30 unique matched PIFs. The matches include one PIF
+for class 10, two for class 8297, thirteen for class 9387, three for class 9419,
+and four for class 9575. One of the class 9387 texture matches is also present
+in the global export for class 5745. Seven more PIFs match a texture shared by
+classes 8554, 9870, 9872, 9873, and 9875, so those images alone cannot
+distinguish the five classes.
 
-None of the matched PIFs corresponds to the 17 mission Moby classes with no
-drawable mesh in the current review scene. These exact texture matches link
-some scene-WAD image payloads to existing extracted class textures; they do not
-recover mesh data, placements, rotations, or visibility for the unresolved
-classes. Recreate the PIF images with `--extract-pif-dir` and compare them with
-the class texture exports before assigning any new resource semantics.
+Classes 5745 and 9419 have no placements in the extracted Dreadzone
+`mission.instances` files; their global texture matches alone do not show that
+they are objects in this level. None of the PIF matches corresponds to the 17
+mission Moby classes with no drawable mesh in the current review scene. Exact
+pixel identity does not recover geometry, placements, rotations, or visibility.
+
+Recreate the PIF images with `--extract-pif-dir` and compare them with exported
+class textures before assigning any new resource semantics.
