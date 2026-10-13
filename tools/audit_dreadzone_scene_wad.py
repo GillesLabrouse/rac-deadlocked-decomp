@@ -168,8 +168,30 @@ def summarize_candidate_payload(decoded, candidate):
         "available_row_count": row_count,
         "unique_row_count": len(set(rows)),
         "repeated_first_row_count": repeated_prefix_rows,
+        "rows_after_repeated_prefix": row_count - repeated_prefix_rows,
         "first_row_hex": first.hex(),
     }
+
+
+def annotate_next_candidate_descriptors(candidates):
+    """Record the nearest candidate descriptor following each data pointer."""
+    descriptor_offsets = sorted(
+        candidate["descriptor_offset"] for candidate in candidates
+    )
+    for candidate in candidates:
+        position = bisect.bisect_left(
+            descriptor_offsets, candidate["data_offset"]
+        )
+        if position == len(descriptor_offsets):
+            candidate["next_candidate_descriptor_offset"] = None
+            candidate["rows_before_next_candidate_descriptor"] = None
+            continue
+        next_offset = descriptor_offsets[position]
+        candidate["next_candidate_descriptor_offset"] = next_offset
+        gap = next_offset - candidate["data_offset"]
+        candidate["rows_before_next_candidate_descriptor"] = (
+            gap // 16 if gap % 16 == 0 else None
+        )
 
 
 def scan_exact_core_headers(core_root, scene_streams):
@@ -320,6 +342,7 @@ def audit_scene_wad(path):
                 chunk_index,
                 {entry["descriptor_offset"] for entry in resource_entries},
             )
+            annotate_next_candidate_descriptors(nested_candidates)
             decoded_chunk_count += 1
             for entry in resource_entries:
                 resource_id = entry["resource_id"]
