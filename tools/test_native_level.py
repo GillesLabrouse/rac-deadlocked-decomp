@@ -122,6 +122,19 @@ class NativeLevelTests(unittest.TestCase):
         self.assertEqual(moby[12:15],(3,4,5))
         self.assertEqual(level.BATCH.unpack_from(data,len(data)-level.BATCH.size),(24,6,0,5,1))
 
+    def test_wrench_glb_axis_conversion_is_reported_for_scene_prototypes(self):
+        document, binary = glb_fixture()
+        document["asset"]["generator"] = "Wrench Build Tool v0.6"
+        (self.moby_model / "mesh.glb").write_bytes(encode_glb(document, binary))
+        output = Path(self.temp.name) / "wrench-axis-scene.dlscene"
+        report = level.prepare_level(
+            self.extracted, self.level, output, include_dynamic_previews=True)
+        prototype = next(row for row in report["prototypes"]
+                         if row.get("kind") == "dynamic-object-preview")
+        self.assertTrue(prototype["wrench_gltf_axes_converted"])
+        self.assertEqual(report["wrench_gltf_axis_converted_classes"], [11])
+        self.assertEqual(report["wrench_gltf_axis_converted_vegetation_classes"], [])
+
     def test_unresolved_moby_markers_show_positions_without_implying_shapes(self):
         output = Path(self.temp.name) / "unresolved-markers.dlscene"
         report = level.prepare_level(

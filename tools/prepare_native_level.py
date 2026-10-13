@@ -639,9 +639,11 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             prototypes.append((groups, matrices, {"kind": "static-object", "class_id": class_id, "placements": len(matrices)}))
             inputs.extend((classes[class_id], definitions[class_id]))
         for class_id, matrices in sorted(shrubs_by_class.items()):
-            groups, _ = moby_mesh_import.read_mesh(shrub_classes[class_id])
+            groups, mesh_report = moby_mesh_import.read_mesh(shrub_classes[class_id])
             prototypes.append((groups, matrices, {"kind": "vegetation", "class_id": class_id,
-                                                  "placements": len(matrices)}))
+                                                  "placements": len(matrices),
+                                                  "wrench_gltf_axes_converted":
+                                                      mesh_report["wrench_gltf_axes_converted"]}))
             inputs.extend((shrub_classes[class_id], shrub_definitions[class_id]))
     rendered_moby_placements = 0
     rendered_moby_classes = 0
@@ -661,7 +663,9 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                               "mesh_source": str(moby_sources[class_id]),
                                               "definition_source": str(moby_source_definitions[class_id]),
                                               "reused_cross_mission_mesh":
-                                                  class_id in reused_cross_mission_mesh_classes}))
+                                                  class_id in reused_cross_mission_mesh_classes,
+                                              "wrench_gltf_axes_converted":
+                                                  mesh_report["wrench_gltf_axes_converted"]}))
         inputs.extend((moby_sources[class_id], moby_source_definitions[class_id]))
         rendered_moby_placements += len(matrices)
         rendered_moby_classes += 1
@@ -786,6 +790,14 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             placement["preview_status"] = omitted_mobys.get(class_id, {}).get(
                 "reason", "no drawable geometry")
     report = write_package(prototypes, output, inputs)
+    report["wrench_gltf_axis_converted_classes"] = sorted(
+        prototype["class_id"] for prototype in report["prototypes"]
+        if prototype["kind"] == "dynamic-object-preview" and
+        prototype["wrench_gltf_axes_converted"])
+    report["wrench_gltf_axis_converted_vegetation_classes"] = sorted(
+        prototype["class_id"] for prototype in report["prototypes"]
+        if prototype["kind"] == "vegetation" and
+        prototype["wrench_gltf_axes_converted"])
     report["static_object_placements"] = 0 if dynamic_only else len(ids)
     report["vegetation_placements"] = 0 if dynamic_only else len(shrub_ids)
     report["vegetation_classes"] = 0 if dynamic_only else len(shrubs_by_class)
