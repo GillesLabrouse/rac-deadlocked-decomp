@@ -349,7 +349,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                   excluded_dynamic_class_ids=None, dynamic_only=False,
                   include_native_bind_previews=False,
                   include_native_subnormal_flush_previews=False,
-                  include_unresolved_moby_markers=False):
+                  include_unresolved_moby_markers=False,
+                  dynamic_instance_id=None):
     import prepare_native_moby as moby_mesh_import
 
     if dynamic_class_id is not None and not include_dynamic_previews:
@@ -374,6 +375,12 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     if include_unresolved_moby_markers and (dynamic_class_ids is not None or
                                               excluded_dynamic_class_ids or dynamic_only):
         raise ValueError("Unresolved Moby markers require an unfiltered full scene")
+    if dynamic_instance_id is not None:
+        if type(dynamic_instance_id) is not int or dynamic_instance_id < 0:
+            raise ValueError("Dynamic instance filters need a nonnegative instance ID")
+        if (mission_id is None or not include_dynamic_previews or dynamic_only is not True or
+                dynamic_class_ids is None or len(dynamic_class_ids) != 1 or include_sky):
+            raise ValueError("Instance-only previews require one mission, class, and instance filter")
     if dynamic_only and (mission_id is None or not include_dynamic_previews or
                          dynamic_class_ids is None or include_sky):
         raise ValueError("Dynamic-only scenes require a selected mission and class, enabled previews, and no sky")
@@ -432,6 +439,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     ids = set()
     shrub_ids = set()
     moby_ids = set()
+    selected_dynamic_instance_count = 0
+    selected_dynamic_instance = None
     mission_nodes = []
     mission_path = None
     mission_moby_classes = {}
@@ -513,6 +522,22 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             class_id = node.attributes.get("class")
             if type(class_id) is not int or class_id < 0:
                 raise ValueError("Dynamic object references an unavailable level class")
+            if dynamic_instance_id is not None:
+                if class_id not in dynamic_class_ids or node.name != str(dynamic_instance_id):
+                    continue
+                selected_dynamic_instance_count += 1
+                selected_dynamic_instance = {
+                    "mission_id": mission_id,
+                    "instance_id": node.name,
+                    "class_id": class_id,
+                    "position_xyz": node.attributes.get("pos"),
+                    "rotation_xyz": node.attributes.get("rot"),
+                    "uniform_scale": node.attributes.get("scale"),
+                    "pvars": node.attributes.get("pvars"),
+                    "draw_distance": node.attributes.get("draw_dist"),
+                    "occlusion": node.attributes.get("occlusion"),
+                    "uid": node.attributes.get("uid"),
+                }
             if include_unresolved_moby_markers:
                 position = node.attributes.get("pos")
                 if (not isinstance(position, list) or len(position) != 3 or
@@ -567,6 +592,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             except ValueError as error:
                 raise ValueError("Invalid dynamic object transform: " + str(error)) from error
             mobys_by_class[class_id].append(matrix)
+    if dynamic_instance_id is not None and selected_dynamic_instance_count != 1:
+        raise ValueError("Selected class and instance must match exactly one placed Moby")
     prototypes = []
     inputs = [placements, tie_classes_file, shrub_classes_file, moby_classes_file]
     if not dynamic_only:
@@ -739,6 +766,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                                if dynamic_class_ids is not None and len(dynamic_class_ids) != 1
                                                else next(iter(dynamic_class_ids))
                                                if dynamic_class_ids is not None else None)
+    report["dynamic_preview_instance_filter"] = dynamic_instance_id
+    report["dynamic_preview_instance"] = selected_dynamic_instance
     report["dynamic_preview_excluded_classes"] = sorted(excluded_dynamic_class_ids)
     report["dynamic_preview_transforms_verified"] = False
     report["dynamic_preview_rotation_order_verified"] = True
@@ -783,6 +812,8 @@ def main():
                         help="Include experimental Moby meshes with unverified local axes and visibility")
     parser.add_argument("--dynamic-class", type=int, action="append",
                         help="Limit diagnostic Moby previews to this class ID; may be repeated")
+    parser.add_argument("--dynamic-instance", type=int,
+                        help="Select one instance ID in a single-class --dynamic-only scene")
     parser.add_argument("--exclude-dynamic-class", type=int, action="append",
                         help="Exclude this class from diagnostic Moby previews; may be repeated")
     parser.add_argument("--dynamic-only", action="store_true",
@@ -796,6 +827,8 @@ def main():
     args = parser.parse_args()
     if args.dynamic_class is not None and not args.include_dynamic_previews:
         parser.error("--dynamic-class requires --include-dynamic-previews")
+    if args.dynamic_instance is not None and not args.dynamic_only:
+        parser.error("--dynamic-instance requires --dynamic-only")
     try:
         report = prepare_level(args.extracted, args.level, args.output, args.include_sky,
                                args.mission, args.include_dynamic_previews,
@@ -804,7 +837,8 @@ def main():
                                args.exclude_dynamic_class, args.dynamic_only,
                                args.include_native_bind_previews,
                                args.include_native_subnormal_flush_previews,
-                               args.include_unresolved_moby_markers)
+                               args.include_unresolved_moby_markers,
+                               args.dynamic_instance)
     except (ValueError, KeyError, TypeError, OSError, struct.error, ET.ParseError) as error:
         parser.exit(1, str(error)+"\n")
     print("Prepared %d shared vertices, %d instances, %d batches, %d textures" %

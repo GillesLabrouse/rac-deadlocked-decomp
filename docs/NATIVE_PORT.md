@@ -1527,6 +1527,22 @@ filters. The viewer then frames only those Moby placements, which makes widely
 separated objects easier to inspect. These scenes remain diagnostic and do not
 imply that the game displays every selected placement at once.
 
+To inspect one placed instance at model scale, add `--dynamic-instance ID` to
+a single-class `--dynamic-only` scene. The filter requires exactly one match
+and records the source position, rotation, scale, pvars, and occlusion value in
+the scene report. For example:
+
+```powershell
+venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
+  --level private/overlays/levels/campaign/1_dreadzone_station `
+  --mission 0 --include-dynamic-previews --dynamic-class 501 `
+  --dynamic-only --dynamic-instance 545 `
+  -o build/native-assets/dreadzone-moby-501-instance-545.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-moby-501-instance-545.dlscene `
+  --capture build/native-assets/dreadzone-moby-501-instance-545.png --software
+```
+
 ```powershell
 venv/Scripts/python.exe tools/prepare_native_level.py --extracted private/overlays `
   --level private/overlays/levels/campaign/1_dreadzone_station `

@@ -406,6 +406,53 @@ class NativeLevelTests(unittest.TestCase):
         self.assertEqual(report["instances"], 2)
         self.assertIn("terrain", report["excluded_systems"])
 
+    def test_dynamic_instance_filter_isolates_one_placement_for_axis_review(self):
+        mission = self.level / "missions" / "0"
+        mission.mkdir(parents=True)
+        (mission / "mission.instances").write_text(
+            'Moby 3 { class: 11 pos: [20 30 40] rot: [0 0 0] scale: 1 } '
+            'Moby 4 { class: 11 pos: [100 200 300] rot: [0 0 1.57079632679] '
+            'scale: 2 pvars: [7 8] occlusion: 0 }')
+        output = Path(self.temp.name) / "selected-instance.dlscene"
+        report = level.prepare_level(
+            self.extracted, self.level, output, mission_id=0,
+            include_dynamic_previews=True, dynamic_class_id=11,
+            dynamic_only=True, dynamic_instance_id=4)
+        self.assertEqual(report["dynamic_preview_instance_filter"], 4)
+        self.assertEqual(report["dynamic_object_preview_placements"], 1)
+        self.assertEqual(report["instances"], 1)
+        self.assertEqual(report["prototypes"][0]["placements"], 1)
+        self.assertEqual(report["dynamic_preview_instance"], {
+            "mission_id": 0,
+            "instance_id": "4",
+            "class_id": 11,
+            "position_xyz": [100, 200, 300],
+            "rotation_xyz": [0, 0, 1.57079632679],
+            "uniform_scale": 2,
+            "pvars": [7, 8],
+            "draw_distance": None,
+            "occlusion": 0,
+            "uid": None,
+        })
+
+    def test_dynamic_instance_filter_requires_mission_class_and_dynamic_only(self):
+        with self.assertRaisesRegex(ValueError, "one mission, class, and instance filter"):
+            level.prepare_level(self.extracted, self.level,
+                                Path(self.temp.name) / "invalid-instance-filter.dlscene",
+                                include_dynamic_previews=True, dynamic_instance_id=1)
+
+    def test_dynamic_instance_filter_requires_exactly_one_placement(self):
+        mission = self.level / "missions" / "0"
+        mission.mkdir(parents=True)
+        (mission / "mission.instances").write_text(
+            'Moby 3 { class: 11 pos: [20 30 40] rot: [0 0 0] scale: 1 }')
+        with self.assertRaisesRegex(ValueError, "match exactly one"):
+            level.prepare_level(
+                self.extracted, self.level,
+                Path(self.temp.name) / "missing-instance-filter.dlscene",
+                mission_id=0, include_dynamic_previews=True,
+                dynamic_class_id=11, dynamic_only=True, dynamic_instance_id=99)
+
     def test_dynamic_only_scene_requires_a_single_class_filter(self):
         with self.assertRaisesRegex(ValueError, "require a selected mission and class"):
             level.prepare_level(self.extracted, self.level,
