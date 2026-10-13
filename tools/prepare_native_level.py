@@ -351,7 +351,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                   include_native_subnormal_flush_previews=False,
                   include_unresolved_moby_markers=False,
                   dynamic_instance_id=None,
-                  native_bind_class_ids=None):
+                  native_bind_class_ids=None,
+                  include_collision_previews=False):
     import prepare_native_moby as moby_mesh_import
 
     if dynamic_class_id is not None and not include_dynamic_previews:
@@ -390,6 +391,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     if dynamic_only and (mission_id is None or not include_dynamic_previews or
                          dynamic_class_ids is None or include_sky):
         raise ValueError("Dynamic-only scenes require a selected mission and class, enabled previews, and no sky")
+    if dynamic_only and include_collision_previews:
+        raise ValueError("Collision previews require a full level scene")
 
     extracted, level = Path(extracted).resolve(), Path(level).resolve()
     if not level.is_relative_to(extracted):
@@ -634,6 +637,26 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
             prototypes.append((groups, [IDENTITY], {"kind": "terrain", "chunk": terrain.parent.parent.name,
                                                   "placements": 1, "unbound_color_primitives_recovered": rebound}))
             inputs.append(terrain)
+        collision_chunks = []
+        if include_collision_previews:
+            collision_meshes = sorted((level / "chunks").glob("*/collision/collision.dae"))
+            if not collision_meshes:
+                raise ValueError("Collision preview requested but the level has no exported collision meshes")
+            for collision_mesh in collision_meshes:
+                groups, _ = mesh_import.read_mesh(collision_mesh)
+                diagnostic_color = (0.08, 0.72, 1.0, 1.0)
+                groups = {texture: [(*vertex[:5], *diagnostic_color) for vertex in vertices]
+                          for texture, vertices in groups.items()}
+                chunk_id = collision_mesh.parent.parent.name
+                prototypes.append((groups, [IDENTITY], {
+                    "kind": "diagnostic-collision-geometry",
+                    "chunk": chunk_id,
+                    "placements": 1,
+                    "runtime_collision_enabled": False,
+                    "diagnostic_color_rgba": list(diagnostic_color),
+                }))
+                inputs.append(collision_mesh)
+                collision_chunks.append(chunk_id)
         for class_id, matrices in sorted(by_class.items()):
             groups, _ = mesh_import.read_mesh(classes[class_id])
             prototypes.append((groups, matrices, {"kind": "static-object", "class_id": class_id, "placements": len(matrices)}))
@@ -803,6 +826,8 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
     report["vegetation_classes"] = 0 if dynamic_only else len(shrubs_by_class)
     report["dynamic_object_preview_placements"] = rendered_moby_placements
     report["dynamic_object_preview_classes"] = rendered_moby_classes
+    report["collision_geometry_preview_enabled"] = include_collision_previews
+    report["collision_geometry_preview_chunks"] = collision_chunks if not dynamic_only else []
     report["native_bind_pose_preview_classes"] = sorted(bind_pose_classes)
     report["native_bind_pose_diagnostics"] = bind_pose_report
     report["geometry_only_preview_classes"] = geometry_only_classes
@@ -841,9 +866,13 @@ def prepare_level(extracted, level, output, include_sky=False, mission_id=None,
                                     "sha256": hashlib.sha256(p.read_bytes()).hexdigest()}
                                    for p in sorted(set(map(Path, inputs)), key=str)]
     report["excluded_systems"] = ["dynamic object behavior", "character skinning and animation",
-                                   "collision", "missions", "audio"]
+                                   "collision behavior", "missions", "audio"]
     if dynamic_only:
         report["excluded_systems"].extend(["terrain", "static objects", "vegetation", "sky"])
+    if not include_collision_previews:
+        report["excluded_systems"].append("collision geometry")
+    else:
+        report["excluded_systems"].append("collision runtime and queries")
     if not include_dynamic_previews:
         report["excluded_systems"].append("dynamic object mesh previews")
     if include_sky:
@@ -863,6 +892,8 @@ def main():
     parser.add_argument("-o", "--output", required=True, type=Path)
     parser.add_argument("--include-sky", action="store_true",
                         help="Include the four static sky shells; animation and blending remain unsupported")
+    parser.add_argument("--include-collision-previews", action="store_true",
+                        help="Add tinted static collision meshes for inspection; collision behavior remains disabled")
     parser.add_argument("--mission", type=int,
                         help="Select one mission variant (requires dynamic previews to render its Mobys)")
     parser.add_argument("--include-dynamic-previews", action="store_true",
@@ -898,7 +929,8 @@ def main():
                                args.include_native_subnormal_flush_previews,
                                args.include_unresolved_moby_markers,
                                args.dynamic_instance,
-                               args.native_bind_class)
+                               args.native_bind_class,
+                               args.include_collision_previews)
     except (ValueError, KeyError, TypeError, OSError, struct.error, ET.ParseError) as error:
         parser.exit(1, str(error)+"\n")
     print("Prepared %d shared vertices, %d instances, %d batches, %d textures" %
