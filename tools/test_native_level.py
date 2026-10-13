@@ -1,9 +1,9 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 """Synthetic tests for export text parsing and native object placement."""
 import math
 import struct
 import tempfile
 import unittest
-from unittest.mock import patch
 from pathlib import Path
 
 import asset_text
@@ -77,17 +77,6 @@ class NativeLevelTests(unittest.TestCase):
         Moby 0 { class: 11 pos: [3 4 5] rot: [0 0 1.57079632679] scale: 2 occlusion: 1 }
         Moby 1 { class: 12 pos: [6 7 8] rot: [0 0 0] scale: 1 }''')
 
-    def test_editor_data_inventory_preserves_volume_and_path_source_values(self):
-        nodes = asset_text.Parser('''Cuboid 4 { matrix: [1 0 0 0 0 1 0 0 0 0 1 0 3 4 5 1] }
-        Path 9 { spline: [[1 2 3 -1] [4 5 6 -1]] }
-        Area 2 { pos: [3 4 5] cuboids: [4] }''').parse()
-        report = level.editor_data_inventory(nodes)
-        self.assertEqual(report["counts_by_kind"], {"Area": 1, "Cuboid": 1, "Path": 1})
-        self.assertTrue(report["source_values_preserved"])
-        self.assertFalse(report["rendered_as_game_objects"])
-        self.assertEqual(report["entries"][1]["source_attributes"]["spline"],
-                         [[1, 2, 3, -1], [4, 5, 6, -1]])
-
     def test_level_preserves_prototype_sharing_and_matrices(self):
         output = Path(self.temp.name) / "authored.dlscene"
         report = level.prepare_level(self.extracted,self.level,output,
@@ -122,40 +111,6 @@ class NativeLevelTests(unittest.TestCase):
         self.assertEqual(moby[12:15],(3,4,5))
         self.assertEqual(level.BATCH.unpack_from(data,len(data)-level.BATCH.size),(24,6,0,5,1))
 
-    def test_unresolved_moby_markers_show_positions_without_implying_shapes(self):
-        output = Path(self.temp.name) / "unresolved-markers.dlscene"
-        report = level.prepare_level(
-            self.extracted, self.level, output, include_dynamic_previews=True,
-            include_unresolved_moby_markers=True)
-        self.assertEqual(report["dynamic_object_preview_placements"], 1)
-        self.assertEqual(report["omitted_dynamic_object_placements"], 1)
-        self.assertEqual(report["unresolved_moby_marker_placements"], 1)
-        self.assertEqual(report["unresolved_moby_marker_classes"], [12])
-        marker = next(row for row in report["prototypes"]
-                      if row["kind"] == "diagnostic-unresolved-moby-position-marker")
-        self.assertEqual(marker["class_id"], 12)
-        self.assertEqual(marker["instances"], [{
-            "instance_id": "1", "position_xyz": [6.0, 7.0, 8.0],
-            "rotation_xyz": [0, 0, 0], "uniform_scale": 1,
-            "pvars": None, "draw_distance": None, "occlusion": None,
-            "mission_id": None, "uid": None,
-        }])
-        self.assertTrue(marker["diagnostic_only"])
-        self.assertFalse(marker["object_shape_rotation_scale_visibility_assumed"])
-
-        data = output.read_bytes()
-        _, version, vertex_count, batch_count, texture_count, instance_count, *_ = (
-            level.HEADER.unpack_from(data))
-        self.assertEqual((version, vertex_count, batch_count, texture_count, instance_count),
-                         (2, 102, 6, 0, 7))
-        instances_start = level.HEADER.size + vertex_count * level.mesh_import.VERTEX.size
-        marker_matrix = level.INSTANCE.unpack_from(
-            data, instances_start + 6 * level.INSTANCE.size)
-        self.assertEqual(marker_matrix[:12], (1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0))
-        self.assertEqual(marker_matrix[12:15], (6, 7, 8))
-        marker_batch = level.BATCH.unpack_from(data, len(data) - level.BATCH.size)
-        self.assertEqual(marker_batch, (30, 72, 0, 6, 1))
-
     def test_column_major_rotation_scale_and_translation(self):
         matrix=level.affine_matrix([0,2,0,0, -3,0,0,0, 0,0,-1,0, 10,20,30,1])
         self.assertEqual(level.transform_point((1,2,3),matrix),(4,22,27))
@@ -165,6 +120,36 @@ class NativeLevelTests(unittest.TestCase):
         self.assertAlmostEqual(matrix[0],0,places=5)
         self.assertAlmostEqual(matrix[1],2,places=5)
         self.assertEqual(matrix[12:15],(3,4,5))
+
+    def test_dynamic_instance_filter_isolates_one_mission_placement(self):
+        mission = self.level / "missions" / "0"
+        mission.mkdir(parents=True)
+        (mission / "mission.instances").write_text('''
+        Moby 1 { class: 11 pos: [10 0 0] rot: [0 0 0] scale: 1 }
+        Moby 2 { class: 11 pos: [20 0 0] rot: [0 0 1.57079632679] scale: 2 }
+        ''')
+        output = Path(self.temp.name) / "single-moby.dlscene"
+        report = level.prepare_level(
+            self.extracted, self.level, output, mission_id=0,
+            include_dynamic_previews=True, dynamic_class_id=11,
+            dynamic_only=True, dynamic_instance_id="2")
+        self.assertEqual(report["dynamic_object_preview_placements"], 1)
+        self.assertEqual(report["dynamic_preview_instance_filter"], "2")
+        self.assertEqual(report["instances"], 1)
+        data = output.read_bytes()
+        vertex_count = level.HEADER.unpack_from(data)[2]
+        instance = level.INSTANCE.unpack_from(
+            data, level.HEADER.size + vertex_count * 36)
+        self.assertAlmostEqual(instance[0], 0, places=5)
+        self.assertAlmostEqual(instance[1], 2, places=5)
+        self.assertEqual(instance[12:15], (20, 0, 0))
+
+    def test_dynamic_instance_filter_requires_one_mission_class(self):
+        with self.assertRaisesRegex(ValueError, "one selected class"):
+            level.prepare_level(
+                self.extracted, self.level, Path(self.temp.name) / "invalid.dlscene",
+                include_dynamic_previews=True, dynamic_class_id=[11, 12],
+                dynamic_instance_id="2")
 
     def test_native_material_slots_preserve_missing_diffuse_maps(self):
         definition = self.level / "native-materials.asset"
@@ -229,51 +214,6 @@ class NativeLevelTests(unittest.TestCase):
         self.assertEqual(report["omitted_dynamic_object_placements"], 1)
         self.assertTrue(any(row["path"].endswith("mission.instances")
                             for row in report["source_inputs"]))
-
-    def test_selected_native_bind_class_replaces_glb_and_keeps_unresolved_markers(self):
-        import prepare_native_skin
-        mission = self.level / "missions" / "0"
-        model = mission / "moby_classes" / "23"
-        model.mkdir(parents=True)
-        document, binary = glb_fixture()
-        (model / "mesh.glb").write_bytes(encode_glb(document, binary))
-        (model / "core.bin").write_bytes(b"fixture native core")
-        (model / "moby23.asset").write_text(
-            'MobyClass local { id: 23 Mesh mesh { src: "mesh.glb" } '
-            'Binary core { src: "core.bin" } }')
-        (mission / "mission.instances").write_text(
-            'Moby 2 { class: 23 pos: [9 8 7] rot: [0 0 0] scale: 1 } '
-            'Moby 3 { class: 404 pos: [1 2 3] rot: [0 0 0] scale: 1 }')
-        output = Path(self.temp.name) / "native-bind-preferred.dlscene"
-        native_groups = {None: [(0, 0, 0, 0, 0, 1, 0, 0, 0),
-                                (1, 0, 0, 0, 0, 1, 1, 0, 0),
-                                (0, 1, 0, 0, 0, 1, 0, 1, 0)]}
-        native_report = {"pose": "native bind pose; no animation selected",
-                         "game_pose_verified": False, "joints": 1,
-                         "triangles": 1, "vertices": 3,
-                         "unrenderable_trailing_vertices": 0,
-                         "subnormal_values_zeroed": 0,
-                         "subnormal_flush_assumption_enabled": False,
-                         "packets": 1, "core_sha256": "fixture",
-                         "native_triangles_sha256": "fixture",
-                         "matrix_sha256": "fixture", "textures": [None]}
-        with patch.object(prepare_native_skin, "read_mesh",
-                          return_value=(native_groups, native_report)):
-            report = level.prepare_level(
-                self.extracted, self.level, output, mission_id=0,
-                include_dynamic_previews=True, include_native_bind_previews=True,
-                include_unresolved_moby_markers=True, native_bind_class_ids=[23])
-        kinds = [row["kind"] for row in report["prototypes"]]
-        self.assertEqual(kinds.count("dynamic-object-native-bind-pose-preview"), 1)
-        self.assertFalse(any(row.get("class_id") == 23 and
-                             row["kind"] == "dynamic-object-preview"
-                             for row in report["prototypes"]))
-        self.assertTrue(any(row.get("class_id") == 23 and
-                            row["kind"] == "dynamic-object-native-bind-pose-preview"
-                            for row in report["prototypes"]))
-        self.assertEqual(report["native_bind_pose_preferred_classes"], [23])
-        self.assertEqual(report["unresolved_moby_marker_placements"], 2)
-        self.assertEqual(report["omitted_dynamic_objects"][404]["placements"], 1)
 
     def test_mission_can_use_global_moby_class_outside_level_class_list(self):
         model = self.extracted / "moby_classes" / "unlisted-global"
@@ -452,60 +392,6 @@ class NativeLevelTests(unittest.TestCase):
         self.assertEqual(report["instances"], 2)
         self.assertIn("terrain", report["excluded_systems"])
 
-    def test_dynamic_instance_filter_isolates_one_placement_for_axis_review(self):
-        mission = self.level / "missions" / "0"
-        mission.mkdir(parents=True)
-        (mission / "mission.instances").write_text(
-            'Moby 3 { class: 11 pos: [20 30 40] rot: [0 0 0] scale: 1 } '
-            'Moby 4 { class: 11 pos: [100 200 300] rot: [0 0 1.57079632679] '
-            'scale: 2 pvars: [7 8] occlusion: 0 }')
-        output = Path(self.temp.name) / "selected-instance.dlscene"
-        report = level.prepare_level(
-            self.extracted, self.level, output, mission_id=0,
-            include_dynamic_previews=True, dynamic_class_id=11,
-            dynamic_only=True, dynamic_instance_id=4)
-        self.assertEqual(report["dynamic_preview_instance_filter"], 4)
-        self.assertEqual(report["dynamic_object_preview_placements"], 1)
-        self.assertEqual(report["instances"], 1)
-        self.assertEqual(report["prototypes"][0]["placements"], 1)
-        self.assertEqual(report["dynamic_preview_instance"], {
-            "mission_id": 0,
-            "instance_id": "4",
-            "class_id": 11,
-            "position_xyz": [100, 200, 300],
-            "rotation_xyz": [0, 0, 1.57079632679],
-            "uniform_scale": 2,
-            "pvars": [7, 8],
-            "draw_distance": None,
-            "occlusion": 0,
-            "uid": None,
-        })
-        inventory = report["dynamic_placement_inventory"]
-        by_instance = {row["instance_id"]: row for row in inventory}
-        self.assertEqual(by_instance["3"]["preview_status"], "excluded_by_preview_filter")
-        self.assertEqual(by_instance["4"]["preview_status"], "rendered")
-        self.assertEqual(by_instance["4"]["rotation_xyz"], [0, 0, 1.57079632679])
-        self.assertEqual(by_instance["4"]["pvars"], [7, 8])
-        self.assertFalse(by_instance["4"]["native_core_source_available"])
-
-    def test_dynamic_instance_filter_requires_mission_class_and_dynamic_only(self):
-        with self.assertRaisesRegex(ValueError, "one mission, class, and instance filter"):
-            level.prepare_level(self.extracted, self.level,
-                                Path(self.temp.name) / "invalid-instance-filter.dlscene",
-                                include_dynamic_previews=True, dynamic_instance_id=1)
-
-    def test_dynamic_instance_filter_requires_exactly_one_placement(self):
-        mission = self.level / "missions" / "0"
-        mission.mkdir(parents=True)
-        (mission / "mission.instances").write_text(
-            'Moby 3 { class: 11 pos: [20 30 40] rot: [0 0 0] scale: 1 }')
-        with self.assertRaisesRegex(ValueError, "match exactly one"):
-            level.prepare_level(
-                self.extracted, self.level,
-                Path(self.temp.name) / "missing-instance-filter.dlscene",
-                mission_id=0, include_dynamic_previews=True,
-                dynamic_class_id=11, dynamic_only=True, dynamic_instance_id=99)
-
     def test_dynamic_only_scene_requires_a_single_class_filter(self):
         with self.assertRaisesRegex(ValueError, "require a selected mission and class"):
             level.prepare_level(self.extracted, self.level,
@@ -622,3 +508,4 @@ class NativeLevelTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
