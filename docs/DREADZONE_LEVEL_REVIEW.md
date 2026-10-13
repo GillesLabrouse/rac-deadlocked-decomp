@@ -28,3 +28,11 @@ than represented with guessed object shapes. To inspect their source positions,
 transforms, and omission reasons, build the optional diagnostic marker scene
 with `--include-unresolved-moby-markers`; those markers show positions only.
 See `docs/NATIVE_PORT.md` for the asset audit and converter details.
+
+For a ready-to-open placement audit, run `run-dreadzone-mission-0-placement-audit.cmd`.
+It builds a separate scene with the static level geometry, available Moby
+previews, native bind-pose previews, and fixed-size markers for the 60 omitted
+Moby placements. The markers use source positions only and do not imply object
+shape, orientation, scale, or visibility. Moby preview rotations and in-game
+visibility remain unverified. The adjacent JSON report retains the original
+per-instance metadata and omission reasons.
