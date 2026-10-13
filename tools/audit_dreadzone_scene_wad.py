@@ -77,6 +77,32 @@ def parse_pif_headers(decoded, scene_index):
     return result
 
 
+def scan_exact_core_headers(core_root, scene_streams):
+    """Find exact 64-byte prefixes of exported global cores in decoded streams."""
+    core_root = Path(core_root)
+    core_files = sorted(core_root.rglob("core.bin")) if core_root.is_dir() else []
+    matches = []
+    scanned = 0
+    for core_path in core_files:
+        raw = core_path.read_bytes()
+        if len(raw) < 64:
+            continue
+        scanned += 1
+        signature = raw[:64]
+        for scene_index, decoded in scene_streams:
+            offset = decoded.find(signature)
+            if offset >= 0:
+                matches.append({
+                    "core_path": str(core_path),
+                    "scene_index": scene_index,
+                    "offset": offset,
+                })
+    return {
+        "global_core_files_scanned": scanned,
+        "exact_first_64_byte_core_header_matches": matches,
+    }
+
+
 def audit_scene_wad(path):
     """Return a bounded inventory of Dreadzone's LevelSceneWad streams."""
     path = Path(path)
@@ -91,6 +117,7 @@ def audit_scene_wad(path):
         )
 
     scenes = []
+    decoded_streams = []
     total_index_records = 0
     total_pif_headers = 0
     for scene_index in range(SCENE_COUNT):
@@ -114,6 +141,7 @@ def audit_scene_wad(path):
             raise ValueError(f"Scene {scene_index} has an invalid compressed WAD size")
 
         decoded = decompress(data, wad_offset)
+        decoded_streams.append((scene_index, decoded))
         entries = parse_index(decoded, scene_index)
         pifs = parse_pif_headers(decoded, scene_index)
         for entry in entries:
@@ -132,6 +160,10 @@ def audit_scene_wad(path):
             "pif2_headers": pifs,
         })
 
+    core_scan = scan_exact_core_headers(
+        path.parent.parent.parent.parent / "moby_classes",
+        decoded_streams,
+    )
     return {
         "kind": "dreadzone-scene-wad-partial-audit",
         "source": str(path.resolve()),
@@ -140,6 +172,7 @@ def audit_scene_wad(path):
         "nonempty_moby_load_streams": len(scenes),
         "index_record_count": total_index_records,
         "pif2_header_count": total_pif_headers,
+        "global_moby_core_scan": core_scan,
         "unresolved_class_ids": sorted(UNRESOLVED_CLASS_IDS),
         "scenes": scenes,
     }

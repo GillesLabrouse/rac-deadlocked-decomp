@@ -126,10 +126,12 @@ of these records. The record namespace is not fully documented, so this is a
 negative lead rather than proof that the records identify Moby classes. The
 streams contain 105 `PIF2` signatures total; scene index 0 has two. The PIF
 headers describe indexed textures with mipmaps, but their association to the
-missing Moby classes is unverified. Exact searches found no embedded core bytes
-or first 64-byte core headers for sampled classes 10016, 2460, or 9207. These
-streams therefore have not resolved any missing model. Recreate this partial
-inventory with `python tools/audit_dreadzone_scene_wad.py --output
+missing Moby classes is unverified. The audit also searches the decoded streams
+for exact 64-byte prefixes from all 363 exported global Moby cores and finds no
+matches. This rules out those exact core headers in the decoded `moby_load`
+streams, but does not rule out transformed, repacked, or partial model data.
+These streams therefore have not resolved any missing model. Recreate this
+partial inventory with `python tools/audit_dreadzone_scene_wad.py --output
 build/native-assets/dreadzone-scene-wad-audit.json`. The parser validates the
 WAD sector ranges, row spans, and PIF headers without assigning the provisional
 record IDs to an asset namespace. Terrain fragments from chunks 0 and 1 are

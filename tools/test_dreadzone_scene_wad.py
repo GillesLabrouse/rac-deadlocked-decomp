@@ -1,7 +1,9 @@
 """Tests for the bounded Dreadzone scene-WAD audit parser."""
 
 import struct
+import tempfile
 import unittest
+from pathlib import Path
 
 import audit_dreadzone_scene_wad as audit
 
@@ -35,6 +37,20 @@ class SceneWadIndexTests(unittest.TestCase):
         self.assertEqual(result[0]["width"], 128)
         self.assertEqual(result[0]["height"], 64)
         self.assertEqual(result[0]["mip_levels"], 4)
+
+    def test_reports_exact_exported_core_header_matches(self):
+        build_directory = Path(__file__).resolve().parents[1] / "build"
+        with tempfile.TemporaryDirectory(dir=build_directory) as directory:
+            core = Path(directory) / "class" / "core.bin"
+            core.parent.mkdir()
+            core.write_bytes(bytes(range(64)) + b"core payload")
+            report = audit.scan_exact_core_headers(
+                directory, [(7, b"unrelated"), (9, b"prefix" + bytes(range(64)))]
+            )
+        self.assertEqual(report["global_core_files_scanned"], 1)
+        self.assertEqual(report["exact_first_64_byte_core_header_matches"], [{
+            "core_path": str(core), "scene_index": 9, "offset": 6,
+        }])
 
 
 if __name__ == "__main__":
