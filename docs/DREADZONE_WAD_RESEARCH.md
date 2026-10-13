@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Dreadzone Scene WAD Research
 
 The Dreadzone Station `scene.wad` audit inventories 30 scene records and their
@@ -109,3 +110,4 @@ Run the coordinate cross-check with:
 ```powershell
 python tools/audit_dreadzone_scene_wad.py --correlate-mission-root private/overlays/levels/campaign/1_dreadzone_station/missions --output build/native-assets/dreadzone-scene-wad-correlated-audit.json
 ```
+
