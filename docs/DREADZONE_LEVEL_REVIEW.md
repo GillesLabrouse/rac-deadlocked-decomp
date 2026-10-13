@@ -1,4 +1,3 @@
-Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Dreadzone Mission 0 Geometry Review
 
 Run `run-dreadzone-mission-0.cmd` from the repository root. The script prepares
@@ -87,3 +86,10 @@ not identify a model resource or prove that the generic Armor0 mesh belongs to
 these placements; see the upstream
 [ArmorVars definition](https://github.com/chaoticgd/wrench/blob/75f6d86ad055dad5955cf9d771dd8146cbf7d6f6/data/overlay/src/game_dl/mobyutil.h).
 
+A focused inspection of the arena cluster rendered class 8432's four placements
+as a separate fixture and class 8519's nearby placement as a separate console
+prop. Their proximity to the five class 8321 placements does not establish that
+either mesh is class 8321's body. Class 8321 pvars contain words that numerically
+match some placed Moby instance IDs, but their field schema is unverified; the
+matches are not treated as model references. Keep class 8321 as unresolved
+position-only markers until its model link or geometry is recovered.
