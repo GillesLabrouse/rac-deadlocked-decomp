@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 #!/usr/bin/env python3
 """Audit the partially decoded Dreadzone LevelSceneWad moby_load streams.
 
@@ -713,3 +714,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
