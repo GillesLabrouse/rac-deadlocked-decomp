@@ -7,6 +7,7 @@ those entries to Moby classes or infer geometry from texture data.
 """
 
 import argparse
+import bisect
 import json
 import struct
 from pathlib import Path
@@ -178,6 +179,27 @@ def scan_exact_core_headers_in_chunks(core_roots, chunk_streams):
     }
 
 
+def scene_sector_starts(data):
+    """Collect the sector starts used by Dreadzone's scene WAD records."""
+    starts = set()
+    sector_offsets = (
+        0x00, 0x04, 0x08, 0x10, 0x14, 0x18, 0x1C, 0x20, 0x24, 0x28, 0x2C, 0x30,
+    )
+    for scene_index in range(SCENE_COUNT):
+        record_offset = SCENE_HEADER_OFFSET + scene_index * SCENE_HEADER_SIZE
+        for field_offset in sector_offsets:
+            sector = struct.unpack_from("<I", data, record_offset + field_offset)[0]
+            if sector:
+                starts.add(sector)
+        chunks = struct.unpack_from(
+            f"<{SCENE_CHUNK_COUNT}I", data,
+            record_offset + SCENE_CHUNK_TABLE_OFFSET,
+        )
+        starts.update(sector for sector in chunks if sector)
+    starts.add((len(data) + SECTOR_SIZE - 1) // SECTOR_SIZE)
+    return sorted(starts)
+
+
 def audit_scene_wad(path):
     """Return a bounded inventory of Dreadzone's LevelSceneWad streams."""
     path = Path(path)
@@ -201,6 +223,7 @@ def audit_scene_wad(path):
     chunk_resource_ids = {}
     chunk_inventory = []
     decoded_chunk_streams = []
+    sector_starts = scene_sector_starts(data)
     for scene_index in range(SCENE_COUNT):
         record_offset = SCENE_HEADER_OFFSET + scene_index * SCENE_HEADER_SIZE
         chunk_table_offset = record_offset + SCENE_CHUNK_TABLE_OFFSET
@@ -224,9 +247,16 @@ def audit_scene_wad(path):
                 empty_chunk_references += 1
                 continue
             compressed_bytes = struct.unpack_from("<I", data, chunk_offset + 3)[0]
-            if not 16 <= compressed_bytes <= len(data) - chunk_offset:
+            next_index = bisect.bisect_right(sector_starts, chunk_sector)
+            if next_index >= len(sector_starts):
                 raise ValueError(
-                    f"Scene {scene_index} chunk {chunk_index} has an invalid size"
+                    f"Scene {scene_index} chunk {chunk_index} has no ending sector"
+                )
+            next_sector = sector_starts[next_index]
+            sector_capacity = (next_sector - chunk_sector) * SECTOR_SIZE
+            if not 16 <= compressed_bytes <= sector_capacity:
+                raise ValueError(
+                    f"Scene {scene_index} chunk {chunk_index} exceeds its sector range"
                 )
             decoded_chunk = decompress(data, chunk_offset)
             decoded_chunk_streams.append((scene_index, chunk_index, decoded_chunk))

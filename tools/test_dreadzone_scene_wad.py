@@ -29,6 +29,14 @@ class SceneWadIndexTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "invalid resource entry"):
             audit.parse_chunk_resource_entries(decoded, 20, 5)
 
+    def test_collects_next_sector_boundaries_from_all_scene_records(self):
+        data = bytearray(10000)
+        record = audit.SCENE_HEADER_OFFSET
+        struct.pack_into("<I", data, record, 2)
+        struct.pack_into("<I", data, record + 0x30, 3)
+        struct.pack_into("<I", data, record + audit.SCENE_CHUNK_TABLE_OFFSET, 4)
+        self.assertEqual(audit.scene_sector_starts(data), [2, 3, 4, 5])
+
     def test_reads_records_until_all_ones_sentinel(self):
         decoded = (
             struct.pack("<4I", 9300, 0x10, 0x20, 0)
