@@ -1584,6 +1584,13 @@ core, and six with ambiguous cross-mission mesh variants; four more have no
 exported class definition. These still need independent source geometry,
 skeleton, or topology recovery.
 
+The remaining 3,760 no-mesh placements cover 45 class IDs. A search across all
+campaign and shared Moby class exports found no alternate `Mesh` or `Binary
+core` definitions for those IDs. Class 9207's `core.bin` has no packet-table
+pointer in the expected model header, and its GLB has no drawable triangles.
+These shapes need a fuller asset extraction or another independent model
+source; the current files cannot establish them.
+
 The batch rebuild also checks every other Dreadzone mission export for a
 matching class mesh. It reuses that mesh only when all exported GLB byte hashes
 for the class agree; the selected mission's own mesh and global class mesh keep
