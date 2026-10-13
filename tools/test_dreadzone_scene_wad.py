@@ -22,6 +22,19 @@ class SceneWadIndexTests(unittest.TestCase):
             }],
         )
 
+    def test_summarizes_repeated_raw_rows_without_interpreting_them(self):
+        rows = bytes.fromhex(
+            "0102030405060708090a0b0c0d0e0f10"
+            "0102030405060708090a0b0c0d0e0f10"
+            "1112131415161718191a1b1c1d1e1f20"
+        )
+        summary = audit.summarize_candidate_payload(rows, {"data_offset": 0})
+        self.assertEqual(summary["row_size"], 16)
+        self.assertEqual(summary["available_row_count"], 3)
+        self.assertEqual(summary["unique_row_count"], 2)
+        self.assertEqual(summary["repeated_first_row_count"], 2)
+        self.assertEqual(summary["first_row_hex"], rows[:16].hex())
+
     def test_rejects_chunk_resource_payload_outside_stream(self):
         decoded = bytearray(0x100)
         struct.pack_into("<4I", decoded, 0x50, 0x80, 0, 0, 0)
@@ -80,8 +93,8 @@ class SceneWadIndexTests(unittest.TestCase):
         self.assertEqual(result[0]["mip_levels"], 4)
 
     def test_reports_exact_exported_core_header_matches(self):
-        build_directory = Path(__file__).resolve().parents[1] / "build"
-        with tempfile.TemporaryDirectory(dir=build_directory) as directory:
+        repo_root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory(dir=repo_root) as directory:
             core = Path(directory) / "class" / "core.bin"
             core.parent.mkdir()
             core.write_bytes(bytes(range(64)) + b"core payload")
@@ -94,8 +107,8 @@ class SceneWadIndexTests(unittest.TestCase):
         }])
 
     def test_reports_exact_core_header_matches_in_scene_chunks(self):
-        build_directory = Path(__file__).resolve().parents[1] / "build"
-        with tempfile.TemporaryDirectory(dir=build_directory) as directory:
+        repo_root = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory(dir=repo_root) as directory:
             core = Path(directory) / "class" / "core.bin"
             core.parent.mkdir()
             signature = bytes(range(64))
@@ -114,4 +127,3 @@ class SceneWadIndexTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
