@@ -1,3 +1,4 @@
+Attempting to perform the InitializeDefaultDrives operation on the 'FileSystem' provider failed.
 # Dreadzone Mission 0 Geometry Review
 
 Run `run-dreadzone-mission-0.cmd` from the repository root. The script prepares
@@ -60,3 +61,24 @@ native core produces a 6,550-triangle diagnostic preview with 107 joints and
 confirm the in-game pose, local axes, or mission visibility. The launcher keeps
 the other native bind-pose previews enabled and retains position-only markers
 for unresolved placements.
+
+The remaining 60 marker placements belong to these classes:
+
+| Class | Placements | Class | Placements |
+| --- | ---: | --- | ---: |
+| 3107 | 1 | 3168 | 1 |
+| 3174 | 1 | 3305 | 7 |
+| 3950 | 25 | 8226 | 1 |
+| 8246 | 1 | 8247 | 1 |
+| 8321 | 5 | 8355 | 1 |
+| 8520 | 1 | 9207 | 1 |
+| 9213 | 8 | 9271 | 2 |
+| 9340 | 2 | 9453 | 1 |
+| 9918 | 1 | | |
+
+The extracted class definitions and the checked ISO-derived Wrench exports have
+no drawable GLB or native core for these 59 placements, except class 9207's
+core. That core has 107 joints but a zero primary packet count, so the native
+topology stage has no primary geometry to render. The empty class stubs for
+8321, 8520, 9213, and 9271 do not reference any mesh or binary resources.
+
