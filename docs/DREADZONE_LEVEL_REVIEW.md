@@ -81,4 +81,9 @@ no drawable GLB or native core for these 59 placements, except class 9207's
 core. That core has 107 joints but a zero primary packet count, so the native
 topology stage has no primary geometry to render. The empty class stubs for
 8321, 8520, 9213, and 9271 do not reference any mesh or binary resources.
+Class 8321's update structure includes `ArmorVars`, but Wrench defines that
+block as armor percentages, flags, prior hit points, and armor bits. It does
+not identify a model resource or prove that the generic Armor0 mesh belongs to
+these placements; see the upstream
+[ArmorVars definition](https://github.com/chaoticgd/wrench/blob/75f6d86ad055dad5955cf9d771dd8146cbf7d6f6/data/overlay/src/game_dl/mobyutil.h).
 
