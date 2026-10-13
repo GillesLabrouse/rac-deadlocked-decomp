@@ -157,3 +157,26 @@ The bounded 9227 region is a repeated point block in each chunk (truncated to
 block and has varied trailing rows in some chunks. These regularities link the
 buffers structurally to the same repeated chunk set, but do not identify their
 object or role.
+
+### Inspect the raw 9228 coordinates
+
+The raw coordinate stream can be opened in the native scene viewer as a
+separate point-cloud diagnostic. The octahedra are artificial display markers;
+the source rows retain their raw coordinates and identity placement. This
+diagnostic does not recover an object mesh or assign a coordinate frame.
+
+```powershell
+python tools/audit_dreadzone_scene_wad.py `
+  private/overlays/levels/campaign/1_dreadzone_station/scene.wad `
+  --output build/native-assets/dreadzone-scene-wad-audit.json
+python tools/prepare_dreadzone_wad_coordinate_diagnostic.py `
+  --audit-report build/native-assets/dreadzone-scene-wad-audit.json `
+  -o build/native-assets/dreadzone-scene20-9228-points.dlscene
+build/native/Release/deadlocked_native_scene_viewer.exe `
+  build/native-assets/dreadzone-scene20-9228-points.dlscene
+```
+
+The companion JSON report records the selected source rows and keeps the
+coordinate-frame, topology, and object-mesh flags false. Keep this scene
+separate from playable level packages until those properties are established.
+
