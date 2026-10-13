@@ -1,117 +1,88 @@
-"""Tests for the bounded Dreadzone scene-WAD audit parser."""
+Û^š›bh¥êß¢¹­…â'ŠØš–,ŞçÚº[C®+Ş²Š^­«b¢z'¶…ŠW’ÊË^ššè¾'^­ö¢•çHˆˆ•\İÈ›ÜˆH›İ[™Y™XY›Û™HØÙ[™KUĞQ]Y]\œÙ\‹ˆˆˆ‚‚š[\ÜİXİš[\Ü[\š[Bš[\Ü[š]\İ™œ›ÛH]Xˆ[\Ü]‚š[\Ü]Y]Ù™XY›Û™WÜØÙ[™WİØY\È]Y]‚‚˜Û\ÜÈØÙ[™UØY[™^\İÊ[š]\İ•\İØ\ÙJN‚ˆYˆ\İÜ™XY×Ü›İš\Ú[Û˜[ØÚ[š×Ü™\Ûİ\˜ÙWÙ[šY\ÊÙ[ŠN‚ˆXÛÙYH]X\œ˜^JL
+BˆİXİœXÚ×Ú[ÊH‹XÛÙYL
+BˆİXİœXÚ×Ú[Ê’H‹XÛÙYLŒËÌ
+BˆÙ[‹˜\ÜÙ\\]X[
+ˆ]Y]œ\œÙWØÚ[š×Ü™\Ûİ\˜ÙWÙ[šY\ÊXÛÙYŒJKˆŞÂˆ™\ØÜš\Ü—ÛÙ™œÙ]ˆˆœ™\Ûİ\˜ÙWÚYˆLŒËˆœ^[ØYÛÙ™œÙ]ˆÌˆWKˆ
+B‚ˆYˆ\İÜİ[[X\š^™\×Ü™\X]YÜ˜]×Ü›İÜ×İÚ]İ]Ú[\œ™][™×İ[JÙ[ŠN‚ˆ›İÜÈH]\Ë™œ›ÛZ^
+ˆŒLŒÌLŒÌLLŒÌLŒL‚ˆŒLŒÌLŒÌLLŒÌLŒL‚ˆŒLLLŒLÌMMLMŒMÌNNLXLXŒXÌYYLYŒŒ‚ˆ
+Bˆİ[[X\HH]Y]œİ[[X\š^™WØØ[™Y]WÜ^[ØY
+›İÜËÈ™]WÛÙ™œÙ]ˆJBˆÙ[‹˜\ÜÙ\\]X[
+İ[[X\VÈœ›İ×ÜÚ^™H—KMŠBˆÙ[‹˜\ÜÙ\\]X[
+İ[[X\VÈ˜]˜Z[X›WÜ›İ×ØÛİ[—KÊBˆÙ[‹˜\ÜÙ\\]X[
+İ[[X\VÈ[š\]YWÜ›İ×ØÛİ[—KŠBˆÙ[‹˜\ÜÙ\\]X[
+İ[[X\VÈœ™\X]YÙš\œİÜ›İ×ØÛİ[—KŠBˆÙ[‹˜\ÜÙ\\]X[
+İ[[X\VÈ™š\œİÜ›İ×Ú^—K›İÜÖÎŒM—Kš^
 
-import struct
-import tempfile
-import unittest
-from pathlib import Path
-
-import audit_dreadzone_scene_wad as audit
-
-
-class SceneWadIndexTests(unittest.TestCase):
-    def test_reads_provisional_chunk_resource_entries(self):
-        decoded = bytearray(0x100)
-        struct.pack_into("<4I", decoded, 0x50, 0x80, 0, 0, 0)
-        struct.pack_into("<2I", decoded, 0x80, 9207, 0xC0)
-        self.assertEqual(
-            audit.parse_chunk_resource_entries(decoded, 20, 5),
-            [{
-                "descriptor_offset": 0x80,
-                "resource_id": 9207,
-                "payload_offset": 0xC0,
-            }],
-        )
-
-    def test_rejects_chunk_resource_payload_outside_stream(self):
-        decoded = bytearray(0x100)
-        struct.pack_into("<4I", decoded, 0x50, 0x80, 0, 0, 0)
-        struct.pack_into("<2I", decoded, 0x80, 9207, 0x100)
-        with self.assertRaisesRegex(ValueError, "invalid resource entry"):
-            audit.parse_chunk_resource_entries(decoded, 20, 5)
-
-    def test_finds_nested_zero_reserved_resource_candidate(self):
-        decoded = bytearray(0x200)
-        struct.pack_into("<4I", decoded, 0x80, 9207, 0xC0, 0, 0)
-        struct.pack_into("<4I", decoded, 0xC0, 9227, 0x180, 0, 0)
-        self.assertEqual(
-            audit.scan_nested_resource_candidates(decoded, 20, 5, {0x80}),
-            [{
-                "descriptor_offset": 0xC0,
-                "resource_id": 9227,
-                "data_offset": 0x180,
-            }],
-        )
-
-    def test_collects_next_sector_boundaries_from_all_scene_records(self):
-        data = bytearray(10000)
-        record = audit.SCENE_HEADER_OFFSET
-        struct.pack_into("<I", data, record, 2)
-        struct.pack_into("<I", data, record + 0x30, 3)
-        struct.pack_into("<I", data, record + audit.SCENE_CHUNK_TABLE_OFFSET, 4)
-        self.assertEqual(audit.scene_sector_starts(data), [2, 3, 4, 5])
-
-    def test_reads_records_until_all_ones_sentinel(self):
-        decoded = (
-            struct.pack("<4I", 9300, 0x10, 0x20, 0)
-            + struct.pack("<4I", 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF)
-        )
-        self.assertEqual(
-            audit.parse_index(decoded, 3),
-            [{"record_id": 9300, "start": 0x10, "end": 0x20}],
-        )
-
-    def test_rejects_out_of_range_record(self):
-        decoded = struct.pack("<4I", 9300, 0x20, 0x102, 0) + bytes(0x101 - 16)
-        with self.assertRaisesRegex(ValueError, "invalid index record"):
-            audit.parse_index(decoded, 3)
-
-    def test_rejects_missing_sentinel(self):
-        decoded = struct.pack("<4I", 9300, 0x1, 0x10, 0)
-        with self.assertRaisesRegex(ValueError, "no complete index sentinel"):
-            audit.parse_index(decoded, 3)
-
-    def test_reads_pif2_header_without_decoding_payload(self):
-        header = struct.pack("<8I", 0x50494632, 0x1234, 128, 64, 0x13, 0, 0, 4)
-        result = audit.parse_pif_headers(b"prefix" + header + b"payload", 4)
-        self.assertEqual(len(result), 1)
-        self.assertEqual(result[0]["offset"], 6)
-        self.assertEqual(result[0]["width"], 128)
-        self.assertEqual(result[0]["height"], 64)
-        self.assertEqual(result[0]["mip_levels"], 4)
-
-    def test_reports_exact_exported_core_header_matches(self):
-        build_directory = Path(__file__).resolve().parents[1] / "build"
-        with tempfile.TemporaryDirectory(dir=build_directory) as directory:
-            core = Path(directory) / "class" / "core.bin"
-            core.parent.mkdir()
-            core.write_bytes(bytes(range(64)) + b"core payload")
-            report = audit.scan_exact_core_headers(
-                directory, [(7, b"unrelated"), (9, b"prefix" + bytes(range(64)))]
-            )
-        self.assertEqual(report["global_core_files_scanned"], 1)
-        self.assertEqual(report["exact_first_64_byte_core_header_matches"], [{
-            "core_path": str(core), "scene_index": 9, "offset": 6,
-        }])
-
-    def test_reports_exact_core_header_matches_in_scene_chunks(self):
-        build_directory = Path(__file__).resolve().parents[1] / "build"
-        with tempfile.TemporaryDirectory(dir=build_directory) as directory:
-            core = Path(directory) / "class" / "core.bin"
-            core.parent.mkdir()
-            signature = bytes(range(64))
-            core.write_bytes(signature + b"core payload")
-            report = audit.scan_exact_core_headers_in_chunks(
-                [Path(directory)], [(20, 5, b"prefix" + signature)]
-            )
-        self.assertEqual(report["global_and_mission_core_files_scanned"], 1)
-        self.assertEqual(report["exact_first_64_byte_core_header_matches"], [{
-            "core_path": str(core.resolve()),
-            "scene_index": 20,
-            "chunk_index": 5,
-            "offset": 6,
-        }])
-
-
-if __name__ == "__main__":
-    unittest.main()
-
+JB‚ˆYˆ\İÜ™Z™Xİ×ØÚ[š×Ü™\Ûİ\˜ÙWÜ^[ØYÛİ]ÚYWÜİ™X[JÙ[ŠN‚ˆXÛÙYH]X\œ˜^JL
+BˆİXİœXÚ×Ú[ÊH‹XÛÙYL
+BˆİXİœXÚ×Ú[Ê’H‹XÛÙYLŒËL
+BˆÚ]Ù[‹˜\ÜÙ\˜Z\Ù\Ô™YÙ^
+˜[YQ\œ›Ü‹š[˜[Y™\Ûİ\˜ÙH[HŠN‚ˆ]Y]œ\œÙWØÚ[š×Ü™\Ûİ\˜ÙWÙ[šY\ÊXÛÙYŒJB‚ˆYˆ\İÙš[™×Û™\İYŞ™\›×Ü™\Ù\™YÜ™\Ûİ\˜ÙWØØ[™Y]JÙ[ŠN‚ˆXÛÙYH]X\œ˜^JŒ
+BˆİXİœXÚ×Ú[ÊH‹XÛÙYLŒËÌ
+BˆİXİœXÚ×Ú[ÊH‹XÛÙYÌLŒËN
+BˆÙ[‹˜\ÜÙ\\]X[
+ˆ]Y]œØØ[—Û™\İYÜ™\Ûİ\˜ÙWØØ[™Y]\ÊXÛÙYŒKÌJKˆŞÂˆ™\ØÜš\Ü—ÛÙ™œÙ]ˆÌˆœ™\Ûİ\˜ÙWÚYˆLŒËˆ™]WÛÙ™œÙ]ˆNˆWKˆ
+B‚ˆYˆ\İØÛÛXİ×Û™^ÜÙXİÜ—Ø›İ[™\šY\×Ùœ›ÛWØ[ÜØÙ[™WÜ™XÛÜ™ÊÙ[ŠN‚ˆ]HH]X\œ˜^JL
+Bˆ™XÛÜ™H]Y]”ĞÑS‘WÒPQT—ÓÑ‘”ÑUˆİXİœXÚ×Ú[ÊH‹]K™XÛÜ™ŠBˆİXİœXÚ×Ú[ÊH‹]K™XÛÜ™
+ÈÌÊBˆİXİœXÚ×Ú[ÊH‹]K™XÛÜ™
+È]Y]”ĞÑS‘WĞÒS’×ÕP“WÓÑ‘”ÑU
+BˆÙ[‹˜\ÜÙ\\]X[
+]Y]œØÙ[™WÜÙXİÜ—Üİ\Ê]JKÌ‹ËWJB‚ˆYˆ\İÜ™XY×Ü™XÛÜ™×İ[[Ø[ÛÛ™\×ÜÙ[[™[
+Ù[ŠN‚ˆXÛÙYH
+ˆİXİœXÚÊH‹LÌLŒ
+Bˆ
+ÈİXİœXÚÊH‹‘‘‘‘‘‘‘‹‘‘‘‘‘‘‘‹‘‘‘‘‘‘‘‹‘‘‘‘‘‘‘ŠBˆ
+BˆÙ[‹˜\ÜÙ\\]X[
+ˆ]Y]œ\œÙWÚ[™^
+XÛÙYÊKˆŞÈœ™XÛÜ™ÚYˆLÌœİ\ˆL™[™ˆŒWKˆ
+B‚ˆYˆ\İÜ™Z™Xİ×Ûİ]ÛÙ—Ü˜[™ÙWÜ™XÛÜ™
+Ù[ŠN‚ˆXÛÙYHİXİœXÚÊH‹LÌŒL‹
+H
+È]\ÊLHHMŠBˆÚ]Ù[‹˜\ÜÙ\˜Z\Ù\Ô™YÙ^
+˜[YQ\œ›Ü‹š[˜[Y[™^™XÛÜ™ŠN‚ˆ]Y]œ\œÙWÚ[™^
+XÛÙYÊB‚ˆYˆ\İÜ™Z™Xİ×ÛZ\ÜÚ[™×ÜÙ[[™[
+Ù[ŠN‚ˆXÛÙYHİXİœXÚÊH‹LÌKL
+BˆÚ]Ù[‹˜\ÜÙ\˜Z\Ù\Ô™YÙ^
+˜[YQ\œ›Ü‹››ÈÛÛ\]H[™^Ù[[™[ŠN‚ˆ]Y]œ\œÙWÚ[™^
+XÛÙYÊB‚ˆYˆ\İÜ™XY×ÜYŒ—ÚXY\—İÚ]İ]ÙXÛÙ[™×Ü^[ØY
+Ù[ŠN‚ˆXY\ˆHİXİœXÚÊH‹LMŒÌ‹LŒÍLLË
+Bˆ™\İ[H]Y]œ\œÙWÜY—ÚXY\œÊˆœ™Yš^ˆ
+ÈXY\ˆ
+Èˆœ^[ØY‹
+BˆÙ[‹˜\ÜÙ\\]X[
+[Š™\İ[
+KJBˆÙ[‹˜\ÜÙ\\]X[
+™\İ[ÌVÈ›Ù™œÙ]—KŠBˆÙ[‹˜\ÜÙ\\]X[
+™\İ[ÌVÈÚY—KL
+BˆÙ[‹˜\ÜÙ\\]X[
+™\İ[ÌVÈšZYÚ—K
+BˆÙ[‹˜\ÜÙ\\]X[
+™\İ[ÌVÈ›Z\Û]™[È—K
+B‚ˆYˆ\İÜ™\Ü×Ù^XİÙ^ÜYØÛÜ™WÚXY\—ÛX]Ú\ÊÙ[ŠN‚ˆ™\×Ü›ÛİH]
+×Ùš[W×ÊKœ™\ÛÛ™J
+Kœ\™[ÖÌWBˆÚ][\š[K•[\Ü˜\Q\™XİÜJ\\™\×Ü›Ûİ
+H\È\™XİÜN‚ˆÛÜ™HH]
+\™XİÜJHÈ˜Û\ÜÈˆÈ˜ÛÜ™K˜š[ˆ‚ˆÛÜ™Kœ\™[›ZÙ\Š
+BˆÛÜ™KÜš]WØ]\Ê]\Ê˜[™ÙJ
+JH
+Èˆ˜ÛÜ™H^[ØYŠBˆ™\ÜH]Y]œØØ[—Ù^XİØÛÜ™WÚXY\œÊˆ\™XİÜKÊËˆ[œ™[]YŠK
+Kˆœ™Yš^ˆ
+È]\Ê˜[™ÙJ
+JJWBˆ
+BˆÙ[‹˜\ÜÙ\\]X[
+™\ÜÈ™ÛØ˜[ØÛÜ™WÙš[\×ÜØØ[›™Y—KJBˆÙ[‹˜\ÜÙ\\]X[
+™\ÜÈ™^XİÙš\œİÍØ]WØÛÜ™WÚXY\—ÛX]Ú\È—KŞÂˆ˜ÛÜ™WÜ]ˆİŠÛÜ™JKœØÙ[™WÚ[™^ˆK›Ù™œÙ]ˆ‹ˆWJB‚ˆYˆ\İÜ™\Ü×Ù^XİØÛÜ™WÚXY\—ÛX]Ú\×Ú[—ÜØÙ[™WØÚ[šÜÊÙ[ŠN‚ˆ™\×Ü›ÛİH]
+×Ùš[W×ÊKœ™\ÛÛ™J
+Kœ\™[ÖÌWBˆÚ][\š[K•[\Ü˜\Q\™XİÜJ\\™\×Ü›Ûİ
+H\È\™XİÜN‚ˆÛÜ™HH]
+\™XİÜJHÈ˜Û\ÜÈˆÈ˜ÛÜ™K˜š[ˆ‚ˆÛÜ™Kœ\™[›ZÙ\Š
+BˆÚYÛ˜]\™HH]\Ê˜[™ÙJ
+JBˆÛÜ™KÜš]WØ]\ÊÚYÛ˜]\™H
+Èˆ˜ÛÜ™H^[ØYŠBˆ™\ÜH]Y]œØØ[—Ù^XİØÛÜ™WÚXY\œ×Ú[—ØÚ[šÜÊˆÔ]
+\™XİÜJWKÊŒKˆœ™Yš^ˆ
+ÈÚYÛ˜]\™JWBˆ
+BˆÙ[‹˜\ÜÙ\\]X[
+™\ÜÈ™ÛØ˜[Ø[™ÛZ\ÜÚ[Û—ØÛÜ™WÙš[\×ÜØØ[›™Y—KJBˆÙ[‹˜\ÜÙ\\]X[
+™\ÜÈ™^XİÙš\œİÍØ]WØÛÜ™WÚXY\—ÛX]Ú\È—KŞÂˆ˜ÛÜ™WÜ]ˆİŠÛÜ™Kœ™\ÛÛ™J
+JKˆœØÙ[™WÚ[™^ˆŒˆ˜Ú[š×Ú[™^ˆKˆ›Ù™œÙ]ˆ‹ˆWJB‚‚šYˆ×Û˜[YW×ÈOH—×ÛXZ[—×È‚ˆ[š]\İ›XZ[Š
+B

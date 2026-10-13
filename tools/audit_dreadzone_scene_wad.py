@@ -1,433 +1,201 @@
-#!/usr/bin/env python3
-"""Audit the partially decoded Dreadzone LevelSceneWad moby_load streams.
+Û^š›bh¥êß¢¹­…â'ŠØš–,ŞçÚº[C®+Ş²Š^­«b¢z'¶…ŠW’ÊË^ššè¾'^­ö¢•çHÈKİ\Ü‹Øš[‹Ù[ˆ]ÛŒÂˆˆˆ]Y]H\X[HXÛÙY™XY›Û™H]™[ØÙ[™UØY[ØWÛØYİ™X[\Ë‚‚•HM‹X]HXY[™È™XÛÜ™È[™Z\ˆš\œİšY[\™H™\ÜY\È˜]È[™^™[šY\ÎÈZ\ˆ˜[Y\ÜXÙH\È›İ[HØİ[Y[Yˆ\ÈÛÛÙ\È›İ\ÜÚYÛ‚ÜÙH[šY\ÈÈ[ØHÛ\ÜÙ\ÈÜˆ[™™\ˆÙ[ÛY]Hœ›ÛH^\™H]K‚ˆˆˆ‚‚š[\Ü\™Ü\œÙBš[\Üš\ÙXİš[\ÜœÛÛ‚š[\ÜİXİ™œ›ÛH]Xˆ[\Ü]‚™œ›ÛH[œXÚ×İØY[\ÜXÛÛ\™\ÜÂ‚”ÑPÕÔ—ÔÒV‘HHŒ”ĞÑS‘WĞÓÕS•HÌ”ĞÑS‘WÒPQT—ÔÒV‘HHÎ
+ÈH
+ˆ”ĞÑS‘WÒPQT—ÓÑ‘”ÑUH”ĞÑS‘WÓSĞ–WÓĞQÓÑ‘”ÑUHÌ”ĞÑS‘WĞÒS’×ÕP“WÓÑ‘”ÑUHÎ”ĞÑS‘WĞÒS’×ĞÓÕS•HBÒS’×Ô‘TÓÕTÑWÕP“WÓÑ‘”ÑUHL”ĞÑS‘WÕĞQÒPQT—ÔÒV‘HH
+ÈĞÑS‘WĞÓÕS•
+ˆĞÑS‘WÒPQT—ÔÒV‘B’S‘VÑS•–HHİXİ”İXİ
+HŠB”Q—ÒPQTˆHİXİ”İXİ
+HŠB•S”‘TÓÓ‘QĞÓTÔ×ÒQÈHÂˆÌLËÌMÌMÍÌÌKÎMLŒ‹‹ËÌŒKˆÍMKLŒLŒËLŒLËLÌKLÍMLËNLNŸB‚‚™Yˆ\œÙWÚ[™^
+XÛÙYØÙ[™WÚ[™^
+N‚ˆˆˆ”™XY›İ[™YXY[™ÈM‹X]H™XÛÜ™È›İYÚZ\ˆ[[Û™\ÈÙ[[™[ˆˆˆ‚ˆ[šY\ÈH×BˆÜÈHˆÚ[HÜÈ
+ÈS‘VÑS•–KœÚ^™HH[ŠXÛÙY
+N‚ˆ™XÛÜ™ÚYİ\[™™\Ù\™YHS‘VÑS•–K[œXÚ×Ùœ›ÛJXÛÙYÜÊBˆYˆ™XÛÜ™ÚYOH‘‘‘‘‘‘‘‚ˆ™]\›ˆ[šY\ÂˆYˆ™\Ù\™YOHÜˆ›İ
+İ\[™H[ŠXÛÙY
+JN‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^H\È[ˆ[˜[Y[™^™XÛÜ™]ÜÜÎH‚ˆ
+Bˆ[šY\Ë˜\[™
+Âˆœ™XÛÜ™ÚYˆ™XÛÜ™ÚYˆœİ\ˆİ\ˆ™[™ˆ[™ˆJBˆÜÈ
+ÏHS‘VÑS•–KœÚ^™Bˆ˜Z\ÙH˜[YQ\œ›ÜŠˆ”ØÙ[™HÜØÙ[™WÚ[™^H\È›ÈÛÛ\]H[™^Ù[[™[ŠB‚‚™Yˆ\œÙWÜY—ÚXY\œÊXÛÙYØÙ[™WÚ[™^
+N‚ˆˆˆ“\İQŒˆXY\œÈÚ]İ][\œ™][™ÈZ\ˆ^\™H^[ØYËˆˆˆ‚ˆ™\İ[H×BˆÜÈHˆÚ[HYN‚ˆÜÈHXÛÙY™š[™
+ˆŒ‘’T‹ÜÊBˆYˆÜÈ‚ˆœ™XZÂˆYˆÜÈ
+ÈQ—ÒPQT‹œÚ^™Hˆ[ŠXÛÙY
+N‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆ”ØÙ[™HÜØÙ[™WÚ[™^H\ÈH[˜Ø]YQŒˆXY\ˆŠBˆXYÚXËš[WÜÚ^™KÚYZYÚ›]Û]Ù›]Û]ÛÜ™\‹Z\Û]™[ÈH
+ˆQ—ÒPQT‹[œXÚ×Ùœ›ÛJXÛÙYÜÊBˆ
+BˆYˆXYÚXÈOHLMŒÌˆÜˆ›İÚYÜˆ›İZYÚ‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆ”ØÙ[™HÜØÙ[™WÚ[™^H\È[ˆ[˜[YQŒˆXY\ˆŠBˆ™\İ[˜\[™
+Âˆ›Ù™œÙ]ˆÜËˆ™š[WÜÚ^™WÙšY[ˆš[WÜÚ^™KˆÚYˆÚYˆšZYÚˆZYÚˆ™›Ü›X]ˆ›]ˆ˜Û]Ù›Ü›X]ˆÛ]Ù›]ˆ˜Û]ÛÜ™\ˆˆÛ]ÛÜ™\‹ˆ›Z\Û]™[ÈˆZ\Û]™[ËˆJBˆÜÈ
+ÏHˆ™]\›ˆ™\İ[‚‚™Yˆ\œÙWØÚ[š×Ü™\Ûİ\˜ÙWÙ[šY\ÊXÛÙYØÙ[™WÚ[™^Ú[š×Ú[™^
+N‚ˆˆˆ”™XYØ[™Y]H™\Ûİ\˜ÙH\ØÜš\ÜœÈœ›ÛHHXÛÙYØÙ[™HÚ[šË‚‚ˆH[HQÈ™\Ù[X›H[ØHÛ\ÜÈQÈ[ˆÙ]™\˜[Ú[šÜË]Z\ˆ˜[Y\ÜXÙBˆ[™^[ØY›Ü›X]\™H›İ[HY[YšYYˆ™\Ù\™H˜]ÈÙ™œÙ]È[™È›İˆ[\œ™]^[ØY]\È\ÈÙ[ÛY]K‚ˆˆˆ‚ˆYˆ[ŠXÛÙY
+HÒS’×Ô‘TÓÕTÑWÕP“WÓÑ‘”ÑU
+ÈM‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H\ÈÚÜ\ˆ[ˆ]ÈXY\ˆ‚ˆ
+BˆÙ™œÙ]ÈHİXİ[œXÚ×Ùœ›ÛJH‹XÛÙYÒS’×Ô‘TÓÕTÑWÕP“WÓÑ‘”ÑU
+Bˆ[šY\ÈH×Bˆ›Üˆ\ØÜš\Ü—ÛÙ™œÙ][ˆÙ™œÙ]Î‚ˆYˆ\ØÜš\Ü—ÛÙ™œÙ]OH‚ˆÛÛ[YBˆYˆ\ØÜš\Ü—ÛÙ™œÙ]ÒS’×Ô‘TÓÕTÑWÕP“WÓÑ‘”ÑU
+ÈM‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H\È[ˆ[˜[Y‚ˆˆœ™\Ûİ\˜ÙH\ØÜš\ÜˆÙ™œÙ]Ù\ØÜš\Ü—ÛÙ™œÙ]H‚ˆ
+BˆYˆ\ØÜš\Ü—ÛÙ™œÙ]
+Èˆ[ŠXÛÙY
+N‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H\È[ˆİ][Ù‹\˜[™ÙH‚ˆˆœ™\Ûİ\˜ÙH\ØÜš\ÜˆÙ™œÙ]Ù\ØÜš\Ü—ÛÙ™œÙ]H‚ˆ
+Bˆ™\Ûİ\˜ÙWÚY^[ØYÛÙ™œÙ]HİXİ[œXÚ×Ùœ›ÛJˆ’H‹XÛÙY\ØÜš\Ü—ÛÙ™œÙ]ˆ
+BˆYˆ›İ™\Ûİ\˜ÙWÚYÜˆ›İ
+\ØÜš\Ü—ÛÙ™œÙ]
+ÈH^[ØYÛÙ™œÙ][ŠXÛÙY
+JN‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H\È[ˆ[˜[Y‚ˆˆœ™\Ûİ\˜ÙH[H]Ù\ØÜš\Ü—ÛÙ™œÙ]H‚ˆ
+Bˆ[šY\Ë˜\[™
+Âˆ™\ØÜš\Ü—ÛÙ™œÙ]ˆ\ØÜš\Ü—ÛÙ™œÙ]ˆœ™\Ûİ\˜ÙWÚYˆ™\Ûİ\˜ÙWÚYˆœ^[ØYÛÙ™œÙ]ˆ^[ØYÛÙ™œÙ]ˆJBˆ™]\›ˆ[šY\Â‚‚™YˆØØ[—Û™\İYÜ™\Ûİ\˜ÙWØØ[™Y]\ÊXÛÙYØÙ[™WÚ[™^Ú[š×Ú[™^Û›İÛ—ÛÙ™œÙ]ÊN‚ˆˆˆ‘š[™[YÛ™Y™\›Ë\™\Ù\™Y™XÛÜ™È]X^H™Y™\™[˜ÙH™\İY™\Ûİ\˜Ù\Ë‚‚ˆ\È\ÈHİXİ\˜[]\š\İXÈ›Üˆ›ÛİË]\[˜[\Ú\Ë›İ[ˆ\ÜÙ]\œÙ\‚ˆØ[™Y]HQÈ[™]HÚ[\œÈ\™H™\ÜYÚ]İ]\ÜÚYÛš[™ÈH˜[Y\ÜXÙK‚ˆˆˆ‚ˆØ[™Y]\ÈH×Bˆ›Üˆ\ØÜš\Ü—ÛÙ™œÙ][ˆ˜[™ÙJÒS’×Ô‘TÓÕTÑWÕP“WÓÑ‘”ÑU
+ÈM‹[ŠXÛÙY
+HHŒËMŠN‚ˆYˆ\ØÜš\Ü—ÛÙ™œÙ][ˆÛ›İÛ—ÛÙ™œÙ]Î‚ˆÛÛ[YBˆ™\Ûİ\˜ÙWÚY]WÛÙ™œÙ]™\Ù\™YØK™\Ù\™YØˆHİXİ[œXÚ×Ùœ›ÛJˆH‹XÛÙY\ØÜš\Ü—ÛÙ™œÙ]ˆ
+BˆYˆ
+ˆ™\Ûİ\˜ÙWÚYLˆ[™\ØÜš\Ü—ÛÙ™œÙ]
+ÈH]WÛÙ™œÙ][ŠXÛÙY
+Bˆ[™™\Ù\™YØHOHˆ[™™\Ù\™YØˆOHˆ
+N‚ˆØ[™Y]\Ë˜\[™
+Âˆ™\ØÜš\Ü—ÛÙ™œÙ]ˆ\ØÜš\Ü—ÛÙ™œÙ]ˆœ™\Ûİ\˜ÙWÚYˆ™\Ûİ\˜ÙWÚYˆ™]WÛÙ™œÙ]ˆ]WÛÙ™œÙ]ˆJBˆ™]\›ˆØ[™Y]\Â‚‚™Yˆİ[[X\š^™WØØ[™Y]WÜ^[ØY
+XÛÙYØ[™Y]JN‚ˆˆˆ”İ[[X\š^™HHØ[™Y]IÜÈÚ[Y]ÈM‹X]H›İÜÈÚ]İ]XÛÙ[™È[Kˆˆˆ‚ˆ]WÛÙ™œÙ]HØ[™Y]VÈ™]WÛÙ™œÙ]—Bˆ›İ×ØÛİ[H
+[ŠXÛÙY
+HH]WÛÙ™œÙ]
+HËÈM‚ˆYˆ›İ×ØÛİ[H‚ˆ™]\›ˆ›Û™Bˆ›İÜÈHÙXÛÙYÙ]WÛÙ™œÙ]
+ÈH
+ˆM™]WÛÙ™œÙ]
+È
+H
+ÈJH
+ˆM—Bˆ›ÜˆH[ˆ˜[™ÙJ›İ×ØÛİ[
+WBˆš\œİH›İÜÖÌBˆ™\X]YÜ™Yš^Ü›İÜÈHBˆÚ[H
+™\X]YÜ™Yš^Ü›İÜÈ›İ×ØÛİ[ˆ[™›İÜÖÜ™\X]YÜ™Yš^Ü›İÜ×HOHš\œİ
+N‚ˆ™\X]YÜ™Yš^Ü›İÜÈ
+ÏHBˆ™]\›ˆÂˆœ›İ×ÜÚ^™HˆM‹ˆ˜]˜Z[X›WÜ›İ×ØÛİ[ˆ›İ×ØÛİ[ˆ[š\]YWÜ›İ×ØÛİ[ˆ[ŠÙ]
+›İÜÊJKˆœ™\X]YÙš\œİÜ›İ×ØÛİ[ˆ™\X]YÜ™Yš^Ü›İÜËˆ™š\œİÜ›İ×Ú^ˆš\œİš^
 
-The 16-byte leading records and their first field are reported as raw index
-entries; their namespace is not fully documented. This tool does not assign
-those entries to Moby classes or infer geometry from texture data.
-"""
+KˆB‚‚™YˆØØ[—Ù^XİØÛÜ™WÚXY\œÊÛÜ™WÜ›ÛİØÙ[™WÜİ™X[\ÊN‚ˆˆˆ‘š[™^XİX]H™Yš^\ÈÙˆ^ÜYÛØ˜[ÛÜ™\È[ˆXÛÙYİ™X[\Ëˆˆˆ‚ˆÛÜ™WÜ›ÛİH]
+ÛÜ™WÜ›Ûİ
+BˆÛÜ™WÙš[\ÈHÛÜY
+ÛÜ™WÜ›Ûİœ™ÛØŠ˜ÛÜ™K˜š[ˆŠJHYˆÛÜ™WÜ›Ûİš\×Ù\Š
+H[ÙH×BˆX]Ú\ÈH×BˆØØ[›™YHˆ›ÜˆÛÜ™WÜ][ˆÛÜ™WÙš[\Î‚ˆ˜]ÈHÛÜ™WÜ]œ™XYØ]\Ê
+BˆYˆ[Š˜]ÊH‚ˆÛÛ[YBˆØØ[›™Y
+ÏHBˆÚYÛ˜]\™HH˜]ÖÎBˆ›ÜˆØÙ[™WÚ[™^XÛÙY[ˆØÙ[™WÜİ™X[\Î‚ˆÙ™œÙ]HXÛÙY™š[™
+ÚYÛ˜]\™JBˆYˆÙ™œÙ]H‚ˆX]Ú\Ë˜\[™
+Âˆ˜ÛÜ™WÜ]ˆİŠÛÜ™WÜ]
+KˆœØÙ[™WÚ[™^ˆØÙ[™WÚ[™^ˆ›Ù™œÙ]ˆÙ™œÙ]ˆJBˆ™]\›ˆÂˆ™ÛØ˜[ØÛÜ™WÙš[\×ÜØØ[›™YˆØØ[›™Yˆ™^XİÙš\œİÍØ]WØÛÜ™WÚXY\—ÛX]Ú\ÈˆX]Ú\ËˆB‚‚™YˆØØ[—Ù^XİØÛÜ™WÚXY\œ×Ú[—ØÚ[šÜÊÛÜ™WÜ›ÛİËÚ[š×Üİ™X[\ÊN‚ˆˆˆ”ÙX\˜ÚXÛÙYØÙ[™HÚ[šÜÈ›Üˆ^Xİ™Yš^\ÈÙˆ^ÜY[ØHÛÜ™\Ëˆˆˆ‚ˆÛÜ™WÙš[\ÈHÙ]
 
-import argparse
-import bisect
-import json
-import struct
-from pathlib import Path
+Bˆ›Üˆ›Ûİ[ˆÛÜ™WÜ›ÛİÎ‚ˆ›ÛİH]
+›Ûİ
+BˆYˆ›Ûİš\×Ù\Š
+N‚ˆÛÜ™WÙš[\Ë\]J]œ™\ÛÛ™J
+H›Üˆ][ˆ›Ûİœ™ÛØŠ˜ÛÜ™K˜š[ˆŠJBˆX]Ú\ÈH×BˆØØ[›™YHˆ›ÜˆÛÜ™WÜ][ˆÛÜY
+ÛÜ™WÙš[\ÊN‚ˆ˜]ÈHÛÜ™WÜ]œ™XYØ]\Ê
+BˆYˆ[Š˜]ÊH‚ˆÛÛ[YBˆØØ[›™Y
+ÏHBˆÚYÛ˜]\™HH˜]ÖÎBˆ›ÜˆØÙ[™WÚ[™^Ú[š×Ú[™^XÛÙY[ˆÚ[š×Üİ™X[\Î‚ˆÙ™œÙ]HXÛÙY™š[™
+ÚYÛ˜]\™JBˆYˆÙ™œÙ]H‚ˆX]Ú\Ë˜\[™
+Âˆ˜ÛÜ™WÜ]ˆİŠÛÜ™WÜ]
+KˆœØÙ[™WÚ[™^ˆØÙ[™WÚ[™^ˆ˜Ú[š×Ú[™^ˆÚ[š×Ú[™^ˆ›Ù™œÙ]ˆÙ™œÙ]ˆJBˆ™]\›ˆÂˆ™ÛØ˜[Ø[™ÛZ\ÜÚ[Û—ØÛÜ™WÙš[\×ÜØØ[›™YˆØØ[›™Yˆ™^XİÙš\œİÍØ]WØÛÜ™WÚXY\—ÛX]Ú\ÈˆX]Ú\ËˆB‚‚™YˆØÙ[™WÜÙXİÜ—Üİ\Ê]JN‚ˆˆˆÛÛXİHÙXİÜˆİ\È\ÙYH™XY›Û™IÜÈØÙ[™HĞQ™XÛÜ™Ëˆˆˆ‚ˆİ\ÈHÙ]
 
-from unpack_wad import decompress
+BˆÙXİÜ—ÛÙ™œÙ]ÈH
+ˆLMNPËŒËÌˆ
+Bˆ›ÜˆØÙ[™WÚ[™^[ˆ˜[™ÙJĞÑS‘WĞÓÕS•
+N‚ˆ™XÛÜ™ÛÙ™œÙ]HĞÑS‘WÒPQT—ÓÑ‘”ÑU
+ÈØÙ[™WÚ[™^
+ˆĞÑS‘WÒPQT—ÔÒV‘Bˆ›ÜˆšY[ÛÙ™œÙ][ˆÙXİÜ—ÛÙ™œÙ]Î‚ˆÙXİÜˆHİXİ[œXÚ×Ùœ›ÛJH‹]K™XÛÜ™ÛÙ™œÙ]
+ÈšY[ÛÙ™œÙ]
+VÌBˆYˆÙXİÜ‚ˆİ\Ë˜Y
+ÙXİÜŠBˆÚ[šÜÈHİXİ[œXÚ×Ùœ›ÛJˆˆÔĞÑS‘WĞÒS’×ĞÓÕS•RH‹]Kˆ™XÛÜ™ÛÙ™œÙ]
+ÈĞÑS‘WĞÒS’×ÕP“WÓÑ‘”ÑUˆ
+Bˆİ\Ë\]JÙXİÜˆ›ÜˆÙXİÜˆ[ˆÚ[šÜÈYˆÙXİÜŠBˆİ\Ë˜Y
 
-SECTOR_SIZE = 2048
-SCENE_COUNT = 30
-SCENE_HEADER_SIZE = 0x38 + 69 * 4
-SCENE_HEADER_OFFSET = 8
-SCENE_MOBY_LOAD_OFFSET = 0x30
-SCENE_CHUNK_TABLE_OFFSET = 0x38
-SCENE_CHUNK_COUNT = 69
-CHUNK_RESOURCE_TABLE_OFFSET = 0x50
-SCENE_WAD_HEADER_SIZE = 8 + SCENE_COUNT * SCENE_HEADER_SIZE
-INDEX_ENTRY = struct.Struct("<4I")
-PIF_HEADER = struct.Struct("<8I")
-UNRESOLVED_CLASS_IDS = {
-    3107, 3168, 3174, 3305, 3950, 8226, 8246, 8247, 8321,
-    8355, 8520, 9207, 9213, 9271, 9340, 9453, 9918,
-}
+[Š]JH
+ÈÑPÕÔ—ÔÒV‘HHJHËÈÑPÕÔ—ÔÒV‘JBˆ™]\›ˆÛÜY
+İ\ÊB‚‚™Yˆ]Y]ÜØÙ[™WİØY
+]
+N‚ˆˆˆ”™]\›ˆH›İ[™Y[™[ÜHÙˆ™XY›Û™IÜÈ]™[ØÙ[™UØYİ™X[\Ëˆˆˆ‚ˆ]H]
+]
+Bˆ]HH]œ™XYØ]\Ê
+BˆYˆ[Š]JHĞÑS‘WÕĞQÒPQT—ÔÒV‘N‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠ”ØÙ[™HĞQ\ÈÚÜ\ˆ[ˆ]ÈXÛ\™YXY\ˆŠBˆXY\—ÜÚ^™KÜÙXİÜˆHİXİ[œXÚ×Ùœ›ÛJRH‹]JBˆYˆXY\—ÜÚ^™HOHĞÑS‘WÕĞQÒPQT—ÔÒV‘N‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ•[™^XİYØÙ[™HĞQXY\ˆÚ^™HÚXY\—ÜÚ^™_NÈ‚ˆˆ™^XİYÔĞÑS‘WÕĞQÒPQT—ÔÒV‘_H‚ˆ
+B‚ˆØÙ[™\ÈH×BˆXÛÙYÜİ™X[\ÈH×Bˆİ[Ú[™^Ü™XÛÜ™ÈHˆİ[ÜY—ÚXY\œÈHˆÚ[š×Ü™Y™\™[˜Ù\ÈHˆ[\WØÚ[š×Ü™Y™\™[˜Ù\ÈHˆXÛÙYØÚ[š×ØÛİ[HˆÚ[š×Ü™\Ûİ\˜ÙWÚYÈHßBˆÚ[š×Ú[™[ÜHH×BˆXÛÙYØÚ[š×Üİ™X[\ÈH×Bˆ™\İYÜ™\Ûİ\˜ÙWÚYÈHßBˆ™\İYÜ™\Ûİ\˜ÙWÚ[™[ÜHH×BˆÙXİÜ—Üİ\ÈHØÙ[™WÜÙXİÜ—Üİ\Ê]JBˆ›ÜˆØÙ[™WÚ[™^[ˆ˜[™ÙJĞÑS‘WĞÓÕS•
+N‚ˆ™XÛÜ™ÛÙ™œÙ]HĞÑS‘WÒPQT—ÓÑ‘”ÑU
+ÈØÙ[™WÚ[™^
+ˆĞÑS‘WÒPQT—ÔÒV‘BˆÚ[š×İX›WÛÙ™œÙ]H™XÛÜ™ÛÙ™œÙ]
+ÈĞÑS‘WĞÒS’×ÕP“WÓÑ‘”ÑUˆÚ[š×ÜÙXİÜœÈHİXİ[œXÚ×Ùœ›ÛJˆˆÔĞÑS‘WĞÒS’×ĞÓÕS•RH‹]KÚ[š×İX›WÛÙ™œÙ]ˆ
+Bˆ›ÜˆÚ[š×Ú[™^Ú[š×ÜÙXİÜˆ[ˆ[[Y\˜]JÚ[š×ÜÙXİÜœÊN‚ˆYˆ›İÚ[š×ÜÙXİÜ‚ˆÛÛ[YBˆÚ[š×Ü™Y™\™[˜Ù\È
+ÏHBˆÚ[š×ÛÙ™œÙ]HÚ[š×ÜÙXİÜˆ
+ˆÑPÕÔ—ÔÒV‘BˆYˆÚ[š×ÛÙ™œÙ]
+ÈMˆˆ[Š]JN‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H^ÙYYÈHĞQ‚ˆ
+BˆYˆ]VØÚ[š×ÛÙ™œÙ]˜Ú[š×ÛÙ™œÙ]
+È×HOHˆ•ĞQ‚ˆYˆ]VØÚ[š×ÛÙ™œÙ]˜Ú[š×ÛÙ™œÙ]
+ÈÑPÕÔ—ÔÒV‘WHOH]\ÊÑPÕÔ—ÔÒV‘JN‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H\È™Z]\ˆĞQ›Üˆ[\H‚ˆ
+Bˆ[\WØÚ[š×Ü™Y™\™[˜Ù\È
+ÏHBˆÛÛ[YBˆÛÛ\™\ÜÙYØ]\ÈHİXİ[œXÚ×Ùœ›ÛJH‹]KÚ[š×ÛÙ™œÙ]
+ÈÊVÌBˆ™^Ú[™^Hš\ÙXİ˜š\ÙXİÜšYÚ
+ÙXİÜ—Üİ\ËÚ[š×ÜÙXİÜŠBˆYˆ™^Ú[™^H[ŠÙXİÜ—Üİ\ÊN‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H\È›È[™[™ÈÙXİÜˆ‚ˆ
+Bˆ™^ÜÙXİÜˆHÙXİÜ—Üİ\ÖÛ™^Ú[™^BˆÙXİÜ—ØØ\XÚ]HH
+™^ÜÙXİÜˆHÚ[š×ÜÙXİÜŠH
+ˆÑPÕÔ—ÔÒV‘BˆYˆ›İMˆHÛÛ\™\ÜÙYØ]\ÈHÙXİÜ—ØØ\XÚ]N‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆˆ”ØÙ[™HÜØÙ[™WÚ[™^HÚ[šÈØÚ[š×Ú[™^H^ÙYYÈ]ÈÙXİÜˆ˜[™ÙH‚ˆ
+BˆXÛÙYØÚ[šÈHXÛÛ\™\ÜÊ]KÚ[š×ÛÙ™œÙ]
+BˆXÛÙYØÚ[š×Üİ™X[\Ë˜\[™
 
+ØÙ[™WÚ[™^Ú[š×Ú[™^XÛÙYØÚ[šÊJBˆ™\Ûİ\˜ÙWÙ[šY\ÈH\œÙWØÚ[š×Ü™\Ûİ\˜ÙWÙ[šY\ÊˆXÛÙYØÚ[šËØÙ[™WÚ[™^Ú[š×Ú[™^ˆ
+Bˆ™\İYØØ[™Y]\ÈHØØ[—Û™\İYÜ™\Ûİ\˜ÙWØØ[™Y]\ÊˆXÛÙYØÚ[šËˆØÙ[™WÚ[™^ˆÚ[š×Ú[™^ˆÙ[VÈ™\ØÜš\Ü—ÛÙ™œÙ]—H›Üˆ[H[ˆ™\Ûİ\˜ÙWÙ[šY\ßKˆ
+BˆXÛÙYØÚ[š×ØÛİ[
+ÏHBˆ›Üˆ[H[ˆ™\Ûİ\˜ÙWÙ[šY\Î‚ˆ™\Ûİ\˜ÙWÚYH[VÈœ™\Ûİ\˜ÙWÚY—BˆÚ[š×Ü™\Ûİ\˜ÙWÚYÖÜ™\Ûİ\˜ÙWÚYHH
+ˆÚ[š×Ü™\Ûİ\˜ÙWÚYË™Ù]
+™\Ûİ\˜ÙWÚY
+H
+ÈBˆ
+Bˆ[VÈ[œ™\ÛÛ™YØÛ\Ü×ÚYÛX]Ú—HH
+ˆ™\Ûİ\˜ÙWÚY[ˆS”‘TÓÓ‘QĞÓTÔ×ÒQÂˆ
+Bˆ›ÜˆØ[™Y]H[ˆ™\İYØØ[™Y]\Î‚ˆ™\Ûİ\˜ÙWÚYHØ[™Y]VÈœ™\Ûİ\˜ÙWÚY—Bˆ™\İYÜ™\Ûİ\˜ÙWÚYÖÜ™\Ûİ\˜ÙWÚYHH
+ˆ™\İYÜ™\Ûİ\˜ÙWÚYË™Ù]
+™\Ûİ\˜ÙWÚY
+H
+ÈBˆ
+BˆØ[™Y]VÈ[œ™\ÛÛ™YØÛ\Ü×ÚYÛX]Ú—HH
+ˆ™\Ûİ\˜ÙWÚY[ˆS”‘TÓÓ‘QĞÓTÔ×ÒQÂˆ
+BˆØ[™Y]VÈœØÙ[™WÚ[™^—HHØÙ[™WÚ[™^ˆØ[™Y]VÈ˜Ú[š×Ú[™^—HHÚ[š×Ú[™^ˆØ[™Y]VÈœ^[ØYÛ^[İ]—HHİ[[X\š^™WØØ[™Y]WÜ^[ØY
+ˆXÛÙYØÚ[šËØ[™Y]Bˆ
+Bˆ™\İYÜ™\Ûİ\˜ÙWÚ[™[ÜK˜\[™
+Ø[™Y]JBˆÚ[š×Ú[™[ÜK˜\[™
+ÂˆœØÙ[™WÚ[™^ˆØÙ[™WÚ[™^ˆ˜Ú[š×Ú[™^ˆÚ[š×Ú[™^ˆœÙXİÜˆˆÚ[š×ÜÙXİÜ‹ˆ˜ÛÛ\™\ÜÙYØ]\ÈˆÛÛ\™\ÜÙYØ]\Ëˆ™XÛÙYØ]\Èˆ[ŠXÛÙYØÚ[šÊKˆœ™\Ûİ\˜ÙWÙ[šY\Èˆ™\Ûİ\˜ÙWÙ[šY\ËˆJB‚ˆØYÜÙXİÜ‹ØYÜÙXİÜ—ØÛİ[HİXİ[œXÚ×Ùœ›ÛJˆRH‹]K™XÛÜ™ÛÙ™œÙ]
+ÈĞÑS‘WÓSĞ–WÓĞQÓÑ‘”ÑUˆ
+BˆYˆ›İØYÜÙXİÜˆ[™›İØYÜÙXİÜ—ØÛİ[‚ˆÛÛ[YBˆYˆ›İØYÜÙXİÜˆÜˆ›İØYÜÙXİÜ—ØÛİ[‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆ”ØÙ[™HÜØÙ[™WÚ[™^H\ÈH\X[[ØWÛØY˜[™ÙHŠB‚ˆØYÛÙ™œÙ]HØYÜÙXİÜˆ
+ˆÑPÕÔ—ÔÒV‘BˆØYØØ\XÚ]HHØYÜÙXİÜ—ØÛİ[
+ˆÑPÕÔ—ÔÒV‘BˆYˆØYÛÙ™œÙ]
+ÈØYØØ\XÚ]Hˆ[Š]JN‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆ”ØÙ[™HÜØÙ[™WÚ[™^H[ØWÛØY˜[™ÙH^ÙYYÈHĞQŠBˆYˆ]VİØYÛÙ™œÙ]ØYÛÙ™œÙ]
+È×HOHˆ•ĞQ‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆ”ØÙ[™HÜØÙ[™WÚ[™^H[ØWÛØYÙ\È›İİ\Ú]ĞQŠBˆÛÛ\™\ÜÙYÜÚ^™HHİXİ[œXÚ×Ùœ›ÛJH‹]KØYÛÙ™œÙ]
+ÈÊVÌBˆYˆ›İMˆHÛÛ\™\ÜÙYÜÚ^™HHØYØØ\XÚ]N‚ˆ˜Z\ÙH˜[YQ\œ›ÜŠˆ”ØÙ[™HÜØÙ[™WÚ[™^H\È[ˆ[˜[YÛÛ\™\ÜÙYĞQÚ^™HŠB‚ˆXÛÙYHXÛÛ\™\ÜÊ]KØYÛÙ™œÙ]
+BˆXÛÙYÜİ™X[\Ë˜\[™
 
-def parse_index(decoded, scene_index):
-    """Read bounded leading 16-byte records through their all-ones sentinel."""
-    entries = []
-    pos = 0
-    while pos + INDEX_ENTRY.size <= len(decoded):
-        record_id, start, end, reserved = INDEX_ENTRY.unpack_from(decoded, pos)
-        if record_id == 0xFFFFFFFF:
-            return entries
-        if reserved != 0 or not (0 < start < end <= len(decoded)):
-            raise ValueError(
-                f"Scene {scene_index} has an invalid index record at 0x{pos:x}"
-            )
-        entries.append({
-            "record_id": record_id,
-            "start": start,
-            "end": end,
-        })
-        pos += INDEX_ENTRY.size
-    raise ValueError(f"Scene {scene_index} has no complete index sentinel")
-
-
-def parse_pif_headers(decoded, scene_index):
-    """List PIF2 headers without interpreting their texture payloads."""
-    result = []
-    pos = 0
-    while True:
-        pos = decoded.find(b"2FIP", pos)
-        if pos < 0:
-            break
-        if pos + PIF_HEADER.size > len(decoded):
-            raise ValueError(f"Scene {scene_index} has a truncated PIF2 header")
-        magic, file_size, width, height, fmt, clut_fmt, clut_order, mip_levels = (
-            PIF_HEADER.unpack_from(decoded, pos)
-        )
-        if magic != 0x50494632 or not width or not height:
-            raise ValueError(f"Scene {scene_index} has an invalid PIF2 header")
-        result.append({
-            "offset": pos,
-            "file_size_field": file_size,
-            "width": width,
-            "height": height,
-            "format": fmt,
-            "clut_format": clut_fmt,
-            "clut_order": clut_order,
-            "mip_levels": mip_levels,
-        })
-        pos += 4
-    return result
-
-
-def parse_chunk_resource_entries(decoded, scene_index, chunk_index):
-    """Read candidate resource descriptors from a decoded scene chunk.
-
-    The entry IDs resemble Moby class IDs in several chunks, but their namespace
-    and payload format are not fully identified. Preserve raw offsets and do not
-    interpret payload bytes as geometry.
-    """
-    if len(decoded) < CHUNK_RESOURCE_TABLE_OFFSET + 16:
-        raise ValueError(
-            f"Scene {scene_index} chunk {chunk_index} is shorter than its header"
-        )
-    offsets = struct.unpack_from("<4I", decoded, CHUNK_RESOURCE_TABLE_OFFSET)
-    entries = []
-    for descriptor_offset in offsets:
-        if descriptor_offset == 0:
-            continue
-        if descriptor_offset < CHUNK_RESOURCE_TABLE_OFFSET + 16:
-            raise ValueError(
-                f"Scene {scene_index} chunk {chunk_index} has an invalid "
-                f"resource descriptor offset 0x{descriptor_offset:x}"
-            )
-        if descriptor_offset + 8 > len(decoded):
-            raise ValueError(
-                f"Scene {scene_index} chunk {chunk_index} has an out-of-range "
-                f"resource descriptor offset 0x{descriptor_offset:x}"
-            )
-        resource_id, payload_offset = struct.unpack_from(
-            "<2I", decoded, descriptor_offset
-        )
-        if not resource_id or not (descriptor_offset + 8 <= payload_offset < len(decoded)):
-            raise ValueError(
-                f"Scene {scene_index} chunk {chunk_index} has an invalid "
-                f"resource entry at 0x{descriptor_offset:x}"
-            )
-        entries.append({
-            "descriptor_offset": descriptor_offset,
-            "resource_id": resource_id,
-            "payload_offset": payload_offset,
-        })
-    return entries
-
-
-def scan_nested_resource_candidates(decoded, scene_index, chunk_index, known_offsets):
-    """Find aligned zero-reserved records that may reference nested resources.
-
-    This is a structural heuristic for follow-up analysis, not an asset parser:
-    candidate IDs and data pointers are reported without assigning a namespace.
-    """
-    candidates = []
-    for descriptor_offset in range(CHUNK_RESOURCE_TABLE_OFFSET + 16, len(decoded) - 23, 16):
-        if descriptor_offset in known_offsets:
-            continue
-        resource_id, data_offset, reserved_a, reserved_b = struct.unpack_from(
-            "<4I", decoded, descriptor_offset
-        )
-        if (
-            0 < resource_id < 0x10000
-            and descriptor_offset + 24 <= data_offset < len(decoded)
-            and reserved_a == 0
-            and reserved_b == 0
-        ):
-            candidates.append({
-                "descriptor_offset": descriptor_offset,
-                "resource_id": resource_id,
-                "data_offset": data_offset,
-            })
-    return candidates
-
-
-def scan_exact_core_headers(core_root, scene_streams):
-    """Find exact 64-byte prefixes of exported global cores in decoded streams."""
-    core_root = Path(core_root)
-    core_files = sorted(core_root.rglob("core.bin")) if core_root.is_dir() else []
-    matches = []
-    scanned = 0
-    for core_path in core_files:
-        raw = core_path.read_bytes()
-        if len(raw) < 64:
-            continue
-        scanned += 1
-        signature = raw[:64]
-        for scene_index, decoded in scene_streams:
-            offset = decoded.find(signature)
-            if offset >= 0:
-                matches.append({
-                    "core_path": str(core_path),
-                    "scene_index": scene_index,
-                    "offset": offset,
-                })
-    return {
-        "global_core_files_scanned": scanned,
-        "exact_first_64_byte_core_header_matches": matches,
-    }
-
-
-def scan_exact_core_headers_in_chunks(core_roots, chunk_streams):
-    """Search decoded scene chunks for exact prefixes of exported Moby cores."""
-    core_files = set()
-    for root in core_roots:
-        root = Path(root)
-        if root.is_dir():
-            core_files.update(path.resolve() for path in root.rglob("core.bin"))
-    matches = []
-    scanned = 0
-    for core_path in sorted(core_files):
-        raw = core_path.read_bytes()
-        if len(raw) < 64:
-            continue
-        scanned += 1
-        signature = raw[:64]
-        for scene_index, chunk_index, decoded in chunk_streams:
-            offset = decoded.find(signature)
-            if offset >= 0:
-                matches.append({
-                    "core_path": str(core_path),
-                    "scene_index": scene_index,
-                    "chunk_index": chunk_index,
-                    "offset": offset,
-                })
-    return {
-        "global_and_mission_core_files_scanned": scanned,
-        "exact_first_64_byte_core_header_matches": matches,
-    }
-
-
-def scene_sector_starts(data):
-    """Collect the sector starts used by Dreadzone's scene WAD records."""
-    starts = set()
-    sector_offsets = (
-        0x00, 0x04, 0x08, 0x10, 0x14, 0x18, 0x1C, 0x20, 0x24, 0x28, 0x2C, 0x30,
-    )
-    for scene_index in range(SCENE_COUNT):
-        record_offset = SCENE_HEADER_OFFSET + scene_index * SCENE_HEADER_SIZE
-        for field_offset in sector_offsets:
-            sector = struct.unpack_from("<I", data, record_offset + field_offset)[0]
-            if sector:
-                starts.add(sector)
-        chunks = struct.unpack_from(
-            f"<{SCENE_CHUNK_COUNT}I", data,
-            record_offset + SCENE_CHUNK_TABLE_OFFSET,
-        )
-        starts.update(sector for sector in chunks if sector)
-    starts.add((len(data) + SECTOR_SIZE - 1) // SECTOR_SIZE)
-    return sorted(starts)
-
-
-def audit_scene_wad(path):
-    """Return a bounded inventory of Dreadzone's LevelSceneWad streams."""
-    path = Path(path)
-    data = path.read_bytes()
-    if len(data) < SCENE_WAD_HEADER_SIZE:
-        raise ValueError("Scene WAD is shorter than its declared header")
-    header_size, _sector = struct.unpack_from("<II", data)
-    if header_size != SCENE_WAD_HEADER_SIZE:
-        raise ValueError(
-            f"Unexpected scene WAD header size {header_size}; "
-            f"expected {SCENE_WAD_HEADER_SIZE}"
-        )
-
-    scenes = []
-    decoded_streams = []
-    total_index_records = 0
-    total_pif_headers = 0
-    chunk_references = 0
-    empty_chunk_references = 0
-    decoded_chunk_count = 0
-    chunk_resource_ids = {}
-    chunk_inventory = []
-    decoded_chunk_streams = []
-    nested_resource_ids = {}
-    nested_resource_inventory = []
-    sector_starts = scene_sector_starts(data)
-    for scene_index in range(SCENE_COUNT):
-        record_offset = SCENE_HEADER_OFFSET + scene_index * SCENE_HEADER_SIZE
-        chunk_table_offset = record_offset + SCENE_CHUNK_TABLE_OFFSET
-        chunk_sectors = struct.unpack_from(
-            f"<{SCENE_CHUNK_COUNT}I", data, chunk_table_offset
-        )
-        for chunk_index, chunk_sector in enumerate(chunk_sectors):
-            if not chunk_sector:
-                continue
-            chunk_references += 1
-            chunk_offset = chunk_sector * SECTOR_SIZE
-            if chunk_offset + 16 > len(data):
-                raise ValueError(
-                    f"Scene {scene_index} chunk {chunk_index} exceeds the WAD"
-                )
-            if data[chunk_offset:chunk_offset + 3] != b"WAD":
-                if data[chunk_offset:chunk_offset + SECTOR_SIZE] != bytes(SECTOR_SIZE):
-                    raise ValueError(
-                        f"Scene {scene_index} chunk {chunk_index} is neither WAD nor empty"
-                    )
-                empty_chunk_references += 1
-                continue
-            compressed_bytes = struct.unpack_from("<I", data, chunk_offset + 3)[0]
-            next_index = bisect.bisect_right(sector_starts, chunk_sector)
-            if next_index >= len(sector_starts):
-                raise ValueError(
-                    f"Scene {scene_index} chunk {chunk_index} has no ending sector"
-                )
-            next_sector = sector_starts[next_index]
-            sector_capacity = (next_sector - chunk_sector) * SECTOR_SIZE
-            if not 16 <= compressed_bytes <= sector_capacity:
-                raise ValueError(
-                    f"Scene {scene_index} chunk {chunk_index} exceeds its sector range"
-                )
-            decoded_chunk = decompress(data, chunk_offset)
-            decoded_chunk_streams.append((scene_index, chunk_index, decoded_chunk))
-            resource_entries = parse_chunk_resource_entries(
-                decoded_chunk, scene_index, chunk_index
-            )
-            nested_candidates = scan_nested_resource_candidates(
-                decoded_chunk,
-                scene_index,
-                chunk_index,
-                {entry["descriptor_offset"] for entry in resource_entries},
-            )
-            decoded_chunk_count += 1
-            for entry in resource_entries:
-                resource_id = entry["resource_id"]
-                chunk_resource_ids[resource_id] = (
-                    chunk_resource_ids.get(resource_id, 0) + 1
-                )
-                entry["unresolved_class_id_match"] = (
-                    resource_id in UNRESOLVED_CLASS_IDS
-                )
-            for candidate in nested_candidates:
-                resource_id = candidate["resource_id"]
-                nested_resource_ids[resource_id] = (
-                    nested_resource_ids.get(resource_id, 0) + 1
-                )
-                candidate["unresolved_class_id_match"] = (
-                    resource_id in UNRESOLVED_CLASS_IDS
-                )
-                candidate["scene_index"] = scene_index
-                candidate["chunk_index"] = chunk_index
-                nested_resource_inventory.append(candidate)
-            chunk_inventory.append({
-                "scene_index": scene_index,
-                "chunk_index": chunk_index,
-                "sector": chunk_sector,
-                "compressed_bytes": compressed_bytes,
-                "decoded_bytes": len(decoded_chunk),
-                "resource_entries": resource_entries,
-            })
-
-        wad_sector, wad_sector_count = struct.unpack_from(
-            "<II", data, record_offset + SCENE_MOBY_LOAD_OFFSET
-        )
-        if not wad_sector and not wad_sector_count:
-            continue
-        if not wad_sector or not wad_sector_count:
-            raise ValueError(f"Scene {scene_index} has a partial moby_load range")
-
-        wad_offset = wad_sector * SECTOR_SIZE
-        wad_capacity = wad_sector_count * SECTOR_SIZE
-        if wad_offset + wad_capacity > len(data):
-            raise ValueError(f"Scene {scene_index} moby_load range exceeds the WAD")
-        if data[wad_offset:wad_offset + 3] != b"WAD":
-            raise ValueError(f"Scene {scene_index} moby_load does not start with WAD")
-        compressed_size = struct.unpack_from("<I", data, wad_offset + 3)[0]
-        if not 16 <= compressed_size <= wad_capacity:
-            raise ValueError(f"Scene {scene_index} has an invalid compressed WAD size")
-
-        decoded = decompress(data, wad_offset)
-        decoded_streams.append((scene_index, decoded))
-        entries = parse_index(decoded, scene_index)
-        pifs = parse_pif_headers(decoded, scene_index)
-        for entry in entries:
-            entry["unresolved_id_match"] = (
-                entry["record_id"] in UNRESOLVED_CLASS_IDS
-            )
-        total_index_records += len(entries)
-        total_pif_headers += len(pifs)
-        scenes.append({
-            "scene_index": scene_index,
-            "moby_load_sector": wad_sector,
-            "moby_load_sector_count": wad_sector_count,
-            "compressed_bytes": compressed_size,
-            "decoded_bytes": len(decoded),
-            "index_records": entries,
-            "pif2_headers": pifs,
-        })
-
-    core_scan = scan_exact_core_headers(
-        path.parent.parent.parent.parent / "moby_classes",
-        decoded_streams,
-    )
-    chunk_core_scan = scan_exact_core_headers_in_chunks(
-        [path.parent.parent.parent.parent / "moby_classes", path.parent],
-        decoded_chunk_streams,
-    )
-    return {
-        "kind": "dreadzone-scene-wad-partial-audit",
-        "source": str(path.resolve()),
-        "header_size": header_size,
-        "scene_count": SCENE_COUNT,
-        "nonempty_moby_load_streams": len(scenes),
-        "index_record_count": total_index_records,
-        "pif2_header_count": total_pif_headers,
-        "scene_chunk_inventory": {
-            "chunk_reference_count": chunk_references,
-            "empty_chunk_reference_count": empty_chunk_references,
-            "decoded_chunk_count": decoded_chunk_count,
-            "candidate_resource_id_counts": dict(sorted(chunk_resource_ids.items())),
-            "unresolved_class_id_matches": {
-                str(resource_id): count
-                for resource_id, count in sorted(chunk_resource_ids.items())
-                if resource_id in UNRESOLVED_CLASS_IDS
-            },
-            "nested_candidate_count": len(nested_resource_inventory),
-            "nested_candidate_id_counts": dict(sorted(nested_resource_ids.items())),
-            "nested_unresolved_class_id_matches": {
-                str(resource_id): count
-                for resource_id, count in sorted(nested_resource_ids.items())
-                if resource_id in UNRESOLVED_CLASS_IDS
-            },
-            "nested_candidates": nested_resource_inventory,
-            "chunks": chunk_inventory,
-        },
-        "global_moby_core_scan": core_scan,
-        "scene_chunk_moby_core_scan": chunk_core_scan,
-        "unresolved_class_ids": sorted(UNRESOLVED_CLASS_IDS),
-        "scenes": scenes,
-    }
-
-
-def main():
-    root = Path(__file__).resolve().parent.parent
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "scene_wad",
-        nargs="?",
-        type=Path,
-        default=root / "private/overlays/levels/campaign/1_dreadzone_station/scene.wad",
-    )
-    parser.add_argument("--output", type=Path)
-    args = parser.parse_args()
-    report = audit_scene_wad(args.scene_wad)
-    output = json.dumps(report, indent=2) + "\n"
-    if args.output:
-        args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(output, encoding="utf-8")
-    else:
-        print(output, end="")
-
-
-if __name__ == "__main__":
-    main()
-
+ØÙ[™WÚ[™^XÛÙY
+JBˆ[šY\ÈH\œÙWÚ[™^
+XÛÙYØÙ[™WÚ[™^
+BˆYœÈH\œÙWÜY—ÚXY\œÊXÛÙYØÙ[™WÚ[™^
+Bˆ›Üˆ[H[ˆ[šY\Î‚ˆ[VÈ[œ™\ÛÛ™YÚYÛX]Ú—HH
+ˆ[VÈœ™XÛÜ™ÚY—H[ˆS”‘TÓÓ‘QĞÓTÔ×ÒQÂˆ
+Bˆİ[Ú[™^Ü™XÛÜ™È
+ÏH[Š[šY\ÊBˆİ[ÜY—ÚXY\œÈ
+ÏH[ŠYœÊBˆØÙ[™\Ë˜\[™
+ÂˆœØÙ[™WÚ[™^ˆØÙ[™WÚ[™^ˆ›[ØWÛØYÜÙXİÜˆˆØYÜÙXİÜ‹ˆ›[ØWÛØYÜÙXİÜ—ØÛİ[ˆØYÜÙXİÜ—ØÛİ[ˆ˜ÛÛ\™\ÜÙYØ]\ÈˆÛÛ\™\ÜÙYÜÚ^™Kˆ™XÛÙYØ]\Èˆ[ŠXÛÙY
+Kˆš[™^Ü™XÛÜ™Èˆ[šY\ËˆœYŒ—ÚXY\œÈˆYœËˆJB‚ˆÛÜ™WÜØØ[ˆHØØ[—Ù^XİØÛÜ™WÚXY\œÊˆ]œ\™[œ\™[œ\™[œ\™[È›[ØWØÛ\ÜÙ\È‹ˆXÛÙYÜİ™X[\Ëˆ
+BˆÚ[š×ØÛÜ™WÜØØ[ˆHØØ[—Ù^XİØÛÜ™WÚXY\œ×Ú[—ØÚ[šÜÊˆÜ]œ\™[œ\™[œ\™[œ\™[È›[ØWØÛ\ÜÙ\È‹]œ\™[KˆXÛÙYØÚ[š×Üİ™X[\Ëˆ
+Bˆ™]\›ˆÂˆšÚ[™ˆ™™XY›Û™K\ØÙ[™K]ØY\\X[X]Y]‹ˆœÛİ\˜ÙHˆİŠ]œ™\ÛÛ™J
+JKˆšXY\—ÜÚ^™HˆXY\—ÜÚ^™KˆœØÙ[™WØÛİ[ˆĞÑS‘WĞÓÕS•ˆ››Û™[\WÛ[ØWÛØYÜİ™X[\Èˆ[ŠØÙ[™\ÊKˆš[™^Ü™XÛÜ™ØÛİ[ˆİ[Ú[™^Ü™XÛÜ™ËˆœYŒ—ÚXY\—ØÛİ[ˆİ[ÜY—ÚXY\œËˆœØÙ[™WØÚ[š×Ú[™[ÜHˆÂˆ˜Ú[š×Ü™Y™\™[˜ÙWØÛİ[ˆÚ[š×Ü™Y™\™[˜Ù\Ëˆ™[\WØÚ[š×Ü™Y™\™[˜ÙWØÛİ[ˆ[\WØÚ[š×Ü™Y™\™[˜Ù\Ëˆ™XÛÙYØÚ[š×ØÛİ[ˆXÛÙYØÚ[š×ØÛİ[ˆ˜Ø[™Y]WÜ™\Ûİ\˜ÙWÚYØÛİ[ÈˆXİ
+ÛÜY
+Ú[š×Ü™\Ûİ\˜ÙWÚYËš][\Ê
+JJKˆ[œ™\ÛÛ™YØÛ\Ü×ÚYÛX]Ú\ÈˆÂˆİŠ™\Ûİ\˜ÙWÚY
+NˆÛİ[ˆ›Üˆ™\Ûİ\˜ÙWÚYÛİ[[ˆÛÜY
+Ú[š×Ü™\Ûİ\˜ÙWÚYËš][\Ê
+JBˆYˆ™\Ûİ\˜ÙWÚY[ˆS”‘TÓÓ‘QĞÓTÔ×ÒQÂˆKˆ›™\İYØØ[™Y]WØÛİ[ˆ[Š™\İYÜ™\Ûİ\˜ÙWÚ[™[ÜJKˆ›™\İYØØ[™Y]WÚYØÛİ[ÈˆXİ
+ÛÜY
+™\İYÜ™\Ûİ\˜ÙWÚYËš][\Ê
+JJKˆ›™\İYİ[œ™\ÛÛ™YØÛ\Ü×ÚYÛX]Ú\ÈˆÂˆİŠ™\Ûİ\˜ÙWÚY
+NˆÛİ[ˆ›Üˆ™\Ûİ\˜ÙWÚYÛİ[[ˆÛÜY
+™\İYÜ™\Ûİ\˜ÙWÚYËš][\Ê
+JBˆYˆ™\Ûİ\˜ÙWÚY[ˆS”‘TÓÓ‘QĞÓTÔ×ÒQÂˆKˆ›™\İYØØ[™Y]\Èˆ™\İYÜ™\Ûİ\˜ÙWÚ[™[ÜKˆ˜Ú[šÜÈˆÚ[š×Ú[™[ÜKˆKˆ™ÛØ˜[Û[ØWØÛÜ™WÜØØ[ˆˆÛÜ™WÜØØ[‹ˆœØÙ[™WØÚ[š×Û[ØWØÛÜ™WÜØØ[ˆˆÚ[š×ØÛÜ™WÜØØ[‹ˆ[œ™\ÛÛ™YØÛ\Ü×ÚYÈˆÛÜY
+S”‘TÓÓ‘QĞÓTÔ×ÒQÊKˆœØÙ[™\ÈˆØÙ[™\ËˆB‚‚™YˆXZ[Š
+N‚ˆ›ÛİH]
+×Ùš[W×ÊKœ™\ÛÛ™J
+Kœ\™[œ\™[ˆ\œÙ\ˆH\™Ü\œÙK\™İ[Y[\œÙ\Š\ØÜš\[ÛW×ÙØ××ÊBˆ\œÙ\‹˜YØ\™İ[Y[
+ˆœØÙ[™WİØY‹ˆ˜\™ÜÏHÈ‹ˆ\OT]ˆY˜][\›ÛİÈœš]˜]KÛİ™\›^\ËÛ]™[ËØØ[\ZYÛ‹ÌWÙ™XY›Û™WÜİ][Û‹ÜØÙ[™KØY‹ˆ
+Bˆ\œÙ\‹˜YØ\™İ[Y[
+‹K[İ]]‹\OT]
+Bˆ\™ÜÈH\œÙ\‹œ\œÙWØ\™ÜÊ
+Bˆ™\ÜH]Y]ÜØÙ[™WİØY
+\™ÜËœØÙ[™WİØY
+Bˆİ]]HœÛÛ‹™[\Ê™\Ü[™[LŠH
+È—ˆ‚ˆYˆ\™ÜË›İ]]‚ˆ\™ÜË›İ]]œ\™[›ZÙ\Š\™[ÏUYK^\İÛÚÏUYJBˆ\™ÜË›İ]]Üš]Wİ^
+İ]][˜ÛÙ[™ÏH]‹NŠBˆ[ÙN‚ˆš[
+İ]][™HˆŠB‚‚šYˆ×Û˜[YW×ÈOH—×ÛXZ[—×È‚ˆXZ[Š
+B
