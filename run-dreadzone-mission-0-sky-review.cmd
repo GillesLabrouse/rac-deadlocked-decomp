@@ -5,12 +5,18 @@ set "viewer=%root%build\native\Release\deadlocked_native_scene_viewer.exe"
 set "scene=%root%build\native-assets\dreadzone-mission-0-sky-review.dlscene"
 set "python=%root%venv\Scripts\python.exe"
 set "tools=%root%tools"
+set "sibling=%root%..\rac-deadlocked-decomp"
 set "extracted=%root%private\overlays"
 if not exist "%tools%\prepare_native_level.py" (
-    set "tools=%root%..\rac-deadlocked-decomp\tools"
+    set "tools=%sibling%\tools"
+)
+if not exist "%root%build\native\Release\deadlocked_native_animation_diagnostic.dll" (
+    if exist "%sibling%\build\native\Release\deadlocked_native_animation_diagnostic.dll" (
+        set "tools=%sibling%\tools"
+    )
 )
 if not exist "%extracted%\levels\campaign\1_dreadzone_station\gameplay.instances" (
-    set "extracted=%root%..\rac-deadlocked-decomp\private\overlays"
+    set "extracted=%sibling%\private\overlays"
 )
 if not exist "%viewer%" set "viewer=%root%build\native-sky-viewer\Release\deadlocked_native_scene_viewer.exe"
 if not exist "%viewer%" (
